@@ -33,7 +33,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 	private ShelterService shelterService;
 
 	private Shelter shelter = new Shelter();
-	private List<Shelter> selectedShelter;
+	private List<Shelter> selectedShelters;
 	private List<Shelter> allShelters;
 	private List<Shelter> filteredShelters;
 
@@ -45,7 +45,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 	public void viewOlustur() {
 		super.altVerileriVeIlkEkraniHazirla();
 		allShelters = shelterService.getAll();
-		filteredShelters = new ArrayList<>(filteredShelters);
+		filteredShelters = new ArrayList<>(allShelters);
 	}
 
 	@Override
@@ -58,9 +58,9 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 	public void kaydet() throws IOException {
 		shelterService.save(shelter);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner Ekleme İşlemi Başarıyla Tamamlandı") );
+		context.addMessage(null, new FacesMessage("Başarılı",  "Barınak Ekleme İşlemi Başarıyla Tamamlandı") );
 		context.getExternalContext().getFlash().setKeepMessages(true);
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
 
 	}
 
@@ -69,19 +69,19 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 	}
 
 	public void prepareUpdateScreen(){
-		shelter = selectedShelter.stream().findFirst().get();
+		shelter = selectedShelters.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
 	public void prepareInfoScreen(){
-		shelter = selectedShelter.stream().findFirst().get();
+		shelter = selectedShelters.stream().findFirst().get();
 		showCreateOrEdit = true;
 		showInfo = true;
 	}
 
 	public void sil() throws IOException {
-		shelterService.delete(selectedShelter);
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
+		shelterService.delete(selectedShelters);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
 	}
 
 

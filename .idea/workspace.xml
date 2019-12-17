@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77818f5b-cc07-402b-b48a-cfec2500c61d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/animalproject/service/ShelterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/animalproject/service/ShelterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/animalproject/view/ShelterBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/animalproject/view/ShelterBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/sidebar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/sidebar.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/shelter/shelter.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/shelter/shelter.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/shelter/shelter_add.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/shelter/shelter_add.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/team1/animalproject/service/ShelterService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/team1/animalproject/service/ShelterService.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +126,7 @@
       <workItem from="1575995773404" duration="359000" />
       <workItem from="1576071173595" duration="5919000" />
       <workItem from="1576597075096" duration="399000" />
-      <workItem from="1576597614390" duration="6187000" />
+      <workItem from="1576597614390" duration="7354000" />
     </task>
     <servers />
   </component>
@@ -152,16 +151,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/team1/animalproject/service/VetService.java</url>
           <line>32</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/team1/animalproject/view/ShelterBean.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/team1/animalproject/service/ShelterService.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

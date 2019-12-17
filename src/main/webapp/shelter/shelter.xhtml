@@ -48,7 +48,7 @@
 									styleClass="dataTableHeaderBtn"
 									update=":form"
 									icon="fa fa-search"
-									disabled="#{shelterBean.selectedshelters.size() ne 1}"
+									disabled="#{shelterBean.selectedShelters.size() ne 1}"
 									resetValues="true">
 								<f:actionListener
 										binding="#{shelterBean.prepareInfoScreen()}"/>
@@ -58,7 +58,7 @@
 									styleClass="dataTableHeaderBtn"
 									update=":form"
 									icon="fa fa-edit"
-									disabled="#{shelterBean.selectedshelters.size() ne 1}"
+									disabled="#{shelterBean.selectedShelters.size() ne 1}"
 									resetValues="true">
 								<f:actionListener
 										binding="#{shelterBean.prepareUpdateScreen()}"/>
@@ -84,9 +84,9 @@
 							  filterBy="#{shelter.name}" filterMatchMode="contains">
 						<h:outputText value="#{shelter.name}"/>
 					</p:column>
-					<p:column headerText="Kapasite" sortBy="#{shelter.clinic}"
-							  filterBy="#{shelter.clinic}" filterMatchMode="contains">
-						<h:outputText value="#{shelter.clinic}"/>
+					<p:column headerText="Kapasite" sortBy="#{shelter.capacity}"
+							  filterBy="#{shelter.capacity}" filterMatchMode="contains">
+						<h:outputText value="#{shelter.capacity}"/>
 					</p:column>
 				</p:dataTable>
 
