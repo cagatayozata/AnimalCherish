@@ -1,0 +1,44 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ul class="route-bar-menu">
+        <li class="search-item">
+            <i class="fa fa-search"/>
+            <input type="text" placeholder="Search..."/>
+        </li>
+        <li>
+            <a href="#" data-tooltip="Notifications">
+                <i class="fa fa-globe"/>
+            </a>
+        </li>
+        <li>
+            <a href="#" data-tooltip="Calendar">
+                <i class="fa fa-calendar"/>
+            </a>
+        </li>
+        <li>
+            <a href="#" data-tooltip="Help">
+                <i class="fa fa-life-saver"/>
+            </a>
+        </li>
+        <li>
+            <h:form>
+             DIL
+
+            </h:form>
+        </li>
+        <li>
+            <a href="/perform_logout" data-tooltip="Çık">
+                <i class="fa fa-sign-out"/>
+            </a>
+        </li>
+    </ul>
+
+    <p:tooltip globalSelector=".route-bar-menu a" position="bottom" showDelay="0"/>
+
+</ui:composition>

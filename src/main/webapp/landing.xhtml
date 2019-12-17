@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, kullanici-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+            <style>
+
+                #sliderArea {
+                    padding: 0px !important;
+                }
+
+                .landing-wrapper .features {
+                    padding-top: 5px !important;
+                }
+
+                .landing-wrapper .features p {
+                    text-align: justify !important;
+                    padding-right: 0px !important;
+                }
+
+                .landing-wrapper .pricing {
+                    padding: 0px !important;
+                    height: 30px !important;
+                    background-color: #dedede !important;
+                    border-top: 10px solid #00a6d2 !important;
+                }
+
+
+
+            </style>
+
+        </f:facet>
+        <title>AHRS - Hayvan Takip Sistemi</title>
+
+        <h:outputScript name="js/gbsMap.js" library="california-layout"/>
+        <h:outputScript name="js/skdslider.js" library="california-layout"/>
+        <h:outputStylesheet name="css/skdslider.css" library="california-layout"/>
+
+        <script>
+            var gotoContactSection;
+            $(document).ready(function () {
+
+                gotoContactSection = function () {
+                    $('html,body').animate({scrollTop: $('.media').offset().top}, 'slow');
+                }
+
+                $('#sliderArea').skdslider({
+                    slideSelector: '.slide',
+                    delay: 5000,
+                    animationSpeed: 1000,
+                    showNextPrev: false,
+                    showPlayButton: false,
+                    autoSlide: true,
+                    animationType: 'sliding'
+                });
+
+            });
+
+        </script>
+
+    </h:head>
+
+    <h:body styleClass="landing-body">
+        <div class="landing-wrapper">
+            <div id="header">
+                <div class="header-top clearfix" style=" border-bottom:1px solid #65a5d6;">
+                    <h:link outcome="/landing" styleClass="logo">
+                        <p:graphicImage width="100%" name="images/logo-black.png" library="california-layout"/>
+                        <!-- 						   <span style=" color: #1880c4; font-size: 30px;">e-Gümrük Sistemi</span> -->
+                    </h:link>
+                    <ul class="header-menu">
+                        <!--                         <li><a href="#"><span>Home</span></a></li> -->
+                        <!--                         <li><a href="#features"><span>Features</span></a></li> -->
+                        <!--                         <li><a href="#premium"><span>Demo</span></a></li> -->
+                        <!--                         <li><a href="#news"><span>News</span></a></li> -->
+                        <!--                         <li><a href="#pricing"><span>Pricing</span></a></li> -->
+                        <li><a href="/register.jsf"><span>Register</span></a></li>
+                        <li><a href="/login.jsf"><span>Login</span></a></li>
+                        <li><a href="/animal/animal.jsf"><span>Animals</span></a></li>
+                    </ul>
+                </div>
+
+                <div id="sliderArea" class="header-content clearfix" style="background: none !important;">
+
+                    <div class="slide">
+                        <img src="/javax.faces.resource/images/landing/3.jpg.jsf?ln=california-layout"/>
+                        <div class="slide-desc sliderDesc">
+                            <h2>Güvenli Sistem</h2>
+                            <p>Tüm hayvanların sağlık bilgileri "Blockchain" altyapısı ile silinemez ve güncellenemez şekilde saklanmaktadır.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="slide sliderDesc">
+                        <img src="/javax.faces.resource/images/landing/1.jpg.jsf?ln=california-layout"/>
+                        <div class="slide-desc">
+                            <h2>Elektronik Ortamda Hayvan Takibi</h2>
+                            <p>Sistemde bulunan tüm hayvanların güncel durumu hakkında bilgi edinebileceğiniz bir altyapı sağlanmıştır.</p>
+                        </div>
+                    </div>
+
+                    <div class="slide sliderDesc">
+                        <img src="/javax.faces.resource/images/landing/2.jpg.jsf?ln=california-layout"/>
+                        <div class="slide-desc">
+                            <h2>Bağış Sistemi</h2>
+                            <p>Tamamen güvenli bir şekilde barınaklara ve vakıflara para ve mama yardımı yapabilirsiniz.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <div id="contactSection" class="media" style="display: none;">
+                <div class="video-container ui-g-12 ui-md-6">
+                    <p:accordionPanel>
+
+
+                    </p:accordionPanel>
+                </div>
+
+            </div>
+            <div style="clear:both; height:50px;"/>
+
+
+            <div id="footer" class="footer">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-4">
+                        <h3 class="appname">AHRS - Animal Health Record System</h3>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4 footer-social">
+                        <span class="header">İletişim</span>
+                        <span style="color: #9faebf;">AHRS Destek Sistemi</span><br/>
+                        <span style="color: #9faebf;">Bilkent Üniversitesi <br/>Çankaya/Ankara</span><br/>
+                        <span style="color: #9faebf;"><b>Tel:</b> 0(543) 219 46 10</span><br/>
+                        <span style="color: #9faebf;"><b>E-posta: </b> muammer.sahin@ug.bilkent.edu.tr</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAky0MXdbzv-ZNu98rNVxADAGmobsEU0Y&amp;callback=initMap&amp;language=tr"></script>
+    </h:body>
+</f:view>
+
+</html>

@@ -1,0 +1,176 @@
+@startuml
+
+title __AUTH's Class Diagram__\n
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CommonUtils {
+          {static} + sayisalStringDegeriArttir()
+          - CommonUtils()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.Constants {
+          {static} + BAGLAYICI_TARIFE_PAGE_URL : String
+          {static} + DOSYA : String
+          {static} + HOME_PAGE_URL : String
+          {static} + LANDING_PAGE_URL : String
+          {static} + LOGIN_FAILURE_URL : String
+          {static} + LOGIN_LOCKED_USER_URL : String
+          {static} + LOGIN_PAGE_URL : String
+          {static} + LOGIN_PASSWORD_PARAMETER : String
+          {static} + LOGIN_PROCESSING_URL : String
+          {static} + LOGIN_USERNAME_PARAMETER : String
+          {static} + LOGOUT_PAGE_URL : String
+          {static} + LOGOUT_PARAMETER : String
+          {static} + ODEME_ISLEMLERI_PAGE_URL : String
+          {static} + REGISTER_URL : String
+          {static} + RESOURCES : String
+          {static} + RESOURCE_URL : String
+          {static} + SIFRE_OLUSTUR_PAGE_URL : String
+          {static} + SIFRE_SIFIRLA_PAGE_URL : String
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CookieConstant {
+          {static} + BIR : int
+          {static} + COOKIE_EXPIRY : int
+          {static} + HATALI_GIRIS : String
+          {static} + SIFIR : int
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CookieHelper {
+          {static} + cookieDegeriniArttir()
+          {static} + getCookie()
+          {static} + setCookie()
+          {static} + setCookie()
+          - CookieHelper()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CustomAuthenticationFailureHandler {
+          {static} - log : Logger
+          + onAuthenticationFailure()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CustomAuthenticationProvider {
+          # messages : MessageSourceAccessor
+          - jacksonObjectMapper : ObjectMapper
+          {static} - log : Logger
+          + authenticate()
+          + supports()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CustomAuthenticationSuccessHandler {
+          {static} - log : Logger
+          + onAuthenticationSuccess()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.CustomLogoutSuccessHandler {
+          {static} - log : Logger
+          + onLogoutSuccess()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration {
+          + allowUrlEncodedSlashHttpFirewall()
+          + authenticationManagerBean()
+          + configure()
+          # configure()
+          # configure()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.RoleConstants {
+          {static} + ACTUATOR : String
+          {static} + ROLE_ACTUATOR : String
+          {static} + ROLE_PREFIX : String
+          {static} + ROLE_USER : String
+          {static} + USER : String
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace auth {
+      class com.team1.animalproject.auth.URLConstants {
+          {static} + ANT_MATCHERS_ACTUATOR : String
+          {static} + ANT_MATCHERS_JWT_SECURE_API : String
+          {static} + ANT_MATCHERS_M2M_API : String
+          {static} + ANT_MATCHERS_REPORT_API : String
+          {static} + ANT_MATCHERS_SOAP_API : String
+          {static} + PATH_PARAMETER_KULLANICI_ID : String
+          {static} + SOAP_API : String
+          {static} + URL_API_V1 : String
+          {static} + URL_JWT_KULLANICI : String
+          {static} + URL_M2M_API_V1 : String
+          {static} + URL_RAPOR_API_V1 : String
+          {static} + URL_VERSION : String
+          {static} + URL_VERSION_K8S : String
+          - URLConstants()
+      }
+    }
+  }
+  
+
+  com.team1.animalproject.auth.CustomAuthenticationFailureHandler -up-|> org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler
+  com.team1.animalproject.auth.CustomAuthenticationProvider .up.|> org.springframework.security.authentication.AuthenticationProvider
+  com.team1.animalproject.auth.CustomAuthenticationProvider o-- com.team1.animalproject.service.UserService : userService
+  com.team1.animalproject.auth.CustomAuthenticationSuccessHandler -up-|> org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
+  com.team1.animalproject.auth.CustomLogoutSuccessHandler .up.|> org.springframework.security.web.authentication.logout.LogoutSuccessHandler
+  com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+  com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration o-- com.team1.animalproject.auth.CustomAuthenticationFailureHandler : customAuthenticationFailureHandler
+  com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration o-- com.team1.animalproject.auth.CustomAuthenticationProvider : customAuthenticationProvider
+  com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration o-- com.team1.animalproject.auth.CustomAuthenticationSuccessHandler : customAuthenticationSuccessHandler
+  com.team1.animalproject.auth.Oauth2SingleSignOnConfiguration o-- com.team1.animalproject.auth.CustomLogoutSuccessHandler : customLogoutSuccessHandler
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

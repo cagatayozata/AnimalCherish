@@ -1,0 +1,19 @@
+.codeRowContainer {
+    padding: 0px !important;
+}
+
+.codeRowFirstColumn {
+    padding: 0px !important;
+    margin: 0px !important;
+    padding-right: 5px !important;
+}
+
+.codeRowSecondColumn {
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 100% !important;
+}
+
+.codePrefix {
+    width: 75px !important;
+}

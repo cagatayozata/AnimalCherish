@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="onlemPanel" styleClass="card card-w-title" rendered="#{animalBean.showCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Hayvan Detayları">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="id" value="Küpe Numarası"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="id"
+                                     value="#{animalBean.animal.id}"
+                                     autocomplete="off"
+                                     disabled="#{animalBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="id"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="name" value="İsim"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="name"
+                                     value="#{animalBean.animal.name}"
+                                     autocomplete="off"
+                                     disabled="#{animalBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="name"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="type" value="Türü"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="type"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.animal.type}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="type"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="address" value="Bulunduğu Yer"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="address"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.animal.address}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="address"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="specie" value="Cinsi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="specie"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.animal.specie}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="specie"/>
+                    </p:panel>
+                </p:panel>
+
+
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                             value="Kaydet" update=":form, :form:animalDataTable" icon="fa fa-save"
+                             resetValues="true"
+                             rendered="#{animalBean.showCreateOrEdit and !animalBean.showInfo}">
+                <f:actionListener
+                        binding="#{animalBean.kaydet()}"/>
+                <f:actionListener
+                        binding="#{animalBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{animalBean.showCreateOrEdit}">
+                <f:actionListener
+                        binding="#{animalBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Animal List
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+
+        <p:panel id="userDetails" styleClass="card card-w-title">
+
+        <p:fieldset styleClass="block"
+                    legend="User Details">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="username" value="Username"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="username"
+                                     value="#{userBean.kullanici.userName}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="username"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="password" value="Password"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="password"
+                                     type="password"
+                                     value="#{userBean.kullanici.password}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="password"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="name" value="Name"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="name"
+                                     value="#{userBean.kullanici.name}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="name"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="surname" value="Surname"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="surname"
+                                     value="#{userBean.kullanici.surname}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="surname"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="mail" value="Email"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="mail"
+                                     value="#{userBean.kullanici.email}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="mail"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="phonenumber" value="Phone Number"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="phonenumber"
+                                     value="#{userBean.kullanici.phoneNumber}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="phonenumber"/>
+                    </p:panel>
+                </p:panel>
+
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kayıt Ol" icon="fa fa-save"
+                    resetValues="true">
+                <f:actionListener
+                        binding="#{userBean.kayitOl()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{userBean.anaSayfayaGit()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

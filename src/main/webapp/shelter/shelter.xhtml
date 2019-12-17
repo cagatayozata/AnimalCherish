@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				template="../WEB-INF/template.xhtml">
+
+	<ui:define name="viewname"> Barınak Listesi
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
+			<p:panel styleClass="card card-w-title" rendered="#{!shelterBean.showCreateOrEdit}">
+
+				<p:dataTable id="shelterDataTable" var="shelter"
+							 styleClass="dataTableStandart"
+							 value="#{shelterBean.allShelters}" rowKey="#{shelter.id}"
+							 widgetVar="shelterDataTableWidgetVar" draggableColumns="true" reflow="true"
+							 paginator="true"
+							 paginatorPosition="bottom"
+							 emptyMessage="Eklemiş bir Barınak bulunamadı!"
+							 filteredValue="#{shelterBean.filteredShelters}"
+							 selection="#{shelterBean.selectedShelters}">
+					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+					<f:facet name="header">Barınak Listesi
+
+						<p:outputPanel id="dataTableHeaderBtn"
+									   styleClass="dataTableHeaderBtnContainer">
+
+							<hr style="clear: both;"/>
+
+							<p:commandButton
+									value="Barınak Ekle"
+									styleClass="dataTableHeaderBtn" update=":form"
+									resetValues="true"
+									icon="fa fa-plus">
+								<f:actionListener
+										binding="#{shelterBean.prepareNewScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Detay"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-search"
+									disabled="#{shelterBean.selectedshelters.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{shelterBean.prepareInfoScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Güncelle"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-edit"
+									disabled="#{shelterBean.selectedshelters.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{shelterBean.prepareUpdateScreen()}"/>
+							</p:commandButton>
+							<ui:param name="sizeOfSelectedItems"
+									  value="#{empty shelterBean.selectedShelters? '' : ' - '.concat(shelterBean.selectedShelters.size())}"/>
+							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 icon="fa fa-trash" disabled="#{empty shelterBean.selectedShelters}">
+								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+								<f:actionListener
+										binding="#{shelterBean.sil()}"/>
+							</p:commandButton>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column selectionMode="multiple"
+							  style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+					<p:column headerText="Barınak Id" sortBy="#{shelter.id}"
+							  filterBy="#{shelter.id}" filterMatchMode="contains">
+						<h:outputText value="#{shelter.id}"/>
+					</p:column>
+					<p:column headerText="İsim" sortBy="#{shelter.name}"
+							  filterBy="#{shelter.name}" filterMatchMode="contains">
+						<h:outputText value="#{shelter.name}"/>
+					</p:column>
+					<p:column headerText="Kapasite" sortBy="#{shelter.clinic}"
+							  filterBy="#{shelter.clinic}" filterMatchMode="contains">
+						<h:outputText value="#{shelter.clinic}"/>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+			<ui:include src="shelter_add.xhtml"/>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

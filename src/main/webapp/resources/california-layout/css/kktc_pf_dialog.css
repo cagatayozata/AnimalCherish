@@ -1,0 +1,132 @@
+.dialogWithNoContentIcon > .ui-dialog-content > .ui-icon {
+    display: none !important;
+}
+
+.dialogWithNoContentIcon > .ui-confirm-dialog-severity {
+    display: none !important;
+}
+
+.dialogWithNoContentIcon .ui-dialog-titlebar .ui-dialog-title:before {
+    font: normal normal normal 18px FontAwesome;
+    color: white;
+    content: "\f071";
+    display: inline-block;
+    width: 25px;
+}
+
+.dialogWithNoContentIcon .ui-icon-closethick {
+    font: normal normal normal 18px FontAwesome;
+}
+
+.dialogWithNoContentIcon table {
+    float: right !important;
+}
+
+/* eger confirm dialog icerisinde form bilesenleri kullaniliyorsa */
+.confirmDialogWithDescription {
+    max-height: 350px;
+    max-width: 450px;
+    width: 450px;
+    height: 250px;
+    position: absolute !important;
+}
+
+.confirmDialogWithDescription > .ui-dialog-content > .ui-icon {
+    display: none !important;
+}
+
+.confirmDialogWithDescription > .ui-confirm-dialog-severity {
+    display: none !important;
+}
+
+.confirmDialogWithDescription .ui-dialog-titlebar .ui-dialog-title:before {
+    font: normal normal normal 18px FontAwesome;
+    color: white;
+    content: "\f071";
+    display: inline-block;
+    width: 25px;
+}
+
+.confirmDialogWithDescription .ui-icon-closethick {
+    font: normal normal normal 18px FontAwesome;
+}
+
+.confirmDialogWithDescription table {
+    float: right !important;
+}
+
+.eksureOnaylaConfirmDialog {
+    max-height: 350px !important;
+    max-width: 450px !important;
+    width: 450px !important;
+    height: 330px !important;
+    position: absolute !important;
+}
+
+/* ambar cikis sayfasi - ambar cikis bilgileri detay diaglog paneli */
+.detailInformationWithDescription {
+    max-height: 350px;
+    max-width: 550px;
+    width: 500px;
+    height: 250px;
+    position: absolute !important;
+}
+
+.detailInformationWithDescription > .ui-dialog-content > .ui-icon {
+    display: none !important;
+}
+
+.detailInformationWithDescription > .ui-confirm-dialog-severity {
+    display: none !important;
+}
+
+.detailInformationWithDescription .ui-dialog-titlebar .ui-dialog-title:before {
+    font: normal normal normal 18px FontAwesome;
+    color: white;
+    content: "\f071";
+    display: inline-block;
+    width: 25px;
+}
+
+.detailInformationWithDescription .ui-icon-closethick {
+    font: normal normal normal 18px FontAwesome;
+}
+
+.detailInformationWithDescription table {
+    float: right !important;
+}
+
+.ambarCikisiDetayTablePanel {
+    border-right: 1px solid #d6d7d9;
+    border-bottom: 1px solid #d6d7d9;
+}
+
+.ambarCikisiDetayTable {
+    width: 100% !important;
+    padding: 0px !important;
+    border-top: 7px solid #4B6D7E;
+    border-left: 1px solid #d6d7d9;
+}
+
+.ambarCikisiDetayTable .panel {
+    padding: 0 !important;
+}
+
+.ambarCikisiDetayTable .baslik {
+    font-weight: bold;
+    min-height: 18px;
+    float: left;
+}
+
+.ambarCikisiDetayTable .deger {
+    padding: 0 !important;
+    float: right;
+    width: 65% !important;
+    text-align: left;
+}
+
+.ambarCikisiDetayTable .ui-panelgrid .ui-panelgrid-cell {
+    border: none;
+}
+
+

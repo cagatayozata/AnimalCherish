@@ -1,0 +1,193 @@
+/*
+    Ic ice panelGrid kullanılan yerlerde icerdeki table bosluklari sifirlar
+*/
+
+.dataTableTogglerBtn {
+    width: 35px !important;
+    float: right !important;
+    margin: 0px !important;
+    margin-bottom: 5px !important;
+    background: none !important;
+}
+
+.desicionCommandBtn {
+    width: 150px !important;
+}
+
+.dashboard .chat ul li {
+    padding: 0px !important;
+}
+
+.dashboard .stats {
+    min-height: 100px !important;
+}
+
+.dashboard .overview-box {
+    min-height: 100px !important;
+}
+
+.dashboard .ui-datascroller-item {
+    display: none;
+}
+
+.formUstuSplitButton {
+    padding: 0px;
+    padding-top: 0px !important;
+    margin-top: -40px !important;
+    float: right;
+    width: auto;
+}
+
+.dashboard .overview-box.monthly-sales {
+    word-break: break-word;
+}
+
+.dashboard .overview-box .overview-numbers {
+    font-size: 22px !important;
+}
+
+.dashboard .chat ul li .message {
+    background-color: white !important;
+}
+
+.dashboard .chat ul li .message-meta {
+    margin: 0px 0px 5px 0px !important;
+}
+
+.kisayolDatatable .baslik {
+    font-weight: bold;
+    width: 20%;
+    border-right-style: hidden;
+    border-left: 3px solid #4aa564 !important;
+}
+
+.kisayol-dashboard {
+    margin: .5em;
+    width: 100% !important;
+    padding: 0px !important;
+    border-top: 7px solid #4B6D7E;
+    border-left: 1px solid #d6d7d9;
+}
+
+.kisayol-panel {
+    border-right: 1px solid #d6d7d9;
+    border-bottom: 1px solid #d6d7d9;
+}
+
+.kisayol-dashboard .panel {
+    padding: 0 !important;
+}
+
+.kisayol-dashboard .baslik {
+    font-weight: bold;
+    min-height: 18px;
+    float: left;
+}
+
+.kisayol-dashboard .deger {
+    padding: 0 !important;
+    float: right;
+}
+
+.kisayol-dashboard .ui-panelgrid .ui-panelgrid-cell {
+    border: none;
+}
+
+/* agac css */
+.agacHataliVeriMevcut:after {
+    font-family: FontAwesome;
+    content: "\f057";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: red;
+}
+
+.agacGirilmemisVeriMevcut:after {
+    font-family: FontAwesome;
+    content: "\f05a";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: orange;
+}
+
+.kirmiziHat:after {
+    font-family: FontAwesome;
+    content: "\f0f3";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: red;
+}
+
+.tsssMiktarHatali:after {
+    font-family: FontAwesome;
+    content: "\f057";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: red;
+}
+
+
+.tsssCheckBoxHatali:after {
+    font-family: FontAwesome;
+    content: "\f06a";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: orange;
+}
+
+
+.agacHataYok:after {
+    font-family: FontAwesome;
+    content: "\f058";
+    display: inline-block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+    color: green;
+}
+
+body .ui-chkbox {
+    width: auto !important;
+}
+
+.inner-panel {
+    border-right: 1px solid #d6d7d9;
+    border-bottom: 1px solid #d6d7d9;
+    border-left: 1px solid #d6d7d9;
+}
+
+.inner-panel .baslik {
+    font-weight: bold;
+    min-height: 18px;
+    float: left;
+}
+
+.inner-panel .deger {
+    padding: 0 !important;
+    float: right;
+}
+
+.inner-panel .sembol {
+    float: right;
+    padding-left: 7px;
+}
+
+.inner-panel .deger-bold {
+    padding: 0 !important;
+    float: right;
+    font-weight: bold;
+}
+
+.first {
+    border-top: 7px solid #4B6D7E;
+}

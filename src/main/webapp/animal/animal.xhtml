@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				template="../WEB-INF/template.xhtml">
+
+	<ui:define name="viewname"> Hayvan Listesi
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
+			<p:panel styleClass="card card-w-title" rendered="#{!animalBean.showCreateOrEdit}">
+
+				<p:dataTable id="animalDataTable" var="animal"
+							 styleClass="dataTableStandart"
+							 value="#{animalBean.allAnimals}" rowKey="#{animal.id}"
+							 widgetVar="animalDataTableWidgetVar" draggableColumns="true" reflow="true"
+							 paginator="true"
+							 paginatorPosition="bottom"
+							 emptyMessage="Eklemiş bir hayvan bulunamadı!"
+							 filteredValue="#{animalBean.filteredAnimals}"
+							 selection="#{animalBean.selectedAnimals}">
+					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+					<f:facet name="header">Hayvan Listesi
+
+						<p:outputPanel id="dataTableHeaderBtn"
+									   styleClass="dataTableHeaderBtnContainer">
+
+							<hr style="clear: both;"/>
+
+							<p:commandButton
+									value="Hayvan Ekle"
+									styleClass="dataTableHeaderBtn" update=":form"
+									resetValues="true"
+									icon="fa fa-plus">
+								<f:actionListener
+										binding="#{animalBean.prepareNewScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Detay"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-search"
+									disabled="#{animalBean.selectedAnimals.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{animalBean.prepareInfoScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Güncelle"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-edit"
+									disabled="#{animalBean.selectedAnimals.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{animalBean.prepareUpdateScreen()}"/>
+							</p:commandButton>
+							<ui:param name="sizeOfSelectedItems"
+									  value="#{empty animalBean.selectedAnimals? '' : ' - '.concat(animalBean.selectedAnimals.size())}"/>
+							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 icon="fa fa-trash" disabled="#{empty animalBean.selectedAnimals}">
+								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+								<f:actionListener
+										binding="#{animalBean.sil()}"/>
+							</p:commandButton>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column selectionMode="multiple"
+							  style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+					<p:column headerText="Küpe Numarası" sortBy="#{animal.id}" filterable="true"
+							  filterBy="#{animal.id}" filterMatchMode="contains">
+						<h:outputText value="#{animal.id}"/>
+					</p:column>
+
+					<p:column headerText="İsmi" sortBy="#{animal.name}"
+							  filterBy="#{animal.name}" filterMatchMode="contains">
+						<h:outputText value="#{animal.name}"/>
+					</p:column>
+
+					<p:column headerText="Türü" sortBy="#{animal.type}"
+							  filterBy="#{animal.type}" filterMatchMode="contains">
+						<h:outputText value="#{animal.type}"/>
+					</p:column>
+
+					<p:column headerText="Cinsi" sortBy="#{animal.specie}"
+							  filterBy="#{animal.specie}" filterMatchMode="contains">
+						<h:outputText value="#{animal.specie}"/>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+			<ui:include src="animal_add.xhtml"/>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

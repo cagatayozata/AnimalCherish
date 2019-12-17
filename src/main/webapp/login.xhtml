@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, kullanici-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <title>AHRS - Hayvan Takip Sistemi</title>
+    <style>
+        #kontrol > div {
+            float: right !important;
+        }
+
+        .login-body .login-image {
+            z-index: -1;
+            top: -50px;
+        }
+
+        .login-body .login-panel {
+            margin: auto;
+            width: 60%;
+            padding: 13% 0 0 0px;
+        }
+
+        .login-body .login-panel .ui-g .ui-g-12 {
+            padding: 10px 0px !important;
+        }
+
+        .logo-container {
+            padding-top: 45px !important;
+        }
+
+        .loginContainer {
+            padding-top: 43px !important;
+        }
+
+        .roundBorder {
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            border: 1px solid;
+            width: 70px;
+            height: 70px;
+            text-align: center;
+            font-size: 40px;
+            margin: auto;
+            padding-top: 9px;
+            margin-top: 12px;
+            color: #233944;
+        }
+
+        .ui-g {
+            color: #233944;
+            background: rgba(255, 255, 255, 0.8);
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+
+        .ui-message.ui-message-error {
+            margin: 0px;
+        }
+
+        .ui-state-error {
+            color:black;
+        }
+
+    </style>
+
+    <!--[if IE]>
+   
+       <style type="text/css">
+
+       .ui-g  {
+           background:rgb(255, 255, 255);
+            filter: progid:DXImageTransform.Microsoft.gradient(
+            startColorstr=#00FFFFFF, endColorstr=#00FFFFFF
+           );
+           zoom: 1;
+        }
+
+        </style>
+
+    <![endif]-->
+
+
+</h:head>
+
+<div class="login-topbar">
+    <h:link outcome="/landing" styleClass="logo">
+        <p:graphicImage name="images/logo.png" library="california-layout"/>
+    </h:link>
+</div>
+
+<p:graphicImage styleClass="login-image" name="images/landing/3.jpg" library="california-layout"/>
+
+<h:body styleClass="login-body">
+
+    <div class="login-panel ui-fluid">
+
+        <div class="ui-g">
+
+            <div class="ui-g-12 ui-lg-6 ui-md-12 logo-container">
+                <div class="roundBorder ui-g-3 ui-lg-3 ui-md-3"><i class="fa fa-lock"></i></div>
+                <div class="ui-g-9 ui-lg-9 ui-md-9">
+                    <span class="login-summary">Animal Record System</span>
+
+                    <div class="login-detail">
+                        <span>AHRS - Animal Record System Securely Stores The Medical Information.</span>
+                    </div>
+                    <h:form prependId="false">
+                        <p:commandButton action="#{loginBean.mainPage}" value="Anasayfa" icon="fa fa-home" immediate="true" ajax="false"
+                                         styleClass="turquoise-btn" style="margin-top:20px"/>
+                    </h:form>
+                </div>
+            </div>
+            <div class="loginContainer ui-g-12 ui-lg-6 ui-md-12">
+                <h:form prependId="false">
+
+                    <p:outputPanel rendered="#{loginBean.hata}">
+                        <p:messages id="message" closable="true" rendered="#{not facesContext.validationFailed}">
+                            <p:autoUpdate/>
+                        </p:messages>
+                    </p:outputPanel>
+
+
+                    <div class="ui-g-12 ui-lg-12 ui-md-12">
+                        <p:outputLabel for="j_username" value="Kullanıcı Adı"/>
+                        <p:inputText placeholder="Kullanıcı Adı" required="true"
+                                     value="#{userBean.kullanici.userName}"
+                                     id="j_username" autocomplete="off"/>
+                        <p:message for="j_username"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-12 ui-md-12">
+                        <p:outputLabel for="j_password" value="Şifre"/>
+                        <p:password placeholder="Şifre" required="true" feedback="false"
+                                    value="#{userBean.kullanici.password}"
+                                    id="j_password" autocomplete="off"/>
+                        <p:message for="j_password"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-12 ui-md-12">
+                        <p:captcha id="kontrol" label="kontrol" required="true" language="tr"
+                                   rendered="#{loginBean.captchaGoster}"/>
+                    </div>
+
+                    <div class="ui-g-12 ui-lg-12 ui-md-12 button-container">
+                        <p:commandButton id="giris" value="Giriş" icon="ui-icon-person"
+                                         action="#{userBean.login}" ajax="false" styleClass="turquoise-btn"
+                                         style="float:right;"/>
+                    </div>
+
+                    <div class="ui-g-12 ui-lg-12 ui-md-12 button-container">
+                        <p:link href="/sifre_sifirla.jsf" style="float:right"
+                                value="Şifremi Unuttum"/>
+                    </div>
+                </h:form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
+</h:body>
+
+</html>

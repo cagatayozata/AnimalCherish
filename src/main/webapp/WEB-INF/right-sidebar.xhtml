@@ -1,0 +1,163 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+>
+
+
+    <div id="layout-right-sidebar">
+        <p:tabView>
+            <p:tab>
+                <f:facet name="title">
+                    <i class="fa fa-cog"/>
+                </f:facet>
+                <div class="submenu-title">
+                    <span>Settings</span>
+                </div>
+                <div class="submenu-content settings">
+                    <ul>
+                        <li>
+                            <div class="order-settings ui-g-12">
+                                <i class="fa fa-plus"></i>
+                                <span>NEW ORDERS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="sales-settings ui-g-12">
+                                <i class="fa fa-line-chart"></i>
+                                <span>TOTAL SALES</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="shipment-settings ui-g-12">
+                                <i class="fa fa-ship"></i>
+                                <span>PENDING SHIPMENTS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="visitors-settings ui-g-12">
+                                <i class="fa fa-kullanici-circle"></i>
+                                <span>UNIQUE VISITORS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="history-settings ui-g-12">
+                                <i class="fa fa-history"></i>
+                                <span>SALES HISTORY</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="leads-settings ui-g-12">
+                                <i class="fa fa-handshake-o"></i>
+                                <span>ALL LEADS</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </p:tab>
+            <p:tab>
+                <f:facet name="title">
+                    <i class="fa fa-inbox"/>
+                </f:facet>
+                <div class="submenu-title">
+                    <span>Inbox</span>
+                </div>
+                <div class="submenu-content messages">
+                    <ul>
+                        <li>
+                            <div>
+                                <p:graphicImage name="images/avatar-john.png" library="california-layout"/>
+                                <span class="time-stamp">1m</span>
+                            </div>
+                            <span class="messager-name">John Swisher</span>
+                            <span class="message-text">Ab nobis, magnam sunt eum. Laudantium…</span>
+                        </li>
+                        <li>
+                            <div>
+                                <p:graphicImage name="images/avatar-warren.png" library="california-layout"/>
+                                <span class="time-stamp">33m</span>
+                            </div>
+                            <span class="messager-name">Warren Shaw</span>
+                            <span class="message-text">Ab nobis, magnam sunt eum. Laudantium…</span>
+                        </li>
+                        <li>
+                            <div>
+                                <p:graphicImage name="images/avatar-brenda.png" library="california-layout"/>
+                                <span class="time-stamp">2h</span>
+                            </div>
+                            <span class="messager-name">Brenda Soto</span>
+                            <span class="message-text">Ab nobis, magnam sunt eum. Laudantium…</span>
+                        </li>
+                        <li>
+                            <div>
+                                <p:graphicImage name="images/avatar-arlene.png" library="california-layout"/>
+                                <span class="time-stamp">1d</span>
+                            </div>
+                            <span class="messager-name">Arlene Welch</span>
+                            <span class="message-text">Ab nobis, magnam sunt eum. Laudantium…</span>
+                        </li>
+                    </ul>
+                </div>
+            </p:tab>
+            <p:tab>
+                <f:facet name="title">
+                    <i class="fa fa-calendar"/>
+                </f:facet>
+                <div class="submenu-title">
+                    <span>Events</span>
+                </div>
+                <div class="submenu-content events">
+                    <ul>
+                        <li>
+                            <div class="calendar-event-date">
+                                <span class="date">21</span>
+                                <span class="date">OCT</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Project Meeting</span>
+                                <i class="material-icons  fa fa-map-marker"></i>
+                                <span class="calendar-event-location">Chicago</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="calendar-event-date">
+                                <span class="date">13</span>
+                                <span class="date">NOV</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Presentation 1</span>
+                                <i class="material-icons fa fa-map-marker"></i>
+                                <span class="calendar-event-location">New York</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="calendar-event-date">
+                                <span class="date">01</span>
+                                <span class="date">DEC</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">Presentation 2</span>
+                                <i class="material-icons fa fa-map-marker"></i>
+                                <span class="calendar-event-location">New York</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="calendar-event-date">
+                                <span class="date">25</span>
+                                <span class="date">DEC</span>
+                            </div>
+                            <div class="calendar-event-detail">
+                                <span class="calendar-event-title">New Year Party</span>
+                                <i class="material-icons fa fa-map-marker"></i>
+                                <span class="calendar-event-location">San Francisco</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </p:tab>
+        </p:tabView>
+    </div>
+
+</ui:composition>

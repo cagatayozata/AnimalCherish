@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				template="../WEB-INF/template.xhtml">
+
+	<ui:define name="viewname"> Veteriner Listesi
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
+			<p:panel styleClass="card card-w-title" rendered="#{!vetBean.showCreateOrEdit}">
+
+				<p:dataTable id="vetDataTable" var="vet"
+							 styleClass="dataTableStandart"
+							 value="#{vetBean.allVets}" rowKey="#{vet.id}"
+							 widgetVar="vetDataTableWidgetVar" draggableColumns="true" reflow="true"
+							 paginator="true"
+							 paginatorPosition="bottom"
+							 emptyMessage="Eklemiş bir veteriner bulunamadı!"
+							 filteredValue="#{vetBean.filteredVets}"
+							 selection="#{vetBean.selectedVets}">
+					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+					<f:facet name="header">Veteriner Listesi
+
+						<p:outputPanel id="dataTableHeaderBtn"
+									   styleClass="dataTableHeaderBtnContainer">
+
+							<hr style="clear: both;"/>
+
+							<p:commandButton
+									value="Veteriner Ekle"
+									styleClass="dataTableHeaderBtn" update=":form"
+									resetValues="true"
+									icon="fa fa-plus">
+								<f:actionListener
+										binding="#{vetBean.prepareNewScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Detay"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-search"
+									disabled="#{vetBean.selectedVets.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{vetBean.prepareInfoScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Güncelle"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-edit"
+									disabled="#{vetBean.selectedVets.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{vetBean.prepareUpdateScreen()}"/>
+							</p:commandButton>
+							<ui:param name="sizeOfSelectedItems"
+									  value="#{empty vetBean.selectedVets? '' : ' - '.concat(vetBean.selectedVets.size())}"/>
+							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 icon="fa fa-trash" disabled="#{empty vetBean.selectedVets}">
+								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+								<f:actionListener
+										binding="#{vetBean.sil()}"/>
+							</p:commandButton>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column selectionMode="multiple"
+							  style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+					<p:column headerText="Veteriner Id" sortBy="#{vet.id}"
+							  filterBy="#{vet.id}" filterMatchMode="contains">
+						<h:outputText value="#{vet.id}"/>
+					</p:column>
+					<p:column headerText="İsim" sortBy="#{vet.name}"
+							  filterBy="#{vet.name}" filterMatchMode="contains">
+						<h:outputText value="#{vet.name}"/>
+					</p:column>
+					<p:column headerText="Klinik Bilgisi" sortBy="#{vet.clinic}"
+							  filterBy="#{vet.clinic}" filterMatchMode="contains">
+						<h:outputText value="#{vet.clinic}"/>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+			<ui:include src="vet_add.xhtml"/>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

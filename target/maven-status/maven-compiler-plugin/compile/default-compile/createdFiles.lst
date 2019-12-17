@@ -1,0 +1,14 @@
+com\muammer\netascase\SpringPrimeApplication.class
+com\muammer\netascase\service\StudentServiceImpl.class
+com\muammer\netascase\configuration\ServerCustomization.class
+com\muammer\netascase\view\Language.class
+com\muammer\netascase\configuration\ServletInitializer.class
+com\muammer\netascase\configuration\ConfigureJSF$JsfServletRegistrationBean.class
+com\muammer\netascase\service\IStudentService.class
+com\muammer\netascase\view\StudentBean.class
+com\muammer\netascase\repository\StudentRepository.class
+com\muammer\netascase\controller\StudentRestController.class
+com\muammer\netascase\model\Student.class
+com\muammer\netascase\configuration\WebMvcConfiguration.class
+com\muammer\netascase\configuration\ConfigureJSF.class
+com\muammer\netascase\ViewScope.class

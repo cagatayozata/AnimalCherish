@@ -1,0 +1,262 @@
+.dbSteps{
+    margin-bottom: 75px;
+}
+
+.dbSteps a:focus {
+    outline: 0 !important;
+}
+
+.dbSteps .ui-steps-item {
+    width: 25% !important;
+}
+
+.dbSteps .ui-steps-item .ui-steps-title {
+    display: inherit !important;
+}
+
+.dbSteps .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+    overflow: visible;
+    border: 1px solid #c8c8c8;
+    display: block;
+    background-color: #FFFFFF;
+}
+
+.dbSteps .ui-steps-item .ui-menuitem-link .ui-steps-number {
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    position: relative;
+    top: -3px;
+}
+
+.dbSteps .ui-state-disabled,
+.dbSteps .ui-state-highlight{
+    border-top: 4px solid orange !important;
+}
+
+.dbSteps .dbStepsActive{
+    border-top: 4px solid #0081c2 !important;
+}
+
+.dbSteps .ui-state-default .ui-steps-title{
+    color: green;
+}
+.dbSteps .ui-state-default .ui-steps-number{
+    background-color: green;
+}
+
+.dbSteps .ui-state-disabled .ui-steps-title ,
+.dbSteps .ui-state-highlight .ui-steps-title {
+    color: orange !important;
+}
+
+.dbSteps .ui-state-disabled .ui-steps-number ,
+.dbSteps .ui-state-highlight .ui-steps-number {
+    background-color: orange;
+}
+
+.dbSteps .selectedStep .ui-steps-number {
+    background-color: #0081c2 !important;
+}
+
+.dbSteps .selectedStep .ui-steps-title {
+    color: #0081c2 !important;
+}
+
+.tasSteps{
+    margin-bottom: 75px;
+}
+
+.tasSteps a:focus {
+    outline: 0 !important;
+}
+
+.tasSteps .ui-steps-item {
+    width: 20% !important;
+    background-color: #FFFFFF !important;
+}
+
+.tasSteps .ui-steps-item .ui-steps-title {
+    display: inherit !important;
+}
+
+.tasSteps .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+    overflow: visible;
+    /*border: 1px solid #c8c8c8;*/
+    display: block;
+    background-color: #FFFFFF;
+}
+
+.tasSteps .ui-steps-item .ui-menuitem-link .ui-steps-number {
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    position: relative;
+    top: -3px;
+}
+
+.tasSteps .ui-state-disabled,
+.tasSteps .ui-state-highlight{
+    border-top: 4px solid #b5bbb3 !important;
+}
+
+.tasSteps li .ui-state-disabled,
+.tasSteps li .ui-state-highlight{
+    border-top: 0px !important;
+}
+
+.tasSteps .ui-state-disabled {
+    opacity: 1.0 !important;
+}
+
+.tasSteps .tasStepsActive{
+    border-top: 4px solid #0081c2 !important;
+}
+
+.tasSteps .ui-state-default .ui-steps-title{
+    color: green;
+}
+.tasSteps .ui-state-default .ui-steps-number{
+    background-color: green;
+}
+
+.tasSteps .ui-state-default .editable .ui-steps-title{
+    color: orange !important;
+}
+.tasSteps .ui-state-default .editable .ui-steps-number{
+    background-color: orange !important;
+}
+
+.tasSteps .editable {
+    border-top: 2px solid orange !important;
+}
+
+.tasSteps .ui-state-default .readonly .ui-steps-title{
+    color: green !important;
+}
+.tasSteps .ui-state-default .readonly .ui-steps-number{
+    background-color: green !important;
+}
+
+.tasSteps .ui-steps-item .readonly .ui-steps-number{
+    background-color: green !important;
+}
+
+.tasSteps .readonly {
+    border-top: 2px solid green !important;
+}
+
+
+.tasSteps .ui-state-disabled .ui-steps-title ,
+.tasSteps .ui-state-highlight .ui-steps-title {
+    color: gray !important;
+}
+
+.tasSteps .ui-state-disabled .ui-steps-number ,
+.tasSteps .ui-state-highlight .ui-steps-number {
+    background-color: #b5bbb3;
+}
+
+.tasSteps .selectedStep .ui-steps-number {
+    background-color: #0081c2 !important;
+}
+
+.tasSteps .selectedStep  {
+    border-top: none !important;
+}
+
+.tasSteps .selectedStep .ui-steps-title {
+    color: #0081c2 !important;
+}
+
+
+.akySteps{
+    margin-bottom: 75px;
+}
+
+.akySteps a:focus {
+    outline: 0 !important;
+}
+
+.akySteps .ui-steps-item {
+    width: 20% !important;
+}
+
+.akySteps .ui-steps-item .ui-steps-title {
+    display: inherit !important;
+}
+
+.akySteps .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+    overflow: visible;
+    border: 1px solid #c8c8c8;
+    display: block;
+    background-color: #FFFFFF;
+}
+
+.akySteps .ui-steps-item .ui-menuitem-link .ui-steps-number {
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    position: relative;
+    top: -3px;
+}
+
+.akySteps .ui-state-disabled,
+.akySteps .ui-state-highlight{
+    border-top: 4px solid orange !important;
+}
+
+.akySteps .akyStepsActive{
+    border-top: 4px solid #0081c2 !important;
+}
+
+.akySteps .ui-state-default .ui-steps-title{
+    color: green;
+}
+.akySteps .ui-state-default .ui-steps-number{
+    background-color: green;
+}
+
+.akySteps .ui-state-disabled .ui-steps-title ,
+.akySteps .ui-state-highlight .ui-steps-title {
+    color: orange !important;
+}
+
+.akySteps .ui-state-disabled .ui-steps-number ,
+.akySteps .ui-state-highlight .ui-steps-number {
+    background-color: orange;
+}
+
+.akySteps .selectedStep .ui-steps-number {
+    background-color: #0081c2 !important;
+}
+
+.akySteps .selectedStep .ui-steps-title {
+    color: #0081c2 !important;
+}
+
+.akySteps .ui-state-default .editable .ui-steps-title{
+    color: green !important;
+}
+.akySteps .ui-state-default .editable .ui-steps-number{
+    background-color: green !important;
+}
+
+.akySteps .editable {
+    border-top: 2px solid green !important;
+}

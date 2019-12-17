@@ -1,0 +1,61 @@
+.dataTableHeaderBtnContainer {
+    text-align: center !important;
+}
+
+.dataTableHeaderBtn {
+    margin-bottom: 10px !important;
+    width: auto !important;
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+    background-color: #709aae !important;
+}
+
+.dataTableHeaderBtnDataTable {
+    width: auto !important;
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+    background-color: #709aae !important;
+}
+
+.treeHeaderBtn {
+    margin-bottom: 10px !important;
+    width: auto !important;
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+}
+
+.dataTableHeaderSplitBtn {
+    margin-bottom: 10px !important;
+    width: auto !important;
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+}
+
+.dataTableHeaderSplitBtn > button {
+    background-color: #709aae !important;
+    border: none !important;
+}
+
+.ui-datatable table .ui-datatable-empty-message .ui-column-title {
+    display: none !important;
+}
+
+.deleteSortIcon .ui-sortable-column-icon {
+    display: none !important;
+}
+
+.addSortIcon::after {
+    font: normal normal normal 18px FontAwesome;
+    padding-left: 5px;
+    content: "";
+}
+
+.ui-row-editor-check {
+    color: white;
+}
+
+.ui-icon-close {
+    color: white;
+    background-color: #4B6D7E;
+}
+

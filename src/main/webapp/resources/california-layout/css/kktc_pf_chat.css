@@ -1,0 +1,71 @@
+.dashboard .chat {
+    margin-top: 0px !important;
+}
+
+.dashboard .ui-fieldset-content {
+    padding: 8px !important;
+}
+
+.dashboard .chat ul {
+    margin-right: 10px;
+}
+
+.dashboard .chat ul li {
+    border-left: 4px solid #4aa564 !important;
+    border-bottom: 1px dotted #4aa564;
+    margin-bottom: 2px !important;
+}
+
+.dashboard .chat ul li:hover .mesajYanitlaBtn {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    -moz-opacity: 100;
+    -khtml-opacity: 100;
+    opacity: 100;
+}
+
+.dashboard .chat .ui-datascroller-item {
+    border-bottom: 0 !important;
+}
+
+.dashboard .chat ul li .message-meta {
+    padding: 0 8px 0 8px;
+    border-left: 0 !important;
+    width: 120px !important;
+}
+
+.dashboard .chat ul li .message {
+    width: calc(100% - 120px);
+    display: inline-grid !important;
+    padding: 0 !important;
+    text-align: justify;
+    word-break: break-all;
+}
+
+.ui-datascroller .ui-datascroller-content {
+    padding: 0px !important;
+    border: none !important;
+}
+
+.dashboard .chat ul li .yanitlaDiv {
+    float: right;
+    margin-right: 10px;
+}
+
+.mesajYanitlaBtn {
+    float: right;
+    font-weight: bold;
+
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+}
+
+.mesajYanitlaBtn:before {
+    font-family: FontAwesome;
+    content: "\f112";
+    display: inline-block;
+    margin-right: 3px;
+}

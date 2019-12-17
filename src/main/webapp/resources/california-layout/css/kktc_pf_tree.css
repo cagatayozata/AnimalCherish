@@ -1,0 +1,8 @@
+.treeOpacity {
+    opacity: 0.4 !important;
+}
+
+/* ptree padding ayarlaması icin eklenmistir. */
+.treeNodePadding .ui-fieldset .ui-fieldset-content {
+    padding: 0 !important;
+}

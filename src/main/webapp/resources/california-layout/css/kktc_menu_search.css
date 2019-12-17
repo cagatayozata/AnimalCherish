@@ -1,0 +1,15 @@
+.menuSearchContainer .ui-autocomplete {
+    width:100% !important;
+}
+
+#menuSearch {
+    border:none !important;
+    width:100%;
+    height: 30px;
+    padding-left: 10px !important;
+}
+
+#menuSearch:focus {
+    border:none !important;
+    outline: none !important;
+}

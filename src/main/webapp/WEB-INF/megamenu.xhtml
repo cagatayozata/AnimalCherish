@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+>
+
+    <h:form>
+        <div id="layout-megamenu" class="ui-g-12 layout-megamenu #{guestPreferences.darkMegaMenu ? 'layout-megamenu-dark' : ''} #{guestPreferences.gradientMegaMenu ? 'layout-megamenu-gradient' : ''}">
+            <div class="ui-g-12 ui-md-6 ui-lg-3 layout-megamenu-submenu">
+                <h4>System Reports</h4>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-th-list"></i>
+                            <span>System Logs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-server"></i>
+                            <span>Back-up Server</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span>Conversions</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-database"></i>
+                            <span>Storage Logs</span>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3 layout-megamenu-submenu">
+                <h4>Finance Reports</h4>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-file-text-o"></i>
+                            <span>Annual Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-dollar"></i>
+                            <span>Revenue Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-kullanici-o"></i>
+                            <span>HR Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-bar-chart"></i>
+                            <span>Finance Margin</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3 layout-megamenu-submenu">
+                <h4>Settings</h4>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-envelope-o"></i>
+                            <span>E-mail Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-mobile"></i>
+                            <span>Sms Alerts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-fw fa-globe"></i>
+                            <span>Site Tracking</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3 layout-megamenu-submenu">
+                <div class="content-img">
+                    <p:graphicImage name="images/image-mega.png" library="california-layout"/>
+
+                    <div class="img-megamenu">
+                        <span class="ui-g-12 img-header">California</span>
+                        <span class="ui-g-12 img-subheader">Application Template</span>
+                    </div>
+                    <p:commandButton type="button" value="Buy Now" styleClass="alt-btn"/>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

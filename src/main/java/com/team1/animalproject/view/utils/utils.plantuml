@@ -1,0 +1,192 @@
+@startuml
+
+title __UTÝLS's Class Diagram__\n
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.ApplicationDisplaySettingsUtil {
+            - dataTableDateFormat : String
+            - dataTableDefaultPageSize : String
+            - dataTableEmptyMessage : String
+            - dataTableFilterDelay : String
+            - dataTableFilterEvent : String
+            - dataTableOnlyTimeFormat : String
+            - dataTablePageReportTemplate : String
+            - dataTablePaginatorPosition : String
+            - dataTablePaginatorTemplate : String
+            - dataTablePerPageTemplate : String
+            - dataTableTimeFormat : String
+            - gosterilecekKarakterSayisi : int
+            {static} - serialVersionUID : long
+            - spinnerDigitSize : int
+            - spinnerMaxSize : int
+            - spinnerMinSize : int
+            + ApplicationDisplaySettingsUtil()
+            + equals()
+            + getDataTableDateFormat()
+            + getDataTableDefaultPageSize()
+            + getDataTableEmptyMessage()
+            + getDataTableFilterDelay()
+            + getDataTableFilterEvent()
+            + getDataTableOnlyTimeFormat()
+            + getDataTablePageReportTemplate()
+            + getDataTablePaginatorPosition()
+            + getDataTablePaginatorTemplate()
+            + getDataTablePerPageTemplate()
+            + getDataTableTimeFormat()
+            + getGosterilecekKarakterSayisi()
+            + getSpinnerDigitSize()
+            + getSpinnerMaxSize()
+            + getSpinnerMinSize()
+            + hashCode()
+            + init()
+            + setDataTableDateFormat()
+            + setDataTableDefaultPageSize()
+            + setDataTableEmptyMessage()
+            + setDataTableFilterDelay()
+            + setDataTableFilterEvent()
+            + setDataTableOnlyTimeFormat()
+            + setDataTablePageReportTemplate()
+            + setDataTablePaginatorPosition()
+            + setDataTablePaginatorTemplate()
+            + setDataTablePerPageTemplate()
+            + setDataTableTimeFormat()
+            + setGosterilecekKarakterSayisi()
+            + setSpinnerDigitSize()
+            + setSpinnerMaxSize()
+            + setSpinnerMinSize()
+            + toString()
+            # canEqual()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        interface com.team1.animalproject.view.utils.IExceptionCustomMessageContainer {
+            {abstract} + getCustomMessage()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.JSFUtil {
+            {static} + URL_PARAM_SEPARATOR : String
+            {static} + URL_PARAM_SEPARATOR_REPORT : String
+            {static} - serialVersionUID : long
+            + JSFUtil()
+            + equals()
+            {static} + executeScript()
+            {static} + getOriginUrl()
+            {static} + getRequestParameter()
+            {static} + getUrlWithParams()
+            {static} + getUrlWithParamsForReport()
+            + hashCode()
+            {static} + hideDialog()
+            {static} + jsfUpdate()
+            {static} + redirect()
+            {static} + redirectWithParams()
+            {static} + reload()
+            {static} + scrollTo()
+            {static} + scrollToPageTop()
+            {static} + showDialog()
+            + toString()
+            # canEqual()
+            {static} - getUrl()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.JsfExceptionHandler {
+            {static} - log : Logger
+            - wrapped : ExceptionHandler
+            + JsfExceptionHandler()
+            + getWrapped()
+            + handle()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.JsfExceptionHandlerFactory {
+            - parent : ExceptionHandlerFactory
+            + JsfExceptionHandlerFactory()
+            + getExceptionHandler()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        enum ResourceBundleEnum {
+          ENUM_MESSAGES_BUNDLE
+          EXECEPTION_MESSAGES_BUNDLE
+          FACESMESSAGE_MESSAGE_BUNDLE
+          SERVER_MESSAGE_BUNDLE
+          bundleKey
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.ResourceBundleFactory {
+            {static} - facesContext : FacesContext
+            {static} + getResourceBundle()
+            - ResourceBundleFactory()
+        }
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      namespace utils {
+        class com.team1.animalproject.view.utils.RestException {
+            {static} - serialVersionUID : long
+            + RestException()
+        }
+      }
+    }
+  }
+  
+
+  com.team1.animalproject.view.utils.ApplicationDisplaySettingsUtil .up.|> java.io.Serializable
+  com.team1.animalproject.view.utils.JSFUtil .up.|> java.io.Serializable
+  com.team1.animalproject.view.utils.JsfExceptionHandler -up-|> javax.faces.context.ExceptionHandlerWrapper
+  com.team1.animalproject.view.utils.JsfExceptionHandlerFactory -up-|> javax.faces.context.ExceptionHandlerFactory
+  com.team1.animalproject.view.utils.RestException -up-|> com.team1.animalproject.exception.BaseException
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

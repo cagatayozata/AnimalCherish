@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view encoding="UTF-8">
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+            <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+            <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
+
+        </f:facet>
+        <title><ui:insert name="title">Animal Health Record System</ui:insert></title>
+
+
+        <ui:insert name="head"/>
+        <script>
+            $(document).ajaxStop(function() {
+                setTimeout(function() {
+                    $('.ui-messages').slideUp();
+                }, 2000);
+            });
+
+            $(".fa-align-left").click(function() {
+                setTimeout(function() {
+                   $(".layout-sidebar").fadeOut(10);
+                }, 2000);
+            });
+
+        </script>
+        <h:outputScript name="js/primeui-4.1.15.js" library="california-layout"/>
+        <h:outputScript name="js/ui_block_and_scroll.js" library="california-layout"/>
+        <h:outputScript name="js/nanoscroller.js" library="california-layout"/>
+
+
+        <h:outputScript name="js/layout.js" library="california-layout"/>
+        <h:outputScript name="js/menu_search.js" library="california-layout"/>
+        <h:outputScript name="js/truncate_strings.js" library="california-layout"/>
+        <h:outputScript name="js/datatable_clear_filter.js" library="california-layout"/>
+        <h:outputScript name="js/full_screen.js" library="california-layout"/>
+        <style>
+            /* disabled alanlarin okunurlugunu arttirmak icindir. onay sonrasinda css dosyasina tasinacaktir. */
+            .ui-fieldset .ui-state-disabled {
+                opacity: .7;
+            }
+
+            /* resize ozelligi kapatilacak olan elementler icin kullanilacaktir. daha sonra css dosyasina tasinacaktir.*/
+            .unresizable {
+                resize: none !important;
+            }
+
+            /* read only input  ozelligi olan inputların disable olarak gözğkmesini saglamak. daha sonra css dosyasina tasinacaktir.*/
+            .readOnlyInput {
+                opacity: .7;
+            }
+
+            /* checkbox iceren datatable kullanildiginda, toggle ozelligine dahil etmemek icin kullanilir. daha sonra css dosyasina tasinacaktir. */
+            div[id*=withoutCheckbox] .ui-columntoggler-items li:first-child {
+                display: none !important;
+            }
+
+            /* Datatableda Uzun Olan Alanlarin Duzenlenmesi*/
+            /*Eger sadece ad columundaki uzun inputlarin kisaltilmasi isteniyorsa td[role="gridcell"] in sonuna :first-child+td ekleyiniz*/
+            table[role="grid"] > tbody > tr > td[role="gridcell"] {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                position: relative;
+            }
+
+            li[class*="ui-selectonemenu-item"] {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                position: relative;
+            }
+
+            li[class*="ui-selectcheckboxmenu-item"] {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                position: relative;
+            }
+
+            li[class*="ui-selectonemenu-label"] {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                position: relative;
+            }
+
+            span[class*="ui-selectcheckboxmenu-token-label"] {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 250px !important;
+            }
+
+            .toolTipMaxWidth500 {
+                max-width: 500px !important;
+            }
+
+
+            .innerFieldSet {
+                border-left: none !important;
+                border-right: none !important;
+                border-top: dashed 1px #d6d7d9 !important;
+                border-bottom: dashed 1px #d6d7d9 !important;
+            }
+
+            .innerFieldSet {
+                margin-right: -7px !important;
+                margin-left: -7px !important;
+            }
+
+            .bottomBorderRemove {
+                border-bottom: none !important;
+            }
+
+
+            .layout-wrapper .layout-main {
+                -moz-transition: margin-left 0.3s;
+                -o-transition: margin-left 0.3s;
+                -webkit-transition: margin-left 0.3s;
+                transition: margin-left 0.3s;
+            }
+
+            .layout-wrapper .layout-main .route-bar {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                min-height: 31px;
+                background-color: #ffffff;
+                border-bottom: solid 1px #d6d7d9;
+            }
+
+            .layout-wrapper .layout-main .route-bar:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-breadcrumb {
+                padding: 6px 12px;
+                display: inline-block;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-breadcrumb i {
+                color: #5b616a;
+                font-size: 18px;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu {
+                float: right;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                margin-right: 12px;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li {
+                height: 100%;
+                display: inline-block;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li i {
+                line-height: inherit;
+                font-size: 18px;
+                color: #5b616a;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li a {
+                width: 36px;
+                font-size: 18px;
+                display: block;
+                height: 100%;
+                text-align: center;
+                line-height: 30px;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li a:hover {
+                background-color: #f1f1f1;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li.search-item input {
+                margin-right: 9px;
+                border: 0 none;
+                text-align: left;
+                font-size: 14px;
+                max-width: 150px;
+                outline-offset: 0;
+                outline: 0 none;
+            }
+
+            .layout-wrapper .layout-main .route-bar .route-bar-menu li.search-item i {
+                line-height: 30px;
+                width: 36px;
+                text-align: center;
+            }
+
+            .layout-wrapper .layout-main .layout-main-content {
+                padding: 15px;
+            }
+
+            .layout-wrapper.layout-wrapper-sidebar-inactive .layout-main {
+                margin-left: 0;
+            }
+
+            #menuSearch {
+                background: white;
+                color: black;
+            }
+
+            .ui-widget-content {
+                background: white;
+            }
+
+            .ui-menuitem-text {
+                width: 200px;
+                color: black;
+                font-weight: bold;
+            }
+
+
+
+            .ui-menuitem {
+               margin-top: 5px;
+                border: 1px solid grey;
+            }
+
+
+            .ui-menu-list {
+                width: 220px;
+                color: black;
+                font-weight: bold;
+            }
+
+            i {
+                margin-right: 10px;
+            }
+
+            .ui-grid-col-3 {
+                padding: 4px 10px;
+            }
+
+            .ui-menu {
+                padding: 0px;
+            }
+
+            .ui-menuitem:hover {
+                background: white;
+            }
+
+            .ui-widget-header {
+                background: -webkit-linear-gradient(-206deg, #4b6cb7 5%, #182848 100%);;
+                color: white;
+            }
+
+            .ui-menuitem-icon {
+                background: grey;
+                color: grey;
+                margin-left: 5px;
+                font-size: 15px;
+            }
+
+            .ui-button {
+                background: white;
+            }
+
+            .layout-wrapper .layout-sidebar {
+                width: 230px;
+                background-color: #ffffff;
+                border-right: solid 1px #d6d7d9;
+                position: fixed;
+                z-index: 999;
+                top: 60px;
+                left: 0;
+                height: 100%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                -moz-transition: left 0.3s;
+                -o-transition: left 0.3s;
+                -webkit-transition: left 0.3s;
+                transition: left 0.3s;
+            }
+
+            #menuform:menu {
+                background: white;
+            }
+
+            .ui-state-error {
+                color:black;
+                background: red;
+            }
+
+            .ui-inputfield {
+                color: black;
+            }
+
+            .ui-panel-content {
+                background: gainsboro;
+            }
+
+            .ui-menu.ui-widget li > .ui-menuitem-link {
+              border: 0.5px solid lightgrey;
+            }
+
+        </style>
+
+        <script type="text/javascript">
+
+            //calender.xhtml global method name
+            var setDefaultDateOfCalendar = function (componentId) {
+            };
+
+            PrimeFaces.locales['tr_TR'] = {
+                closeText: 'Kapat',
+                prevText: 'Geri',
+                nextText: 'İleri',
+                currentText: 'Bugün',
+                monthNames: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                monthNamesShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+                dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+                dayNamesShort: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
+                dayNamesMin: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
+                weekHeader: 'Hf',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Zaman Seçiniz',
+                timeText: 'Zaman',
+                hourText: 'Saat',
+                minuteText: 'Dakika',
+                secondText: 'Saniye',
+                ampm: false,
+                month: 'Ay',
+                week: 'Hafta',
+                day: 'Gün',
+                allDayText: 'Tüm Gün'
+            };
+        </script>
+
+    </h:head>
+
+    <h:body styleClass="main-body">
+
+        <div class="layout-wrapper">
+
+
+            <ui:include src="./topbar.xhtml"/>
+            <ui:include src="./sidebar.xhtml"/>
+
+
+            <div class="layout-main">
+                <div class="route-bar">
+                    <div class="route-bar-breadcrumb">
+                        <i class="fa fa-home"></i> <span>/ </span>
+                        <ui:insert name="viewname"/>
+                    </div>
+
+                    <ui:include src="./route-bar-menu.xhtml"/>
+                </div>
+
+                <div class="layout-main-content">
+                    <div class="ui-fluid">
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <ui:insert name="content"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ui:include src="./footer.xhtml"/>
+            </div>
+        </div>
+
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px" oncomplete="filterTitle(); resizeSelectOneMenu();" onerror="filterTitle(); resizeSelectOneMenu();">
+            <f:facet name="start">
+                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value=""/>
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:form>
+            <p:confirmDialog global="true" width="350" showEffect="fade" hideEffect="fade" severity="alert" styleClass="dialogWithNoContentIcon">
+                <p:commandButton value="#{msg['general.yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="#{msg['general.no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_general.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_steps.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_row_kod.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_picklist.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_datatable.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_message.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_menu_search.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_tree.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_dialog.css" library="california-layout"/>
+        <h:outputStylesheet name="css/kktc_pf_chat.css" library="california-layout"/>
+
+
+
+
+        <p:blockUI block="@(.main-body)" trigger="@(.viewExpandCompressBtn)">
+            #{msg['general.view.resizing']}<br/>
+            <p:graphicImage name="demo/images/ajaxloadingbar.gif"/>
+        </p:blockUI>
+
+        <p:blockUI widgetVar="pageRedirectBlock" block="@(.main-body)" styleClass="pageRedirectBlock">
+            <p:graphicImage name="images/page-loading.gif" height="50"/><br/>
+            #{msg['general.view.redirecting']}
+        </p:blockUI>
+
+    </h:body>
+</f:view>
+</html>
+

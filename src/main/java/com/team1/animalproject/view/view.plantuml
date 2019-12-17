@@ -1,0 +1,237 @@
+@startuml
+
+title __VÝEW's Class Diagram__\n
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.AnimalBean {
+          - allAnimals : List<Animal>
+          - filteredAnimals : List<Animal>
+          {static} - logger : Logger
+          - selectedAnimals : List<Animal>
+          {static} - serialVersionUID : long
+          - showCreateOrEdit : boolean
+          - showInfo : boolean
+          + AnimalBean()
+          + equals()
+          + getAllAnimals()
+          + getAnimal()
+          + getAnimalService()
+          + getFilteredAnimals()
+          + getSelectedAnimals()
+          + hashCode()
+          + ilkEkraniHazirla()
+          + isShowCreateOrEdit()
+          + isShowInfo()
+          + kaydet()
+          + prepareInfoScreen()
+          + prepareNewScreen()
+          + prepareUpdateScreen()
+          + setAllAnimals()
+          + setAnimal()
+          + setAnimalService()
+          + setFilteredAnimals()
+          + setSelectedAnimals()
+          + setShowCreateOrEdit()
+          + setShowInfo()
+          + sil()
+          + toString()
+          + viewOlustur()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      abstract class com.team1.animalproject.view.BaseViewController {
+          {static} - log : Logger
+          {static} - serialVersionUID : long
+          + altVerileriVeIlkEkraniHazirla()
+          {abstract} + ilkEkraniHazirla()
+          {abstract} + viewOlustur()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.KullaniciSessionVerisi {
+          ~ objectMapper : ObjectMapper
+          {static} - log : Logger
+          {static} - serialVersionUID : long
+          + KullaniciSessionVerisi()
+          + equals()
+          + getKullanici()
+          + getKullaniciBilgisi()
+          + getObjectMapper()
+          + getUserService()
+          + hashCode()
+          + init()
+          + reloadPage()
+          + setKullanici()
+          + setObjectMapper()
+          + setUserService()
+          + toString()
+          + yetkiVarmi()
+          # canEqual()
+          - kullaniciBilgileriniGetir()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.Language {
+          ~ languages : Map<String, Locale>
+          - locale : Locale
+          - localeCode : String
+          - messageSource : MessageSource
+          + Language()
+          + getLanguages()
+          + getLocaleCode()
+          + getMessage()
+          + setLocaleCode()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.LoginBean {
+          - captchaGoster : boolean
+          - hata : boolean
+          {static} - log : Logger
+          {static} - logger : Logger
+          {static} - serialVersionUID : long
+          + LoginBean()
+          + equals()
+          + hashCode()
+          + ilkEkraniHazirla()
+          + isCaptchaGoster()
+          + isHata()
+          + login()
+          + mainPage()
+          + setCaptchaGoster()
+          + setHata()
+          + toString()
+          + viewOlustur()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.StudentBean {
+          - cities : Map<String, String>
+          - city : String
+          - data : Map<String, Map<String, String>>
+          - distinct : String
+          - distincts : Map<String, String>
+          - file : UploadedFile
+          {static} - logger : Logger
+          - res : boolean
+          {static} - serialVersionUID : long
+          - students : List<Student>
+          + StudentBean()
+          + delete()
+          + displayLocation()
+          + equals()
+          + getCities()
+          + getCity()
+          + getData()
+          + getDistinct()
+          + getDistincts()
+          + getFile()
+          + getSelectedStudent()
+          + getStudent()
+          + getStudentService()
+          + getStudents()
+          + hashCode()
+          + init()
+          + isRes()
+          + jsonParse()
+          + loadJSON()
+          + onCityChange()
+          + onRowCancel()
+          + onRowEdit()
+          + onRowSelect()
+          + onRowUnselect()
+          + save()
+          + setCities()
+          + setCity()
+          + setData()
+          + setDistinct()
+          + setDistincts()
+          + setFile()
+          + setRes()
+          + setSelectedStudent()
+          + setStudent()
+          + setStudentService()
+          + setStudents()
+          + toString()
+          + upload()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.UserBean {
+          {static} - log : Logger
+          {static} - logger : Logger
+          {static} - serialVersionUID : long
+          + UserBean()
+          + equals()
+          + getKullanici()
+          + getUserService()
+          + hashCode()
+          + ilkEkraniHazirla()
+          + kayitOl()
+          + login()
+          + setKullanici()
+          + setUserService()
+          + toString()
+          + viewOlustur()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  com.team1.animalproject.view.AnimalBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.AnimalBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.AnimalBean o-- com.team1.animalproject.model.Animal : animal
+  com.team1.animalproject.view.AnimalBean o-- com.team1.animalproject.service.AnimalService : animalService
+  com.team1.animalproject.view.BaseViewController .up.|> java.io.Serializable
+  com.team1.animalproject.view.KullaniciSessionVerisi .up.|> java.io.Serializable
+  com.team1.animalproject.view.KullaniciSessionVerisi o-- com.team1.animalproject.model.Kullanici : kullanici
+  com.team1.animalproject.view.KullaniciSessionVerisi o-- com.team1.animalproject.service.UserService : userService
+  com.team1.animalproject.view.LoginBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.LoginBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.StudentBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : selectedStudent
+  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : student
+  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.service.IStudentService : studentService
+  com.team1.animalproject.view.UserBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.UserBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.UserBean o-- com.team1.animalproject.model.Kullanici : kullanici
+  com.team1.animalproject.view.UserBean o-- com.team1.animalproject.service.UserService : userService
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
