@@ -23,35 +23,24 @@
                     </p:panel>
                 </p:panel>
 
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="type" value="Adresi"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="type"
-                                     disabled="#{shelterBean.showInfo}"
-                                     value="#{shelterBean.shelter.education}"
-                                     autocomplete="off"
-                                     required="true"/>
-                        <p:message for="type"/>
-                    </p:panel>
-                </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="address" value="Adresi"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="address"
                                      disabled="#{shelterBean.showInfo}"
-                                     value="#{shelterBean.shelter.workplace}"
+                                     value="#{shelterBean.shelter.address}"
                                      autocomplete="off"/>
                         <p:message for="address"/>
                     </p:panel>
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="specie" value="Klinik Bilgisi"/>
+                    <p:outputLabel for="specie" value="Kapasite"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="specie"
                                      disabled="#{shelterBean.showInfo}"
-                                     value="#{shelterBean.shelter.clinic}"
+                                     value="#{shelterBean.shelter.capacity}"
                                      autocomplete="off"
                                      required="true"/>
                         <p:message for="specie"/>
