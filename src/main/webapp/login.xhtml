@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, kullanici-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
     </f:facet>
-    <title>AHRS - Hayvan Takip Sistemi</title>
+    <title>AnimalCherish - Hayvan Takip Sistemi</title>
     <style>
         #kontrol > div {
             float: right !important;
@@ -106,10 +106,10 @@
             <div class="ui-g-12 ui-lg-6 ui-md-12 logo-container">
                 <div class="roundBorder ui-g-3 ui-lg-3 ui-md-3"><i class="fa fa-lock"></i></div>
                 <div class="ui-g-9 ui-lg-9 ui-md-9">
-                    <span class="login-summary">Animal Record System</span>
+                    <span class="login-summary">Hayvan Bilgi Sistemi</span>
 
                     <div class="login-detail">
-                        <span>AHRS - Animal Record System Securely Stores The Medical Information.</span>
+                        <span>AnimalCherish - Hayvanlar ve sağlık bilgilerinin blockchain altyapısı ile takibi ve girişi amaçlı oluşturulan sistemdir..</span>
                     </div>
                     <h:form prependId="false">
                         <p:commandButton action="#{loginBean.mainPage}" value="Anasayfa" icon="fa fa-home" immediate="true" ajax="false"
@@ -119,6 +119,7 @@
             </div>
             <div class="loginContainer ui-g-12 ui-lg-6 ui-md-12">
                 <h:form prependId="false">
+                    <p:growl id="growl" showDetail="true" sticky="true" />
 
                     <p:outputPanel rendered="#{loginBean.hata}">
                         <p:messages id="message" closable="true" rendered="#{not facesContext.validationFailed}">
@@ -141,10 +142,11 @@
                                     id="j_password" autocomplete="off"/>
                         <p:message for="j_password"/>
                     </div>
-                    <div class="ui-g-12 ui-lg-12 ui-md-12">
-                        <p:captcha id="kontrol" label="kontrol" required="true" language="tr"
-                                   rendered="#{loginBean.captchaGoster}"/>
-                    </div>
+                    <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:messages for="captcha" showDetail="true"/>
+                        <p:captcha id="captcha" language="tr" label="Güvenlik"/>
+                        <br/>
+                    </p:panel>
 
                     <div class="ui-g-12 ui-lg-12 ui-md-12 button-container">
                         <p:commandButton id="giris" value="Giriş" icon="ui-icon-person"
