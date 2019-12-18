@@ -50,7 +50,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String kullaniciAdi = authentication.getName();
         String sifre = authentication.getCredentials().toString();
 
-        UsernamePasswordAuthenticationToken result;
+        UsernamePasswordAuthenticationToken result = null;
 
 
         // Rolleri yetkileri koy
@@ -68,19 +68,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız", "Girdiğiniz bilgilerden birisi yalnış!"));
             context.getExternalContext().getFlash().setKeepMessages(true);
         }
+        if (byUsername.isPresent()) {
+            KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();
 
-        KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();
-
-        String serializedPrincipal;
-        try {
-            serializedPrincipal = jacksonObjectMapper.writeValueAsString(kullaniciPrincipal);
-        } catch (JsonProcessingException e) {
-            log.error("ERROR : coulndnt convert user principal to json string", e);
-            throw new InternalAuthenticationServiceException("couldnt prepare principal object!");
+            String serializedPrincipal;
+            try {
+                serializedPrincipal = jacksonObjectMapper.writeValueAsString(kullaniciPrincipal);
+            } catch (JsonProcessingException e) {
+                log.error("ERROR : coulndnt convert user principal to json string", e);
+                throw new InternalAuthenticationServiceException("couldnt prepare principal object!");
+            }
+            result = new UsernamePasswordAuthenticationToken(kullaniciPrincipal, authentication.getCredentials(), authorities);
+            result.setDetails(authentication.getDetails());
         }
-        result = new UsernamePasswordAuthenticationToken(kullaniciPrincipal, authentication.getCredentials(), authorities);
-        result.setDetails(authentication.getDetails());
-
 
         return result;
     }

@@ -2,6 +2,7 @@ package com.team1.animalproject.view;
 
 import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.UserService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +36,8 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private KullaniciSessionVerisi kullaniciSessionVerisi;
 
 	private static final long serialVersionUID = 5246560358820611506L;
 
@@ -67,6 +72,23 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 		} catch (ServletException | IOException e){
 			log.error("Couldnt forward request to RequestDispatcher ", e);
 		}
-		facesContext.responseComplete(); }
+		facesContext.responseComplete();
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
+			kullanici = Kullanici.builder().name("Giriş Yapılmadı").build();
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız",  "Girdiğiniz bilgiler doğru değil.") );
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+		}else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Başarılı",  "Başarıyla Giriş Yapıldı") );
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
+		}
+	}
+
 
 }
