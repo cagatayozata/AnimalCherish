@@ -1,6 +1,7 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.auth.Constants;
+import com.team1.animalproject.exception.BaseExceptionType;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.UserService;
@@ -36,8 +37,6 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private KullaniciSessionVerisi kullaniciSessionVerisi;
 
 	private static final long serialVersionUID = 5246560358820611506L;
 
@@ -56,11 +55,17 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 	}
 
 	public void kayitOl() throws IOException {
-		userService.save(kullanici);
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Successful",  "Successfully registered.") );
-		context.getExternalContext().getFlash().setKeepMessages(true);
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+		boolean kayit = userService.kayitOl(kullanici);
+		if(kayit){
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Başarılı",  "Başarıyla kaydolundu.") );
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+		}else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, BaseExceptionType.KULLANICI_ADI_MAIL_PHONE_KULLANILIYOR.getValidationMessage(), null) );
+			context.getExternalContext().getFlash().setKeepMessages(true);
+		}
 	}
 
 	public void login() throws IOException {
@@ -73,21 +78,6 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 			log.error("Couldnt forward request to RequestDispatcher ", e);
 		}
 		facesContext.responseComplete();
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
-			kullanici = Kullanici.builder().name("Giriş Yapılmadı").build();
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız",  "Girdiğiniz bilgiler doğru değil.") );
-			context.getExternalContext().getFlash().setKeepMessages(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
-		}else {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Başarılı",  "Başarıyla Giriş Yapıldı") );
-			context.getExternalContext().getFlash().setKeepMessages(true);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
-		}
 	}
 
 

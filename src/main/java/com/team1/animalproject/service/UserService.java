@@ -30,12 +30,17 @@ public class UserService implements IBaseService<Kullanici> {
 
     @Override
     public void save(Kullanici kullanici) {
-        Optional<Kullanici> byUserNameOrEmailOrPhoneNumber = userRepository.findByUserNameOrEmailOrPhoneNumber(kullanici.name, kullanici.email, kullanici.phoneNumber);
+
+    }
+
+    public boolean kayitOl(Kullanici kullanici){
+        Optional<Kullanici> byUserNameOrEmailOrPhoneNumber = userRepository.findByUserNameOrEmailOrPhoneNumber(kullanici.userName, kullanici.email, kullanici.phoneNumber);
         if (byUserNameOrEmailOrPhoneNumber.isPresent()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, BaseExceptionType.KULLANICI_ADI_MAIL_PHONE_KULLANILIYOR.getValidationMessage(), null));
+            return false;
         } else {
             kullanici.setId(UUID.randomUUID().toString());
             userRepository.save(kullanici);
+            return true;
         }
     }
 

@@ -51,7 +51,9 @@ public class SpringPrimeApplication {
 	            servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
 	            servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
 	            servletContext.setInitParameter("primefaces.UPLOADER", "commons");
-	        };
+	            servletContext.setInitParameter("primefaces.PUBLIC_CAPTCHA_KEY", "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
+				servletContext.setInitParameter("primefaces.PRIVATE_CAPTCHA_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe");
+			};
 	    }
 
 	    @Bean
