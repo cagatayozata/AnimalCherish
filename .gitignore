@@ -1,0 +1,8 @@
+# OS dependent files
+.DS_Store
+
+# IntelliJ IDEA files
+*.iml
+*.ipr
+*.iws
+.idea/
