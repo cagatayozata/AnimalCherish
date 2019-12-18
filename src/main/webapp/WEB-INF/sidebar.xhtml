@@ -4,14 +4,24 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
         xmlns:pc="http://primefaces.org/california">
-    <div class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark' : ''} #{guestPreferences.gradientMenu ? 'layout-sidebar-gradient': ''}  #{guestPreferences.beyanTamEkranMode ? 'beyanTamEkranSideBar' : 'beyanNormalEkranSideBar'}">
+    <div class="layout-sidebar layout-right-sidebar-active">
         <div id="nano-container" class="nano">
             <div class="nano-content sidebar-scroll-content">
-                <ui:fragment rendered="#{guestPreferences.profileMode == 'inline'}">
+                <ui:fragment>
+                    <div class="menuSearchContainer">
+                        <div class="menuSearchContainer" style="display:inline-block; width:88%; border: none !important;">
+                            <input id="menuSearch" placeholder="Ara..."/>
+                        </div>
+                        <div id="searchIcon" style="display:inline-block;width:8%">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+
+
                     <div class="user-profile">
                         <a id="sidebar-profile-button" href="#">
                             <p:graphicImage name="images/avatar.png" library="california-layout"/>
-                            <span class="sidebar-profile-name">Pauline Harrell</span>
+                            <span class="sidebar-profile-name">#{kullaniciSessionVerisi.kullanici.name} #{kullaniciSessionVerisi.kullanici.surname}</span>
                             <span class="sidebar-profile-role">Administrator</span>
                         </a>
                         <ul id="sidebar-usermenu" class="usermenu">
@@ -135,14 +145,6 @@
                     </div>
                 </ui:fragment>
 
-                <div class="menuSearchContainer">
-                    <div class="menuSearchContainer" style="display:inline-block; width:88%; border: none !important;">
-                        <input id="menuSearch" placeholder="Ara..."/>
-                    </div>
-                    <div id="searchIcon" style="display:inline-block;width:8%">
-                        <i class="fa fa-search"></i>
-                    </div>
-                </div>
 
                 <h:form id="menuform" styleClass="menuContainer">
                     <p:growl id="messages" showDetail="false"/>
