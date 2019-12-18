@@ -1,7 +1,9 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Shelter;
+import com.team1.animalproject.model.ShelterWorker;
 import com.team1.animalproject.repository.ShelterRepository;
+import com.team1.animalproject.repository.ShelterWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,10 @@ public class ShelterService implements IBaseService<Shelter> {
     @Qualifier("shelterRepository")
     @Autowired
     private ShelterRepository shelterRepository;
+
+    @Qualifier("shelterWorkerRepository")
+    @Autowired
+    private ShelterWorkerRepository shelterWorkerRepository;
 
     @Override
     public List<Shelter> getAll() {
@@ -36,5 +42,13 @@ public class ShelterService implements IBaseService<Shelter> {
     @Override
     public void delete(List<Shelter> t) {
         shelterRepository.delete(t);
+    }
+
+    public void addWorker(List<ShelterWorker> shelterWorkers){
+        shelterWorkerRepository.save(shelterWorkers);
+    }
+
+    public List<ShelterWorker> getWorkersByShelterId(String shelterId){
+        return shelterWorkerRepository.findByShelterId(shelterId);
     }
 }

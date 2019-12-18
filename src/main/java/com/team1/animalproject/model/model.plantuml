@@ -123,32 +123,180 @@ title __MODEL's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace model {
-      class com.team1.animalproject.model.Student {
-          + city : String
-          + distinct : String
-          + image : Blob
-          + phoneNumber : String
-          + studentName : String
-          + studentNumber : String
-          + studentSurname : String
+      class com.team1.animalproject.model.Shelter {
+          + address : String
+          + birthdate : Date
+          + capacity : String
+          + details : String
+          + email : String
+          + id : String
+          + name : String
+          + phone : String
           {static} - serialVersionUID : long
-          + Student()
-          + Student()
-          + getCity()
-          + getDistinct()
-          + getImage()
-          + getPhoneNumber()
-          + getStudentName()
-          + getStudentNumber()
-          + getStudentSurname()
-          + setCity()
-          + setDistinct()
-          + setImage()
-          + setPhoneNumber()
-          + setStudentName()
-          + setStudentNumber()
-          + setStudentSurname()
+          + Shelter()
+          + Shelter()
+          {static} + builder()
+          + equals()
+          + getAddress()
+          + getBirthdate()
+          + getCapacity()
+          + getDetails()
+          + getEmail()
+          + getId()
+          + getName()
+          + getPhone()
+          + hashCode()
+          + setAddress()
+          + setBirthdate()
+          + setCapacity()
+          + setDetails()
+          + setEmail()
+          + setId()
+          + setName()
+          + setPhone()
           + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.Shelter.ShelterBuilder {
+          - address : String
+          - birthdate : Date
+          - capacity : String
+          - details : String
+          - email : String
+          - id : String
+          - name : String
+          - phone : String
+          + address()
+          + birthdate()
+          + build()
+          + capacity()
+          + details()
+          + email()
+          + id()
+          + name()
+          + phone()
+          + toString()
+          ~ ShelterBuilder()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.ShelterWorker {
+          + id : String
+          + shelterId : String
+          + workerId : String
+          {static} - serialVersionUID : long
+          + ShelterWorker()
+          + ShelterWorker()
+          {static} + builder()
+          + equals()
+          + getId()
+          + getShelterId()
+          + getWorkerId()
+          + hashCode()
+          + setId()
+          + setShelterId()
+          + setWorkerId()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.ShelterWorker.ShelterWorkerBuilder {
+          - id : String
+          - shelterId : String
+          - workerId : String
+          + build()
+          + id()
+          + shelterId()
+          + toString()
+          + workerId()
+          ~ ShelterWorkerBuilder()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.Vet {
+          + birthdate : Date
+          + clinic : String
+          + details : String
+          + education : String
+          + email : String
+          + id : String
+          + name : String
+          + phone : String
+          + workplace : String
+          {static} - serialVersionUID : long
+          + Vet()
+          + Vet()
+          {static} + builder()
+          + equals()
+          + getBirthdate()
+          + getClinic()
+          + getDetails()
+          + getEducation()
+          + getEmail()
+          + getId()
+          + getName()
+          + getPhone()
+          + getWorkplace()
+          + hashCode()
+          + setBirthdate()
+          + setClinic()
+          + setDetails()
+          + setEducation()
+          + setEmail()
+          + setId()
+          + setName()
+          + setPhone()
+          + setWorkplace()
+          + toString()
+          # canEqual()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.Vet.VetBuilder {
+          - birthdate : Date
+          - clinic : String
+          - details : String
+          - education : String
+          - email : String
+          - id : String
+          - name : String
+          - phone : String
+          - workplace : String
+          + birthdate()
+          + build()
+          + clinic()
+          + details()
+          + education()
+          + email()
+          + id()
+          + name()
+          + phone()
+          + toString()
+          + workplace()
+          ~ VetBuilder()
       }
     }
   }
@@ -158,7 +306,12 @@ title __MODEL's Class Diagram__\n
   com.team1.animalproject.model.Animal +-down- com.team1.animalproject.model.Animal.AnimalBuilder
   com.team1.animalproject.model.Kullanici .up.|> java.io.Serializable
   com.team1.animalproject.model.Kullanici +-down- com.team1.animalproject.model.Kullanici.KullaniciBuilder
-  com.team1.animalproject.model.Student .up.|> java.io.Serializable
+  com.team1.animalproject.model.Shelter .up.|> java.io.Serializable
+  com.team1.animalproject.model.Shelter +-down- com.team1.animalproject.model.Shelter.ShelterBuilder
+  com.team1.animalproject.model.ShelterWorker .up.|> java.io.Serializable
+  com.team1.animalproject.model.ShelterWorker +-down- com.team1.animalproject.model.ShelterWorker.ShelterWorkerBuilder
+  com.team1.animalproject.model.Vet .up.|> java.io.Serializable
+  com.team1.animalproject.model.Vet +-down- com.team1.animalproject.model.Vet.VetBuilder
 
 
 right footer

@@ -192,7 +192,23 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace model {
-      class com.team1.animalproject.model.Student {
+      class com.team1.animalproject.model.Shelter {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.ShelterWorker {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace model {
+      class com.team1.animalproject.model.Vet {
       }
     }
   }
@@ -218,7 +234,15 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace repository {
-      interface com.team1.animalproject.repository.StudentRepository {
+      interface com.team1.animalproject.repository.ShelterRepository {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace repository {
+      interface com.team1.animalproject.repository.ShelterWorkerRepository {
       }
     }
   }
@@ -227,6 +251,14 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
   namespace com.team1.animalproject {
     namespace repository {
       interface com.team1.animalproject.repository.UserRepository {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace repository {
+      interface com.team1.animalproject.repository.VetRepository {
       }
     }
   }
@@ -250,15 +282,7 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace service {
-      interface com.team1.animalproject.service.IStudentService {
-      }
-    }
-  }
-  
-
-  namespace com.team1.animalproject {
-    namespace service {
-      class com.team1.animalproject.service.StudentServiceImpl {
+      class com.team1.animalproject.service.ShelterService {
       }
     }
   }
@@ -267,6 +291,14 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
   namespace com.team1.animalproject {
     namespace service {
       class com.team1.animalproject.service.UserService {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace service {
+      class com.team1.animalproject.service.VetService {
       }
     }
   }
@@ -314,7 +346,7 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace view {
-      class com.team1.animalproject.view.StudentBean {
+      class com.team1.animalproject.view.ShelterBean {
       }
     }
   }
@@ -323,6 +355,14 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
   namespace com.team1.animalproject {
     namespace view {
       class com.team1.animalproject.view.UserBean {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.VetBean {
       }
     }
   }
@@ -422,20 +462,24 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
   com.team1.animalproject.configuration.ServerCustomization -up-|> org.springframework.boot.autoconfigure.web.ServerProperties
   com.team1.animalproject.configuration.ServletInitializer -up-|> org.springframework.boot.web.support.SpringBootServletInitializer
   com.team1.animalproject.configuration.WebMvcConfiguration -up-|> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
-  com.team1.animalproject.controller.Controller o-- com.team1.animalproject.service.IStudentService : studentService
   com.team1.animalproject.exception.BaseException o-- com.team1.animalproject.exception.BaseExceptionType : type
   com.team1.animalproject.exception.BusinessRuleException o-- com.team1.animalproject.exception.BaseExceptionType : baseExceptionType
   com.team1.animalproject.exception.ViewException -up-|> com.team1.animalproject.exception.BaseException
   com.team1.animalproject.model.Animal .up.|> java.io.Serializable
   com.team1.animalproject.model.Kullanici .up.|> java.io.Serializable
-  com.team1.animalproject.model.Student .up.|> java.io.Serializable
+  com.team1.animalproject.model.Shelter .up.|> java.io.Serializable
+  com.team1.animalproject.model.ShelterWorker .up.|> java.io.Serializable
+  com.team1.animalproject.model.Vet .up.|> java.io.Serializable
   com.team1.animalproject.model.dto.KullaniciPrincipal .up.|> java.io.Serializable
   com.team1.animalproject.service.AnimalService .up.|> com.team1.animalproject.service.IBaseService
   com.team1.animalproject.service.AnimalService o-- com.team1.animalproject.repository.AnimalRepository : animalRepository
-  com.team1.animalproject.service.StudentServiceImpl .up.|> com.team1.animalproject.service.IStudentService
-  com.team1.animalproject.service.StudentServiceImpl o-- com.team1.animalproject.repository.StudentRepository : studentRepository
+  com.team1.animalproject.service.ShelterService .up.|> com.team1.animalproject.service.IBaseService
+  com.team1.animalproject.service.ShelterService o-- com.team1.animalproject.repository.ShelterRepository : shelterRepository
+  com.team1.animalproject.service.ShelterService o-- com.team1.animalproject.repository.ShelterWorkerRepository : shelterWorkerRepository
   com.team1.animalproject.service.UserService .up.|> com.team1.animalproject.service.IBaseService
   com.team1.animalproject.service.UserService o-- com.team1.animalproject.repository.UserRepository : userRepository
+  com.team1.animalproject.service.VetService .up.|> com.team1.animalproject.service.IBaseService
+  com.team1.animalproject.service.VetService o-- com.team1.animalproject.repository.VetRepository : vetRepository
   com.team1.animalproject.view.AnimalBean .up.|> java.io.Serializable
   com.team1.animalproject.view.AnimalBean -up-|> com.team1.animalproject.view.BaseViewController
   com.team1.animalproject.view.AnimalBean o-- com.team1.animalproject.model.Animal : animal
@@ -446,14 +490,18 @@ title __SPRÝNGBOOT-PRÝMEFACES-HÝBERNATE's Class Diagram__\n
   com.team1.animalproject.view.KullaniciSessionVerisi o-- com.team1.animalproject.service.UserService : userService
   com.team1.animalproject.view.LoginBean .up.|> java.io.Serializable
   com.team1.animalproject.view.LoginBean -up-|> com.team1.animalproject.view.BaseViewController
-  com.team1.animalproject.view.StudentBean .up.|> java.io.Serializable
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : selectedStudent
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : student
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.service.IStudentService : studentService
+  com.team1.animalproject.view.ShelterBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.ShelterBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.ShelterBean o-- com.team1.animalproject.model.Shelter : shelter
+  com.team1.animalproject.view.ShelterBean o-- com.team1.animalproject.service.ShelterService : shelterService
   com.team1.animalproject.view.UserBean .up.|> java.io.Serializable
   com.team1.animalproject.view.UserBean -up-|> com.team1.animalproject.view.BaseViewController
   com.team1.animalproject.view.UserBean o-- com.team1.animalproject.model.Kullanici : kullanici
   com.team1.animalproject.view.UserBean o-- com.team1.animalproject.service.UserService : userService
+  com.team1.animalproject.view.VetBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.VetBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.VetBean o-- com.team1.animalproject.model.Vet : vet
+  com.team1.animalproject.view.VetBean o-- com.team1.animalproject.service.VetService : vetService
   com.team1.animalproject.view.utils.ApplicationDisplaySettingsUtil .up.|> java.io.Serializable
   com.team1.animalproject.view.utils.JSFUtil .up.|> java.io.Serializable
   com.team1.animalproject.view.utils.JsfExceptionHandler -up-|> javax.faces.context.ExceptionHandlerWrapper

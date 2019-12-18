@@ -128,55 +128,39 @@ title __VÝEW's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace view {
-      class com.team1.animalproject.view.StudentBean {
-          - cities : Map<String, String>
-          - city : String
-          - data : Map<String, Map<String, String>>
-          - distinct : String
-          - distincts : Map<String, String>
-          - file : UploadedFile
+      class com.team1.animalproject.view.ShelterBean {
+          - allShelters : List<Shelter>
+          - filteredShelters : List<Shelter>
           {static} - logger : Logger
-          - res : boolean
+          - selectedShelters : List<Shelter>
           {static} - serialVersionUID : long
-          - students : List<Student>
-          + StudentBean()
-          + delete()
-          + displayLocation()
+          - showCreateOrEdit : boolean
+          - showInfo : boolean
+          + ShelterBean()
           + equals()
-          + getCities()
-          + getCity()
-          + getData()
-          + getDistinct()
-          + getDistincts()
-          + getFile()
-          + getSelectedStudent()
-          + getStudent()
-          + getStudentService()
-          + getStudents()
+          + getAllShelters()
+          + getFilteredShelters()
+          + getSelectedShelters()
+          + getShelter()
+          + getShelterService()
           + hashCode()
-          + init()
-          + isRes()
-          + jsonParse()
-          + loadJSON()
-          + onCityChange()
-          + onRowCancel()
-          + onRowEdit()
-          + onRowSelect()
-          + onRowUnselect()
-          + save()
-          + setCities()
-          + setCity()
-          + setData()
-          + setDistinct()
-          + setDistincts()
-          + setFile()
-          + setRes()
-          + setSelectedStudent()
-          + setStudent()
-          + setStudentService()
-          + setStudents()
+          + ilkEkraniHazirla()
+          + isShowCreateOrEdit()
+          + isShowInfo()
+          + kaydet()
+          + prepareInfoScreen()
+          + prepareNewScreen()
+          + prepareUpdateScreen()
+          + setAllShelters()
+          + setFilteredShelters()
+          + setSelectedShelters()
+          + setShelter()
+          + setShelterService()
+          + setShowCreateOrEdit()
+          + setShowInfo()
+          + sil()
           + toString()
-          + upload()
+          + viewOlustur()
           # canEqual()
       }
     }
@@ -207,6 +191,47 @@ title __VÝEW's Class Diagram__\n
   }
   
 
+  namespace com.team1.animalproject {
+    namespace view {
+      class com.team1.animalproject.view.VetBean {
+          - allVets : List<Vet>
+          - filteredVets : List<Vet>
+          {static} - logger : Logger
+          - selectedVets : List<Vet>
+          {static} - serialVersionUID : long
+          - showCreateOrEdit : boolean
+          - showInfo : boolean
+          + VetBean()
+          + equals()
+          + getAllVets()
+          + getFilteredVets()
+          + getSelectedVets()
+          + getVet()
+          + getVetService()
+          + hashCode()
+          + ilkEkraniHazirla()
+          + isShowCreateOrEdit()
+          + isShowInfo()
+          + kaydet()
+          + prepareInfoScreen()
+          + prepareNewScreen()
+          + prepareUpdateScreen()
+          + setAllVets()
+          + setFilteredVets()
+          + setSelectedVets()
+          + setShowCreateOrEdit()
+          + setShowInfo()
+          + setVet()
+          + setVetService()
+          + sil()
+          + toString()
+          + viewOlustur()
+          # canEqual()
+      }
+    }
+  }
+  
+
   com.team1.animalproject.view.AnimalBean .up.|> java.io.Serializable
   com.team1.animalproject.view.AnimalBean -up-|> com.team1.animalproject.view.BaseViewController
   com.team1.animalproject.view.AnimalBean o-- com.team1.animalproject.model.Animal : animal
@@ -217,14 +242,18 @@ title __VÝEW's Class Diagram__\n
   com.team1.animalproject.view.KullaniciSessionVerisi o-- com.team1.animalproject.service.UserService : userService
   com.team1.animalproject.view.LoginBean .up.|> java.io.Serializable
   com.team1.animalproject.view.LoginBean -up-|> com.team1.animalproject.view.BaseViewController
-  com.team1.animalproject.view.StudentBean .up.|> java.io.Serializable
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : selectedStudent
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.model.Student : student
-  com.team1.animalproject.view.StudentBean o-- com.team1.animalproject.service.IStudentService : studentService
+  com.team1.animalproject.view.ShelterBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.ShelterBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.ShelterBean o-- com.team1.animalproject.model.Shelter : shelter
+  com.team1.animalproject.view.ShelterBean o-- com.team1.animalproject.service.ShelterService : shelterService
   com.team1.animalproject.view.UserBean .up.|> java.io.Serializable
   com.team1.animalproject.view.UserBean -up-|> com.team1.animalproject.view.BaseViewController
   com.team1.animalproject.view.UserBean o-- com.team1.animalproject.model.Kullanici : kullanici
   com.team1.animalproject.view.UserBean o-- com.team1.animalproject.service.UserService : userService
+  com.team1.animalproject.view.VetBean .up.|> java.io.Serializable
+  com.team1.animalproject.view.VetBean -up-|> com.team1.animalproject.view.BaseViewController
+  com.team1.animalproject.view.VetBean o-- com.team1.animalproject.model.Vet : vet
+  com.team1.animalproject.view.VetBean o-- com.team1.animalproject.service.VetService : vetService
 
 
 right footer

@@ -28,29 +28,13 @@ title __SERVÝCE's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace service {
-      interface com.team1.animalproject.service.IStudentService {
-          {abstract} + deleteStudent()
-          {abstract} + getAllStudent()
-          {abstract} + saveStudent()
-          {abstract} + updateStudent()
-      }
-    }
-  }
-  
-
-  namespace com.team1.animalproject {
-    namespace service {
-      class com.team1.animalproject.service.StudentServiceImpl {
-          {static} + city : String
-          {static} + image : byte[]
-          {static} - logger : Logger
-          - savedStudents : List<Student>
-          + StudentServiceImpl()
-          + deleteStudent()
-          + getAllStudent()
-          + saveStudent()
-          + updateStudent()
-          - getRandomId()
+      class com.team1.animalproject.service.ShelterService {
+          + addWorker()
+          + delete()
+          + getAll()
+          + getWorkersByShelterId()
+          + save()
+          + update()
       }
     }
   }
@@ -70,12 +54,27 @@ title __SERVÝCE's Class Diagram__\n
   }
   
 
+  namespace com.team1.animalproject {
+    namespace service {
+      class com.team1.animalproject.service.VetService {
+          + delete()
+          + getAll()
+          + save()
+          + update()
+      }
+    }
+  }
+  
+
   com.team1.animalproject.service.AnimalService .up.|> com.team1.animalproject.service.IBaseService
   com.team1.animalproject.service.AnimalService o-- com.team1.animalproject.repository.AnimalRepository : animalRepository
-  com.team1.animalproject.service.StudentServiceImpl .up.|> com.team1.animalproject.service.IStudentService
-  com.team1.animalproject.service.StudentServiceImpl o-- com.team1.animalproject.repository.StudentRepository : studentRepository
+  com.team1.animalproject.service.ShelterService .up.|> com.team1.animalproject.service.IBaseService
+  com.team1.animalproject.service.ShelterService o-- com.team1.animalproject.repository.ShelterRepository : shelterRepository
+  com.team1.animalproject.service.ShelterService o-- com.team1.animalproject.repository.ShelterWorkerRepository : shelterWorkerRepository
   com.team1.animalproject.service.UserService .up.|> com.team1.animalproject.service.IBaseService
   com.team1.animalproject.service.UserService o-- com.team1.animalproject.repository.UserRepository : userRepository
+  com.team1.animalproject.service.VetService .up.|> com.team1.animalproject.service.IBaseService
+  com.team1.animalproject.service.VetService o-- com.team1.animalproject.repository.VetRepository : vetRepository
 
 
 right footer

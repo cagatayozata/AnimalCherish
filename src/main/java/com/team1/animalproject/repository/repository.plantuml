@@ -12,7 +12,16 @@ title __REPOSÝTORY's Class Diagram__\n
 
   namespace com.team1.animalproject {
     namespace repository {
-      interface com.team1.animalproject.repository.StudentRepository {
+      interface com.team1.animalproject.repository.ShelterRepository {
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace repository {
+      interface com.team1.animalproject.repository.ShelterWorkerRepository {
+          {abstract} + findByShelterId()
       }
     }
   }
@@ -24,6 +33,14 @@ title __REPOSÝTORY's Class Diagram__\n
           {abstract} + findById()
           {abstract} + findByUserNameAndPassword()
           {abstract} + findByUserNameOrEmailOrPhoneNumber()
+      }
+    }
+  }
+  
+
+  namespace com.team1.animalproject {
+    namespace repository {
+      interface com.team1.animalproject.repository.VetRepository {
       }
     }
   }

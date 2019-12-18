@@ -5,15 +5,12 @@ title __CONTROLLER's Class Diagram__\n
   namespace com.team1.animalproject {
     namespace controller {
       class com.team1.animalproject.controller.Controller {
-          + error()
-          + getAllStudents()
           + redirectToMainPage()
       }
     }
   }
   
 
-  com.team1.animalproject.controller.Controller o-- com.team1.animalproject.service.IStudentService : studentService
 
 
 right footer
