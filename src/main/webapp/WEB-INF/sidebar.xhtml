@@ -4,6 +4,19 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
         xmlns:pc="http://primefaces.org/california">
+    <script>
+        $( "#menu-button" ).click(function() {
+            var element = document.querySelector('.layout-sidebar')
+            console.log("test");
+            if(element.style.display === "none"){
+                $( ".layout-sidebar" ).css("display", "block");
+                $( ".layout-main" ).css("margin-left", "230px");
+            }else {
+                $( ".layout-sidebar" ).css("display", "none");
+                $( ".layout-main" ).css("margin-left", "0px");
+            }
+        });
+    </script>
     <div class="layout-sidebar layout-right-sidebar-active">
         <div id="nano-container" class="nano">
             <div class="nano-content sidebar-scroll-content">

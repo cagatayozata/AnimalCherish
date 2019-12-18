@@ -3,8 +3,10 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				template="WEB-INF/template.xhtml">
 	<ui:define name="content">
+		<p:growl id="growl" showDetail="true" />
 
-
-DASHBOARD
+		<p:panel>
+			<p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
+		</p:panel>
 	</ui:define>
 </ui:composition>

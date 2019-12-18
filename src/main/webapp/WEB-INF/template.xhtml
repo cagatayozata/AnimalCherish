@@ -12,13 +12,23 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes"/>
-            <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-            <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
-
         </f:facet>
         <title><ui:insert name="title">Hayvan Bilgi Sistemi</ui:insert></title>
 
+        <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
+        <h:outputScript name="js/primeui-4.1.15.js" library="california-layout"/>
+        <h:outputScript name="js/ui_block_and_scroll.js" library="california-layout"/>
+        <h:outputScript name="js/nanoscroller.js" library="california-layout"/>
 
+        <!--layout.js de -> nanoScroller icin kontrol eklendi-->
+        <!--if (this.hasOwnProperty('nanoContainer') && this.nanoContainer.hasOwnProperty('nanoScroller')) {-->
+        <!--this.nanoContainer.nanoScroller({flash: true});-->
+        <!--}-->
+        <h:outputScript name="js/layout.js" library="california-layout"/>
+        <h:outputScript name="js/menu_search.js" library="california-layout"/>
+        <h:outputScript name="js/truncate_strings.js" library="california-layout"/>
+        <h:outputScript name="js/datatable_clear_filter.js" library="california-layout"/>
+        <h:outputScript name="js/full_screen.js" library="california-layout"/>
         <ui:insert name="head"/>
         <script>
             $(document).ajaxStop(function() {
@@ -33,17 +43,12 @@
                 }, 2000);
             });
 
+            $("#layout-megamenu-button").click(function () {
+
+            })
+
         </script>
-        <h:outputScript name="js/primeui-4.1.15.js" library="california-layout"/>
-        <h:outputScript name="js/ui_block_and_scroll.js" library="california-layout"/>
-        <h:outputScript name="js/nanoscroller.js" library="california-layout"/>
 
-
-        <h:outputScript name="js/layout.js" library="california-layout"/>
-        <h:outputScript name="js/menu_search.js" library="california-layout"/>
-        <h:outputScript name="js/truncate_strings.js" library="california-layout"/>
-        <h:outputScript name="js/datatable_clear_filter.js" library="california-layout"/>
-        <h:outputScript name="js/full_screen.js" library="california-layout"/>
         <style>
             /* disabled alanlarin okunurlugunu arttirmak icindir. onay sonrasinda css dosyasina tasinacaktir. */
             .ui-fieldset .ui-state-disabled {
@@ -292,6 +297,7 @@
                 transition: left 0.3s;
             }
 
+
             #menuform:menu {
                 background: white;
             }
@@ -417,13 +423,13 @@
 
 
         <p:blockUI block="@(.main-body)" trigger="@(.viewExpandCompressBtn)">
-            #{msg['general.view.resizing']}<br/>
+            Yeniden boyutlanıyor
             <p:graphicImage name="demo/images/ajaxloadingbar.gif"/>
         </p:blockUI>
 
         <p:blockUI widgetVar="pageRedirectBlock" block="@(.main-body)" styleClass="pageRedirectBlock">
             <p:graphicImage name="images/page-loading.gif" height="50"/><br/>
-            #{msg['general.view.redirecting']}
+            Yükleniyor
         </p:blockUI>
 
     </h:body>
