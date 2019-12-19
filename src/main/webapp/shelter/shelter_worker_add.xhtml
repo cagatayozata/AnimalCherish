@@ -6,7 +6,7 @@
 
         <p:fieldset styleClass="block"
                     legend="Barınak Çalışanları">
-
+            <p:panel>
                 <p:dataTable id="shelterWorkerDataTable" var="worker"
                              styleClass="dataTableStandart"
                              value="#{shelterBean.workers}" rowKey="#{worker.id}"
@@ -23,7 +23,7 @@
                     <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
 
-                    <f:facet name="header">Çalışan Listesi
+                    <f:facet name="header">Eklenebilecek Çalışan Listesi
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
@@ -34,6 +34,7 @@
                                     value="Ekle"
                                     styleClass="dataTableHeaderBtn" update=":form:workerPanel"
                                     resetValues="true"
+                                    disabled="#{empty shelterBean.selectedWorkers}"
                                     process="@this"
                                     icon="fa fa-plus">
                                 <f:actionListener
@@ -61,29 +62,29 @@
                         <h:outputText value="#{worker.userName}"/>
                     </p:column>
                 </p:dataTable>
+            </p:panel>
 
-
-            <p:panelGrid columns="1" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+            <p:panel>
 
                 <p:dataTable id="shelterWorkerEklenmisDataTable" var="workerAdded"
                              styleClass="dataTableStandart"
-                             value="#{shelterBean.addedWorkers}" rowKey="#{workerAdded.id}"
-                             widgetVar="shelterWorkerDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             value="#{shelterBean.addedWorkers}" rowKey="#{workerAdded.userName}"
+                             widgetVar="shelterWorkerEklenmisDataTableWidgetVar" draggableColumns="true" reflow="true"
                              paginator="true"
                              paginatorPosition="bottom"
                              lazy="true"
                              emptyMessage="Eklemiş bir çalışan bulunamadı!"
                              filteredValue="#{shelterBean.filteredAddedWorkers}"
                              selection="#{shelterBean.selectedAddedWorkers}">
-                    <p:ajax event="rowSelect" update="dataTableHeaderBtn2"/>
-                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn2"/>
-                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn2"/>
-                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn2"/>
-                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn2"/>
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtnn"/>
 
                     <f:facet name="header">Eklenmiş Çalışan Listesi
 
-                        <p:outputPanel id="dataTableHeaderBtn2"
+                        <p:outputPanel id="dataTableHeaderBtnn"
                                        styleClass="dataTableHeaderBtnContainer">
 
                             <hr style="clear: both;"/>
@@ -103,6 +104,7 @@
 
                     <p:column selectionMode="multiple"
                               style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
                     <p:column headerText="Kullanıcı Id" sortBy="#{workerAdded.id}"
                               filterBy="#{workerAdded.id}" filterMatchMode="contains">
                         <h:outputText value="#{workerAdded.id}"/>
@@ -121,12 +123,18 @@
                     </p:column>
                 </p:dataTable>
 
-            </p:panelGrid>
+            </p:panel>
 
         </p:fieldset>
 
         <h:panelGrid columns="4" border="0">
-
+            <p:commandButton
+                    value="Kayıt Et" update=":form" icon="fa fa-save" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{shelterBean.workerSave()}"/>
+                <f:actionListener
+                        binding="#{shelterBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
             <p:commandButton
                     value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
                 <f:actionListener

@@ -7,6 +7,7 @@ import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.id.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -150,6 +152,25 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 
     public void sil() throws IOException {
         shelterService.delete(selectedShelters);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
+    }
+
+    public void workerSave() throws IOException {
+        List<ShelterWorker> shelterWorkers = new ArrayList<>();
+        if(addedWorkers.size() > 0){
+            addedWorkers.stream().forEach(kullanici -> {
+                shelterWorkers.add(ShelterWorker.builder()
+                        .id(UUID.randomUUID().toString())
+                        .shelterId(shelterId)
+                        .workerId(kullanici.id)
+                        .build());
+            });
+
+            shelterService.saveWorker(shelterWorkers);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Barınak Çalışanları Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
     }
 }

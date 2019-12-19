@@ -46,4 +46,6 @@ public class Shelter implements Serializable {
 	@Column(name = "birthdate")
 	public Date birthdate;
 
+	private int workerCount;
+
 }
