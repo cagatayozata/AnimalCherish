@@ -16,15 +16,15 @@
         <title><ui:insert name="title">Hayvan Bilgi Sistemi</ui:insert></title>
 
         <h:outputStylesheet name="css/layout-noir.css" library="california-layout"/>
+
         <h:outputScript name="js/primeui-4.1.15.js" library="california-layout"/>
         <h:outputScript name="js/ui_block_and_scroll.js" library="california-layout"/>
         <h:outputScript name="js/nanoscroller.js" library="california-layout"/>
 
         <!--layout.js de -> nanoScroller icin kontrol eklendi-->
-        <!--if (this.hasOwnProperty('nanoContainer') && this.nanoContainer.hasOwnProperty('nanoScroller')) {-->
+        <!--if (this.hasOwnPropertys('nanoContainer') && this.nanoContainer.hasOwnProperty('nanoScroller')) {-->
         <!--this.nanoContainer.nanoScroller({flash: true});-->
         <!--}-->
-        <h:outputScript name="js/layout.js" library="california-layout"/>
         <h:outputScript name="js/menu_search.js" library="california-layout"/>
         <h:outputScript name="js/truncate_strings.js" library="california-layout"/>
         <h:outputScript name="js/datatable_clear_filter.js" library="california-layout"/>
@@ -42,10 +42,6 @@
                    $(".layout-sidebar").fadeOut(10);
                 }, 2000);
             });
-
-            $("#layout-megamenu-button").click(function () {
-
-            })
 
         </script>
 
@@ -297,7 +293,6 @@
                 transition: left 0.3s;
             }
 
-
             #menuform:menu {
                 background: white;
             }
@@ -317,6 +312,10 @@
 
             .ui-menu.ui-widget li > .ui-menuitem-link {
               border: 0.5px solid lightgrey;
+            }
+
+            .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+                color: black;
             }
 
         </style>

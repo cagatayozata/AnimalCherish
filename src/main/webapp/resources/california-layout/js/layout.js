@@ -1,7 +1,7 @@
 /**
  * PrimeFaces California Layout
  */
-PrimeFaces.widget = PrimeFaces.widget.BaseWidget.extend({
+PrimeFaces.widget.California = PrimeFaces.widget.BaseWidget.extend({
 
     init: function (cfg) {
         this._super(cfg);

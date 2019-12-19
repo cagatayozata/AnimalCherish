@@ -25,7 +25,7 @@ public class UserService implements IBaseService<Kullanici> {
 
     @Override
     public List<Kullanici> getAll() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -60,6 +60,14 @@ public class UserService implements IBaseService<Kullanici> {
 
     public Optional<Kullanici> findById(String id){
         return userRepository.findById(id);
+    }
+
+    public Optional<List<Kullanici>> findByIdIn(List<String> ids){
+        return userRepository.findByIdIn(ids);
+    }
+
+    public List<Kullanici> findByIdNotIn(List<String> ids){
+        return userRepository.findByIdNotIn(ids);
     }
 
 }

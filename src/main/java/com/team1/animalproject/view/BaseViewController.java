@@ -12,7 +12,6 @@ import java.util.Optional;
 @Slf4j
 public abstract class BaseViewController<T> implements Serializable {
 
-
 	private static final long serialVersionUID = -9205236771505559696L;
 
 	public abstract void viewOlustur();
