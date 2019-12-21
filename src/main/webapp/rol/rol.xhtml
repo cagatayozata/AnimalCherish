@@ -11,7 +11,7 @@
 		<h:form id="form">
 			<p:growl id="growl" showDetail="true" sticky="true" />
 
-			<p:panel styleClass="card card-w-title" rendered="#{!rolBean.showCreateOrEdit}">
+			<p:panel styleClass="card card-w-title" rendered="#{!rolBean.showCreateOrEdit and !rolBean.showWorkerCreateOrEdit}">
 
 				<p:dataTable id="rolDataTable" var="rol"
 							 styleClass="dataTableStandart"
@@ -39,6 +39,7 @@
 									value="Rol Ekle"
 									styleClass="dataTableHeaderBtn" update=":form"
 									resetValues="true"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_EKLEME_YETKISI')}"
 									icon="fa fa-plus">
 								<f:actionListener
 										binding="#{rolBean.prepareNewScreen()}"/>
@@ -47,6 +48,7 @@
 									value="Detay"
 									styleClass="dataTableHeaderBtn"
 									update=":form"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_DETAY_YETKISI')}"
 									icon="fa fa-search"
 									disabled="#{rolBean.selectedRols.size() ne 1}"
 									resetValues="true">
@@ -57,15 +59,27 @@
 									value="Güncelle"
 									styleClass="dataTableHeaderBtn"
 									update=":form"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_GUNCELLEME_YETKISI')}"
 									icon="fa fa-edit"
 									disabled="#{rolBean.selectedRols.size() ne 1}"
 									resetValues="true">
 								<f:actionListener
 										binding="#{rolBean.prepareUpdateScreen()}"/>
 							</p:commandButton>
+							<p:commandButton
+									value="Kullanıcı İlişkilendirme"
+									styleClass="dataTableHeaderBtn" update=":form"
+									resetValues="true"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_KULLANICI_EKLEME_YETKISI')}"
+									disabled="#{rolBean.selectedRols.size() ne 1}"
+									icon="fa fa-user-plus">
+								<f:actionListener
+										binding="#{rolBean.prepareWorkerNewScreen()}"/>
+							</p:commandButton>
 							<ui:param name="sizeOfSelectedItems"
 									  value="#{empty rolBean.selectedRols? '' : ' - '.concat(rolBean.selectedRols.size())}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_SILME_YETKISI')}"
 											 icon="fa fa-trash" disabled="#{empty rolBean.selectedRols}">
 								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
 								<f:actionListener
@@ -91,6 +105,7 @@
 
 			</p:panel>
 			<ui:include src="rol_add.xhtml"/>
+			<ui:include src="rol_kullanici_add.xhtml"/>
 
 		</h:form>
 	</ui:define>

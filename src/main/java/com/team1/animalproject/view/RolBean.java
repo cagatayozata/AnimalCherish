@@ -1,9 +1,8 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.Rol;
-import com.team1.animalproject.model.RolYetki;
-import com.team1.animalproject.model.Yetki;
+import com.team1.animalproject.model.*;
 import com.team1.animalproject.service.RolService;
+import com.team1.animalproject.service.UserService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.primefaces.model.DualListModel;
@@ -20,6 +19,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Scope("view")
@@ -27,78 +29,196 @@ import java.util.List;
 @Data
 public class RolBean extends BaseViewController<Rol> implements Serializable {
 
-	private static final long serialVersionUID = -3431201652451639852L;
+    private static final long serialVersionUID = -3431201652451639852L;
 
-	private static final Logger logger = LoggerFactory.getLogger(RolBean.class);
+    private static final Logger logger = LoggerFactory.getLogger(RolBean.class);
 
-	@Autowired
-	private RolService rolService;
+    @Autowired
+    private RolService rolService;
 
-	private Rol rol = new Rol();
-	private List<Rol> selectedRols;
-	private List<Rol> allRols;
-	private List<Rol> filteredRols;
-	private DualListModel<Yetki> yetkis;
+    @Autowired
+    private UserService userService;
 
-	private boolean showCreateOrEdit;
-	private boolean showInfo;
+    private Rol rol = new Rol();
+    private List<Rol> selectedRols;
+    private List<Rol> allRols;
+    private List<Rol> filteredRols;
+    private DualListModel<Yetki> yetkis;
 
-	@Override
-	@PostConstruct
-	public void viewOlustur() {
-		super.altVerileriVeIlkEkraniHazirla();
-		allRols = rolService.getAll();
-		filteredRols = new ArrayList<>(allRols);
-	}
+    private List<Kullanici> workers;
+    private List<Kullanici> selectedWorkers;
+    private List<Kullanici> filteredWorkers;
 
-	@Override
-	public void ilkEkraniHazirla() {
-		showCreateOrEdit = false;
-		showInfo = false;
-		rol = new Rol();
-	}
+    private List<Kullanici> addedWorkers;
+    private List<Kullanici> selectedAddedWorkers;
+    private List<Kullanici> filteredAddedWorkers;
 
-	public void kaydet() throws IOException {
-		rolService.save(rol);
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Rol başarıyla eklendi.") );
-		context.getExternalContext().getFlash().setKeepMessages(true);
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
+    private boolean showCreateOrEdit;
+    private boolean showInfo;
+    private boolean showWorkerCreateOrEdit;
+    private boolean workerInfo;
+    private String rolId;
 
-	}
 
-	public void prepareNewScreen(){
-		showCreateOrEdit = true;
-	}
+    @Override
+    @PostConstruct
+    public void viewOlustur() {
+        super.altVerileriVeIlkEkraniHazirla();
+        allRols = rolService.getAll();
+        filteredRols = new ArrayList<>(allRols);
+    }
 
-	public void prepareUpdateScreen(){
-		rol = selectedRols.stream().findFirst().get();
-		showCreateOrEdit = true;
-	}
+    @Override
+    public void ilkEkraniHazirla() {
+        showCreateOrEdit = false;
+        showInfo = false;
+        rol = new Rol();
+        showWorkerCreateOrEdit = false;
+        workerInfo = false;
+        addedWorkers = new ArrayList<>();
+        workers = userService.getAll();
+        filteredWorkers = new ArrayList<>();
+        filteredAddedWorkers = new ArrayList<>();
+    }
 
-	public void prepareInfoScreen(){
-		rol = selectedRols.stream().findFirst().get();
-		showCreateOrEdit = true;
-		showInfo = true;
-	}
-	
-	public void prepareYetkis(){
-		List<RolYetki> ekliOlmayanlar = new ArrayList<>();
-		List<RolYetki> byRolIdNotIn = rolService.findByRolIdNotIn(rol.getId());
-		List<RolYetki> ekliler = new ArrayList<>();
-		List<RolYetki> byRolIdIn = rolService.findByRolIdIn(rol.getId());
+    public void kaydet() throws IOException {
+        if(rol.getId() == null)
+            rol.setId(UUID.randomUUID().toString());
 
-		if(byRolIdNotIn != null){
-			ekliOlmayanlar = byRolIdNotIn;
-		}
+        List<Yetki> target = yetkis.getTarget();
 
-		if(byRolIdIn != null){
-			ekliler = byRolIdIn;
-		}
-	}
+        List<RolYetki> rolYetkis = new ArrayList<>();
+        target.stream().forEach(yetki -> {
+            rolYetkis.add(RolYetki.builder()
+                    .id(UUID.randomUUID().toString())
+                    .rolId(rol.getId())
+                    .yetkiId(yetki.getId())
+                    .build());
+        });
 
-	public void sil() throws IOException {
-		rolService.delete(selectedRols);
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
-	}
+        rolService.save(rol);
+        rolYetkis.stream().forEach(rolYetki -> rolYetki.setRolId(rol.getId()));
+        rolService.rolYetkiSave(rolYetkis, rol.getId());
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Rol başarıyla eklendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/rol/rol.jsf");
+
+    }
+
+    public void prepareNewScreen() {
+        prepareYetkis();
+        showCreateOrEdit = true;
+    }
+
+    public void prepareUpdateScreen() {
+        rol = selectedRols.stream().findFirst().get();
+        prepareYetkis();
+        showCreateOrEdit = true;
+    }
+
+    public void prepareInfoScreen() {
+        rol = selectedRols.stream().findFirst().get();
+        prepareYetkis();
+        showCreateOrEdit = true;
+        showInfo = true;
+    }
+
+    public void prepareWorkerNewScreen() {
+        showWorkerCreateOrEdit = true;
+        findKullanicis();
+        findKullanicisForAdd();
+    }
+
+    public void deleteWorker() {
+        addedWorkers.removeAll(selectedAddedWorkers);
+        workers.addAll(selectedAddedWorkers);
+        selectedAddedWorkers = new ArrayList<>();
+    }
+
+    public void addWorker() {
+        addedWorkers.addAll(selectedWorkers);
+        workers.removeAll(selectedWorkers);
+        selectedWorkers = new ArrayList<>();
+    }
+
+    private void findKullanicis() {
+        rolId = selectedRols.stream().findFirst().get().getId();
+        List<KullaniciRol> workersIn = rolService.findByRolIdKullanici(rolId);
+        Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(KullaniciRol::getKullaniciId).collect(Collectors.toList()));
+        if (kullanicis.isPresent()) {
+            addedWorkers = kullanicis.get();
+        } else {
+            addedWorkers = new ArrayList<>();
+        }
+        filteredAddedWorkers = addedWorkers;
+        showWorkerCreateOrEdit = true;
+    }
+
+    private void findKullanicisForAdd() {
+        workers.removeAll(addedWorkers);
+        filteredWorkers = workers;
+    }
+
+    public void prepareYetkis() {
+        yetkis = new DualListModel<>();
+
+        List<RolYetki> ekliOlmayanlar = new ArrayList<>();
+        List<RolYetki> ekliler = new ArrayList<>();
+
+        List<Yetki> ekliYetkiler = new ArrayList<>();
+        List<Yetki> ekliOlmayanYetkiler = new ArrayList<>();
+
+        List<Yetki> allYetkis = rolService.getAllYetkis();
+        if (allYetkis != null)
+            ekliOlmayanYetkiler = allYetkis;
+
+        if (rol.getId() != null) {
+
+            List<RolYetki> byRolIdNotIn = rolService.findByRolIdNotIn(rol.getId());
+            List<RolYetki> byRolIdIn = rolService.findByRolIdIn(rol.getId());
+
+            if (byRolIdNotIn != null) {
+                ekliOlmayanlar = byRolIdNotIn;
+            }
+
+            if (byRolIdIn != null) {
+                ekliler = byRolIdIn;
+            }
+
+            List<Yetki> ekliIds = rolService.findYetkiByIds(ekliler.stream().map(RolYetki::getYetkiId).collect(Collectors.toList()));
+            if (ekliIds != null) {
+                ekliYetkiler = ekliIds;
+            }
+        }
+
+        ekliOlmayanYetkiler.removeAll(ekliYetkiler);
+
+        yetkis.setSource(ekliOlmayanYetkiler);
+        yetkis.setTarget(ekliYetkiler);
+    }
+
+    public void sil() throws IOException {
+        rolService.delete(selectedRols);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/rol/rol.jsf");
+    }
+
+    public void workerSave() throws IOException {
+        List<KullaniciRol> kullaniciRols = new ArrayList<>();
+        if(addedWorkers.size() > 0){
+            addedWorkers.stream().forEach(kullanici -> {
+                kullaniciRols.add(KullaniciRol.builder()
+                        .id(UUID.randomUUID().toString())
+                        .rolId(rolId)
+                        .kullaniciId(kullanici.id)
+                        .build());
+            });
+
+            rolService.saveKullanici(kullaniciRols, rolId);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Kullanıcı İlişkileri Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/rol/rol.jsf");
+    }
 }

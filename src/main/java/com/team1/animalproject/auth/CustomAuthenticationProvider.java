@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
+import com.team1.animalproject.service.RolService;
 import com.team1.animalproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private transient RolService rolService;
 
     @Autowired
     private ObjectMapper jacksonObjectMapper;
@@ -70,6 +74,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         if (byUsername.isPresent()) {
             KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();
+            kullaniciPrincipal.setYetkiler(rolService.findByKullaniciId(kullaniciPrincipal.getId()));
 
             String serializedPrincipal;
             try {

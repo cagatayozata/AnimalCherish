@@ -166,7 +166,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
                         .build());
             });
 
-            shelterService.saveWorker(shelterWorkers);
+            shelterService.saveWorker(shelterWorkers, shelterId);
         }
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Başarılı", "Barınak Çalışanları Başarıyla Güncellendi."));

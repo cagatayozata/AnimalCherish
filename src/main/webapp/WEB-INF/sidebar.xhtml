@@ -165,7 +165,7 @@
                     <p:menu id="menu"
                             style="width: 1500px; height: 1500px;">
                         <p:menuitem url="/index.jsf" icon="fa fa-area-chart" style="width: 235px">Giriş Sayfası</p:menuitem>
-                        <p:menuitem icon="fa fa-github-alt" style="width: 235px"
+                        <p:menuitem icon="fa fa-github-alt" style="width: 235px" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_MENU_YETKISI')}"
                                     url="/animal/animal.jsf">Hayvan</p:menuitem>
                         <p:menuitem icon="fa fa-user" style="width: 235px"
                                     url="/vet/vet.jsf">Veteriner</p:menuitem>
