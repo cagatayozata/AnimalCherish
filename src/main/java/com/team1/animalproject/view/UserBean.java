@@ -80,5 +80,8 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 		facesContext.responseComplete();
 	}
 
+	public void anaSayfayaGit() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/landing.jsf");
+	}
 
 }

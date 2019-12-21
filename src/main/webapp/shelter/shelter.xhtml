@@ -64,11 +64,11 @@
 										binding="#{shelterBean.prepareUpdateScreen()}"/>
 							</p:commandButton>
 							<p:commandButton
-									value="Çalışan Ekle"
+									value="Çalışan İlişkilendirme"
 									styleClass="dataTableHeaderBtn" update=":form"
 									resetValues="true"
 									disabled="#{shelterBean.selectedShelters.size() ne 1}"
-									icon="fa fa-plus">
+									icon="fa fa-user-plus">
 								<f:actionListener
 										binding="#{shelterBean.prepareWorkerNewScreen()}"/>
 							</p:commandButton>

@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
@@ -40,5 +41,4 @@ public class Animal implements Serializable {
 
 	@Column(name = "birthdate")
 	public Date birthdate;
-
 }

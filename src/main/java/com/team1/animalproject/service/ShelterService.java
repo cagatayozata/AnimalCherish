@@ -29,8 +29,9 @@ public class ShelterService implements IBaseService<Shelter> {
         all.stream().forEach(shelter -> {
             int size = 0;
             List<ShelterWorker> byShelterId = shelterWorkerRepository.findByShelterId(shelter.getId());
-            if(byShelterId != null)
-            shelter.setWorkerCount(byShelterId.size());
+            if(byShelterId != null){
+                shelter.setWorkerCount(byShelterId.size());
+            }
         });
         return all;
     }

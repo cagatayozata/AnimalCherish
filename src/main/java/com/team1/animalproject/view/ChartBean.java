@@ -10,26 +10,18 @@ import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
-import org.primefaces.model.charts.donut.DonutChartDataSet;
-import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.optionconfig.legend.Legend;
 import org.primefaces.model.charts.optionconfig.legend.LegendLabel;
 import org.primefaces.model.charts.optionconfig.title.Title;
-import org.primefaces.model.charts.polar.PolarAreaChartModel;
-import org.primefaces.model.charts.radar.RadarChartModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Scope("view")
@@ -50,7 +42,7 @@ public class ChartBean implements Serializable {
         ChartData data = new ChartData();
 
         BarChartDataSet barDataSet = new BarChartDataSet();
-        barDataSet.setLabel("My First Dataset");
+        barDataSet.setLabel("Son 7 Gün Eklenmiş Hayvan Sayısı");
 
         List<Number> values = new ArrayList<>();
         values.add(65);
@@ -86,13 +78,13 @@ public class ChartBean implements Serializable {
         data.addChartDataSet(barDataSet);
 
         List<String> labels = new ArrayList<>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-        labels.add("July");
+        labels.add("Pazartesi");
+        labels.add("Salı");
+        labels.add("Çarşamba");
+        labels.add("Perşembe");
+        labels.add("Cuma");
+        labels.add("Cumartesi");
+        labels.add("Pazar");
         data.setLabels(labels);
         barModel.setData(data);
 
@@ -108,7 +100,7 @@ public class ChartBean implements Serializable {
 
         Title title = new Title();
         title.setDisplay(true);
-        title.setText("Bar Chart");
+        title.setText("Hayvan Bilgi Sistemi");
         options.setTitle(title);
 
         Legend legend = new Legend();

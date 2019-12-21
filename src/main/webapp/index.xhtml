@@ -2,11 +2,43 @@
 				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
 				xmlns:f="http://java.sun.com/jsf/core"
 				template="WEB-INF/template.xhtml">
+	<ui:define name="viewname">Giriş Sayfası</ui:define>
+
 	<ui:define name="content">
 		<p:growl id="growl" showDetail="true" />
 
-		<p:panel>
-			<p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
-		</p:panel>
+				<p:fieldset legend="Yenilikler" style="margin-bottom:20px">
+					<h:panelGrid columns="1">
+						<p:graphicImage styleClass="login-image" width="25%" height="25%" name="images/landing/3.jpg" library="california-layout"/>
+						<h:outputText
+								value="Veteriner ekranı eklendi. Veteriner ekranı üzerinden yetkili kişiler veteriner ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir." />
+					</h:panelGrid>
+				</p:fieldset>
+
+		<p:fieldset legend="Haberler" style="margin-bottom:20px">
+			<h:panelGrid columns="1">
+				<h:outputText style="font-weight: bold; height: 100px"
+						value="Hayvan dostu eğitim" />
+				<h:outputText
+						value="Ankara Büyükşehir Belediyesi (ABB) Sağlık İşleri Daire Başkanlığı, ‘Yerel Hayvan Koruma Görevlisi Eğitimi’ düzenleyecek. Yarın ve diğer gün gerçekleştirilecek eğitim programı kapsamında uzmanlar tarafından; yasaklı tür ve ırkların tanımı, hayvanlarda ilk yardım, hayvan refahı, bakım ve beslenme, hayvan davranışları ve hayvan ekolojisi hakkında önemli bilgiler verilecek." />
+
+				<br/>
+				<h:outputText style="font-weight: bold; height: 100px"
+							  value="Mersin'de bir köpek sezaryenle 16 yavru doğurdu" />
+				<h:outputText
+						value="Mersin Büyükşehir Belediyesinden yapılan açıklamaya göre, belediyeye bağlı Kaşlı Geçici Hayvan Bakımevi ekipleri, Mut ilçesinde sahipsiz bir köpeğin doğum sancısı çektiği ihbarını aldı.
+
+Ekipler, doğum yapacak kurt melezi cinsi köpeği Kaşlı Geçici Hayvan Bakımevine getirdi.
+
+Merkezde gözetim altında tutulan ve doğum anı geldiğinde yavru sayısının fazla oluşundan dolayı sezaryenle doğumu gerçekleştirilen köpek, yaklaşık 2 saat süren operasyon sonucunda 16 yavru doğurdu." />
+
+
+			</h:panelGrid>
+		</p:fieldset>
+
+			<p:panel>
+				<p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
+			</p:panel>
+
 	</ui:define>
 </ui:composition>

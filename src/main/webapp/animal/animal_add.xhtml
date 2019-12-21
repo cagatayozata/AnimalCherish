@@ -16,7 +16,7 @@
                         <p:inputText id="id"
                                      value="#{animalBean.animal.id}"
                                      autocomplete="off"
-                                     disabled="#{animalBean.showInfo}"
+                                     disabled="#{animalBean.showInfo or animalBean.animal.id ne null}"
                                      required="true"/>
                         <p:message for="id"/>
                     </p:panel>
