@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Slf4j
@@ -45,9 +46,13 @@ public class KullaniciSessionVerisi implements Serializable {
     public KullaniciPrincipal getKullaniciBilgisi() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
-            return KullaniciPrincipal.builder().build();
+            return KullaniciPrincipal.builder().yetkiler(new ArrayList<>()).build();
         }
-        return (KullaniciPrincipal) authentication.getPrincipal();
+        KullaniciPrincipal principal = (KullaniciPrincipal) authentication.getPrincipal();
+        if(principal.getYetkiler() == null){
+            principal.setYetkiler(new ArrayList<>());
+        }
+        return principal;
     }
 
     public void reloadPage() {
