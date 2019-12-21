@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				template="../WEB-INF/template.xhtml">
+
+	<ui:define name="viewname"> Rol Listesi
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
+			<p:panel styleClass="card card-w-title" rendered="#{!rolBean.showCreateOrEdit}">
+
+				<p:dataTable id="rolDataTable" var="rol"
+							 styleClass="dataTableStandart"
+							 value="#{rolBean.allRols}" rowKey="#{rol.id}"
+							 widgetVar="rolDataTableWidgetVar" draggableColumns="true" reflow="true"
+							 paginator="true"
+							 paginatorPosition="bottom"
+							 emptyMessage="Eklemiş bir rol bulunamadı!"
+							 filteredValue="#{rolBean.filteredRols}"
+							 selection="#{rolBean.selectedRols}">
+					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+					<p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+					<f:facet name="header">Rol Listesi
+
+						<p:outputPanel id="dataTableHeaderBtn"
+									   styleClass="dataTableHeaderBtnContainer">
+
+							<hr style="clear: both;"/>
+
+							<p:commandButton
+									value="Rol Ekle"
+									styleClass="dataTableHeaderBtn" update=":form"
+									resetValues="true"
+									icon="fa fa-plus">
+								<f:actionListener
+										binding="#{rolBean.prepareNewScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Detay"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-search"
+									disabled="#{rolBean.selectedRols.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{rolBean.prepareInfoScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Güncelle"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-edit"
+									disabled="#{rolBean.selectedRols.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{rolBean.prepareUpdateScreen()}"/>
+							</p:commandButton>
+							<ui:param name="sizeOfSelectedItems"
+									  value="#{empty rolBean.selectedRols? '' : ' - '.concat(rolBean.selectedRols.size())}"/>
+							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 icon="fa fa-trash" disabled="#{empty rolBean.selectedRols}">
+								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+								<f:actionListener
+										binding="#{rolBean.sil()}"/>
+							</p:commandButton>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column selectionMode="multiple"
+							  style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+					<p:column headerText="Rol Id" sortBy="#{rol.id}" filterable="true"
+							  filterBy="#{rol.id}" filterMatchMode="contains">
+						<h:outputText value="#{rol.id}"/>
+					</p:column>
+
+					<p:column headerText="Ad" sortBy="#{rol.name}"
+							  filterBy="#{rol.name}" filterMatchMode="contains">
+						<h:outputText value="#{rol.name}"/>
+					</p:column>
+
+				</p:dataTable>
+
+			</p:panel>
+			<ui:include src="rol_add.xhtml"/>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

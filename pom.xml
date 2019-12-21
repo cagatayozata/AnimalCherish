@@ -7,10 +7,10 @@
 	<groupId>com.springboot.case</groupId>
 	<artifactId>springboot-primefaces-hibernate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
-	<name>EVET</name>
-	<description>EVET</description>
+	<name>AnimalCherish</name>
+	<description>AnimalCherish</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
