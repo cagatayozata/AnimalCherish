@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="workerPanel" styleClass="card card-w-title" rendered="#{rolBean.showWorkerCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Kullanıcılar">
+            <p:panel>
+                <p:dataTable id="shelterWorkerDataTable" var="worker"
+                             styleClass="dataTableStandart"
+                             value="#{rolBean.workers}" rowKey="#{worker.id}"
+                             widgetVar="shelterWorkerDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenebilecek bir kullanici bulunamadı!"
+                             filteredValue="#{rolBean.filteredWorkers}"
+                             selection="#{rolBean.selectedWorkers}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Eklenebilecek Kullanici Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form:workerPanel"
+                                    resetValues="true"
+                                    disabled="#{empty rolBean.selectedWorkers}"
+                                    process="@this"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{rolBean.addWorker()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Kullanıcı Id" sortBy="#{worker.id}"
+                              filterBy="#{worker.id}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{worker.name}"
+                              filterBy="#{worker.name}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.name} #{worker.surname}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{worker.phoneNumber}"
+                              filterBy="#{worker.phoneNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.phoneNumber}"/>
+                    </p:column>
+                    <p:column headerText="Kullanıcı adı" sortBy="#{worker.userName}"
+                              filterBy="#{worker.userName}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.userName}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel>
+
+                <p:dataTable id="shelterWorkerEklenmisDataTable" var="workerAdded"
+                             styleClass="dataTableStandart"
+                             value="#{rolBean.addedWorkers}" rowKey="#{workerAdded.userName}"
+                             widgetVar="shelterWorkerEklenmisDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklemiş bir kullanıcı bulunamadı!"
+                             filteredValue="#{rolBean.filteredAddedWorkers}"
+                             selection="#{rolBean.selectedAddedWorkers}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtnn"/>
+
+                    <f:facet name="header">Ekli Kullanıcılar
+
+                        <p:outputPanel id="dataTableHeaderBtnn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Çıkar"
+                                    styleClass="dataTableHeaderBtn" update=":form:workerPanel"
+                                    resetValues="true"
+                                    process="@this"
+                                    disabled="#{empty rolBean.selectedAddedWorkers}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{rolBean.deleteWorker()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                    <p:column headerText="Kullanıcı Id" sortBy="#{workerAdded.id}"
+                              filterBy="#{workerAdded.id}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{workerAdded.name}"
+                              filterBy="#{workerAdded.name}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.name} #{workerAdded.surname}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{workerAdded.phoneNumber}"
+                              filterBy="#{workerAdded.phoneNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.phoneNumber}"/>
+                    </p:column>
+                    <p:column headerText="Kullanıcı adı" sortBy="#{workerAdded.userName}"
+                              filterBy="#{workerAdded.userName}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.userName}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+            <p:commandButton
+                    value="Kayıt Et" update=":form" icon="fa fa-save" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{rolBean.workerSave()}"/>
+                <f:actionListener
+                        binding="#{rolBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{rolBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

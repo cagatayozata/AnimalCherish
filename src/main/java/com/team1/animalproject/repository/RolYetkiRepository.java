@@ -9,9 +9,12 @@ import java.util.List;
 @Repository("rolYetkiRepository")
 public interface RolYetkiRepository extends JpaRepository<RolYetki, String> {
 
-    List<RolYetki> findByRolIdNotIn(String rolId);
+    List<RolYetki> findByRolIdNot(String rolId);
 
-    List<RolYetki> findByRolIdIn(String rolId);
+    List<RolYetki> findByRolId(String rolId);
+
+    List<RolYetki> findByRolIdIn(List<String> rolIds);
 
 
+    void deleteByRolId(String id);
 }

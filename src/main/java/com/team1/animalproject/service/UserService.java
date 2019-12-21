@@ -4,10 +4,12 @@ import com.team1.animalproject.exception.BaseExceptionType;
 import com.team1.animalproject.exception.BusinessRuleException;
 import com.team1.animalproject.exception.ViewException;
 import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.KullaniciRol;
 import com.team1.animalproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

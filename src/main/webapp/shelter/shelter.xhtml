@@ -39,6 +39,7 @@
 									value="Barınak Ekle"
 									styleClass="dataTableHeaderBtn" update=":form"
 									resetValues="true"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_EKLEME_YETKISI')}"
 									icon="fa fa-plus">
 								<f:actionListener
 										binding="#{shelterBean.prepareNewScreen()}"/>
@@ -46,6 +47,7 @@
 							<p:commandButton
 									value="Detay"
 									styleClass="dataTableHeaderBtn"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_DETAY_YETKISI')}"
 									update=":form"
 									icon="fa fa-search"
 									disabled="#{shelterBean.selectedShelters.size() ne 1}"
@@ -58,6 +60,7 @@
 									styleClass="dataTableHeaderBtn"
 									update=":form"
 									icon="fa fa-edit"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_GUNCELLEME_YETKISI')}"
 									disabled="#{shelterBean.selectedShelters.size() ne 1}"
 									resetValues="true">
 								<f:actionListener
@@ -66,6 +69,7 @@
 							<p:commandButton
 									value="Çalışan İlişkilendirme"
 									styleClass="dataTableHeaderBtn" update=":form"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_CALISAN_EKLEME_YETKISI')}"
 									resetValues="true"
 									disabled="#{shelterBean.selectedShelters.size() ne 1}"
 									icon="fa fa-user-plus">
@@ -75,6 +79,7 @@
 							<ui:param name="sizeOfSelectedItems"
 									  value="#{empty shelterBean.selectedShelters? '' : ' - '.concat(shelterBean.selectedShelters.size())}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+											 rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_SILME_YETKISI')}"
 											 icon="fa fa-trash" disabled="#{empty shelterBean.selectedShelters}">
 								<p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
 								<f:actionListener

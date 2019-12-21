@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.Column;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -17,17 +16,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class Yetki implements Serializable {
+public class KullaniciRol implements Serializable {
 
-	private static final long serialVersionUID = -4951959149422559771L;
+    private static final long serialVersionUID = 2759414932277204060L;
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	public String id;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    public String id;
 
-	@Column(name = "name", nullable = false)
-	public String name;
+    @Column(name = "rol_id", nullable = false)
+    public String rolId;
 
-	@Column(name = "kod", nullable = false)
-	public String kod;
+    @Column(name = "kullanici_id", nullable = false)
+    public String kullaniciId;
 }

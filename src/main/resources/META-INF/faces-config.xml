@@ -22,6 +22,10 @@
 		</phase-listener>
 	</lifecycle>
 
+	<converter>
+		<converter-id>entityGenericConverter</converter-id>
+		<converter-class>com.team1.animalproject.model.dto.GenericEntityConverter</converter-class>
+	</converter>
 
 
 
