@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -52,28 +55,70 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 
     private Kullanici kullanici = new Kullanici();
 
+    private UploadedFile file;
+    private FileUploadEvent fileEvent;
+    private boolean anyFile;
+    private boolean sifreDegis;
+    private boolean girisYapili;
+
+    private String repeatPassword;
+
     @Override
     @PostConstruct
     public void viewOlustur() {
         super.altVerileriVeIlkEkraniHazirla();
     }
 
+    public boolean validatePassword() {
+        if (repeatPassword != null && repeatPassword.equals(kullanici.getPassword())) {
+            return true;
+        }
+        if(repeatPassword == null){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void ilkEkraniHazirla() {
+        sifreDegis = true;
+        anyFile = true;
+        girisYapili = false;
+        if (kullaniciPrincipal.getId() != null) {
+            Optional<Kullanici> byId = userService.findById(kullaniciPrincipal.getId());
+            if (byId.isPresent()) {
+                kullanici = byId.get();
+                sifreDegis = false;
+                girisYapili = true;
+            }
+        }
+    }
+
+    public void sifreDegisir() {
+        sifreDegis = true;
     }
 
     public void kayitOl() throws IOException, NoSuchAlgorithmException {
-        boolean kayit = userService.kayitOl(kullanici);
-        if (kayit) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Başarılı", "Başarıyla kaydolundu."));
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+        kullanici.setFileUploadEvent(fileEvent);
+        boolean validate = validatePassword();
+        boolean kayit = userService.kayitOl(kullanici, girisYapili, sifreDegis);
+        if (validate) {
+            if (kayit) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Başarılı", "Başarıyla kaydolundu."));
+                context.getExternalContext().getFlash().setKeepMessages(true);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+            } else {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, BaseExceptionType.KULLANICI_ADI_MAIL_PHONE_KULLANILIYOR.getValidationMessage(), null));
+                context.getExternalContext().getFlash().setKeepMessages(true);
+            }
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, BaseExceptionType.KULLANICI_ADI_MAIL_PHONE_KULLANILIYOR.getValidationMessage(), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Şifreler uyuşmuyor!", null));
             context.getExternalContext().getFlash().setKeepMessages(true);
         }
+
     }
 
     public void login() throws IOException {
@@ -89,7 +134,11 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
     }
 
     public void anaSayfayaGit() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/landing.jsf");
+        if(!girisYapili){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/landing.jsf");
+        }else {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
+        }
     }
 
     public void sifreSifirla() throws IOException {
@@ -109,6 +158,16 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Seçili kullanıcı adı ve mail ilişkisi bulunamadı!", null));
             context.getExternalContext().getFlash().setKeepMessages(true);
         }
+    }
+
+    public void onUpload() {
+        if (file != null)
+            anyFile = false;
+    }
+
+    public void onUpload(FileUploadEvent file) throws IOException {
+        System.out.println("File Uploaded" + file.getFile().getFileName());
+        this.fileEvent = file;
     }
 
 }

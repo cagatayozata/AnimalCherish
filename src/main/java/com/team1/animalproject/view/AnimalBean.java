@@ -1,5 +1,6 @@
 package com.team1.animalproject.view;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.Tur;

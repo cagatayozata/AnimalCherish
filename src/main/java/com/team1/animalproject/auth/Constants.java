@@ -19,6 +19,7 @@ public class Constants {
 	public static final String SIFRE_SIFIRLA_PAGE_URL = "/sifre_sifirla.jsf";
 	public static final String DOSYA = "/login.jsf";
 	public static final String SIFRE_SIFIRLA_URL = "/sifirla/**";
+	public static final String FILES = "/files/**";
 	public static final String MAIN_URL = "localhost:8081";
 
 

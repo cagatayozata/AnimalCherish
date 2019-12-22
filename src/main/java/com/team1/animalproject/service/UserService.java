@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,15 +46,24 @@ public class UserService implements IBaseService<Kullanici> {
         userRepository.save(kullanici);
     }
 
-    public boolean kayitOl(Kullanici kullanici) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    @Transactional
+    public boolean kayitOl(Kullanici kullanici, boolean girisYapili, boolean sifreDegis) throws IOException, NoSuchAlgorithmException {
         Optional<List<Kullanici>> byUserNameOrEmailOrPhoneNumber = userRepository.findByUserNameOrEmailOrPhoneNumber(kullanici.userName, kullanici.email, kullanici.phoneNumber);
-        if (byUserNameOrEmailOrPhoneNumber.isPresent()) {
+        if (byUserNameOrEmailOrPhoneNumber.isPresent() && !girisYapili) {
             return false;
         } else {
-            kullanici.setId(UUID.randomUUID().toString());
-            String sifreHashed = md5Java(kullanici.getPassword());
-            kullanici.setPassword(sifreHashed);
+            if (sifreDegis) {
+                kullanici.setId(UUID.randomUUID().toString());
+                String sifreHashed = md5Java(kullanici.getPassword());
+                kullanici.setPassword(sifreHashed);
+            }
             userRepository.save(kullanici);
+            File newFile = new File("src/main/webapp/resources/images/" + kullanici.getId() + ".jpg");
+            byte[] blobAsBytes = kullanici.getFileUploadEvent().getFile().getContents();
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
+            ImageIO.write(image, "JPG",
+                    newFile);
+
             return true;
         }
     }

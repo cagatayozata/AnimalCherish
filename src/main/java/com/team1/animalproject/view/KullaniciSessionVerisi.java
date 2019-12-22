@@ -7,6 +7,7 @@ import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.view.utils.JSFUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.component.graphicimage.GraphicImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -45,11 +47,11 @@ public class KullaniciSessionVerisi implements Serializable {
 
     public KullaniciPrincipal getKullaniciBilgisi() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
+        if ("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())) {
             return KullaniciPrincipal.builder().yetkiler(new ArrayList<>()).build();
         }
         KullaniciPrincipal principal = (KullaniciPrincipal) authentication.getPrincipal();
-        if(principal.getYetkiler() == null){
+        if (principal.getYetkiler() == null) {
             principal.setYetkiler(new ArrayList<>());
         }
         return principal;
@@ -61,9 +63,9 @@ public class KullaniciSessionVerisi implements Serializable {
 
     private void kullaniciBilgileriniGetir() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
+        if ("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())) {
             kullanici = Kullanici.builder().name("Giriş Yapılmadı").build();
-        }else {
+        } else {
             KullaniciPrincipal kullaniciPrincipal = (KullaniciPrincipal) authentication.getPrincipal();
             Optional<Kullanici> kullaniciResponse = userService.findById(kullaniciPrincipal.getId());
 
@@ -71,6 +73,26 @@ public class KullaniciSessionVerisi implements Serializable {
                 kullanici = kullaniciResponse.get();
             }
         }
+    }
+
+    public String resimUrl() {
+        kullaniciBilgileriniGetir();
+        if (getKullaniciBilgisi().getId() != null) {
+            File f = new File("src/main/webapp/resources/images/" + kullanici.getId() + ".jpg");
+            if (f.exists()) {
+                return "images/" + getKullaniciBilgisi().getId() + ".jpg";
+            }
+        }
+
+        return "images/avatar-male.png";
+    }
+
+    public String getAdSoyad() {
+        if (getKullaniciBilgisi().getId() != null) {
+            kullaniciBilgileriniGetir();
+            return kullanici.getName() + " " + kullanici.getSurname();
+        }
+        return "Giriş Yapılmadı";
     }
 
 }

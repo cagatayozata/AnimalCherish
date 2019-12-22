@@ -32,9 +32,9 @@
 
 
                     <div class="user-profile">
-                        <a id="sidebar-profile-button" href="#">
-                            <p:graphicImage name="images/avatar.png" library="california-layout"/>
-                            <span class="sidebar-profile-name">#{kullaniciSessionVerisi.kullanici.name} #{kullaniciSessionVerisi.kullanici.surname}</span>
+                        <a id="sidebar-profile-button" href="/register.jsf">
+                            <p:graphicImage height="100px" width="100px" style="border: 1px solid black; border-radius: 50px" name="#{kullaniciSessionVerisi.resimUrl()}"/><br/>
+                            <span class="sidebar-profile-name">#{kullaniciSessionVerisi.getAdSoyad()}</span>
                             <span class="sidebar-profile-role">Administrator</span>
                         </a>
                         <ul id="sidebar-usermenu" class="usermenu">

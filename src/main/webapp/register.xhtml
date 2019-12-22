@@ -19,7 +19,9 @@
 
                     <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
 
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+
+                        <p:panel rendered="#{empty userBean.kullanici.id}"
+                                 styleClass="ui-grid-col-12 borderAndPaddingRemove">
                             <p:outputLabel for="username" value="Kullanıcı Adı"/>
                             <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                                 <p:inputText id="username"
@@ -30,15 +32,25 @@
                             </p:panel>
                         </p:panel>
 
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:panel rendered="#{userBean.sifreDegis}" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                             <p:outputLabel for="password" value="Şifre"/>
                             <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="password"
-                                             type="password"
-                                             value="#{userBean.kullanici.password}"
-                                             autocomplete="off"
-                                             required="true"/>
+                                <p:password id="password" value="#{userBean.kullanici.password}" feedback="true"
+                                            promptLabel="Lütfen şifre giriniz" weakLabel="Zayıf" required="true"
+                                            maxlength="25"
+                                            goodLabel="Orta seviye" strongLabel="Güçlü"/>
                                 <p:message for="password"/>
+                            </p:panel>
+                        </p:panel>
+
+                        <p:panel rendered="#{userBean.sifreDegis}" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                            <p:outputLabel for="repeatPassword" value="Tekrar Şifre"/>
+                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                                <p:password id="repeatPassword" value="#{userBean.repeatPassword}" feedback="true"
+                                            promptLabel="Lütfen şifre giriniz" weakLabel="Zayıf" required="true"
+                                            maxlength="25"
+                                            goodLabel="Orta seviye" strongLabel="Güçlü"/>
+                                <p:message for="repeatPassword"/>
                             </p:panel>
                         </p:panel>
 
@@ -86,7 +98,16 @@
                             </p:panel>
                         </p:panel>
 
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:fileUpload value="#{userBean.file}" fileLimitMessage="En fazla 1 dosya seçilebilir!"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      invalidFileMessage="Sadece resim formatı yükleyebilirsiniz (jpg, png)"
+                                      fileLimit="1" mode="advanced" cancelLabel="İptal" label="Seç"
+                                      uploadLabel="Profil Fotoğrafı Yükle" skinSimple="true"
+                                      fileUploadListener="#{userBean.onUpload}"/>
+                        <br/>
+
+                        <p:panel rendered="#{empty userBean.kullanici.id}"
+                                 styleClass="ui-grid-col-12 borderAndPaddingRemove">
                             <p:messages for="captcha" showDetail="true"/>
                             <p:captcha id="captcha" language="tr" label="Güvenlik"/>
                             <br/>
@@ -100,7 +121,7 @@
                 <h:panelGrid columns="4" border="0">
 
                     <p:commandButton
-                            value="Kayıt Ol" icon="fa fa-save"
+                            value="#{empty userBean.kullanici.id ? 'Kayıt Ol' : 'Değiştir'}" icon="fa fa-save"
                             update="form" ajax="false"
                             resetValues="true">
                         <f:actionListener
@@ -108,10 +129,18 @@
                     </p:commandButton>
 
                     <p:commandButton
+                            disabled="#{userBean.sifreDegis}" value="Şifre Değiştir" icon="fa fa-repeat"
+                            immediate="true" update="form">
+                        <f:actionListener
+                                binding="#{userBean.sifreDegisir()}"/>
+                    </p:commandButton>
+
+                    <p:commandButton
                             value="İptal et" icon="fa fa-remove" resetValues="true" immediate="true">
                         <f:actionListener
                                 binding="#{userBean.anaSayfayaGit()}"/>
                     </p:commandButton>
+
                 </h:panelGrid>
 
             </p:panel>

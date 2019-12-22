@@ -2,11 +2,15 @@ package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.apache.commons.fileupload.FileUpload;
+import org.primefaces.event.FileUploadEvent;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.sql.Blob;
 
 @Entity
 @ToString(callSuper = true)
@@ -42,4 +46,6 @@ public class Kullanici implements Serializable {
     @Column(name = "email")
     public String email;
 
+    @Transient
+    public FileUploadEvent fileUploadEvent;
 }
