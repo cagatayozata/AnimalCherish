@@ -70,6 +70,7 @@
 									value="Sağlık Raporları"
 									styleClass="dataTableHeaderBtn"
 									update=":form"
+									process=":form"
 									rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_GUNCELLEME_YETKISI')}"
 									icon="fa fa-edit"
 									disabled="#{animalBean.selectedAnimals.size() ne 1}"

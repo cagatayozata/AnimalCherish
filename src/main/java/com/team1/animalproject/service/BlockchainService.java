@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class BlockchainService implements IBaseService<MedicalReport> {
+public class BlockchainService {
 
     private List<String> hashes;
 
@@ -55,28 +53,10 @@ public class BlockchainService implements IBaseService<MedicalReport> {
     }
 
     public boolean validate(String userId) {
-        hashes = new ArrayList<>();
-
-        List<Animal> all = animalService.getAll();
-        if (all != null) {
-            List<Block> blocks = new ArrayList<>();
-            all.stream().forEach(animal -> {
-                blocks.add(Block.builder()
-                        .id(animal.getId())
-                        .birthdate(animal.getBirthdate())
-                        .name(animal.getName())
-                        .address(animal.getAddress())
-                        .cinsId(animal.getCinsId())
-                        .turId(animal.getTurId())
-                        .build());
-            });
-
-            blocks.stream().forEach(block -> {
-                hashes.add(block.hashCode() + "");
-            });
-
-            List<String> hashUser = readFile(userId);
-            if (hashes.size() == hashUser.size() && !hashes.equals(hashUser)) {
+        List<String> userHashes = readFile(userId);
+        List<String> authorityHashes = readFile("authority");
+        for (int i = 0; i < userHashes.size(); i++) {
+            if (!authorityHashes.contains(userHashes.get(0))) {
                 return false;
             }
         }
@@ -102,9 +82,8 @@ public class BlockchainService implements IBaseService<MedicalReport> {
         return hashlist;
     }
 
-    @Override
-    public List<MedicalReport> getAll() {
-        List<String> authorityHashes = readFile("authority");
+    public List<MedicalReport> getAll(String userId) {
+        List<String> authorityHashes = readFile(userId);
         List<MedicalReport> medicalReports = new ArrayList<>();
         authorityHashes.stream().forEach(s -> {
             String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
@@ -160,7 +139,7 @@ public class BlockchainService implements IBaseService<MedicalReport> {
     }
 
     public void transactionOlustur(MedicalReport medicalReport) throws IOException {
-        List<MedicalReport> all = getAll();
+        List<MedicalReport> all = getAll("authority");
         medicalReport.setId(UUID.randomUUID().toString());
         medicalReport.setReportNum(all.size() + 1 + "");
         Gson gson = new Gson();
@@ -170,16 +149,16 @@ public class BlockchainService implements IBaseService<MedicalReport> {
     }
 
     public void uzerineYaz(String data, String olusturan) throws IOException {
-        File file = new File( "authority.achain");
+        File file = new File("authority.achain");
         FileWriter fr = new FileWriter(file, true);
-        fr.write(data+"/nextBlock/");
+        fr.write(data + "/nextBlock/");
         fr.close();
 
-        copyFileUsingStream(new File( "authority.achain"), new File( olusturan + ".achain"));
+        copyFileUsingStream(new File("authority.achain"), new File(olusturan + ".achain"));
     }
 
 
-    private static void copyFileUsingStream(File source, File dest) throws IOException {
+    public static void copyFileUsingStream(File source, File dest) throws IOException {
         InputStream is = null;
         OutputStream os = null;
         try {
@@ -194,22 +173,5 @@ public class BlockchainService implements IBaseService<MedicalReport> {
             is.close();
             os.close();
         }
-    }
-
-
-
-    @Override
-    public void save(MedicalReport block) {
-
-    }
-
-    @Override
-    public void update(MedicalReport block) {
-
-    }
-
-    @Override
-    public void delete(List<MedicalReport> t) {
-
     }
 }

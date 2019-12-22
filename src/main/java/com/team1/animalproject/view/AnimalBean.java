@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -87,23 +88,11 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         allAnimals = animalService.getAll();
         filteredAnimals = new ArrayList<>(allAnimals);
         animal = new Animal();
-        turler = turService.getAll();
-        try {
-            blockchainService.kullaniciDosyasiOlustur(kullaniciPrincipal.getId());
-            blockchainService.dosyayiGuncelHaleGetir(kullaniciPrincipal.getId());
-            boolean validate = blockchainService.validate(kullaniciPrincipal.getId());
-            System.out.println("Validation: " + validate);
-            if(!validate){
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        selectedAnimals = new ArrayList<>();
+    }
 
+    public void medicalReportKapat() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
     }
 
     public void medicalReportEkraniHazirla() throws IOException {
@@ -114,6 +103,22 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         filteredMedicalReports = medicalReports;
         showMedicalReport = true;
         showMedicalReportCreateOrEdit = false;
+        boolean validate = blockchainService.validate(kullaniciPrincipal.getId());
+        if(!validate){
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Hata", "Blockchain Hatası, Verilerde Değişiklik Tespit Edildi. Veriniz Güncelleniyor, Lütfen Sayfayı Yenileyiniz."));
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            showMedicalReport = false;
+            blockchainService.copyFileUsingStream(new File("authority.achain"), new File(kullaniciPrincipal.getId() + ".achain"));
+            selectedMedicalReports = new ArrayList<>();
+            selectedAnimals = new ArrayList<>();
+        }else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Başarılı", "Blockchain başarıyla çalıştırıldı."));
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            selectedAnimals = new ArrayList<>();
+            selectedMedicalReports = new ArrayList<>();
+        }
     }
 
     public void saglikRaporuYeniEkraniHazirla(){
@@ -123,7 +128,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 
     public void saglikRaporuDetayHazirla(){
         showMedicalReportCreateOrEdit = true;
-        medicalReport = medicalReports.stream().findFirst().get();
+        medicalReport = selectedMedicalReports.stream().findFirst().get();
         showMedicalReport = false;
         showInfo = true;
     }
