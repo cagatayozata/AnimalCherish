@@ -111,12 +111,10 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
             showMedicalReport = false;
             blockchainService.copyFileUsingStream(new File("authority.achain"), new File(kullaniciPrincipal.getId() + ".achain"));
             selectedMedicalReports = new ArrayList<>();
-            selectedAnimals = new ArrayList<>();
         }else {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Başarılı", "Blockchain başarıyla çalıştırıldı."));
             context.getExternalContext().getFlash().setKeepMessages(true);
-            selectedAnimals = new ArrayList<>();
             selectedMedicalReports = new ArrayList<>();
         }
     }

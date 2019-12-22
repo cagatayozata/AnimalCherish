@@ -12,6 +12,8 @@
                          value="#{animalBean.medicalReports}" rowKey="#{report.id}"
                          widgetVar="reportDataTableWidgetVar" draggableColumns="true" reflow="true"
                          paginator="true"
+                         sortBy="#{report.reportNum}"
+                         sortOrder="DESCENDING"
                          paginatorPosition="bottom"
                          emptyMessage="Eklenmiş bir rapor bulunamadı!"
                          filteredValue="#{animalBean.filteredMedicalReports}"
@@ -78,6 +80,11 @@
                 <p:column headerText="Rapor Id" sortBy="#{report.id}" filterable="true"
                           filterBy="#{report.id}" filterMatchMode="contains">
                     <h:outputText value="#{report.id}"/>
+                </p:column>
+
+                <p:column headerText="Rapor No" sortBy="#{report.reportNum}" filterable="true"
+                          filterBy="#{report.reportNum}" filterMatchMode="contains">
+                    <h:outputText value="#{report.reportNum}"/>
                 </p:column>
 
                 <p:column headerText="Ekleyen Veteriner" sortBy="#{report.olusturan}"
