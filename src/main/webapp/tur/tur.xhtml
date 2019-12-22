@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="../WEB-INF/template.xhtml">
 
-    <ui:define name="viewname"> Hayvanat Bahçesi Listesi
+    <ui:define name="viewname"> Tür Listesi
     </ui:define>
 
     <ui:define name="content">
@@ -11,24 +11,24 @@
         <h:form id="form">
             <p:growl id="growl" showDetail="true" sticky="true" />
 
-            <p:panel styleClass="card card-w-title" rendered="#{!zooBean.showCreateOrEdit}">
+            <p:panel styleClass="card card-w-title" rendered="#{!turBean.showCreateOrEdit}">
 
-                <p:dataTable id="zooDataTable" var="zoo"
+                <p:dataTable id="turDataTable" var="tur"
                              styleClass="dataTableStandart"
-                             value="#{zooBean.allZoos}" rowKey="#{zoo.id}"
-                             widgetVar="zooDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             value="#{turBean.allTurs}" rowKey="#{tur.id}"
+                             widgetVar="turDataTableWidgetVar" draggableColumns="true" reflow="true"
                              paginator="true"
                              paginatorPosition="bottom"
-                             emptyMessage="Eklenmiş bir hayvanat bahçesi bulunamadı!"
-                             filteredValue="#{zooBean.filteredZoos}"
-                             selection="#{zooBean.selectedZoos}">
+                             emptyMessage="Eklenmiş bir tür bulunamadı!"
+                             filteredValue="#{turBean.filteredTurs}"
+                             selection="#{turBean.selectedTurs}">
                     <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
 
-                    <f:facet name="header">Hayvanat Bahçesi Listesi
+                    <f:facet name="header">Tür Listesi
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
@@ -36,62 +36,62 @@
                             <hr style="clear: both;"/>
 
                             <p:commandButton
-                                    value="Hayvanat Bahçesi Ekle"
+                                    value="Tür Ekle"
                                     styleClass="dataTableHeaderBtn" update=":form"
                                     resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_EKLEME_YETKISI')}"
                                     icon="fa fa-plus">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareNewScreen()}"/>
+                                        binding="#{turBean.prepareNewScreen()}"/>
                             </p:commandButton>
                             <p:commandButton
                                     value="Detay"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_DETAY_YETKISI')}"
                                     icon="fa fa-search"
-                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    disabled="#{turBean.selectedTurs.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareInfoScreen()}"/>
+                                        binding="#{turBean.prepareInfoScreen()}"/>
                             </p:commandButton>
                             <p:commandButton
                                     value="Güncelle"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_GUNCELLEME_YETKISI')}"
                                     icon="fa fa-edit"
-                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    disabled="#{turBean.selectedTurs.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareUpdateScreen()}"/>
+                                        binding="#{turBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty zooBean.selectedZoos? '' : ' - '.concat(zooBean.selectedZoos.size())}"/>
+                                      value="#{empty turBean.selectedTurs? '' : ' - '.concat(turBean.selectedTurs.size())}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
-                                             icon="fa fa-trash" disabled="#{empty zooBean.selectedZoos}">
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty turBean.selectedTurs}">
                                 <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
                                 <f:actionListener
-                                        binding="#{zooBean.sil()}"/>
+                                        binding="#{turBean.sil()}"/>
                             </p:commandButton>
                         </p:outputPanel>
                     </f:facet>
 
                     <p:column selectionMode="multiple"
                               style="width:16px;text-align:center" toggleable="false" exportable="false"/>
-                    <p:column headerText="Hayvanat Bahçesi ID" sortBy="#{zoo.id}"
-                              filterBy="#{zoo.id}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.id}"/>
+                    <p:column headerText="Tür ID" sortBy="#{tur.id}"
+                              filterBy="#{tur.id}" filterMatchMode="contains">
+                        <h:outputText value="#{tur.id}"/>
                     </p:column>
-                    <p:column headerText="İsim" sortBy="#{zoo.name}"
-                              filterBy="#{zoo.name}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.name}"/>
-                    </p:column>
-                    <p:column headerText="Kuruluş Tarihi" sortBy="#{zoo.establishDate}"
-                              filterBy="#{zoo.establishDate}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.establishDate}"/>
+                    <p:column headerText="Ad" sortBy="#{tur.name}"
+                              filterBy="#{tur.name}" filterMatchMode="contains">
+                        <h:outputText value="#{tur.name}"/>
                     </p:column>
                 </p:dataTable>
 
             </p:panel>
-            <ui:include src="zoo_add.xhtml"/>
+            <ui:include src="tur_add.xhtml"/>
 
         </h:form>
     </ui:define>

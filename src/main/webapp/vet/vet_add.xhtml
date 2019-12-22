@@ -35,6 +35,30 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+
+                    <p:outputLabel for="city" value="İl"/>
+                    <p:selectOneMenu id="city" value="#{vetBean.vet.city}" filter="true"
+                                     disabled="#{vetBean.showInfo}"
+                                     required="true">
+                        <p:ajax listener="#{vetBean.onCityChange}" update="distinct"/>
+                        <f:selectItem itemLabel="Seçiniz" itemValue=""
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{vetBean.cities}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+
+                    <p:outputLabel for="distinct" value="İlçe"/>
+                    <p:selectOneMenu id="distinct" filter="true" disabled="#{vetBean.showInfo}"
+                                     value="#{vetBean.vet.ilce}">
+                        <f:selectItem itemLabel="Seçiniz" itemValue=""
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{vetBean.distincts}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="address" value="Çalışma Yeri Bilgisi"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="address"
@@ -61,11 +85,11 @@
                     <p:outputLabel for="details" value="Klinik Bilgisi"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputTextarea id="details"
-                                     disabled="#{vetBean.showInfo}"
-                                     value="#{vetBean.vet.details}"
-                                     autocomplete="off"
-                                     maxlength="255"
-                                     required="true"/>
+                                         disabled="#{vetBean.showInfo}"
+                                         value="#{vetBean.vet.details}"
+                                         autocomplete="off"
+                                         maxlength="255"
+                                         required="true"/>
                         <p:message for="details"/>
                     </p:panel>
                 </p:panel>
@@ -74,10 +98,10 @@
                     <p:outputLabel for="phone" value="Telefon Numarası"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="phone"
-                                         disabled="#{vetBean.showInfo}"
-                                         value="#{vetBean.vet.phone}"
-                                         autocomplete="off"
-                                         required="true"/>
+                                     disabled="#{vetBean.showInfo}"
+                                     value="#{vetBean.vet.phone}"
+                                     autocomplete="off"
+                                     required="true"/>
                         <p:message for="phone"/>
                     </p:panel>
                 </p:panel>
@@ -98,10 +122,10 @@
                     <p:outputLabel for="date" value="Doğum Tarihi"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:datePicker id="date"
-                                     disabled="#{vetBean.showInfo}"
-                                     value="#{vetBean.vet.birthdate}"
-                                     autocomplete="off"
-                                     required="true"/>
+                                      disabled="#{vetBean.showInfo}"
+                                      value="#{vetBean.vet.birthdate}"
+                                      autocomplete="off"
+                                      required="true"/>
                         <p:message for="date"/>
                     </p:panel>
                 </p:panel>

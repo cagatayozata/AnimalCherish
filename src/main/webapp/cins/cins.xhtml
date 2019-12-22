@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="../WEB-INF/template.xhtml">
 
-    <ui:define name="viewname"> Hayvanat Bahçesi Listesi
+    <ui:define name="viewname"> Cins Listesi
     </ui:define>
 
     <ui:define name="content">
@@ -11,24 +11,24 @@
         <h:form id="form">
             <p:growl id="growl" showDetail="true" sticky="true" />
 
-            <p:panel styleClass="card card-w-title" rendered="#{!zooBean.showCreateOrEdit}">
+            <p:panel styleClass="card card-w-title" rendered="#{!cinsBean.showCreateOrEdit}">
 
-                <p:dataTable id="zooDataTable" var="zoo"
+                <p:dataTable id="cinsDataTable" var="cins"
                              styleClass="dataTableStandart"
-                             value="#{zooBean.allZoos}" rowKey="#{zoo.id}"
-                             widgetVar="zooDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             value="#{cinsBean.allCinss}" rowKey="#{cins.id}"
+                             widgetVar="cinsDataTableWidgetVar" draggableColumns="true" reflow="true"
                              paginator="true"
                              paginatorPosition="bottom"
-                             emptyMessage="Eklenmiş bir hayvanat bahçesi bulunamadı!"
-                             filteredValue="#{zooBean.filteredZoos}"
-                             selection="#{zooBean.selectedZoos}">
+                             emptyMessage="Eklenmiş bir cins bulunamadı!"
+                             filteredValue="#{cinsBean.filteredCinss}"
+                             selection="#{cinsBean.selectedCinss}">
                     <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
 
-                    <f:facet name="header">Hayvanat Bahçesi Listesi
+                    <f:facet name="header">Tür Listesi
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
@@ -36,62 +36,66 @@
                             <hr style="clear: both;"/>
 
                             <p:commandButton
-                                    value="Hayvanat Bahçesi Ekle"
+                                    value="Cins Ekle"
                                     styleClass="dataTableHeaderBtn" update=":form"
                                     resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_EKLEME_YETKISI')}"
                                     icon="fa fa-plus">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareNewScreen()}"/>
+                                        binding="#{cinsBean.prepareNewScreen()}"/>
                             </p:commandButton>
                             <p:commandButton
                                     value="Detay"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_DETAY_YETKISI')}"
                                     icon="fa fa-search"
-                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    disabled="#{cinsBean.selectedCinss.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareInfoScreen()}"/>
+                                        binding="#{cinsBean.prepareInfoScreen()}"/>
                             </p:commandButton>
                             <p:commandButton
                                     value="Güncelle"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_GUNCELLEME_YETKISI')}"
                                     icon="fa fa-edit"
-                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    disabled="#{cinsBean.selectedCinss.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
-                                        binding="#{zooBean.prepareUpdateScreen()}"/>
+                                        binding="#{cinsBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty zooBean.selectedZoos? '' : ' - '.concat(zooBean.selectedZoos.size())}"/>
+                                      value="#{empty cinsBean.selectedCinss? '' : ' - '.concat(cinsBean.selectedCinss.size())}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
-                                             icon="fa fa-trash" disabled="#{empty zooBean.selectedZoos}">
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty cinsBean.selectedCinss}">
                                 <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
                                 <f:actionListener
-                                        binding="#{zooBean.sil()}"/>
+                                        binding="#{cinsBean.sil()}"/>
                             </p:commandButton>
                         </p:outputPanel>
                     </f:facet>
 
                     <p:column selectionMode="multiple"
                               style="width:16px;text-align:center" toggleable="false" exportable="false"/>
-                    <p:column headerText="Hayvanat Bahçesi ID" sortBy="#{zoo.id}"
-                              filterBy="#{zoo.id}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.id}"/>
+                    <p:column headerText="Tür ID" sortBy="#{cins.id}"
+                              filterBy="#{cins.id}" filterMatchMode="contains">
+                        <h:outputText value="#{cins.id}"/>
                     </p:column>
-                    <p:column headerText="İsim" sortBy="#{zoo.name}"
-                              filterBy="#{zoo.name}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.name}"/>
+                    <p:column headerText="Ad" sortBy="#{cins.name}"
+                              filterBy="#{cins.name}" filterMatchMode="contains">
+                        <h:outputText value="#{cins.name}"/>
                     </p:column>
-                    <p:column headerText="Kuruluş Tarihi" sortBy="#{zoo.establishDate}"
-                              filterBy="#{zoo.establishDate}" filterMatchMode="contains">
-                        <h:outputText value="#{zoo.establishDate}"/>
+                    <p:column headerText="Tur" sortBy="#{cins.turAd}"
+                              filterBy="#{cins.turAd}" filterMatchMode="contains">
+                        <h:outputText value="#{cins.turAd}"/>
                     </p:column>
                 </p:dataTable>
 
             </p:panel>
-            <ui:include src="zoo_add.xhtml"/>
+            <ui:include src="cins_add.xhtml"/>
 
         </h:form>
     </ui:define>

@@ -6,10 +6,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.io.Serializable;
-import java.sql.Blob;
-import java.util.Date;
 
 @Entity
 @ToString(callSuper = true)
@@ -19,9 +16,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class Animal implements Serializable {
+public class Tur implements Serializable {
 
-	private static final long serialVersionUID = 1086930970865820419L;
+	private static final long serialVersionUID = -6369495038383905529L;
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -30,23 +27,6 @@ public class Animal implements Serializable {
 	@Column(name = "name", nullable = false)
 	public String name;
 
-	@Column(name = "address", nullable = false)
-	public String address;
-
-	@Column(name = "birthdate")
-	public Date birthdate;
-
-	@Column(name = "tur_id", nullable = false)
-	public String turId;
-
-	@Column(name = "cins_id", nullable = false)
-	public String cinsId;
-
-	@Transient
-	public String turAd;
-
-	@Transient
-	public String cinsAd;
+	@Column(name = "description")
+	public String description;
 }
-
-

@@ -19,7 +19,7 @@
 							 widgetVar="animalDataTableWidgetVar" draggableColumns="true" reflow="true"
 							 paginator="true"
 							 paginatorPosition="bottom"
-							 emptyMessage="Eklemiş bir hayvan bulunamadı!"
+							 emptyMessage="Eklenmiş bir hayvan bulunamadı!"
 							 filteredValue="#{animalBean.filteredAnimals}"
 							 selection="#{animalBean.selectedAnimals}">
 					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
@@ -91,14 +91,14 @@
 						<h:outputText value="#{animal.name}"/>
 					</p:column>
 
-					<p:column headerText="Türü" sortBy="#{animal.type}"
-							  filterBy="#{animal.type}" filterMatchMode="contains">
-						<h:outputText value="#{animal.type}"/>
+					<p:column headerText="Türü" sortBy="#{animal.turAd}"
+							  filterBy="#{animal.turAd}" filterMatchMode="contains">
+						<h:outputText value="#{animal.turAd}"/>
 					</p:column>
 
-					<p:column headerText="Cinsi" sortBy="#{animal.specie}"
-							  filterBy="#{animal.specie}" filterMatchMode="contains">
-						<h:outputText value="#{animal.specie}"/>
+					<p:column headerText="Cinsi" sortBy="#{animal.cinsAd}"
+							  filterBy="#{animal.cinsAd}" filterMatchMode="contains">
+						<h:outputText value="#{animal.cinsAd}"/>
 					</p:column>
 				</p:dataTable>
 

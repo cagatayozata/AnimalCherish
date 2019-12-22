@@ -34,17 +34,6 @@
                     </p:panel>
                 </p:panel>
 
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="type" value="Türü"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="type"
-                                     disabled="#{animalBean.showInfo}"
-                                     value="#{animalBean.animal.type}"
-                                     autocomplete="off"
-                                     required="true"/>
-                        <p:message for="type"/>
-                    </p:panel>
-                </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="address" value="Bulunduğu Yer"/>
@@ -59,15 +48,24 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="specie" value="Cinsi"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="specie"
-                                     disabled="#{animalBean.showInfo}"
-                                     value="#{animalBean.animal.specie}"
-                                     autocomplete="off"
-                                     required="true"/>
-                        <p:message for="specie"/>
-                    </p:panel>
+                    <p:outputLabel for="tur" value="Tür"/>
+                    <p:selectOneMenu id="tur" disabled="#{animalBean.showInfo}" value="#{animalBean.animal.turId}" required="true">
+                        <p:ajax listener="#{animalBean.onTurChange}" update="cins"/>
+                        <f:selectItem itemLabel="Seçiniz" itemValue="#{null}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{animalBean.turler}" var="tur"
+                                       itemValue="#{tur.id}" itemLabel="#{tur.name}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="cins" value="Cins"/>
+                    <p:selectOneMenu id="cins" disabled="#{animalBean.showInfo}" value="#{animalBean.animal.cinsId}" required="true">
+                        <f:selectItem itemLabel="Seçiniz" itemValue="#{null}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{animalBean.cinsler}" var="tur"
+                                       itemValue="#{tur.id}" itemLabel="#{tur.name}"/>
+                    </p:selectOneMenu>
                 </p:panel>
 
 
