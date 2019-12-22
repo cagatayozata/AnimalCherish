@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -93,6 +94,10 @@ public class KullaniciSessionVerisi implements Serializable {
             return kullanici.getName() + " " + kullanici.getSurname();
         }
         return "Giriş Yapılmadı";
+    }
+
+    public List<String> yetkileriGetir(){
+        return getKullaniciBilgisi().getYetkiler();
     }
 
 }

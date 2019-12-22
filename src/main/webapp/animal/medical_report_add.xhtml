@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="medicalReportAddPnael" styleClass="card card-w-title" rendered="#{animalBean.showMedicalReportCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Rapor Detayları">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="tension" value="Tansiyon"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="tension"
+                                     value="#{animalBean.medicalReport.tension}"
+                                     autocomplete="off"
+                                     disabled="#{animalBean.showInfo}"/>
+                        <p:message for="tension"/>
+                    </p:panel>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="sugar" value="Vücut Şeker Seviyesi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="sugar"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.medicalReport.bodySugarLevel}"
+                                     autocomplete="off"/>
+                        <p:message for="sugar"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="pulse" value="Nabız"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="pulse"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.medicalReport.pulse}"
+                                     autocomplete="off"/>
+                        <p:message for="pulse"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="weight" value="Ağırlık"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="weight"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.medicalReport.weight}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="weight"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="description" value="Genel Detaylar"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="description"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.medicalReport.description}"
+                                     autocomplete="off"/>
+                        <p:message for="description"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="surgeryDescription" value="Genel Detaylar"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="surgeryDescription"
+                                         disabled="#{animalBean.showInfo}"
+                                         value="#{animalBean.medicalReport.surgeryDescription}"
+                                         autocomplete="off"/>
+                        <p:message for="surgeryDescription"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="medicines" value="Ameliyat Detayları"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="medicines"
+                                         disabled="#{animalBean.showInfo}"
+                                         value="#{animalBean.medicalReport.medicines}"
+                                         autocomplete="off"/>
+                        <p:message for="medicines"/>
+                    </p:panel>
+                </p:panel>
+
+
+
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                             value="Kaydet" update=":form, :form:animalDataTable" icon="fa fa-save"
+                             resetValues="true"
+                             rendered="#{animalBean.showMedicalReportCreateOrEdit}">
+                <f:actionListener
+                        binding="#{animalBean.raporKaydet()}"/>
+                <f:actionListener
+                        binding="#{animalBean.medicalReportEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{animalBean.showMedicalReportCreateOrEdit}">
+                <f:actionListener
+                        binding="#{animalBean.medicalReportEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

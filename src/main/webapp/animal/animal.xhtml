@@ -11,7 +11,7 @@
 		<h:form id="form">
 			<p:growl id="growl" showDetail="true" sticky="true" />
 
-			<p:panel styleClass="card card-w-title" rendered="#{!animalBean.showCreateOrEdit}">
+			<p:panel styleClass="card card-w-title" rendered="#{!animalBean.showCreateOrEdit and !animalBean.showMedicalReport and !animalBean.showMedicalReportCreateOrEdit}">
 
 				<p:dataTable id="animalDataTable" var="animal"
 							 styleClass="dataTableStandart"
@@ -66,6 +66,17 @@
 								<f:actionListener
 										binding="#{animalBean.prepareUpdateScreen()}"/>
 							</p:commandButton>
+							<p:commandButton
+									value="Sağlık Raporları"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_GUNCELLEME_YETKISI')}"
+									icon="fa fa-edit"
+									disabled="#{animalBean.selectedAnimals.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{animalBean.medicalReportEkraniHazirla()}"/>
+							</p:commandButton>
 							<ui:param name="sizeOfSelectedItems"
 									  value="#{empty animalBean.selectedAnimals? '' : ' - '.concat(animalBean.selectedAnimals.size())}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
@@ -104,6 +115,8 @@
 
 			</p:panel>
 			<ui:include src="animal_add.xhtml"/>
+			<ui:include src="medical_report.xhtml"/>
+			<ui:include src="medical_report_add.xhtml"/>
 
 		</h:form>
 	</ui:define>

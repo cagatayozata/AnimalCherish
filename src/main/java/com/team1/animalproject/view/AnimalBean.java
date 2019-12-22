@@ -3,6 +3,7 @@ package com.team1.animalproject.view;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
+import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.Tur;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.BlockchainService;
@@ -10,6 +11,7 @@ import com.team1.animalproject.service.CinsService;
 import com.team1.animalproject.service.TurService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -51,6 +56,14 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
     private List<Animal> allAnimals;
     private List<Animal> filteredAnimals;
 
+    // medical report
+    private List<MedicalReport> medicalReports;
+    private List<MedicalReport> selectedMedicalReports;
+    private List<MedicalReport> filteredMedicalReports;
+    private MedicalReport medicalReport;
+    private boolean showMedicalReport;
+    private boolean showMedicalReportCreateOrEdit;
+
     private List<Tur> turler;
     private List<Cins> cinsler;
 
@@ -67,6 +80,8 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 
     @Override
     public void ilkEkraniHazirla() {
+        showMedicalReport = false;
+        showMedicalReportCreateOrEdit = false;
         showCreateOrEdit = false;
         showInfo = false;
         allAnimals = animalService.getAll();
@@ -89,6 +104,37 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
             e.printStackTrace();
         }
 
+    }
+
+    public void medicalReportEkraniHazirla() throws IOException {
+        blockchainService.init();
+        blockchainService.kullaniciDosyasiOlustur(kullaniciPrincipal.getId());
+        medicalReports = blockchainService.getAllByAnimalId(selectedAnimals.stream().findFirst().get().getId());
+        medicalReport = new MedicalReport();
+        filteredMedicalReports = medicalReports;
+        showMedicalReport = true;
+        showMedicalReportCreateOrEdit = false;
+    }
+
+    public void saglikRaporuYeniEkraniHazirla(){
+        showMedicalReportCreateOrEdit = true;
+        showMedicalReport = false;
+    }
+
+    public void saglikRaporuDetayHazirla(){
+        showMedicalReportCreateOrEdit = true;
+        medicalReport = medicalReports.stream().findFirst().get();
+        showMedicalReport = false;
+        showInfo = true;
+    }
+
+    public void raporKaydet() throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        medicalReport.setAnimalId(selectedAnimals.stream().findFirst().get().getId());
+        medicalReport.setDate(dateFormat.format(date));
+        medicalReport.setOlusturan(kullaniciPrincipal.getId());
+        blockchainService.transactionOlustur(medicalReport);
     }
 
     public void onTurChange() {
@@ -126,6 +172,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         animalService.delete(selectedAnimals);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
     }
+
 
 
 }

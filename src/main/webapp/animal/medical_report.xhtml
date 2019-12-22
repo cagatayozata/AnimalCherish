@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="reportPanel" styleClass="card card-w-title" rendered="#{animalBean.showMedicalReport}">
+
+        <p:fieldset styleClass="block"
+                    legend="Sağlık Raporları">
+
+            <p:dataTable id="reportDataTable" var="report"
+                         styleClass="dataTableStandart"
+                         value="#{animalBean.medicalReports}" rowKey="#{report.id}"
+                         widgetVar="reportDataTableWidgetVar" draggableColumns="true" reflow="true"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         emptyMessage="Eklenmiş bir rapor bulunamadı!"
+                         filteredValue="#{animalBean.filteredMedicalReports}"
+                         selection="#{animalBean.selectedMedicalReports}">
+                <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                <f:facet name="header">Sağlık Raporu Listesi
+
+                    <p:outputPanel id="dataTableHeaderBtn"
+                                   styleClass="dataTableHeaderBtnContainer">
+
+                        <hr style="clear: both;"/>
+
+                        <p:commandButton
+                                value="Sağlık Raporu Ekle"
+                                styleClass="dataTableHeaderBtn" update=":form"
+                                resetValues="true"
+                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_EKLEME_YETKISI')}"
+                                icon="fa fa-plus">
+                            <f:actionListener
+                                    binding="#{animalBean.saglikRaporuYeniEkraniHazirla()}"/>
+                        </p:commandButton>
+                        <p:commandButton
+                                value="Detay"
+                                styleClass="dataTableHeaderBtn"
+                                update=":form"
+                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_DETAY_YETKISI')}"
+                                icon="fa fa-search"
+                                disabled="#{animalBean.selectedMedicalReports.size() ne 1}"
+                                resetValues="true">
+                            <f:actionListener
+                                    binding="#{animalBean.saglikRaporuDetayHazirla()}"/>
+                        </p:commandButton>
+                        <p:commandButton
+                                value="Güncelle"
+                                styleClass="dataTableHeaderBtn"
+                                update=":form"
+                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_GUNCELLEME_YETKISI')}"
+                                icon="fa fa-edit"
+                                disabled="#{true}"
+                                resetValues="true">
+                            <f:actionListener
+                                    binding="#{animalBean.prepareUpdateScreen()}"/>
+                        </p:commandButton>
+                        <ui:param name="sizeOfSelectedItems"
+                                  value="#{empty animalBean.selectedMedicalReports? '' : ' - '.concat(animalBean.selectedMedicalReports.size())}"/>
+                        <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                         rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_SILME_YETKISI')}"
+                                         icon="fa fa-trash" disabled="#{true}">
+                            <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                            <f:actionListener
+                                    binding="#{animalBean.sil()}"/>
+                        </p:commandButton>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column selectionMode="multiple"
+                          style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                <p:column headerText="Rapor Id" sortBy="#{report.id}" filterable="true"
+                          filterBy="#{report.id}" filterMatchMode="contains">
+                    <h:outputText value="#{report.id}"/>
+                </p:column>
+
+                <p:column headerText="Ekleyen Veteriner" sortBy="#{report.olusturan}"
+                          filterBy="#{report.olusturan}" filterMatchMode="contains">
+                    <h:outputText value="#{report.olusturan}"/>
+                </p:column>
+
+                <p:column headerText="Tarih" sortBy="#{report.date}"
+                          filterBy="#{report.date}" filterMatchMode="contains">
+                    <h:outputText value="#{report.date}"/>
+                </p:column>
+            </p:dataTable>
+
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kapat" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{animalBean.showMedicalReport}">
+                <f:actionListener
+                        binding="#{animalBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

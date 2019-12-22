@@ -3,14 +3,24 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="WEB-INF/template.xhtml">
 
-    <ui:define name="viewname"> Kayıt Ol
+    <ui:define name="viewname">#{empty userBean.kullanici.id ? 'Kayıt Ol' : 'Kullanıcı Ayarları'}
     </ui:define>
 
     <ui:define name="content">
         <h:form id="form">
 
             <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+            <p:panel rendered="#{not empty userBean.kullanici.id}" id="details" styleClass="card card-w-title">
 
+                <p:dataList value="#{kullaniciSessionVerisi.yetkileriGetir()}" var="yetki" type="ordered">
+                    <f:facet name="header">
+                        Yetkiler
+                    </f:facet>
+                    #{yetki}
+                </p:dataList>
+
+
+            </p:panel>
             <p:panel id="userDetails" styleClass="card card-w-title">
 
                 <p:fieldset styleClass="block"
