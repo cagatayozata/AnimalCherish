@@ -4,6 +4,7 @@ import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.Tur;
 import com.team1.animalproject.service.AnimalService;
+import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.CinsService;
 import com.team1.animalproject.service.TurService;
 import lombok.Data;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 
     @Autowired
     private CinsService cinsService;
+
+    @Autowired
+    private BlockchainService blockchainService;
 
     private Animal animal = new Animal();
     private List<Animal> selectedAnimals;
@@ -67,6 +72,22 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         filteredAnimals = new ArrayList<>(allAnimals);
         animal = new Animal();
         turler = turService.getAll();
+        try {
+            blockchainService.kullaniciDosyasiOlustur(kullaniciPrincipal.getId());
+            blockchainService.dosyayiGuncelHaleGetir(kullaniciPrincipal.getId());
+            boolean validate = blockchainService.validate(kullaniciPrincipal.getId());
+            System.out.println("Validation: " + validate);
+            if(!validate){
+                try {
+                    throw new Exception();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onTurChange() {
