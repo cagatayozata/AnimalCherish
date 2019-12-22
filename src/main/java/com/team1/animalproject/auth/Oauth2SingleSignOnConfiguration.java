@@ -71,6 +71,7 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 				.antMatchers(Constants.SIFRE_OLUSTUR_PAGE_URL).permitAll()
 				.antMatchers(Constants.SIFRE_SIFIRLA_PAGE_URL.concat("*")).permitAll()
 				.antMatchers(Constants.DOSYA).permitAll()
+				.antMatchers(Constants.SIFRE_SIFIRLA_URL).permitAll()
 				.antMatchers(Constants.REGISTER_URL).permitAll()
 				.antMatchers(Constants.LOGOUT_PAGE_URL).permitAll()
 				.antMatchers(Constants.RESOURCES).permitAll()

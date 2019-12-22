@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="WEB-INF/template.xhtml">
 
-    <ui:define name="viewname"> Kayıt Ol
+    <ui:define name="viewname"> Şifre Sıfırla
     </ui:define>
 
     <ui:define name="content">
@@ -14,7 +14,7 @@
             <p:panel id="userDetails" styleClass="card card-w-title">
 
                 <p:fieldset styleClass="block"
-                            legend="Kullanıcı Bilgileri">
+                            legend="Şifre Sıfırla">
 
 
                     <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
@@ -31,40 +31,6 @@
                         </p:panel>
 
                         <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                            <p:outputLabel for="password" value="Şifre"/>
-                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="password"
-                                             type="password"
-                                             value="#{userBean.kullanici.password}"
-                                             autocomplete="off"
-                                             required="true"/>
-                                <p:message for="password"/>
-                            </p:panel>
-                        </p:panel>
-
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                            <p:outputLabel for="name" value="Ad"/>
-                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="name"
-                                             value="#{userBean.kullanici.name}"
-                                             autocomplete="off"
-                                             required="true"/>
-                                <p:message for="name"/>
-                            </p:panel>
-                        </p:panel>
-
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                            <p:outputLabel for="surname" value="Soyad"/>
-                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="surname"
-                                             value="#{userBean.kullanici.surname}"
-                                             autocomplete="off"
-                                             required="true"/>
-                                <p:message for="surname"/>
-                            </p:panel>
-                        </p:panel>
-
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                             <p:outputLabel for="mail" value="Email"/>
                             <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                                 <p:inputText id="mail"
@@ -72,17 +38,6 @@
                                              autocomplete="off"
                                              required="true"/>
                                 <p:message for="mail"/>
-                            </p:panel>
-                        </p:panel>
-
-                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                            <p:outputLabel for="phonenumber" value="Telefon"/>
-                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="phonenumber"
-                                             value="#{userBean.kullanici.phoneNumber}"
-                                             autocomplete="off"
-                                             required="true"/>
-                                <p:message for="phonenumber"/>
                             </p:panel>
                         </p:panel>
 
@@ -100,11 +55,11 @@
                 <h:panelGrid columns="4" border="0">
 
                     <p:commandButton
-                            value="Kayıt Ol" icon="fa fa-save"
+                            value="Sıfırla" icon="fa fa-save"
                             update="form" ajax="false"
                             resetValues="true">
                         <f:actionListener
-                                binding="#{userBean.kayitOl()}"/>
+                                binding="#{userBean.sifreSifirla()}"/>
                     </p:commandButton>
 
                     <p:commandButton

@@ -53,6 +53,8 @@ public class RolService implements IBaseService<Rol> {
 
 	@Override
 	public void delete(List<Rol> o) {
+		if(o.stream().anyMatch(rol -> rol.getId().equalsIgnoreCase("e1a34de4-48d5-4919-8661-3e54fb3e68e2")))
+			return;
 		rolRepository.delete(o);
 	}
 
@@ -98,6 +100,17 @@ public class RolService implements IBaseService<Rol> {
 		return kullaniciRolRepository.findByRolId(rolId);
 	}
 
+	public List<String> herkesRoluYetkileriGetir() {
+		List<String> yetkiKods = new ArrayList<>();
+		List<RolYetki> byRolIdIn = rolYetkiRepository.findByRolId("e1a34de4-48d5-4919-8661-3e54fb3e68e2");
+		if (byRolIdIn != null) {
+			List<Yetki> byIdIn = yetkiRepository.findByIdIn(byRolIdIn.stream().map(RolYetki::getYetkiId).collect(Collectors.toList()));
+			if (byIdIn != null) {
+				yetkiKods = byIdIn.stream().map(Yetki::getKod).collect(Collectors.toList());
+			}
+		}
+		return yetkiKods;
+	}
 
 	@Transactional
 	public void saveKullanici(List<KullaniciRol> kullaniciRols, String rolId){
