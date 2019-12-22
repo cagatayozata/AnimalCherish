@@ -47,20 +47,9 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="workers" value="Çalışanlar"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="workers"
-                                     disabled="#{zooBean.showInfo}"
-                                     value="#{zooBean.zoo.workers}"
-                                     autocomplete="off"/>
-                        <p:message for="workers"/>
-                    </p:panel>
-                </p:panel>
-
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="description" value="Açıklama"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="description"
+                        <p:inputTextarea id="description"
                                      disabled="#{zooBean.showInfo}"
                                      value="#{zooBean.zoo.description}"
                                      autocomplete="off"
