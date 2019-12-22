@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Pet Shop Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+
+            <p:panel styleClass="card card-w-title" rendered="#{!petShopBean.showCreateOrEdit and !petShopBean.showWorkerCreateOrEdit}">
+
+                <p:dataTable id="petShopDataTable" var="petShop"
+                             styleClass="dataTableStandart"
+                             value="#{petShopBean.allPetShops}" rowKey="#{petShop.id}"
+                             widgetVar="petShopDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             emptyMessage="Eklemiş bir Pet Shop bulunamadı!"
+                             filteredValue="#{petShopBean.filteredPetShops}"
+                             selection="#{petShopBean.selectedPetShops}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Pet Shop Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Pet Shop Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{petShopBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-search"
+                                    disabled="#{petShopBean.selectedPetShops.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{petShopBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-edit"
+                                    disabled="#{petShopBean.selectedPetShops.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{petShopBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Çalışan İlişkilendirme"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    disabled="#{petShopBean.selectedPetShops.size() ne 1}"
+                                    icon="fa fa-user-plus">
+                                <f:actionListener
+                                        binding="#{petShopBean.prepareWorkerNewScreen()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty petShopBean.selectedPetShops? '' : ' - '.concat(petShopBean.selectedPetShops.size())}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             icon="fa fa-trash" disabled="#{empty petShopBean.selectedPetShops}">
+                                <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{petShopBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Pet Shop Id" sortBy="#{petShop.id}"
+                              filterBy="#{petShop.id}" filterMatchMode="contains">
+                        <h:outputText value="#{petShop.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{petShop.name}"
+                              filterBy="#{petShop.name}" filterMatchMode="contains">
+                        <h:outputText value="#{petShop.name}"/>
+                    </p:column>
+                    <p:column headerText="Çalışan Sayısı">
+                        <h:outputText value="#{petShop.workerCount}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="petshop_add.xhtml"/>
+            <ui:include src="petshop_worker_add.xhtml"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

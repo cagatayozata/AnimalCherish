@@ -171,6 +171,8 @@
                                     url="/vet/vet.jsf">Veteriner</p:menuitem>
                         <p:menuitem icon="fa fa-home" rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_MENU_YETKISI')}" style="width: 235px"
                                     url="/shelter/shelter.jsf">Barınak</p:menuitem>
+                        <p:menuitem icon="fa fa-home" style="width: 235px"
+                                    url="/petshop/petshop.jsf">Pet Shop</p:menuitem>
                         <p:menuitem icon="fa fa-bank" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_MENU_YETKISI')}" style="width: 235px"
                                     url="/zoo/zoo.jsf">Hayvanat Bahçesi</p:menuitem>
                         <p:menuitem icon="fa fa-toggle-on" rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_MENU_YETKISI')}" style="width: 235px"
@@ -182,7 +184,6 @@
                             <p:menuitem  icon="fa fa-qq" rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_MENU_YETKISI')}" style="width: 235px"
                                          url="/cins/cins.jsf">Cins</p:menuitem>
                         </p:submenu>
-
                     </p:menu>
                 </h:form>
             </div>
