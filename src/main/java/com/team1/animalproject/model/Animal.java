@@ -33,12 +33,20 @@ public class Animal implements Serializable {
 	@Column(name = "address", nullable = false)
 	public String address;
 
-	@Column(name = "type", nullable = false)
-	public String type;
-
-	@Column(name = "specie", nullable = false)
-	public String specie;
-
 	@Column(name = "birthdate")
 	public Date birthdate;
+
+	@Column(name = "tur_id", nullable = false)
+	public String turId;
+
+	@Column(name = "cins_id", nullable = false)
+	public String cinsId;
+
+	@Transient
+	public String turAd;
+
+	@Transient
+	public String cinsAd;
 }
+
+

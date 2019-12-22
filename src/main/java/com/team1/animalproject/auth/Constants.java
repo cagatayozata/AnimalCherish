@@ -17,8 +17,9 @@ public class Constants {
 	public static final String RESOURCES = "/resources/**";
 	public static final String SIFRE_OLUSTUR_PAGE_URL = "/sifre_olustur.jsf*";
 	public static final String SIFRE_SIFIRLA_PAGE_URL = "/sifre_sifirla.jsf";
-	public static final String BAGLAYICI_TARIFE_PAGE_URL = "/baglayici_tarife.jsf";
-	public static final String ODEME_ISLEMLERI_PAGE_URL = "/odeme_islemleri.jsf";
-	public static final String DOSYA = "/animal/animal.jsf";
+	public static final String DOSYA = "/login.jsf";
+	public static final String SIFRE_SIFIRLA_URL = "/sifirla/**";
+	public static final String MAIN_URL = "localhost:8081";
+
 
 }

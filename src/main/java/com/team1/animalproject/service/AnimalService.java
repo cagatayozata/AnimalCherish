@@ -15,9 +15,21 @@ public class AnimalService implements IBaseService<Animal> {
 	@Autowired
 	private AnimalRepository animalRepository;
 
+	@Autowired
+	private TurService turService;
+
+	@Autowired
+	private CinsService cinsService;
+
 	@Override
 	public List<Animal> getAll() {
-		return animalRepository.findAll();
+		List<Animal> all = animalRepository.findAll();
+		if(all != null)
+			all.stream().forEach(animal -> {
+				animal.setTurAd(turService.findById(animal.getTurId()).getName());
+				animal.setCinsAd(cinsService.findById(animal.getCinsId()).getName());
+			});
+		return all;
 	}
 
 	@Override

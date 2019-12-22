@@ -4,9 +4,4 @@
         xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
 
-    <url-mapping id="animal-url-rwrite">
-        <pattern value="/animal"/>
-        <view-id value="/animal/animal.jsf"/>
-    </url-mapping>
-
 </pretty-config>

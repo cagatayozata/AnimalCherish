@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="onlemPanel" styleClass="card card-w-title" rendered="#{turBean.showCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Tür Detayları">
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="name" value="Tür Adı"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="name"
+                                     value="#{turBean.tur.name}"
+                                     autocomplete="off"
+                                     disabled="#{turBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="name"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="description" value="Açıklama"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="description"
+                                         disabled="#{turBean.showInfo}"
+                                         value="#{turBean.tur.description}"
+                                         autocomplete="off"/>
+                        <p:message for="description"/>
+                    </p:panel>
+                </p:panel>
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kaydet" update=":form, :form:turDataTable" icon="fa fa-save"
+                    rendered="#{turBean.showCreateOrEdit and !turBean.showInfo}">
+                <f:actionListener
+                        binding="#{turBean.kaydet()}"/>
+                <f:actionListener
+                        binding="#{turBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{turBean.showCreateOrEdit}">
+                <f:actionListener
+                        binding="#{turBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

@@ -25,9 +25,9 @@ public class PetShopWorker implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     public String id;
 
-    @Column(name = "petShopId", nullable = false)
+    @Column(name = "pet_shop_id", nullable = false)
     public String petShopId;
 
-    @Column(name = "workerId", nullable = false)
+    @Column(name = "worker_id", nullable = false)
     public String workerId;
 }

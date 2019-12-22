@@ -2,6 +2,7 @@ package com.team1.animalproject.view;
 
 import com.team1.animalproject.model.Vet;
 import com.team1.animalproject.service.VetService;
+import com.team1.animalproject.view.utils.JSONUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
@@ -15,8 +16,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Map.Entry.comparingByValue;
+import static java.util.stream.Collectors.toMap;
 
 @Component
 @Scope("view")
@@ -35,9 +38,13 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	private List<Vet> selectedVets;
 	private List<Vet> allVets;
 	private List<Vet> filteredVets;
+	private Map<String, String> distincts;
+	private Map<String, String> cities;
+	private Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
 
 	private boolean showCreateOrEdit;
 	private boolean showInfo;
+
 
 	@Override
 	@PostConstruct
@@ -49,7 +56,21 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 
 	@Override
 	public void ilkEkraniHazirla() {
+		JSONUtils jsonUtils = new JSONUtils();
+		try {
+			jsonUtils.jsonParse();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		cities = jsonUtils.getCities();
+		data = jsonUtils.getData();
 		showCreateOrEdit = false;
+		cities =  cities
+				.entrySet()
+				.stream()
+				.sorted(comparingByValue())
+				.collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+								LinkedHashMap::new));
 		showInfo = false;
 		vet = new Vet();
 	}
@@ -69,11 +90,13 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 
 	public void prepareUpdateScreen(){
 		vet = selectedVets.stream().findFirst().get();
+		distincts = data.get(vet.getCity());
 		showCreateOrEdit = true;
 	}
 
 	public void prepareInfoScreen(){
 		vet = selectedVets.stream().findFirst().get();
+		distincts = data.get(vet.getCity());
 		showCreateOrEdit = true;
 		showInfo = true;
 	}
@@ -81,6 +104,13 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	public void sil() throws IOException {
 		vetService.delete(selectedVets);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
+	}
+
+	public void onCityChange() {
+		if (vet.getCity() != null && !vet.getCity().equals("")) {
+			distincts = data.get(vet.getCity());
+		} else
+			distincts = new HashMap<String, String>();
 	}
 
 

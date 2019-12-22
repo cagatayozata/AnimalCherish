@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Şifre Sıfırla
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+
+            <p:panel id="userDetails" styleClass="card card-w-title">
+
+                <p:fieldset styleClass="block"
+                            legend="Şifre Sıfırla">
+
+
+                    <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                            <p:outputLabel for="username" value="Kullanıcı Adı"/>
+                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                                <p:inputText id="username"
+                                             value="#{userBean.kullanici.userName}"
+                                             autocomplete="off"
+                                             required="true"/>
+                                <p:message for="username"/>
+                            </p:panel>
+                        </p:panel>
+
+                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                            <p:outputLabel for="mail" value="Email"/>
+                            <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                                <p:inputText id="mail"
+                                             value="#{userBean.kullanici.email}"
+                                             autocomplete="off"
+                                             required="true"/>
+                                <p:message for="mail"/>
+                            </p:panel>
+                        </p:panel>
+
+                        <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                            <p:messages for="captcha" showDetail="true"/>
+                            <p:captcha id="captcha" language="tr" label="Güvenlik"/>
+                            <br/>
+                        </p:panel>
+
+                    </p:panelGrid>
+
+
+                </p:fieldset>
+
+                <h:panelGrid columns="4" border="0">
+
+                    <p:commandButton
+                            value="Sıfırla" icon="fa fa-save"
+                            update="form" ajax="false"
+                            resetValues="true">
+                        <f:actionListener
+                                binding="#{userBean.sifreSifirla()}"/>
+                    </p:commandButton>
+
+                    <p:commandButton
+                            value="İptal et" icon="fa fa-remove" resetValues="true" immediate="true">
+                        <f:actionListener
+                                binding="#{userBean.anaSayfayaGit()}"/>
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

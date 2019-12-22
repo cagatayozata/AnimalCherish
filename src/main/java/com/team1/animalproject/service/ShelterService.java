@@ -62,8 +62,8 @@ public class ShelterService implements IBaseService<Shelter> {
     }
 
     @Transactional
-    public void saveWorker(List<ShelterWorker> shelterWorkers) {
-        shelterWorkerRepository.deleteByShelterId(shelterWorkers.stream().findFirst().get().getShelterId());
+    public void saveWorker(List<ShelterWorker> shelterWorkers, String shelterId) {
+        shelterWorkerRepository.deleteByShelterId(shelterId);
         shelterWorkerRepository.save(shelterWorkers);
     }
 }

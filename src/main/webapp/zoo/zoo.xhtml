@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Hayvanat Bahçesi Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+
+            <p:panel styleClass="card card-w-title" rendered="#{!zooBean.showCreateOrEdit}">
+
+                <p:dataTable id="zooDataTable" var="zoo"
+                             styleClass="dataTableStandart"
+                             value="#{zooBean.allZoos}" rowKey="#{zoo.id}"
+                             widgetVar="zooDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             emptyMessage="Eklenmiş bir hayvanat bahçesi bulunamadı!"
+                             filteredValue="#{zooBean.filteredZoos}"
+                             selection="#{zooBean.selectedZoos}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Hayvanat Bahçesi Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Hayvanat Bahçesi Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-search"
+                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{zooBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-edit"
+                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{zooBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty zooBean.selectedZoos? '' : ' - '.concat(zooBean.selectedZoos.size())}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             icon="fa fa-trash" disabled="#{empty zooBean.selectedZoos}">
+                                <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{zooBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Hayvanat Bahçesi ID" sortBy="#{zoo.id}"
+                              filterBy="#{zoo.id}" filterMatchMode="contains">
+                        <h:outputText value="#{zoo.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{zoo.name}"
+                              filterBy="#{zoo.name}" filterMatchMode="contains">
+                        <h:outputText value="#{zoo.name}"/>
+                    </p:column>
+                    <p:column headerText="Kuruluş Tarihi" sortBy="#{zoo.establishDate}"
+                              filterBy="#{zoo.establishDate}" filterMatchMode="contains">
+                        <h:outputText value="#{zoo.establishDate}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="zoo_add.xhtml"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

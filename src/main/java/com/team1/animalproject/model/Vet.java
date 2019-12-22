@@ -49,4 +49,10 @@ public class Vet implements Serializable {
 	@Column(name = "birthdate")
 	public Date birthdate;
 
+	@Column(name="city")
+	private String city;
+
+	@Column(name="ilce")
+	private String ilce;
+
 }

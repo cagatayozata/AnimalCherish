@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+    <p:panel id="onlemPanel" styleClass="card card-w-title" rendered="#{rolBean.showCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Rol Detayları">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="ad" value="Rol Adi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="ad"
+                                     value="#{rolBean.rol.name}"
+                                     autocomplete="off"
+                                     disabled="#{rolBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="ad"/>
+                    </p:panel>
+                </p:panel>
+
+            </p:panelGrid>
+
+            <p:panelGrid columns="1" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="pickList" value="Yetkiler"/>
+                    <p:pickList id="pickList" disabled="#{rolBean.showInfo}" showSourceFilter="true" showTargetFilter="true"  converter="entityGenericConverter" value="#{rolBean.yetkis}" var="yetki" itemLabel="#{yetki.name}" itemValue="#{yetki}" />
+                </p:panel>
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kaydet" update=":form, :form:rolDataTable" icon="fa fa-save"
+                    resetValues="true"
+                    rendered="#{rolBean.showCreateOrEdit and !rolBean.showInfo}">
+                <f:actionListener
+                        binding="#{rolBean.kaydet()}"/>
+                <f:actionListener
+                        binding="#{rolBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{rolBean.showCreateOrEdit}">
+                <f:actionListener
+                        binding="#{rolBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>
