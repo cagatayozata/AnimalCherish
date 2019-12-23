@@ -1,8 +1,6 @@
 package com.team1.animalproject.service;
 
 import com.google.gson.Gson;
-import com.team1.animalproject.model.Animal;
-import com.team1.animalproject.model.Block;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import org.primefaces.json.JSONObject;

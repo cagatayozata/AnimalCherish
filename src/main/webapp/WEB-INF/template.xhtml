@@ -43,6 +43,15 @@
                 }, 2000);
             });
 
+            var removePageRedirectBlock = function(){
+                setTimeout(function () {
+                    try {PF('pageRedirectBlock').hide();
+                    }
+                    catch(e){}
+
+                },3000);
+            }
+
         </script>
 
         <style>
@@ -316,6 +325,12 @@
 
             .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
                 color: black;
+            }
+
+            .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+                border:1px solid #ffb73d;
+                background:#d34d17 url("#{resource['primefaces-sunny:images/ui-bg_diagonals-medium_20_d34d17_40x40.png']}") 50% 50% repeat;
+                /*color:#ffffff;*/
             }
 
         </style>

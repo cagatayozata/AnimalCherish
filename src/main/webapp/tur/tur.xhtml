@@ -19,6 +19,7 @@
                              widgetVar="turDataTableWidgetVar" draggableColumns="true" reflow="true"
                              paginator="true"
                              paginatorPosition="bottom"
+                             rows="10"
                              emptyMessage="Eklenmiş bir tür bulunamadı!"
                              filteredValue="#{turBean.filteredTurs}"
                              selection="#{turBean.selectedTurs}">
@@ -32,6 +33,17 @@
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="turDataTable" encoding="CP1254" fileName="tur"/>
+                                </p:commandLink>
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="turDataTable" encoding="CP1254" fileName="tur"/>
+                                </p:commandLink>
+                            </div>
 
                             <hr style="clear: both;"/>
 

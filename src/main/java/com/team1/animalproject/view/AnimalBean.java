@@ -88,6 +88,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         allAnimals = animalService.getAll();
         filteredAnimals = new ArrayList<>(allAnimals);
         animal = new Animal();
+        turler = turService.getAll();
         selectedAnimals = new ArrayList<>();
     }
 

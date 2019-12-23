@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        Optional<Kullanici> byUsername = userService.findByUserNameAndPassword(kullaniciAdi, sifreHashed);
+        Optional<Kullanici> byUsername = userService.findByUserNameAndPassword(kullaniciAdi.toLowerCase(), sifreHashed);
 
         if (byUsername.isPresent()) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -84,6 +85,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız", "Girdiğiniz bilgilerden birisi yalnış!"));
             context.getExternalContext().getFlash().setKeepMessages(true);
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (byUsername.isPresent()) {
             KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();

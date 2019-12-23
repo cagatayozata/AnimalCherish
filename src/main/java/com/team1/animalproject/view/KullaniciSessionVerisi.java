@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Data
@@ -97,7 +98,7 @@ public class KullaniciSessionVerisi implements Serializable {
     }
 
     public List<String> yetkileriGetir(){
-        return getKullaniciBilgisi().getYetkiler();
+        return getKullaniciBilgisi().getYetkiler().stream().distinct().sorted().collect(Collectors.toList());
     }
 
 }

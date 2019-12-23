@@ -13,6 +13,7 @@
                          widgetVar="reportDataTableWidgetVar" draggableColumns="true" reflow="true"
                          paginator="true"
                          sortBy="#{report.reportNum}"
+                         rows="10"
                          sortOrder="DESCENDING"
                          paginatorPosition="bottom"
                          emptyMessage="Eklenmiş bir rapor bulunamadı!"
@@ -28,6 +29,19 @@
 
                     <p:outputPanel id="dataTableHeaderBtn"
                                    styleClass="dataTableHeaderBtnContainer">
+
+                        <div style="float:right;    margin-top: -20px;">
+
+                            <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                <p:graphicImage name="/images/csv-icon.png"/>
+                                <p:dataExporter type="csv" target="reportDataTable" encoding="CP1254" fileName="report"/>
+                            </p:commandLink>
+                            <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                <p:graphicImage name="/images/pdf-icon.png"/>
+                                <p:dataExporter type="pdf" target="reportDataTable" encoding="CP1254" fileName="report"/>
+                            </p:commandLink>
+
+                        </div>
 
                         <hr style="clear: both;"/>
 

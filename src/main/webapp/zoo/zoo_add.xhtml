@@ -61,9 +61,10 @@
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="phone" value="Telefon Numarası"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="phone"
+                        <p:inputMask id="phone"
                                      disabled="#{zooBean.showInfo}"
                                      value="#{zooBean.zoo.phone}"
+                                     mask="(999) 999-9999"
                                      autocomplete="off"
                                      required="true"/>
                         <p:message for="phone"/>

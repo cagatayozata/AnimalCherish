@@ -50,8 +50,7 @@
                         <p:inputText id="weight"
                                      disabled="#{animalBean.showInfo}"
                                      value="#{animalBean.medicalReport.weight}"
-                                     autocomplete="off"
-                                     required="true"/>
+                                     autocomplete="off"/>
                         <p:message for="weight"/>
                     </p:panel>
                 </p:panel>
@@ -68,7 +67,7 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="surgeryDescription" value="Genel Detaylar"/>
+                    <p:outputLabel for="surgeryDescription" value="Cerrahi Müdehaleler"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputTextarea id="surgeryDescription"
                                          disabled="#{animalBean.showInfo}"
@@ -79,7 +78,7 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="medicines" value="Ameliyat Detayları"/>
+                    <p:outputLabel for="medicines" value="İlaçlar"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputTextarea id="medicines"
                                          disabled="#{animalBean.showInfo}"

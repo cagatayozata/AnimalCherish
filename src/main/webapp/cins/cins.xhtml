@@ -19,6 +19,7 @@
                              widgetVar="cinsDataTableWidgetVar" draggableColumns="true" reflow="true"
                              paginator="true"
                              paginatorPosition="bottom"
+                             rows="10"
                              emptyMessage="Eklenmiş bir cins bulunamadı!"
                              filteredValue="#{cinsBean.filteredCinss}"
                              selection="#{cinsBean.selectedCinss}">
@@ -32,6 +33,18 @@
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="cinsDataTable" encoding="CP1254" fileName="cins"/>
+                                </p:commandLink>
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="cinsDataTable" encoding="CP1254" fileName="cins"/>
+                                </p:commandLink>
+                            </div>
+
 
                             <hr style="clear: both;"/>
 

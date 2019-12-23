@@ -6,6 +6,18 @@
     <ui:define name="viewname">#{empty userBean.kullanici.id ? 'Kayıt Ol' : 'Kullanıcı Ayarları'}
     </ui:define>
 
+    <script>
+        $(".ui-datalist-header").click(function () {
+            var element = document.querySelector('.ui-datalist-item')
+            console.log("test");
+            if (element.style.display === "none") {
+                $(".ui-datalist-item").css("display", "block");
+            } else {
+                $(".ui-datalist-item").css("display", "none");
+            }
+        });
+    </script>
+
     <ui:define name="content">
         <h:form id="form">
 
@@ -92,7 +104,11 @@
                                 <p:inputText id="mail"
                                              value="#{userBean.kullanici.email}"
                                              autocomplete="off"
-                                             required="true"/>
+                                             validatorMessage="Geçersiz mail adresi!"
+                                             required="true">
+                                    <f:validateRegex
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                </p:inputText>
                                 <p:message for="mail"/>
                             </p:panel>
                         </p:panel>
@@ -100,9 +116,10 @@
                         <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                             <p:outputLabel for="phonenumber" value="Telefon"/>
                             <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                                <p:inputText id="phonenumber"
+                                <p:inputMask id="phonenumber"
                                              value="#{userBean.kullanici.phoneNumber}"
                                              autocomplete="off"
+                                             mask="(999) 999-9999"
                                              required="true"/>
                                 <p:message for="phonenumber"/>
                             </p:panel>
