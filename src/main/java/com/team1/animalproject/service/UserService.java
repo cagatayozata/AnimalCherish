@@ -1,5 +1,6 @@
 package com.team1.animalproject.service;
 
+import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.exception.BaseExceptionType;
 import com.team1.animalproject.exception.BusinessRuleException;
 import com.team1.animalproject.exception.ViewException;
@@ -58,12 +59,13 @@ public class UserService implements IBaseService<Kullanici> {
                 kullanici.setPassword(sifreHashed);
             }
             userRepository.save(kullanici);
-            File newFile = new File("src/main/webapp/resources/images/" + kullanici.getId() + ".jpg");
-            byte[] blobAsBytes = kullanici.getFileUploadEvent().getFile().getContents();
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
-            ImageIO.write(image, "JPG",
-                    newFile);
-
+            if(kullanici.getFileUploadEvent() != null){
+                File newFile = new File(Constants.AVATAR_PATH + kullanici.getId() + ".jpg");
+                byte[] blobAsBytes = kullanici.getFileUploadEvent().getFile().getContents();
+                BufferedImage image = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
+                ImageIO.write(image, "JPG",
+                        newFile);
+            }
             return true;
         }
     }

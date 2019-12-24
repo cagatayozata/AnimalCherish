@@ -1,5 +1,6 @@
 package com.team1.animalproject.view.utils;
 
+import com.team1.animalproject.auth.Constants;
 import lombok.Data;
 import org.primefaces.json.JSONObject;
 
@@ -44,7 +45,7 @@ public class JSONUtils {
     public String loadJSON() throws IOException {
         String json = null;
         try {
-            InputStream is = new FileInputStream(new File("cities.json"));
+            InputStream is = new FileInputStream(new File(Constants.FILE_PATH + "cities.json"));
 
             int size = is.available();
 
