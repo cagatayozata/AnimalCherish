@@ -33,7 +33,7 @@
 
                     <div class="user-profile">
                         <a id="sidebar-profile-button" href="/register.jsf" style="margin: -10px;">
-                            <p:graphicImage height="100px" width="100px" style="border: 5px solid #4b6cb7; border-radius: 100px" name="#{kullaniciSessionVerisi.resimUrl()}"/><br/>
+                            <p:graphicImage height="100px" width="100px" style="border: 5px solid #4b6cb7; border-radius: 100px" url="image/#{kullaniciSessionVerisi.getKullaniciId()}"/><br/>
                             <span class="sidebar-profile-name">#{kullaniciSessionVerisi.getAdSoyad()}</span>
                             <span class="sidebar-profile-role">Administrator</span>
                         </a>

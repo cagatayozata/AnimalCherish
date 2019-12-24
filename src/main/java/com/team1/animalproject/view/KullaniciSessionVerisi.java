@@ -1,6 +1,7 @@
 package com.team1.animalproject.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.UserService;
@@ -80,13 +81,13 @@ public class KullaniciSessionVerisi implements Serializable {
     public String resimUrl() {
         kullaniciBilgileriniGetir();
         if (getKullaniciBilgisi().getId() != null) {
-            File f = new File("src/main/webapp/resources/images/" + kullanici.getId() + ".jpg");
+            File f = new File(Constants.AVATAR_PATH + kullanici.getId() + ".jpg");
             if (f.exists()) {
-                return "images/" + getKullaniciBilgisi().getId() + ".jpg";
+                return Constants.AVATAR_PATH + getKullaniciBilgisi().getId() + ".jpg";
             }
         }
 
-        return "images/avatar-male.png";
+        return Constants.AVATAR_PATH + "avatar-male.jpg";
     }
 
     public String getAdSoyad() {
@@ -99,6 +100,12 @@ public class KullaniciSessionVerisi implements Serializable {
 
     public List<String> yetkileriGetir(){
         return getKullaniciBilgisi().getYetkiler().stream().distinct().sorted().collect(Collectors.toList());
+    }
+
+    public String getKullaniciId(){
+        if(getKullaniciBilgisi().getId() != null)
+        return getKullaniciBilgisi().getId();
+        return "anonim";
     }
 
 }

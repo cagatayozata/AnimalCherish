@@ -1,6 +1,7 @@
 package com.team1.animalproject.service;
 
 import com.google.gson.Gson;
+import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import org.primefaces.json.JSONObject;
@@ -22,14 +23,14 @@ public class BlockchainService {
     private UserService userService;
 
     public void init() throws IOException {
-        File newFile = new File("authority.achain");
+        File newFile = new File(Constants.FILE_PATH + "authority.achain");
         if (!newFile.exists()) {
             newFile.createNewFile();
         }
     }
 
     public void kullaniciDosyasiOlustur(String userId) throws IOException {
-        File newFile = new File(userId + ".achain");
+        File newFile = new File(Constants.FILE_PATH + userId + ".achain");
         if (!newFile.exists()) {
             newFile.createNewFile();
         }
@@ -38,7 +39,7 @@ public class BlockchainService {
     public void dosyayiGuncelHaleGetir(String userId) throws IOException {
 
         String json = null;
-        File newFile = new File(userId + ".achain");
+        File newFile = new File(Constants.FILE_PATH + userId + ".achain");
 
         hashes = new ArrayList<>();
 
@@ -65,7 +66,7 @@ public class BlockchainService {
     public List<String> readFile(String userId) {
         List<String> hashlist = new ArrayList<>();
         try {
-            File myObj = new File(userId + ".achain");
+            File myObj = new File(Constants.FILE_PATH + userId + ".achain");
             Scanner myReader = new Scanner(myObj);
             myReader.useDelimiter("/nextBlock/");
             while (myReader.hasNext()) {
@@ -147,12 +148,12 @@ public class BlockchainService {
     }
 
     public void uzerineYaz(String data, String olusturan) throws IOException {
-        File file = new File("authority.achain");
+        File file = new File(Constants.FILE_PATH + "authority.achain");
         FileWriter fr = new FileWriter(file, true);
         fr.write(data + "/nextBlock/");
         fr.close();
 
-        copyFileUsingStream(new File("authority.achain"), new File(olusturan + ".achain"));
+        copyFileUsingStream(new File(Constants.FILE_PATH + "authority.achain"), new File(Constants.FILE_PATH + olusturan + ".achain"));
     }
 
 

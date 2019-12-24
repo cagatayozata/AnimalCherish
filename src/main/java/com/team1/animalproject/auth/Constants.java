@@ -21,6 +21,10 @@ public class Constants {
 	public static final String SIFRE_SIFIRLA_URL = "/sifirla/**";
 	public static final String FILES = "/files/**";
 	public static final String MAIN_URL = "localhost:8081";
+	public static final String FILE_PATH = "staticFiles/";
+	public static final String AVATAR_PATH = "staticFiles/avatars/";
+	public static final String AVATAR_PATH_URL = "/staticFiles/avatars/**";
+	public static final String IMAGES_URL = "/image/**";
 
 
 }
