@@ -21,14 +21,7 @@
         <div id="nano-container" class="nano">
             <div class="nano-content sidebar-scroll-content">
                 <ui:fragment>
-                    <div class="menuSearchContainer">
-                        <div class="menuSearchContainer" style="display:inline-block; width:88%; border: none !important;">
-                            <input id="menuSearch" placeholder="Ara..."/>
-                        </div>
-                        <div id="searchIcon" style="display:inline-block;width:8%">
-                            <i class="fa fa-search"></i>
-                        </div>
-                    </div>
+                   
 
 
                     <div class="user-profile">
@@ -171,9 +164,9 @@
                                     url="/vet/vet.jsf">Veteriner</p:menuitem>
                         <p:menuitem icon="fa fa-home" rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_MENU_YETKISI')}" style="width: 235px"
                                     url="/shelter/shelter.jsf">Barınak</p:menuitem>
-                        <p:menuitem icon="fa fa-home" style="width: 235px"
+                        <p:menuitem icon="fa fa-home"  rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_MENU_YETKISI')}" style="width: 235px"
                                     url="/petshop/petshop.jsf">Pet Shop</p:menuitem>
-                        <p:menuitem icon="fa fa-bank" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_MENU_YETKISI')}" style="width: 235px"
+                        <p:menuitem icon="fa fa-bank" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVANAT_BAHCESI_MENU_YETKISI')}" style="width: 235px"
                                     url="/zoo/zoo.jsf">Hayvanat Bahçesi</p:menuitem>
                         <p:menuitem icon="fa fa-toggle-on" rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_MENU_YETKISI')}" style="width: 235px"
                                     url="/rol/rol.jsf">Rol</p:menuitem>

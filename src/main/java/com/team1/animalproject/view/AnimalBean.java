@@ -5,6 +5,7 @@ import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.Tur;
+import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.CinsService;
@@ -16,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Scope("view")
@@ -75,8 +79,6 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
     @PostConstruct
     public void viewOlustur() {
         super.altVerileriVeIlkEkraniHazirla();
-        allAnimals = animalService.getAll();
-        filteredAnimals = new ArrayList<>(allAnimals);
     }
 
     @Override
@@ -85,7 +87,23 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         showMedicalReportCreateOrEdit = false;
         showCreateOrEdit = false;
         showInfo = false;
+
         allAnimals = animalService.getAll();
+        if (kullaniciPrincipal.getAramaKelimesi() != null) {
+            String aramaKelimesi = kullaniciPrincipal.getAramaKelimesi();
+            if (allAnimals != null) {
+               allAnimals = allAnimals.stream().filter(animal1 ->
+                        animal1.getTurAd().contains(aramaKelimesi) ||
+                                animal1.getId().contains(aramaKelimesi) ||
+                                animal1.getAddress().contains(aramaKelimesi) ||
+                                animal1.getName().contains(aramaKelimesi)
+                ).collect(Collectors.toList());
+            }
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            ((KullaniciPrincipal) authentication.getPrincipal()).setAramaKelimesi(null);
+        }
+
         filteredAnimals = new ArrayList<>(allAnimals);
         animal = new Animal();
         turler = turService.getAll();
@@ -105,27 +123,27 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         showMedicalReport = true;
         showMedicalReportCreateOrEdit = false;
         boolean validate = blockchainService.validate(kullaniciPrincipal.getId());
-        if(!validate){
+        if (!validate) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Hata", "Blockchain Hatası, Verilerde Değişiklik Tespit Edildi. Veriniz Güncelleniyor, Lütfen Sayfayı Yenileyiniz."));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", "Blockchain Hatası, Verilerde Değişiklik Tespit Edildi. Veriniz Güncelleniyor, Lütfen Sayfayı Yenileyiniz."));
             context.getExternalContext().getFlash().setKeepMessages(true);
             showMedicalReport = false;
             blockchainService.copyFileUsingStream(new File("authority.achain"), new File(kullaniciPrincipal.getId() + ".achain"));
             selectedMedicalReports = new ArrayList<>();
-        }else {
+        } else {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Başarılı", "Blockchain başarıyla çalıştırıldı."));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Başarılı", "Blockchain başarıyla çalıştırıldı."));
             context.getExternalContext().getFlash().setKeepMessages(true);
             selectedMedicalReports = new ArrayList<>();
         }
     }
 
-    public void saglikRaporuYeniEkraniHazirla(){
+    public void saglikRaporuYeniEkraniHazirla() {
         showMedicalReportCreateOrEdit = true;
         showMedicalReport = false;
     }
 
-    public void saglikRaporuDetayHazirla(){
+    public void saglikRaporuDetayHazirla() {
         showMedicalReportCreateOrEdit = true;
         medicalReport = selectedMedicalReports.stream().findFirst().get();
         showMedicalReport = false;
@@ -161,14 +179,14 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 
     public void prepareUpdateScreen() {
         animal = selectedAnimals.stream().findFirst().get();
-		cinsler = cinsService.findByTurId(animal.getTurId());
-		showCreateOrEdit = true;
+        cinsler = cinsService.findByTurId(animal.getTurId());
+        showCreateOrEdit = true;
     }
 
     public void prepareInfoScreen() {
         animal = selectedAnimals.stream().findFirst().get();
-		cinsler = cinsService.findByTurId(animal.getTurId());
-		showCreateOrEdit = true;
+        cinsler = cinsService.findByTurId(animal.getTurId());
+        showCreateOrEdit = true;
         showInfo = true;
     }
 
@@ -176,7 +194,6 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
         animalService.delete(selectedAnimals);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
     }
-
 
 
 }

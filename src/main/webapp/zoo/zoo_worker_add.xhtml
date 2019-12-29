@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="workerPanel" styleClass="card card-w-title" rendered="#{zooBean.showWorkerCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Hayvanat Bahçesi Çalışanları">
+            <p:panel>
+                <p:dataTable id="zooWorkerDataTable" var="worker"
+                             styleClass="dataTableStandart"
+                             value="#{zooBean.workers}" rowKey="#{worker.id}"
+                             widgetVar="zooWorkerDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenebilecek bir çalışan bulunamadı!"
+                             filteredValue="#{zooBean.filteredWorkers}"
+                             selection="#{zooBean.selectedWorkers}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Eklenebilecek Çalışan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form:workerPanel"
+                                    resetValues="true"
+                                    disabled="#{empty zooBean.selectedWorkers}"
+                                    process="@this"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.addWorker()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Kullanıcı Id" sortBy="#{worker.id}"
+                              filterBy="#{worker.id}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{worker.name}"
+                              filterBy="#{worker.name}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.name} #{worker.surname}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{worker.phoneNumber}"
+                              filterBy="#{worker.phoneNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.phoneNumber}"/>
+                    </p:column>
+                    <p:column headerText="Kullanıcı adı" sortBy="#{worker.userName}"
+                              filterBy="#{worker.userName}" filterMatchMode="contains">
+                        <h:outputText value="#{worker.userName}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel>
+
+                <p:dataTable id="zooWorkerEklenmisDataTable" var="workerAdded"
+                             styleClass="dataTableStandart"
+                             value="#{zooBean.addedWorkers}" rowKey="#{workerAdded.userName}"
+                             widgetVar="zooWorkerEklenmisDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenmiş bir çalışan bulunamadı!"
+                             filteredValue="#{zooBean.filteredAddedWorkers}"
+                             selection="#{zooBean.selectedAddedWorkers}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtnn"/>
+
+                    <f:facet name="header">Eklenmiş Çalışan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtnn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Çıkar"
+                                    styleClass="dataTableHeaderBtn" update=":form:workerPanel"
+                                    resetValues="true"
+                                    process="@this"
+                                    disabled="#{empty zooBean.selectedAddedWorkers}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.deleteWorker()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                    <p:column headerText="Kullanıcı Id" sortBy="#{workerAdded.id}"
+                              filterBy="#{workerAdded.id}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{workerAdded.name}"
+                              filterBy="#{workerAdded.name}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.name} #{workerAdded.surname}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{workerAdded.phoneNumber}"
+                              filterBy="#{workerAdded.phoneNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.phoneNumber}"/>
+                    </p:column>
+                    <p:column headerText="Kullanıcı adı" sortBy="#{workerAdded.userName}"
+                              filterBy="#{workerAdded.userName}" filterMatchMode="contains">
+                        <h:outputText value="#{workerAdded.userName}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+            <p:commandButton
+                    value="Kayıt Et" update=":form" icon="fa fa-save" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{zooBean.workerSave()}"/>
+                <f:actionListener
+                        binding="#{zooBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{zooBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

@@ -1,6 +1,10 @@
 package com.team1.animalproject.view;
 
+import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.ShelterWorker;
 import com.team1.animalproject.model.Zoo;
+import com.team1.animalproject.model.ZooWorker;
+import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.service.ZooService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +21,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Scope("view")
@@ -31,10 +38,23 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
     @Autowired
     private ZooService zooService;
 
+    @Autowired
+    private UserService userService;
+
     private Zoo zoo = new Zoo();
     private List<Zoo> selectedZoos;
     private List<Zoo> allZoos;
     private List<Zoo> filteredZoos;
+    private List<Kullanici> workers;
+    private List<Kullanici> selectedWorkers;
+    private List<Kullanici> filteredWorkers;
+    private boolean showWorkerCreateOrEdit;
+    private boolean workerInfo;
+    private String zooId;
+
+    private List<Kullanici> addedWorkers;
+    private List<Kullanici> selectedAddedWorkers;
+    private List<Kullanici> filteredAddedWorkers;
 
     private boolean showCreateOrEdit;
     private boolean showInfo;
@@ -52,6 +72,14 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
         showCreateOrEdit = false;
         showInfo = false;
         zoo = new Zoo();
+        workers = userService.getAll();
+        showWorkerCreateOrEdit = false;
+        workerInfo = false;
+        addedWorkers = new ArrayList<>();
+        selectedAddedWorkers = new ArrayList<>();
+        filteredAddedWorkers = new ArrayList<>();
+        filteredWorkers = new ArrayList<>();
+        selectedWorkers = new ArrayList<>();
     }
 
     public void kaydet() throws IOException {
@@ -80,6 +108,72 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 
     public void sil() throws IOException {
         zooService.delete(selectedZoos);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+    }
+
+    public void prepareWorkerNewScreen() {
+        showWorkerCreateOrEdit = true;
+        findWorkers();
+        findWorkersForAdd();
+    }
+
+    public void prepareWorkerUpdateScreen() {
+        findWorkers();
+        findWorkersForAdd();
+    }
+
+    public void prepareWorkerInfoScreen() {
+        findWorkersForAdd();
+        findWorkers();
+        workerInfo = true;
+    }
+
+    public void addWorker() {
+        addedWorkers.addAll(selectedWorkers);
+        workers.removeAll(selectedWorkers);
+        selectedWorkers = new ArrayList<>();
+    }
+
+    public void deleteWorker() {
+        addedWorkers.removeAll(selectedAddedWorkers);
+        workers.addAll(selectedAddedWorkers);
+        selectedAddedWorkers = new ArrayList<>();
+    }
+
+    private void findWorkers() {
+        zooId = selectedZoos.stream().findFirst().get().getId();
+        List<ZooWorker> workersIn = zooService.getWorkersByShelterId(zooId);
+        Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(ZooWorker::getWorkerId).collect(Collectors.toList()));
+        if (kullanicis.isPresent()) {
+            addedWorkers = kullanicis.get();
+        } else {
+            addedWorkers = new ArrayList<>();
+        }
+        filteredAddedWorkers = addedWorkers;
+        showWorkerCreateOrEdit = true;
+    }
+
+    private void findWorkersForAdd() {
+        workers.removeAll(addedWorkers);
+        filteredWorkers = workers;
+    }
+
+    public void workerSave() throws IOException {
+        List<ZooWorker> zooWorkers = new ArrayList<>();
+        if(addedWorkers.size() > 0){
+            addedWorkers.stream().forEach(kullanici -> {
+                zooWorkers.add(ZooWorker.builder()
+                        .id(UUID.randomUUID().toString())
+                        .zooId(zooId)
+                        .workerId(kullanici.id)
+                        .build());
+            });
+
+            zooService.saveWorker(zooWorkers, zooId);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesi Çalışanları Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
     }
 

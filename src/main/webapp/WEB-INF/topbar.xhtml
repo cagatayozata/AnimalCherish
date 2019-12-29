@@ -19,121 +19,22 @@
 
 
         <ui:fragment>
+
+
+
+
             <a id="topbar-menu-button" style="font-weight: bold; line-height: 30px"  href="/register.jsf">
                 <table>
                     <tr>
                         <td><p:graphicImage style="margin-top:-3px;float: left; border: 2px solid white; border-radius: 100px" url="image/#{kullaniciSessionVerisi.getKullaniciId()}"/><br/></td>
                         <td><span style="float: right">#{kullaniciSessionVerisi.getAdSoyad()}</span></td>
+                        <td><p:commandButton icon="fa fa-hashtag" oncomplete="PF('sidebar2').show()" /></td>
                     </tr>
                 </table>
             </a>
 
 
-            <ul id="topbar-usermenu" class="usermenu usermenu-overlay">
-                <li>
-                    <a href="">
-                        <h:panelGrid columns="2">
-                            <i class="fa fa-female"></i>
-                            <span class="topbar-item-name">#{msg['kullanici.hesapbilgileri']}</span>
-                        </h:panelGrid>
 
-                        <h:panelGrid  columns="2">
-                            <i class="fa fa-male"></i>
-                            <span class="topbar-item-name">#{msg['kullanici.hesapbilgileri']}</span>
-                        </h:panelGrid>
-
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <i class="fa fa-fw fa-cog"></i>
-                        <span class="topbar-item-name">AYARLAR</span>
-                        <i class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-                    </a>
-                    <ul>
-                        <li role="menuitem">
-                           ŞİFRE DEĞİŞ
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-fw fa-envelope-o"></i>
-                        <span class="topbar-item-name">Messages</span>
-                        <i class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-                    </a>
-                    <ul>
-                        <li role="menuitem">
-                            <a href="#" class="topbar-message">
-                                <p:graphicImage name="images/avatar1.png" library="california-layout" width="25"/>
-                                <span>Give me a call</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#" class="topbar-message">
-                                <p:graphicImage name="images/avatar2.png" library="california-layout" width="25"/>
-                                <span>Reports attached</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#" class="topbar-message">
-                                <p:graphicImage name="images/avatar3.png" library="california-layout" width="25"/>
-                                <span>About your invoice</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#" class="topbar-message">
-                                <p:graphicImage name="images/avatar2.png" library="california-layout" width="25"/>
-                                <span>Meeting today</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#" class="topbar-message">
-                                <p:graphicImage name="images/avatar4.png" library="california-layout" width="25"/>
-                                <span>Out of office</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-fw fa-bell-o"></i>
-                        <span class="topbar-item-name">Notifications</span>
-                        <i class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-                    </a>
-                    <ul>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-tasks"></i>
-                                <span>Pending tasks</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-calendar-check-o"></i>
-                                <span>Meeting today</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-download"></i>
-                                <span>Download</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-plane"></i>
-                                <span>Book flight</span>
-                            </a>
-                        </li>
-                    </ul>R
-                </li>
-
-                <li>
-                    ÇIKIS
-                </li>
-            </ul>
         </ui:fragment>
 
         <!--

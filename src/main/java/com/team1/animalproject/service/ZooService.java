@@ -1,10 +1,13 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Zoo;
+import com.team1.animalproject.model.ZooWorker;
 import com.team1.animalproject.repository.ZooRepository;
+import com.team1.animalproject.repository.ZooWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +19,21 @@ public class ZooService implements IBaseService<Zoo> {
     @Autowired
     private ZooRepository zooRepository;
 
+    @Qualifier("zooWorkerRepository")
+    @Autowired
+    private ZooWorkerRepository zooWorkerRepository;
+
     @Override
     public List<Zoo> getAll() {
-        return zooRepository.findAll();
+        List<Zoo> all = zooRepository.findAll();
+        all.stream().forEach(zoo -> {
+            int size = 0;
+            List<ZooWorker> byShelterId = zooWorkerRepository.findByZooId(zoo.getId());
+            if(byShelterId != null){
+                zoo.setWorkerCount(byShelterId.size());
+            }
+        });
+        return all;
     }
 
     @Override
@@ -36,5 +51,15 @@ public class ZooService implements IBaseService<Zoo> {
     @Override
     public void delete(List<Zoo> t) {
         zooRepository.delete(t);
+    }
+
+    public List<ZooWorker> getWorkersByShelterId(String zooId) {
+        return zooWorkerRepository.findByZooId(zooId);
+    }
+
+    @Transactional
+    public void saveWorker(List<ZooWorker> zooWorkers, String zooId) {
+        zooWorkerRepository.deleteByZooId(zooId);
+        zooWorkerRepository.save(zooWorkers);
     }
 }

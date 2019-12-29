@@ -8,8 +8,12 @@
 
     <ul class="route-bar-menu">
         <li class="search-item">
-            <i class="fa fa-search"/>
-            <input type="text" placeholder="Ara..." onclick=""/>
+            <h:form>
+                <p:inputText value="#{aramaBean.arama}" placeholder="Hayvan Ara..."/>
+                <p:commandButton icon="fa fa-search"> <f:actionListener
+                        binding="#{aramaBean.ara()}"/>
+                </p:commandButton></h:form>
+
         </li>
         <li>
             <a href="#" data-tooltip="Notifications">

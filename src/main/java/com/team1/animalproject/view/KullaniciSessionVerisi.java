@@ -3,12 +3,17 @@ package com.team1.animalproject.view;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
+import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.view.utils.JSFUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.ocpsoft.common.util.Strings;
 import org.primefaces.component.graphicimage.GraphicImage;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
@@ -16,8 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.Serializable;
+import javax.faces.context.FacesContext;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +38,9 @@ public class KullaniciSessionVerisi implements Serializable {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BlockchainService blockchainService;
 
     private Kullanici kullanici;
 
@@ -98,14 +106,33 @@ public class KullaniciSessionVerisi implements Serializable {
         return "Giriş Yapılmadı";
     }
 
-    public List<String> yetkileriGetir(){
+    public List<String> yetkileriGetir() {
         return getKullaniciBilgisi().getYetkiler().stream().distinct().sorted().collect(Collectors.toList());
     }
 
-    public String getKullaniciId(){
-        if(getKullaniciBilgisi().getId() != null)
-        return getKullaniciBilgisi().getId();
+    public String getKullaniciId() {
+        if (getKullaniciBilgisi().getId() != null)
+            return getKullaniciBilgisi().getId();
         return "anonim";
+    }
+
+    public String getHash() {
+        List<String> all = blockchainService.readFile(getKullaniciId());
+        String join = "Blockchain Hashiniz Bulunmamaktadır";
+        if(all != null && all.size() > 0){
+            join = Strings.join(all, "/nextBlock/");
+        }
+        return join;
+    }
+
+    public StreamedContent hashIndir() throws IOException {
+        if(getHash().equalsIgnoreCase("Blockchain Hashiniz Bulunmamaktadır")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
+        }
+        FileInputStream fileInputStream = new FileInputStream(new File(Constants.FILE_PATH + kullanici.getId() + ".achain"));
+        DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
+        defaultStreamedContent.setName(kullanici.getName() + "_" + kullanici.getSurname() + "_hashFile.achain");
+        return defaultStreamedContent;
     }
 
 }

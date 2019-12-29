@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -46,4 +47,6 @@ public class Zoo implements Serializable {
     @Column(name = "email", nullable = false)
     public String email;
 
+    @Transient
+    private int workerCount;
 }

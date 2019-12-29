@@ -23,5 +23,7 @@ public class KullaniciPrincipal implements Serializable {
 
 	private String smth;
 
+	private String aramaKelimesi;
+
 }
  

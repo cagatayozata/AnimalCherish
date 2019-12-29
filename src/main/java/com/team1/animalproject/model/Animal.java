@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.io.Serializable;
-import java.sql.Blob;
 import java.util.Date;
 
 @Entity

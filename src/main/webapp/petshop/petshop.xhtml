@@ -50,6 +50,7 @@
                             <p:commandButton
                                     value="Pet Shop Ekle"
                                     styleClass="dataTableHeaderBtn" update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_EKLEME_YETKISI')}"
                                     resetValues="true"
                                     icon="fa fa-plus">
                                 <f:actionListener
@@ -59,6 +60,7 @@
                                     value="Detay"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_DETAY_YETKISI')}"
                                     icon="fa fa-search"
                                     disabled="#{petShopBean.selectedPetShops.size() ne 1}"
                                     resetValues="true">
@@ -70,6 +72,7 @@
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
                                     icon="fa fa-edit"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_GUNCELLEME_YETKISI')}"
                                     disabled="#{petShopBean.selectedPetShops.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
@@ -79,6 +82,7 @@
                                     value="Çalışan İlişkilendirme"
                                     styleClass="dataTableHeaderBtn" update=":form"
                                     resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_CALISAN_ILISKILENDIRME_YETKISI')}"
                                     disabled="#{petShopBean.selectedPetShops.size() ne 1}"
                                     icon="fa fa-user-plus">
                                 <f:actionListener
@@ -87,6 +91,7 @@
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty petShopBean.selectedPetShops? '' : ' - '.concat(petShopBean.selectedPetShops.size())}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_SILME_YETKISI')}"
                                              icon="fa fa-trash" disabled="#{empty petShopBean.selectedPetShops}">
                                 <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
                                 <f:actionListener

@@ -35,16 +35,27 @@
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
 
-                            <div style="float:right;    margin-top: -20px;">
-
-                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
-                                    <p:graphicImage name="/images/csv-icon.png"/>
-                                    <p:dataExporter type="csv" target="animalDataTable" encoding="CP1254" fileName="employees"/>
-                                </p:commandLink>
-                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
-                                    <p:graphicImage name="/images/pdf-icon.png"/>
-                                    <p:dataExporter type="pdf" target="animalDataTable" encoding="CP1254" fileName="employees"/>
-                                </p:commandLink>
+                            <div style="float:right; margin-top: -20px;">
+                                <table style="width: unset">
+                                    <tr>
+                                        <td><p:commandButton id="toggler" type="button"
+                                                             style="float:right" icon="fa fa-align-justify"/>
+                                            <p:columnToggler datasource="animalDataTable" trigger="toggler"/></td>
+                                        <td>
+                                            <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                                <p:graphicImage name="/images/csv-icon.png"/>
+                                                <p:dataExporter type="csv" target="animalDataTable" encoding="CP1254"
+                                                                fileName="employees"/>
+                                            </p:commandLink>
+                                        </td>
+                                        <td><p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                            <p:graphicImage name="/images/pdf-icon.png"/>
+                                            <p:dataExporter type="pdf" target="animalDataTable" encoding="CP1254"
+                                                            fileName="employees"/>
+                                        </p:commandLink>
+                                        </td>
+                                    </tr>
+                                </table>
 
                             </div>
 
