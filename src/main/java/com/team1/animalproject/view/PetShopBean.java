@@ -1,6 +1,7 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.model.*;
+import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.PetShopService;
 import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
@@ -38,6 +39,8 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
     private PetShopService petShopService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AnimalService animalService;
 
     private PetShop petShop = new PetShop();
     private List<PetShop> selectedPetShops;
@@ -52,11 +55,19 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
     private List<Kullanici> filteredAddedWorkers;
     private String petShopId;
 
+    private List<Animal> animals;
+    private List<Animal> selectedAnimals;
+    private List<Animal> filteredAnimals;
+    private List<Animal> addedAnimals;
+    private List<Animal> selectedAddedAnimals;
+    private List<Animal> filteredAddedAnimals;
+
 
     private boolean showCreateOrEdit;
     private boolean showInfo;
     private boolean showWorkerCreateOrEdit;
     private boolean workerInfo;
+    private boolean showAnimalCreateOrEdit;
 
     @Override
     @PostConstruct
@@ -75,8 +86,13 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
         workerInfo = false;
         addedWorkers = new ArrayList<>();
         workers = userService.getAll();
+        animals = animalService.getAll();
         filteredWorkers = new ArrayList<>();
         filteredAddedWorkers = new ArrayList<>();
+        filteredAnimals = new ArrayList<>();
+        filteredAddedAnimals = new ArrayList<>();
+        addedAnimals = new ArrayList<>();
+        showAnimalCreateOrEdit = false;
     }
 
     public void kaydet() throws IOException {
@@ -106,6 +122,31 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
         showWorkerCreateOrEdit = true;
         findWorkers();
         findWorkersForAdd();
+    }
+
+
+    public void prepareAnimalNewScreen() {
+        showAnimalCreateOrEdit = true;
+        findAnimals();
+        findAnimalsForAdd();
+    }
+
+    private void findAnimals() {
+        petShopId = selectedPetShops.stream().findFirst().get().getId();
+        List<PetShopAnimal> animalsIn = petShopService.getAnimalsByPetShopId(petShopId);
+        Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(PetShopAnimal::getAnimalId).collect(Collectors.toList()));
+        if (animals.isPresent()) {
+            addedAnimals = animals.get();
+        } else {
+            addedAnimals = new ArrayList<>();
+        }
+        filteredAddedAnimals = addedAnimals;
+        showAnimalCreateOrEdit = true;
+    }
+
+    private void findAnimalsForAdd() {
+        animals.removeAll(addedWorkers);
+        filteredAnimals = animals;
     }
 
     public void prepareWorkerUpdateScreen() {
@@ -149,6 +190,19 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
         filteredWorkers = workers;
     }
 
+    public void addAnimal() {
+        addedAnimals.addAll(selectedAnimals);
+        animals.removeAll(selectedAnimals);
+        selectedAnimals = new ArrayList<>();
+    }
+
+    public void deleteAnimal() {
+        addedAnimals.removeAll(selectedAddedAnimals);
+        animals.addAll(selectedAddedAnimals);
+        selectedAddedWorkers = new ArrayList<>();
+    }
+
+
     public void sil() throws IOException {
         petShopService.delete(selectedPetShops);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/petshop/petshop.jsf");
@@ -169,6 +223,25 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
         }
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Başarılı", "Pet Shop Çalışanları Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/petshop/petshop.jsf");
+    }
+
+    public void animalsSave() throws IOException {
+        List<PetShopAnimal> petShopAnimals = new ArrayList<>();
+        if(addedAnimals.size() > 0){
+            addedAnimals.stream().forEach(animal -> {
+                petShopAnimals.add(PetShopAnimal.builder()
+                        .id(UUID.randomUUID().toString())
+                        .petshopId(petShopId)
+                        .animalId(animal.id)
+                        .build());
+            });
+
+            petShopService.saveAnimal(petShopAnimals, petShopId);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "PetShop'a Ait Hayvanlar Başarıyla Güncellendi."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/petshop/petshop.jsf");
     }

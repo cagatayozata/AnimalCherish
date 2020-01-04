@@ -1,9 +1,7 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.ShelterWorker;
-import com.team1.animalproject.model.Zoo;
-import com.team1.animalproject.model.ZooWorker;
+import com.team1.animalproject.model.*;
+import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.service.ZooService;
 import lombok.Data;
@@ -37,9 +35,10 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 
     @Autowired
     private ZooService zooService;
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private AnimalService animalService;
 
     private Zoo zoo = new Zoo();
     private List<Zoo> selectedZoos;
@@ -55,6 +54,15 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
     private List<Kullanici> addedWorkers;
     private List<Kullanici> selectedAddedWorkers;
     private List<Kullanici> filteredAddedWorkers;
+
+    private List<Animal> animals;
+    private List<Animal> selectedAnimals;
+    private List<Animal> filteredAnimals;
+    private List<Animal> addedAnimals;
+    private List<Animal> selectedAddedAnimals;
+    private List<Animal> filteredAddedAnimals;
+    private boolean showAnimalCreateOrEdit;
+
 
     private boolean showCreateOrEdit;
     private boolean showInfo;
@@ -80,6 +88,11 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
         filteredAddedWorkers = new ArrayList<>();
         filteredWorkers = new ArrayList<>();
         selectedWorkers = new ArrayList<>();
+        animals = animalService.getAll();
+        filteredAnimals = new ArrayList<>();
+        filteredAddedAnimals = new ArrayList<>();
+        addedAnimals = new ArrayList<>();
+        showAnimalCreateOrEdit = false;
     }
 
     public void kaydet() throws IOException {
@@ -117,6 +130,31 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
         findWorkersForAdd();
     }
 
+
+    public void prepareAnimalNewScreen() {
+        showAnimalCreateOrEdit = true;
+        findAnimals();
+        findAnimalsForAdd();
+    }
+
+    private void findAnimals() {
+        zooId = selectedZoos.stream().findFirst().get().getId();
+        List<ZooAnimal> animalsIn = zooService.getAnimalsByZooId(zooId);
+        Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ZooAnimal::getAnimalId).collect(Collectors.toList()));
+        if (animals.isPresent()) {
+            addedAnimals = animals.get();
+        } else {
+            addedAnimals = new ArrayList<>();
+        }
+        filteredAddedAnimals = addedAnimals;
+        showAnimalCreateOrEdit = true;
+    }
+
+    private void findAnimalsForAdd() {
+        animals.removeAll(addedWorkers);
+        filteredAnimals = animals;
+    }
+
     public void prepareWorkerUpdateScreen() {
         findWorkers();
         findWorkersForAdd();
@@ -139,6 +177,19 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
         workers.addAll(selectedAddedWorkers);
         selectedAddedWorkers = new ArrayList<>();
     }
+
+    public void addAnimal() {
+        addedAnimals.addAll(selectedAnimals);
+        animals.removeAll(selectedAnimals);
+        selectedAnimals = new ArrayList<>();
+    }
+
+    public void deleteAnimal() {
+        addedAnimals.removeAll(selectedAddedAnimals);
+        animals.addAll(selectedAddedAnimals);
+        selectedAddedWorkers = new ArrayList<>();
+    }
+
 
     private void findWorkers() {
         zooId = selectedZoos.stream().findFirst().get().getId();
@@ -173,6 +224,25 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
         }
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesi Çalışanları Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+    }
+
+    public void animalsSave() throws IOException {
+        List<ZooAnimal> zooAnimals = new ArrayList<>();
+        if(addedAnimals.size() > 0){
+            addedAnimals.stream().forEach(animal -> {
+                zooAnimals.add(ZooAnimal.builder()
+                        .id(UUID.randomUUID().toString())
+                        .zooId(zooId)
+                        .animalId(animal.id)
+                        .build());
+            });
+
+            zooService.saveAnimal(zooAnimals, zooId);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesine Ait Hayvanlar Başarıyla Güncellendi."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
     }

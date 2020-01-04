@@ -1,8 +1,7 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.Shelter;
-import com.team1.animalproject.model.ShelterWorker;
+import com.team1.animalproject.model.*;
+import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
 import lombok.Data;
@@ -39,18 +38,28 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
     private ShelterService shelterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AnimalService animalService;
 
     private Shelter shelter = new Shelter();
     private List<Shelter> selectedShelters;
     private List<Shelter> allShelters;
     private List<Shelter> filteredShelters;
+
+
     private List<Kullanici> workers;
     private List<Kullanici> selectedWorkers;
     private List<Kullanici> filteredWorkers;
-
     private List<Kullanici> addedWorkers;
     private List<Kullanici> selectedAddedWorkers;
     private List<Kullanici> filteredAddedWorkers;
+
+    private List<Animal> animals;
+    private List<Animal> selectedAnimals;
+    private List<Animal> filteredAnimals;
+    private List<Animal> addedAnimals;
+    private List<Animal> selectedAddedAnimals;
+    private List<Animal> filteredAddedAnimals;
     private String shelterId;
 
 
@@ -58,6 +67,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
     private boolean showInfo;
     private boolean showWorkerCreateOrEdit;
     private boolean workerInfo;
+    private boolean showAnimalCreateOrEdit;
 
     @Override
     @PostConstruct
@@ -76,8 +86,13 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
         workerInfo = false;
         addedWorkers = new ArrayList<>();
         workers = userService.getAll();
+        animals = animalService.getAll();
         filteredWorkers = new ArrayList<>();
         filteredAddedWorkers = new ArrayList<>();
+        filteredAnimals = new ArrayList<>();
+        filteredAddedAnimals = new ArrayList<>();
+        addedAnimals = new ArrayList<>();
+        showAnimalCreateOrEdit = false;
     }
 
     public void kaydet() throws IOException {
@@ -109,6 +124,12 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
         findWorkersForAdd();
     }
 
+    public void prepareAnimalNewScreen() {
+        showAnimalCreateOrEdit = true;
+        findAnimals();
+        findAnimalsForAdd();
+    }
+
     public void prepareWorkerUpdateScreen() {
         findWorkers();
         findWorkersForAdd();
@@ -132,6 +153,18 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
         selectedAddedWorkers = new ArrayList<>();
     }
 
+    public void addAnimal() {
+        addedAnimals.addAll(selectedAnimals);
+        animals.removeAll(selectedAnimals);
+        selectedAnimals = new ArrayList<>();
+    }
+
+    public void deleteAnimal() {
+        addedAnimals.removeAll(selectedAddedAnimals);
+        animals.addAll(selectedAddedAnimals);
+        selectedAddedWorkers = new ArrayList<>();
+    }
+
     private void findWorkers() {
         shelterId = selectedShelters.stream().findFirst().get().getId();
         List<ShelterWorker> workersIn = shelterService.getWorkersByShelterId(shelterId);
@@ -148,6 +181,25 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
     private void findWorkersForAdd() {
        workers.removeAll(addedWorkers);
        filteredWorkers = workers;
+    }
+
+
+    private void findAnimals() {
+        shelterId = selectedShelters.stream().findFirst().get().getId();
+        List<ShelterAnimal> animalsIn = shelterService.getAnimalsByShelterId(shelterId);
+        Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ShelterAnimal::getAnimalId).collect(Collectors.toList()));
+        if (animals.isPresent()) {
+            addedAnimals = animals.get();
+        } else {
+            addedAnimals = new ArrayList<>();
+        }
+        filteredAddedAnimals = addedAnimals;
+        showAnimalCreateOrEdit = true;
+    }
+
+    private void findAnimalsForAdd() {
+        animals.removeAll(addedWorkers);
+        filteredAnimals = animals;
     }
 
     public void sil() throws IOException {
@@ -170,6 +222,25 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
         }
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Başarılı", "Barınak Çalışanları Başarıyla Güncellendi."));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
+    }
+
+    public void animalsSave() throws IOException {
+        List<ShelterAnimal> shelterAnimals = new ArrayList<>();
+        if(addedAnimals.size() > 0){
+            addedAnimals.stream().forEach(animal -> {
+                shelterAnimals.add(ShelterAnimal.builder()
+                        .id(UUID.randomUUID().toString())
+                        .shelterId(shelterId)
+                        .animalId(animal.id)
+                        .build());
+            });
+
+            shelterService.saveAnimal(shelterAnimals, shelterId);
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Başarılı", "Barınağa Ait Hayvanlar Başarıyla Güncellendi."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
     }

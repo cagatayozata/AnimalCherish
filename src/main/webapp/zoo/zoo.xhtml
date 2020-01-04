@@ -11,7 +11,7 @@
         <h:form id="form">
             <p:growl id="growl" showDetail="true" sticky="true" />
 
-            <p:panel styleClass="card card-w-title" rendered="#{!zooBean.showCreateOrEdit and !zooBean.showWorkerCreateOrEdit}">
+            <p:panel styleClass="card card-w-title" rendered="#{!zooBean.showCreateOrEdit and !zooBean.showWorkerCreateOrEdit and !zooBean.showAnimalCreateOrEdit}">
 
                 <p:dataTable id="zooDataTable" var="zoo"
                              styleClass="dataTableStandart"
@@ -90,6 +90,16 @@
                                 <f:actionListener
                                         binding="#{zooBean.prepareWorkerNewScreen()}"/>
                             </p:commandButton>
+                            <p:commandButton
+                                    value="Hayvan İlişkilendirme"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_CALISAN_EKLEME_YETKISI')}"
+                                    resetValues="true"
+                                    disabled="#{zooBean.selectedZoos.size() ne 1}"
+                                    icon="fa fa-user-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.prepareAnimalNewScreen()}"/>
+                            </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty zooBean.selectedZoos? '' : ' - '.concat(zooBean.selectedZoos.size())}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
@@ -124,6 +134,7 @@
             </p:panel>
             <ui:include src="zoo_add.xhtml"/>
             <ui:include src="zoo_worker_add.xhtml"/>
+            <ui:include src="zoo_animal_add.xhtml"/>
 
         </h:form>
     </ui:define>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService implements IBaseService<Animal> {
@@ -46,4 +47,9 @@ public class AnimalService implements IBaseService<Animal> {
 	public void delete(List<Animal> o) {
 		animalRepository.delete(o);
 	}
+
+	public Optional<List<Animal>> findByIdIn(List<String> ids) {
+		return animalRepository.findByIdIn(ids);
+	}
+
 }

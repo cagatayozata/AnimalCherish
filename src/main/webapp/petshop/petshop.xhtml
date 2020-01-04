@@ -11,7 +11,7 @@
         <h:form id="form">
             <p:growl id="growl" showDetail="true" sticky="true" />
 
-            <p:panel styleClass="card card-w-title" rendered="#{!petShopBean.showCreateOrEdit and !petShopBean.showWorkerCreateOrEdit}">
+            <p:panel styleClass="card card-w-title" rendered="#{!petShopBean.showCreateOrEdit and !petShopBean.showWorkerCreateOrEdit and !petShopBean.showAnimalCreateOrEdit}">
 
                 <p:dataTable id="petShopDataTable" var="petShop"
                              styleClass="dataTableStandart"
@@ -88,6 +88,16 @@
                                 <f:actionListener
                                         binding="#{petShopBean.prepareWorkerNewScreen()}"/>
                             </p:commandButton>
+                            <p:commandButton
+                                    value="Hayvan İlişkilendirme"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_CALISAN_EKLEME_YETKISI')}"
+                                    resetValues="true"
+                                    disabled="#{petShopBean.selectedPetShops.size() ne 1}"
+                                    icon="fa fa-user-plus">
+                                <f:actionListener
+                                        binding="#{petShopBean.prepareAnimalNewScreen()}"/>
+                            </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty petShopBean.selectedPetShops? '' : ' - '.concat(petShopBean.selectedPetShops.size())}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
@@ -118,6 +128,7 @@
             </p:panel>
             <ui:include src="petshop_add.xhtml"/>
             <ui:include src="petshop_worker_add.xhtml"/>
+            <ui:include src="petshop_animal_add.xhtml"/>
 
         </h:form>
     </ui:define>

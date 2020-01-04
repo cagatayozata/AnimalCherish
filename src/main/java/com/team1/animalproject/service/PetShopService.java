@@ -1,7 +1,9 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.PetShop;
+import com.team1.animalproject.model.PetShopAnimal;
 import com.team1.animalproject.model.PetShopWorker;
+import com.team1.animalproject.repository.PetShopAnimalRepository;
 import com.team1.animalproject.repository.PetShopRepository;
 import com.team1.animalproject.repository.PetShopWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class PetShopService implements IBaseService<PetShop> {
     @Qualifier("petShopWorkerRepository")
     @Autowired
     private PetShopWorkerRepository petShopWorkerRepository;
+
+    @Qualifier("petShopAnimalRepository")
+    @Autowired
+    private PetShopAnimalRepository petShopAnimalRepository;
 
     @Override
     public List<PetShop> getAll() {
@@ -65,5 +71,15 @@ public class PetShopService implements IBaseService<PetShop> {
     public void saveWorker(List<PetShopWorker> petshopWorkers) {
         petShopWorkerRepository.deleteByPetShopId(petshopWorkers.stream().findFirst().get().getPetShopId());
         petShopWorkerRepository.save(petshopWorkers);
+    }
+
+    public List<PetShopAnimal> getAnimalsByPetShopId(String petshopId) {
+        return petShopAnimalRepository.findByPetshopId(petshopId);
+    }
+
+    @Transactional
+    public void saveAnimal(List<PetShopAnimal> petShopAnimals, String petshopId) {
+        petShopAnimalRepository.deleteByPetshopId(petshopId);
+        petShopAnimalRepository.save(petShopAnimals);
     }
 }

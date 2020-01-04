@@ -1,7 +1,9 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Shelter;
+import com.team1.animalproject.model.ShelterAnimal;
 import com.team1.animalproject.model.ShelterWorker;
+import com.team1.animalproject.repository.ShelterAnimalRepository;
 import com.team1.animalproject.repository.ShelterRepository;
 import com.team1.animalproject.repository.ShelterWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class ShelterService implements IBaseService<Shelter> {
     @Qualifier("shelterWorkerRepository")
     @Autowired
     private ShelterWorkerRepository shelterWorkerRepository;
+
+    @Qualifier("shelterAnimalRepository")
+    @Autowired
+    private ShelterAnimalRepository shelterAnimalRepository;
 
     @Override
     public List<Shelter> getAll() {
@@ -65,5 +71,15 @@ public class ShelterService implements IBaseService<Shelter> {
     public void saveWorker(List<ShelterWorker> shelterWorkers, String shelterId) {
         shelterWorkerRepository.deleteByShelterId(shelterId);
         shelterWorkerRepository.save(shelterWorkers);
+    }
+
+    public List<ShelterAnimal> getAnimalsByShelterId(String shelterId) {
+        return shelterAnimalRepository.findByShelterId(shelterId);
+    }
+
+    @Transactional
+    public void saveAnimal(List<ShelterAnimal> shelterAnimals, String shelterId) {
+        shelterAnimalRepository.deleteByShelterId(shelterId);
+        shelterAnimalRepository.save(shelterAnimals);
     }
 }

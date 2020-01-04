@@ -1,8 +1,10 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Zoo;
+import com.team1.animalproject.model.ZooAnimal;
 import com.team1.animalproject.model.ZooWorker;
 import com.team1.animalproject.repository.ZooRepository;
+import com.team1.animalproject.repository.ZooShopAnimalRepository;
 import com.team1.animalproject.repository.ZooWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +24,10 @@ public class ZooService implements IBaseService<Zoo> {
     @Qualifier("zooWorkerRepository")
     @Autowired
     private ZooWorkerRepository zooWorkerRepository;
+
+    @Qualifier("zooShopAnimalRepository")
+    @Autowired
+    private ZooShopAnimalRepository zooShopAnimalRepository;
 
     @Override
     public List<Zoo> getAll() {
@@ -61,5 +67,15 @@ public class ZooService implements IBaseService<Zoo> {
     public void saveWorker(List<ZooWorker> zooWorkers, String zooId) {
         zooWorkerRepository.deleteByZooId(zooId);
         zooWorkerRepository.save(zooWorkers);
+    }
+
+    public List<ZooAnimal> getAnimalsByZooId(String zooId) {
+        return zooShopAnimalRepository.findByZooId(zooId);
+    }
+
+    @Transactional
+    public void saveAnimal(List<ZooAnimal> zooAnimals, String zooId) {
+        zooShopAnimalRepository.deleteByZooId(zooId);
+        zooShopAnimalRepository.save(zooAnimals);
     }
 }

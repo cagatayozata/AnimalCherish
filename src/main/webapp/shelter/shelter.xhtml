@@ -11,7 +11,7 @@
 		<h:form id="form">
 			<p:growl id="growl" showDetail="true" sticky="true" />
 
-			<p:panel styleClass="card card-w-title" rendered="#{!shelterBean.showCreateOrEdit and !shelterBean.showWorkerCreateOrEdit}">
+			<p:panel styleClass="card card-w-title" rendered="#{!shelterBean.showCreateOrEdit and !shelterBean.showWorkerCreateOrEdit and !shelterBean.showAnimalCreateOrEdit}">
 
 				<p:dataTable id="shelterDataTable" var="shelter"
 							 styleClass="dataTableStandart"
@@ -88,6 +88,16 @@
 								<f:actionListener
 										binding="#{shelterBean.prepareWorkerNewScreen()}"/>
 							</p:commandButton>
+							<p:commandButton
+									value="Hayvan İlişkilendirme"
+									styleClass="dataTableHeaderBtn" update=":form"
+									rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_CALISAN_EKLEME_YETKISI')}"
+									resetValues="true"
+									disabled="#{shelterBean.selectedShelters.size() ne 1}"
+									icon="fa fa-user-plus">
+								<f:actionListener
+										binding="#{shelterBean.prepareAnimalNewScreen()}"/>
+							</p:commandButton>
 							<ui:param name="sizeOfSelectedItems"
 									  value="#{empty shelterBean.selectedShelters? '' : ' - '.concat(shelterBean.selectedShelters.size())}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
@@ -122,6 +132,7 @@
 			</p:panel>
 			<ui:include src="shelter_add.xhtml"/>
 			<ui:include src="shelter_worker_add.xhtml"/>
+			<ui:include src="shelter_animal_add.xhtml"/>
 
 		</h:form>
 	</ui:define>

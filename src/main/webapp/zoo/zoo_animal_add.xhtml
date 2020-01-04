@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="animalPanel" styleClass="card card-w-title" rendered="#{zooBean.showAnimalCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="PetShop Hayvanları">
+            <p:panel>
+                <p:dataTable id="zooAnimalDataTable" var="animal"
+                             styleClass="dataTableStandart"
+                             value="#{zooBean.animals}" rowKey="#{animal.id}"
+                             widgetVar="zooAnimalDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenebilecek bir hayvan bulunamadı!"
+                             filteredValue="#{zooBean.filteredAnimals}"
+                             selection="#{zooBean.selectedAnimals}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Eklenebilecek Hayvan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form:animalPanel"
+                                    resetValues="true"
+                                    disabled="#{empty zooBean.selectedAnimals}"
+                                    process="@this"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.addAnimal()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Kullanıcı Id" sortBy="#{animal.id}"
+                              filterBy="#{animal.id}" filterMatchMode="contains">
+                        <h:outputText value="#{animal.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{animal.name}"
+                              filterBy="#{animal.name}" filterMatchMode="contains">
+                        <h:outputText value="#{animal.name}"/>
+                    </p:column>
+                    <p:column headerText="Tür" sortBy="#{animal.tturAdype}"
+                              filterBy="#{animal.turAd}" filterMatchMode="contains">
+                        <h:outputText value="#{animal.turAd}"/>
+                    </p:column>
+                    <p:column headerText="Cins" sortBy="#{animal.cinsAd}"
+                              filterBy="#{animal.cinsAd}" filterMatchMode="contains">
+                        <h:outputText value="#{animal.cinsAd}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel>
+
+                <p:dataTable id="zooAnimalEklenmisDataTable" var="animalAdded"
+                             styleClass="dataTableStandart"
+                             value="#{zooBean.addedAnimals}" rowKey="#{animalAdded.id}"
+                             widgetVar="zooAnimalEklenmisDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenmiş bir hayvan bulunamadı!"
+                             filteredValue="#{zooBean.filteredAddedAnimals}"
+                             selection="#{zooBean.selectedAddedAnimals}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtnn"/>
+
+                    <f:facet name="header">Eklenmiş Hayvan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtnn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Çıkar"
+                                    styleClass="dataTableHeaderBtn" update=":form:animalPanel"
+                                    resetValues="true"
+                                    process="@this"
+                                    disabled="#{empty zooBean.selectedAddedAnimals}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{zooBean.deleteAnimal()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                    <p:column headerText="Kullanıcı Id" sortBy="#{animalAdded.id}"
+                              filterBy="#{animalAdded.id}" filterMatchMode="contains">
+                        <h:outputText value="#{animalAdded.id}"/>
+                    </p:column>
+                    <p:column headerText="İsim" sortBy="#{animalAdded.name}"
+                              filterBy="#{animalAdded.name}" filterMatchMode="contains">
+                        <h:outputText value="#{animalAdded.name}"/>
+                    </p:column>
+                    <p:column headerText="Tür" sortBy="#{animalAdded.turAd}"
+                              filterBy="#{animalAdded.turAd}" filterMatchMode="contains">
+                        <h:outputText value="#{animalAdded.turAd}"/>
+                    </p:column>
+                    <p:column headerText="Cins" sortBy="#{animalAdded.cinsAd}"
+                              filterBy="#{animalAdded.cinsAd}" filterMatchMode="contains">
+                        <h:outputText value="#{animalAdded.cinsAd}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+            <p:commandButton
+                    value="Kayıt Et" update=":form" icon="fa fa-save" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{zooBean.animalsSave()}"/>
+                <f:actionListener
+                        binding="#{zooBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{zooBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>
