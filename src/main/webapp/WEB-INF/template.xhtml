@@ -418,9 +418,23 @@
             </div>
         </div>
 
-        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px" oncomplete="filterTitle(); resizeSelectOneMenu();" onerror="filterTitle(); resizeSelectOneMenu();">
+<!--        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px" oncomplete="filterTitle(); resizeSelectOneMenu();" onerror="filterTitle(); resizeSelectOneMenu();">-->
+<!--            <f:facet name="start">-->
+<!--                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>-->
+<!--                Yükleniyor-->
+<!--            </f:facet>-->
+
+<!--            <f:facet name="complete">-->
+<!--                <h:outputText value=""/>-->
+<!--            </f:facet>-->
+<!--        </p:ajaxStatus>-->
+
+        <p:ajaxStatus style="width:32px;height:32px; position:fixed;right:50%;bottom:50%;text-align: center" oncomplete="filterTitle(); resizeSelectOneMenu();" onerror="filterTitle(); resizeSelectOneMenu();">
             <f:facet name="start">
-                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+                <p:panel style="position:fixed;right:-50%;bottom:-50%;width:2000px; height: 2000px;background: gray; opacity: 0.5">Yükleniyor</p:panel>
+                <p:graphicImage style="width: 200px" name="demo/images/ajaxloadingbar.gif"/>
+                <br/>
+                <span style="margin-left: 70px">Yükleniyor</span>
             </f:facet>
 
             <f:facet name="complete">
