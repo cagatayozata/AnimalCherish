@@ -93,10 +93,10 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
             String aramaKelimesi = kullaniciPrincipal.getAramaKelimesi();
             if (allAnimals != null) {
                allAnimals = allAnimals.stream().filter(animal1 ->
-                        animal1.getTurAd().contains(aramaKelimesi) ||
-                                animal1.getId().contains(aramaKelimesi) ||
-                                animal1.getAddress().contains(aramaKelimesi) ||
-                                animal1.getName().contains(aramaKelimesi)
+                        animal1.getTurAd().toLowerCase().contains(aramaKelimesi.toLowerCase()) ||
+                                animal1.getId().toLowerCase().contains(aramaKelimesi.toLowerCase()) ||
+                                animal1.getAddress().toLowerCase().contains(aramaKelimesi.toLowerCase()) ||
+                                animal1.getName().toLowerCase().contains(aramaKelimesi.toLowerCase())
                 ).collect(Collectors.toList());
             }
 

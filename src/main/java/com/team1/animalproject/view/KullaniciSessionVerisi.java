@@ -31,108 +31,111 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 @Component
-@Scope("session")
+@Scope ("session")
 public class KullaniciSessionVerisi implements Serializable {
 
-    private static final long serialVersionUID = -3594945290441411747L;
+	private static final long serialVersionUID = -3594945290441411747L;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private BlockchainService blockchainService;
+	@Autowired
+	private BlockchainService blockchainService;
 
-    private Kullanici kullanici;
+	private Kullanici kullanici;
 
-    ObjectMapper objectMapper;
+	ObjectMapper objectMapper;
 
-    @PostConstruct
-    public void init() {
-        log.info("user session is initialized for user id : " + getKullaniciBilgisi().getId());
-        kullaniciBilgileriniGetir();
-    }
+	@PostConstruct
+	public void init() {
+		log.info("user session is initialized for user id : " + getKullaniciBilgisi().getId());
+		kullaniciBilgileriniGetir();
+	}
 
-    public boolean yetkiVarmi(String yetki) {
-        return getKullaniciBilgisi().getYetkiler().contains(yetki);
-    }
+	public boolean yetkiVarmi(String yetki) {
+		return getKullaniciBilgisi().getYetkiler().contains(yetki);
+	}
 
-    public KullaniciPrincipal getKullaniciBilgisi() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if ("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())) {
-            return KullaniciPrincipal.builder().yetkiler(new ArrayList<>()).build();
-        }
-        KullaniciPrincipal principal = (KullaniciPrincipal) authentication.getPrincipal();
-        if (principal.getYetkiler() == null) {
-            principal.setYetkiler(new ArrayList<>());
-        }
-        return principal;
-    }
+	public KullaniciPrincipal getKullaniciBilgisi() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
+			return KullaniciPrincipal.builder().yetkiler(new ArrayList<>()).build();
+		}
+		KullaniciPrincipal principal = (KullaniciPrincipal) authentication.getPrincipal();
+		if(principal.getYetkiler() == null){
+			principal.setYetkiler(new ArrayList<>());
+		}
+		return principal;
+	}
 
-    public void reloadPage() {
-        JSFUtil.reload();
-    }
+	public void reloadPage() {
+		JSFUtil.reload();
+	}
 
-    private void kullaniciBilgileriniGetir() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if ("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())) {
-            kullanici = Kullanici.builder().name("Giriş Yapılmadı").build();
-        } else {
-            KullaniciPrincipal kullaniciPrincipal = (KullaniciPrincipal) authentication.getPrincipal();
-            Optional<Kullanici> kullaniciResponse = userService.findById(kullaniciPrincipal.getId());
+	private void kullaniciBilgileriniGetir() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
+			kullanici = Kullanici.builder().name("Giriş Yapılmadı").build();
+		} else {
+			KullaniciPrincipal kullaniciPrincipal = (KullaniciPrincipal) authentication.getPrincipal();
+			Optional<Kullanici> kullaniciResponse = userService.findById(kullaniciPrincipal.getId());
 
-            if (kullaniciResponse.isPresent()) {
-                kullanici = kullaniciResponse.get();
-            }
-        }
-    }
+			if(kullaniciResponse.isPresent()){
+				kullanici = kullaniciResponse.get();
+			}
+		}
+	}
 
-    public String resimUrl() {
-        kullaniciBilgileriniGetir();
-        if (getKullaniciBilgisi().getId() != null) {
-            File f = new File(Constants.AVATAR_PATH + kullanici.getId() + ".jpg");
-            if (f.exists()) {
-                return Constants.AVATAR_PATH + getKullaniciBilgisi().getId() + ".jpg";
-            }
-        }
+	public String resimUrl() {
+		kullaniciBilgileriniGetir();
+		if(getKullaniciBilgisi().getId() != null){
+			File f = new File(Constants.AVATAR_PATH + kullanici.getId() + ".jpg");
+			if(f.exists()){
+				return Constants.AVATAR_PATH + getKullaniciBilgisi().getId() + ".jpg";
+			}
+		}
 
-        return Constants.AVATAR_PATH + "avatar-male.jpg";
-    }
+		return Constants.AVATAR_PATH + "avatar-male.jpg";
+	}
 
-    public String getAdSoyad() {
-        if (getKullaniciBilgisi().getId() != null) {
-            kullaniciBilgileriniGetir();
-            return kullanici.getName() + " " + kullanici.getSurname();
-        }
-        return "Giriş Yapılmadı";
-    }
+	public String getAdSoyad() {
+		if(getKullaniciBilgisi().getId() != null){
+			kullaniciBilgileriniGetir();
+			return kullanici.getName() + " " + kullanici.getSurname();
+		}
+		return "Giriş Yapılmadı";
+	}
 
-    public List<String> yetkileriGetir() {
-        return getKullaniciBilgisi().getYetkiler().stream().distinct().sorted().collect(Collectors.toList());
-    }
+	public List<String> yetkileriGetir() {
+		return getKullaniciBilgisi().getYetkiler().stream().distinct().sorted().collect(Collectors.toList());
+	}
 
-    public String getKullaniciId() {
-        if (getKullaniciBilgisi().getId() != null)
-            return getKullaniciBilgisi().getId();
-        return "anonim";
-    }
+	public String getKullaniciId() {
+		if(getKullaniciBilgisi().getId() != null) return getKullaniciBilgisi().getId();
+		return "anonim";
+	}
 
-    public String getHash() {
-        List<String> all = blockchainService.readFile(getKullaniciId());
-        String join = "Blockchain Hashiniz Bulunmamaktadır";
-        if(all != null && all.size() > 0){
-            join = Strings.join(all, "/nextBlock/");
-        }
-        return join;
-    }
+	public String getHash() {
+		List<String> all = blockchainService.readFile(getKullaniciId());
+		String join = "Blockchain Hashiniz Bulunmamaktadır";
+		if(all != null && all.size() > 0){
+			join = Strings.join(all, "/nextBlock/");
+		}
+		return join;
+	}
 
-    public StreamedContent hashIndir() throws IOException {
-        if(getHash().equalsIgnoreCase("Blockchain Hashiniz Bulunmamaktadır")){
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
-        }
-        FileInputStream fileInputStream = new FileInputStream(new File(Constants.FILE_PATH + kullanici.getId() + ".achain"));
-        DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
-        defaultStreamedContent.setName(kullanici.getName() + "_" + kullanici.getSurname() + "_hashFile.achain");
-        return defaultStreamedContent;
-    }
+	public StreamedContent hashIndir() throws IOException {
+		if(getHash().equalsIgnoreCase("Blockchain Hashiniz Bulunmamaktadır")){
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
+		}
+		FileInputStream fileInputStream = new FileInputStream(new File(Constants.FILE_PATH + kullanici.getId() + ".achain"));
+		DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
+		defaultStreamedContent.setName(kullanici.getName() + "_" + kullanici.getSurname() + "_hashFile.achain");
+		return defaultStreamedContent;
+	}
+
+	public String getRol() {
+		return kullanici.getEmail();
+	}
 
 }
