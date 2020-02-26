@@ -79,7 +79,7 @@
                                         binding="#{turBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty turBean.selectedTurs? '' : ' - '.concat(turBean.selectedTurs.size())}"/>
+                                      value="#{empty turBean.selectedTurs? '' : ' ( '.concat(turBean.selectedTurs.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
                                              icon="fa fa-trash" disabled="#{empty turBean.selectedTurs}">

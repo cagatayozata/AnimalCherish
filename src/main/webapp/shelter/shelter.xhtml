@@ -99,7 +99,7 @@
 										binding="#{shelterBean.prepareAnimalNewScreen()}"/>
 							</p:commandButton>
 							<ui:param name="sizeOfSelectedItems"
-									  value="#{empty shelterBean.selectedShelters? '' : ' - '.concat(shelterBean.selectedShelters.size())}"/>
+									  value="#{empty shelterBean.selectedShelters? '' : ' ( '.concat(shelterBean.selectedShelters.size()) . concat(' )')}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
 											 rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_SILME_YETKISI')}"
 											 icon="fa fa-trash" disabled="#{empty shelterBean.selectedShelters}">

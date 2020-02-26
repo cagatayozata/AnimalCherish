@@ -80,7 +80,7 @@
                                         binding="#{cinsBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty cinsBean.selectedCinss? '' : ' - '.concat(cinsBean.selectedCinss.size())}"/>
+                                      value="#{empty cinsBean.selectedCinss? '' : ' ( '.concat(cinsBean.selectedCinss.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
                                              icon="fa fa-trash" disabled="#{empty cinsBean.selectedCinss}">

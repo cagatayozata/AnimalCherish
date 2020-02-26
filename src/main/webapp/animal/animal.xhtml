@@ -106,7 +106,7 @@
                                         binding="#{animalBean.medicalReportEkraniHazirla()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty animalBean.selectedAnimals? '' : ' - '.concat(animalBean.selectedAnimals.size())}"/>
+                                      value="#{empty animalBean.selectedAnimals? '' : ' ( '.concat(animalBean.selectedAnimals.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn"
                                              update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_SILME_YETKISI')}"

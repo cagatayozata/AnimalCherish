@@ -101,7 +101,7 @@
                                         binding="#{zooBean.prepareAnimalNewScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty zooBean.selectedZoos? '' : ' - '.concat(zooBean.selectedZoos.size())}"/>
+                                      value="#{empty zooBean.selectedZoos? '' : ' ( '.concat(zooBean.selectedZoos.size()) .concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVANAT_BAHCESI_SILME_YETKISI')}"
                                              icon="fa fa-trash" disabled="#{empty zooBean.selectedZoos}">

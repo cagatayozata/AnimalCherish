@@ -79,7 +79,7 @@
 										binding="#{vetBean.prepareUpdateScreen()}"/>
 							</p:commandButton>
 							<ui:param name="sizeOfSelectedItems"
-									  value="#{empty vetBean.selectedVets? '' : ' - '.concat(vetBean.selectedVets.size())}"/>
+									  value="#{empty vetBean.selectedVets? '' : ' ( '.concat(vetBean.selectedVets.size()) .concat(' )')}"/>
 							<p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
 											 rendered="#{kullaniciSessionVerisi.yetkiVarmi('VETERINER_SILME_YETKISI')}"
 											 icon="fa fa-trash" disabled="#{empty vetBean.selectedVets}">

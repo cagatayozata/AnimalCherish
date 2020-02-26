@@ -99,7 +99,7 @@
                                         binding="#{petShopBean.prepareAnimalNewScreen()}"/>
                             </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
-                                      value="#{empty petShopBean.selectedPetShops? '' : ' - '.concat(petShopBean.selectedPetShops.size())}"/>
+                                      value="#{empty petShopBean.selectedPetShops? '' : ' ( '.concat(petShopBean.selectedPetShops.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_SILME_YETKISI')}"
                                              icon="fa fa-trash" disabled="#{empty petShopBean.selectedPetShops}">
