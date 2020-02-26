@@ -36,4 +36,7 @@ public class Cins implements Serializable {
 
 	@Transient
 	public String turAd;
+
+	@Column(name = "state")
+	private boolean durum;
 }

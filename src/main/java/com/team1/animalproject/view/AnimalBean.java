@@ -167,7 +167,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
     public void kaydet() throws IOException {
         animalService.save(animal);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı", "Hayvan ekleme işlemi başarıyla tamamlandı."));
+        context.addMessage(null, new FacesMessage("Başarılı", "Hayvan verisi başarıyla işlem görmüştür."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
 

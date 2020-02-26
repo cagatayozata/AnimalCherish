@@ -98,7 +98,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
     public void kaydet() throws IOException {
         zooService.save(zoo);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı",  "Zoo Ekleme İşlemi Başarıyla Tamamlandı") );
+        context.addMessage(null, new FacesMessage("Başarılı",  "Zoo verisi başarıyla işlem görmüştür.") );
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
 

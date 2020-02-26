@@ -29,4 +29,7 @@ public class Tur implements Serializable {
 
 	@Column(name = "description")
 	public String description;
+
+	@Column(name = "state")
+	private boolean durum;
 }

@@ -14,4 +14,6 @@ public interface CinsRepository extends JpaRepository<Cins, String> {
     Cins findById(String id);
 
     void deleteByTurId(String turId);
+
+    List<Cins> findAllByDurum(boolean durum);
 }

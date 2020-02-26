@@ -98,7 +98,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
     public void kaydet() throws IOException {
         shelterService.save(shelter);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı", "Barınak Ekleme İşlemi Başarıyla Tamamlandı"));
+        context.addMessage(null, new FacesMessage("Başarılı", "Barınak verisi başarıyla işlem görmüştür."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/shelter/shelter.jsf");
     }

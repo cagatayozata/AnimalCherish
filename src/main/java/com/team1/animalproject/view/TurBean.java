@@ -45,7 +45,7 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 	@PostConstruct
 	public void viewOlustur() {
 		super.altVerileriVeIlkEkraniHazirla();
-		allTurs = turService.getAll();
+		allTurs = turService.ara();
 		filteredTurs = new ArrayList<>(allTurs);
 	}
 
@@ -53,7 +53,7 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 	public void ilkEkraniHazirla() {
 		showCreateOrEdit = false;
 		showInfo = false;
-		allTurs = turService.getAll();
+		allTurs = turService.ara();
 		filteredTurs = new ArrayList<>(allTurs);
 		tur = new Tur();
 	}
@@ -61,10 +61,20 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 	public void kaydet() throws IOException {
 		turService.save(tur);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Tür ekleme işlemi başarıyla tamamlandı.") );
+		context.addMessage(null, new FacesMessage("Başarılı",  "Tür verisi başarıyla işlem görmüştür.") );
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/tur/tur.jsf");
 
+	}
+
+	public void kullanimaAl() throws IOException {
+		tur = selectedTurs.stream().findFirst().get();
+		tur.setDurum(true);
+		kaydet();
+	}
+
+	public boolean kullanimdaVarmi(){
+		return selectedTurs.stream().anyMatch(c -> c.isDurum());
 	}
 
 	public void prepareNewScreen(){

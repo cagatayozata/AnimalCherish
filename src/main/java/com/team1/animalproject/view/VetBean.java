@@ -78,7 +78,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	public void kaydet() throws IOException {
 		vetService.save(vet);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner Ekleme İşlemi Başarıyla Tamamlandı") );
+		context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner verisi başarıyla işlem görmüştür.") );
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
 

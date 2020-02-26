@@ -49,7 +49,7 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 	@PostConstruct
 	public void viewOlustur() {
 		super.altVerileriVeIlkEkraniHazirla();
-		allCinss = cinsService.getAll();
+		allCinss = cinsService.ara();
 		filteredCinss = new ArrayList<>(allCinss);
 	}
 
@@ -57,7 +57,7 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 	public void ilkEkraniHazirla() {
 		showCreateOrEdit = false;
 		showInfo = false;
-		allCinss = cinsService.getAll();
+		allCinss = cinsService.ara();
 		filteredCinss = new ArrayList<>(allCinss);
 		turler = turService.getAll();
 		cins = new Cins();
@@ -66,10 +66,20 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 	public void kaydet() throws IOException {
 		cinsService.save(cins);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Cins ekleme işlemi başarıyla tamamlandı.") );
+		context.addMessage(null, new FacesMessage("Başarılı",  "Cins verisi başarıyla işlem görmüştür.") );
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/cins/cins.jsf");
 
+	}
+
+	public void kullanimaAl() throws IOException {
+		cins = selectedCinss.stream().findFirst().get();
+		cins.setDurum(true);
+		kaydet();
+	}
+
+	public boolean kullanimdaVarmi(){
+		return selectedCinss.stream().anyMatch(c -> c.isDurum());
 	}
 
 	public void prepareNewScreen(){

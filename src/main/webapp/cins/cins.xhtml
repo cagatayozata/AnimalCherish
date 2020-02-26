@@ -29,7 +29,7 @@
                     <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
                     <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
 
-                    <f:facet name="header">Tür Listesi
+                    <f:facet name="header">Cins Listesi
 
                         <p:outputPanel id="dataTableHeaderBtn"
                                        styleClass="dataTableHeaderBtnContainer">
@@ -52,7 +52,7 @@
                                     value="Cins Ekle"
                                     styleClass="dataTableHeaderBtn" update=":form"
                                     resetValues="true"
-                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_EKLEME_YETKISI')}"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_EKLEME_YETKISI')}"
                                     icon="fa fa-plus">
                                 <f:actionListener
                                         binding="#{cinsBean.prepareNewScreen()}"/>
@@ -61,7 +61,7 @@
                                     value="Detay"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
-                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_DETAY_YETKISI')}"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_DETAY_YETKISI')}"
                                     icon="fa fa-search"
                                     disabled="#{cinsBean.selectedCinss.size() ne 1}"
                                     resetValues="true">
@@ -72,18 +72,29 @@
                                     value="Güncelle"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
-                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_GUNCELLEME_YETKISI')}"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_GUNCELLEME_YETKISI')}"
                                     icon="fa fa-edit"
                                     disabled="#{cinsBean.selectedCinss.size() ne 1}"
                                     resetValues="true">
                                 <f:actionListener
                                         binding="#{cinsBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
+                            <p:commandButton
+                                    value="Kullanıma Al"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_KULLANIMA_ALMA_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{cinsBean.selectedCinss.size() ne 1 or cinsBean.kullanimdaVarmi()}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{cinsBean.kullanimaAl()}"/>
+                            </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty cinsBean.selectedCinss? '' : ' ( '.concat(cinsBean.selectedCinss.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
-                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
-                                             icon="fa fa-trash" disabled="#{empty cinsBean.selectedCinss}">
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty cinsBean.selectedCinss or cinsBean.kullanimdaVarmi()}">
                                 <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
                                 <f:actionListener
                                         binding="#{cinsBean.sil()}"/>
@@ -104,6 +115,10 @@
                     <p:column headerText="Tur" sortBy="#{cins.turAd}"
                               filterBy="#{cins.turAd}" filterMatchMode="contains">
                         <h:outputText value="#{cins.turAd}"/>
+                    </p:column>
+                    <p:column headerText="Durum" sortBy="#{cins.durum}"
+                              filterBy="#{cins.durum}" filterMatchMode="equals">
+                        <h:outputText value="#{cins.durum ? 'Kullanımda' : 'Taslak'}"/>
                     </p:column>
                 </p:dataTable>
 

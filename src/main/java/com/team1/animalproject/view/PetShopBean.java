@@ -98,7 +98,7 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
     public void kaydet() throws IOException {
         petShopService.save(petShop);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı", "Pet Shop Ekleme İşlemi Başarıyla Tamamlandı"));
+        context.addMessage(null, new FacesMessage("Başarılı", "Pet Shop verisi başarıyla işlem görmüştür."));
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().getExternalContext().redirect("/petshop/petshop.jsf");
     }

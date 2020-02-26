@@ -78,12 +78,23 @@
                                 <f:actionListener
                                         binding="#{turBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
+                            <p:commandButton
+                                    value="Kullanıma Al"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_KULLANIMA_ALMA_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{turBean.selectedTurs.size() ne 1 or turBean.kullanimdaVarmi()}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{turBean.kullanimaAl()}"/>
+                            </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty turBean.selectedTurs? '' : ' ( '.concat(turBean.selectedTurs.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
                                              rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
-                                             icon="fa fa-trash" disabled="#{empty turBean.selectedTurs}">
-                                <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                                             icon="fa fa-trash" disabled="#{empty turBean.selectedTurs  or turBean.kullanimdaVarmi()}">
+                                <p:confirm header="Silme İşlemi" message="Tür verisini silerseniz, bağlı tüm cinsleri sileceksiniz. Silme işlemini onaylıyor musunuz?"/>
                                 <f:actionListener
                                         binding="#{turBean.sil()}"/>
                             </p:commandButton>
@@ -99,6 +110,10 @@
                     <p:column headerText="Ad" sortBy="#{tur.name}"
                               filterBy="#{tur.name}" filterMatchMode="contains">
                         <h:outputText value="#{tur.name}"/>
+                    </p:column>
+                    <p:column headerText="Durum" sortBy="#{tur.durum}"
+                              filterBy="#{tur.durum}" filterMatchMode="exact">
+                        <h:outputText value="#{tur.durum ? 'Kullanımda' : 'Taslak'}"/>
                     </p:column>
                 </p:dataTable>
 

@@ -27,11 +27,13 @@ INSERT INTO public.yetki (id,kod,"name") VALUES
 ,('1fd25cb0-cee2-43e6-9c3d-fcd9acf3ceb5','ROL_MENU_YETKISI','Rol Menü Yetkisi')
 ,('a4c4c521-8846-4013-b655-b9a760ed1a58','TUR_EKLEME_YETKISI','Tür Ekleme Yetkisi')
 ,('15290df9-821d-44ae-8a30-a879ce288b84','TUR_GUNCELLEME_YETKISI','Tür Güncelleme Yetkisi')
+,('1c83c68a-8206-4413-8fd8-56494ce8d134','TUR_KULLANIMA_ALMA_YETKISI','Tür Kullanıma Alma Yetkisi')
 ,('5cfd1ada-6697-458c-b58a-af0547678a40','TUR_DETAY_YETKISI','Tür Detay Yetkisi')
 ,('967877a4-0329-48fd-9455-3cebd0538cbf','TUR_SILME_YETKISI','Tür Silme Yetkisi')
 ,('7b084b99-ff4c-4e62-8b90-4efa7e66d787','TUR_MENU_YETKISI','Tür Menü Yetkisi')
 ,('afe76cd7-bb6b-47e1-b279-143a9785ad2f','CINS_EKLEME_YETKISI','Cins Ekleme Yetkisi')
 ,('c688c526-0714-4d71-9b63-5dbf7ac6abbd','CINS_GUNCELLEME_YETKISI','Cins Güncelleme Yetkisi')
+,('b31c7a05-116c-414e-8f08-6004d9361fae','CINS_KULLANIMA_ALMA_YETKISI','Cins Kullanıma Alma Yetkisi')
 ,('25194b28-c380-47ac-a1cc-3ea5c4992c19','CINS_DETAY_YETKISI','Cins Detay Yetkisi')
 ;
 INSERT INTO public.yetki (id,kod,"name") VALUES
