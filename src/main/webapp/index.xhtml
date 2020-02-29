@@ -1,44 +1,56 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-				xmlns:f="http://java.sun.com/jsf/core"
-				template="WEB-INF/template.xhtml">
-	<ui:define name="viewname">Giriş Sayfası</ui:define>
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+    <ui:define name="viewname">Giriş Sayfası</ui:define>
 
-	<ui:define name="content">
-		<p:growl id="growl" showDetail="true" />
+    <ui:define name="content">
+        <p:growl id="growl" showDetail="true"/>
 
-				<p:fieldset legend="Yenilikler" style="margin-bottom:20px">
-					<h:panelGrid columns="1">
-						<p:graphicImage styleClass="login-image" width="25%" height="25%" name="images/landing/3.jpg" library="california-layout"/>
-						<h:outputText
-								value="Veteriner ekranı eklendi. Veteriner ekranı üzerinden yetkili kişiler veteriner ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir." />
-					</h:panelGrid>
-				</p:fieldset>
+        <script>
+            $(function () {
 
-		<p:fieldset legend="Haberler" style="margin-bottom:20px">
-			<h:panelGrid columns="1">
-				<h:outputText style="font-weight: bold; height: 100px"
-						value="Hayvan dostu eğitim" />
-				<h:outputText
-						value="Ankara Büyükşehir Belediyesi (ABB) Sağlık İşleri Daire Başkanlığı, ‘Yerel Hayvan Koruma Görevlisi Eğitimi’ düzenleyecek. Yarın ve diğer gün gerçekleştirilecek eğitim programı kapsamında uzmanlar tarafından; yasaklı tür ve ırkların tanımı, hayvanlarda ilk yardım, hayvan refahı, bakım ve beslenme, hayvan davranışları ve hayvan ekolojisi hakkında önemli bilgiler verilecek." />
+                $('.simple-marquee-container').SimpleMarquee();
 
-				<br/>
-				<h:outputText style="font-weight: bold; height: 100px"
-							  value="Mersin'de bir köpek sezaryenle 16 yavru doğurdu" />
-				<h:outputText
-						value="Mersin Büyükşehir Belediyesinden yapılan açıklamaya göre, belediyeye bağlı Kaşlı Geçici Hayvan Bakımevi ekipleri, Mut ilçesinde sahipsiz bir köpeğin doğum sancısı çektiği ihbarını aldı.
+            });
 
-Ekipler, doğum yapacak kurt melezi cinsi köpeği Kaşlı Geçici Hayvan Bakımevine getirdi.
+        </script>
 
-Merkezde gözetim altında tutulan ve doğum anı geldiğinde yavru sayısının fazla oluşundan dolayı sezaryenle doğumu gerçekleştirilen köpek, yaklaşık 2 saat süren operasyon sonucunda 16 yavru doğurdu." />
+        <h:outputScript name="js/jquery-ui.js" library="california-layout"/>
+        <h:outputScript name="js/marquee.js" library="california-layout"/>
+        <h:outputStylesheet name="css/marquee.css" library="california-layout"/>
 
+        <p:panel style="background: unset; border: 0; padding: 0; margin-bottom: 50px; margin-top: -30px; ">
+            <div style="margin-bottom: 10px" id="content">
+                <div class="simple-marquee-container">
+                    <div class="marquee-sibling">
+                        Son Haberler
+                    </div>
+                    <div class="marquee">
+                        <ul class="marquee-content-items">
+                            <p:feedReader value="https://rss.haberler.com/rsskonu.asp?konu=hayvan&amp;limit=5" var="feed">
+                                <li>
+                                    <h:outputText value="#{feed.description.value}" escape="false"/>
+                                    <p:link target="_blank" style="font-size: 13px" href="#{feed.link}"> devamını oku</p:link>
+                                </li>
+                            </p:feedReader>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </p:panel>
 
-			</h:panelGrid>
-		</p:fieldset>
+        <p:fieldset legend="Yenilikler" style="margin-top: 10px; margin-bottom:20px">
+            <h:panelGrid columns="1">
+                <p:graphicImage styleClass="login-image" width="25%" height="25%" name="images/landing/3.jpg" library="california-layout"/>
+                <h:outputText
+                        value="Veteriner ekranı eklendi. Veteriner ekranı üzerinden yetkili kişiler veteriner ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir."/>
+            </h:panelGrid>
+        </p:fieldset>
+        
+        <p:panel>
+            <p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
+        </p:panel>
 
-			<p:panel>
-				<p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
-			</p:panel>
-
-	</ui:define>
+    </ui:define>
 </ui:composition>
