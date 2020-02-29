@@ -5,6 +5,92 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core">
 
+    <h:outputScript name="js/jquery-ui.js" library="california-layout"/>
+
+    <style>
+        #notificationContainer {
+            position: relative;
+        }
+
+        #notificationButton {
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            background: #FFF;
+            margin: -3px 10px 0 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #notificationCounter {
+            display: block;
+            position: absolute;
+            background: #E1141E;
+            color: #FFF;
+            font-size: 12px;
+            font-weight: normal;
+            padding: 0 3px;
+            margin: -8px 0 0 52px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            z-index: 1;
+        }
+
+        #notifications {
+            display: none;
+            width: 260px;
+            position: absolute;
+            top: 30px;
+            right: 0px;
+            background: #FFF;
+            border: solid 1px rgba(100, 100, 100, .20);
+            -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .20);
+            z-index: 10;
+        }
+
+        .layout-wrapper .layout-main .route-bar .route-bar-menu li a {
+            width: 20px !important;
+        }
+
+        #notifications:before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            color: transparent;
+            border: 10px solid #CCC;
+            border-color: transparent transparent #FFF;
+            margin-top: -20px;
+            margin-left: 400px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+
+            $('#notificationButton').click(function () {
+                $('#notifications').fadeToggle('fast', 'linear', function () {
+                    if ($('#notifications').is(':hidden')) {
+                    } else $('#notificationButton').css('background-color', '#FFF');
+                });
+                return false;
+            });
+
+            $(document).click(function () {
+                $('#notifications').hide();
+            });
+
+            $('#notifications').click(function () {
+                return false;
+            });
+        });
+
+    </script>
 
     <ul class="route-bar-menu">
         <li class="search-item">
@@ -20,20 +106,19 @@
                 <i class="fa fa-globe"/>
             </a>
         </li>
-        <li>
-            <a href="#" data-tooltip="Calendar">
+        <li id="notificationContainer">
+            <div id="notificationCounter"></div>
+            <div id="notificationButton" data-tooltip="#{msg['general.logout']}">
                 <i class="fa fa-calendar"/>
-            </a>
+            </div>
+            <div id="notifications">
+                <p:calendar mode="inline"/>
+            </div>
         </li>
         <li>
             <a href="#" data-tooltip="Help">
                 <i class="fa fa-life-saver"/>
             </a>
-        </li>
-        <li>
-            <h:form>
-                TR
-            </h:form>
         </li>
         <li>
             <a href="/perform_logout" data-tooltip="Çık">
