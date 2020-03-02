@@ -1,6 +1,7 @@
 package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.team1.animalproject.model.dto.Auditable;
 import lombok.*;
 import org.apache.commons.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
@@ -20,7 +21,7 @@ import java.sql.Blob;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class Kullanici implements Serializable {
+public class Kullanici extends Auditable<String, String> implements Serializable {
 
     private static final long serialVersionUID = 8237988717501947043L;
 

@@ -1,6 +1,7 @@
 package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.team1.animalproject.model.dto.Auditable;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class PetShop implements Serializable {
+public class PetShop extends Auditable<String, String> implements Serializable {
 
     private static final long serialVersionUID = -785304844585574390L;
 

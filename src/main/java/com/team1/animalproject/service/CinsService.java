@@ -2,6 +2,7 @@ package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.repository.CinsRepository;
+import com.team1.animalproject.repository.custom.CinsRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,7 @@ public class CinsService implements IBaseService<Cins> {
 	}
 
 	public List<Cins> ara() {
-		List<Cins> all = cinsRepository.findAll();
-		if(all != null){
-			all.stream().forEach(cins -> cins.setTurAd(turService.findById(cins.getTurId()).getName()));
-		}
-		return all;
+		return cinsRepository.cinsAra();
 	}
 
 	public List<Cins> findByTurId(String turId) {

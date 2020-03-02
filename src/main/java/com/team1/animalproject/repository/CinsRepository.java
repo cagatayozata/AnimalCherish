@@ -1,19 +1,21 @@
 package com.team1.animalproject.repository;
 
 import com.team1.animalproject.model.Cins;
+import com.team1.animalproject.repository.custom.CustomCinsRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository("cinsRepository")
-public interface CinsRepository extends JpaRepository<Cins, String> {
-    Optional<List<Cins>> findByTurId(String turId);
+@Repository ("cinsRepository")
+public interface CinsRepository extends JpaRepository<Cins, String>, CustomCinsRepository {
 
-    Cins findById(String id);
+	Optional<List<Cins>> findByTurId(String turId);
 
-    void deleteByTurId(String turId);
+	Cins findById(String id);
 
-    List<Cins> findAllByDurum(boolean durum);
+	void deleteByTurId(String turId);
+
+	List<Cins> findAllByDurum(boolean durum);
 }

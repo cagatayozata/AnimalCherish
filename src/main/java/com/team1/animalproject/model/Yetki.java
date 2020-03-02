@@ -1,6 +1,7 @@
 package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.team1.animalproject.model.dto.Auditable;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class Yetki implements Serializable {
+public class Yetki extends Auditable<String, String> implements Serializable {
 
 	private static final long serialVersionUID = -4951959149422559771L;
 

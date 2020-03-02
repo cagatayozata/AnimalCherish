@@ -104,10 +104,6 @@
 
                     <p:column selectionMode="multiple"
                               style="width:16px;text-align:center" toggleable="false" exportable="false"/>
-                    <p:column headerText="Tür ID" sortBy="#{cins.id}"
-                              filterBy="#{cins.id}" filterMatchMode="contains">
-                        <h:outputText value="#{cins.id}"/>
-                    </p:column>
                     <p:column headerText="Ad" sortBy="#{cins.name}"
                               filterBy="#{cins.name}" filterMatchMode="contains">
                         <h:outputText value="#{cins.name}"/>
@@ -116,8 +112,7 @@
                               filterBy="#{cins.turAd}" filterMatchMode="contains">
                         <h:outputText value="#{cins.turAd}"/>
                     </p:column>
-                    <p:column headerText="Durum" sortBy="#{cins.durum}"
-                              filterBy="#{cins.durum}" filterMatchMode="equals">
+                    <p:column headerText="Durum" sortBy="#{cins.durum}">
                         <h:outputText value="#{cins.durum ? 'Kullanımda' : 'Taslak'}"/>
                     </p:column>
                 </p:dataTable>
