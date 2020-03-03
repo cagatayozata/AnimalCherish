@@ -12,25 +12,13 @@ import java.util.Optional;
 @Service
 public class AnimalService implements IBaseService<Animal> {
 
-	@Qualifier("animalRepository")
+	@Qualifier ("animalRepository")
 	@Autowired
 	private AnimalRepository animalRepository;
 
-	@Autowired
-	private TurService turService;
-
-	@Autowired
-	private CinsService cinsService;
-
 	@Override
 	public List<Animal> getAll() {
-		List<Animal> all = animalRepository.findAll();
-		if(all != null)
-			all.stream().forEach(animal -> {
-				animal.setTurAd(turService.findById(animal.getTurId()).getName());
-				animal.setCinsAd(cinsService.findById(animal.getCinsId()).getName());
-			});
-		return all;
+		return animalRepository.animalAra();
 	}
 
 	@Override
