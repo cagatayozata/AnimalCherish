@@ -1,5 +1,7 @@
 package com.team1.animalproject.view;
 
+import com.team1.animalproject.service.AnimalService;
+import com.team1.animalproject.view.utils.DayEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.primefaces.event.ItemSelectEvent;
@@ -13,6 +15,7 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.optionconfig.legend.Legend;
 import org.primefaces.model.charts.optionconfig.legend.LegendLabel;
 import org.primefaces.model.charts.optionconfig.title.Title;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +25,16 @@ import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Scope("view")
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class ChartBean implements Serializable {
+
+    @Autowired
+    private AnimalService animalService;
 
     private BarChartModel barModel;
 
@@ -44,15 +51,19 @@ public class ChartBean implements Serializable {
         BarChartDataSet barDataSet = new BarChartDataSet();
         barDataSet.setLabel("Son 7 Gün Eklenmiş Hayvan Sayısı");
 
+        Map<Integer, Long> veri = animalService.sonYediGunIcinEklenenHayvanVerileriniGetir();
+
+
         List<Number> values = new ArrayList<>();
-        values.add(65);
-        values.add(59);
-        values.add(80);
-        values.add(81);
-        values.add(56);
-        values.add(55);
-        values.add(40);
+        List<String> labels = new ArrayList<>();
+
+        for(Integer day : veri.keySet()){
+            labels.add(DayEnum.getById(day).get().getTextMessageKey());
+            values.add(veri.get(day));
+        }
+
         barDataSet.setData(values);
+        data.setLabels(labels);
 
         List<String> bgColor = new ArrayList<>();
         bgColor.add("rgba(255, 99, 132, 0.2)");
@@ -77,15 +88,6 @@ public class ChartBean implements Serializable {
 
         data.addChartDataSet(barDataSet);
 
-        List<String> labels = new ArrayList<>();
-        labels.add("Pazartesi");
-        labels.add("Salı");
-        labels.add("Çarşamba");
-        labels.add("Perşembe");
-        labels.add("Cuma");
-        labels.add("Cumartesi");
-        labels.add("Pazar");
-        data.setLabels(labels);
         barModel.setData(data);
 
         //Options

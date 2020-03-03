@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -38,6 +39,10 @@ public class AnimalService implements IBaseService<Animal> {
 
 	public Optional<List<Animal>> findByIdIn(List<String> ids) {
 		return animalRepository.findByIdIn(ids);
+	}
+
+	public Map<Integer, Long> sonYediGunIcinEklenenHayvanVerileriniGetir(){
+		return animalRepository.sonYediGunIcinEklenenHayvanVerileriniGetir();
 	}
 
 }
