@@ -10,6 +10,8 @@ public enum BaseExceptionType {
 
 	BASE_EXCEPTION("001", "Bir Hata Oluştu"),
 	KULLANICI_ADI_MAIL_PHONE_KULLANILIYOR("002", "Kullanıcı adı, email veya telefon numaralarından birisi kullanılmaktadır"),
+	KULLANICI_ZATEN_GOREVLI("003", "Eklemek istediğiniz kullanıcılardan birisi zaten başka bir yerde zaten görevlidir. Lütfen kontrol ediniz!"),
+
 	VIEW_EXCEPTION("300", "validator.generic.view.exception");
 
 

@@ -24,228 +24,215 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-@Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@Scope ("view")
+@EqualsAndHashCode (callSuper = false)
 @Data
 public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 
-    private static final long serialVersionUID = -7142769566453097269L;
+	private static final long serialVersionUID = -7142769566453097269L;
 
-    private static final Logger logger = LoggerFactory.getLogger(ZooBean.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZooBean.class);
 
-    @Autowired
-    private ZooService zooService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AnimalService animalService;
+	@Autowired
+	private ZooService zooService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AnimalService animalService;
 
-    private Zoo zoo = new Zoo();
-    private List<Zoo> selectedZoos;
-    private List<Zoo> allZoos;
-    private List<Zoo> filteredZoos;
-    private List<Kullanici> workers;
-    private List<Kullanici> selectedWorkers;
-    private List<Kullanici> filteredWorkers;
-    private boolean showWorkerCreateOrEdit;
-    private boolean workerInfo;
-    private String zooId;
+	private Zoo zoo = new Zoo();
+	private List<Zoo> selectedZoos;
+	private List<Zoo> allZoos;
+	private List<Zoo> filteredZoos;
+	private List<Kullanici> workers;
+	private List<Kullanici> selectedWorkers;
+	private List<Kullanici> filteredWorkers;
+	private boolean showWorkerCreateOrEdit;
+	private boolean workerInfo;
+	private String zooId;
 
-    private List<Kullanici> addedWorkers;
-    private List<Kullanici> selectedAddedWorkers;
-    private List<Kullanici> filteredAddedWorkers;
+	private List<Kullanici> addedWorkers;
+	private List<Kullanici> selectedAddedWorkers;
+	private List<Kullanici> filteredAddedWorkers;
 
-    private List<Animal> animals;
-    private List<Animal> selectedAnimals;
-    private List<Animal> filteredAnimals;
-    private List<Animal> addedAnimals;
-    private List<Animal> selectedAddedAnimals;
-    private List<Animal> filteredAddedAnimals;
-    private boolean showAnimalCreateOrEdit;
+	private List<Animal> animals;
+	private List<Animal> selectedAnimals;
+	private List<Animal> filteredAnimals;
+	private List<Animal> addedAnimals;
+	private List<Animal> selectedAddedAnimals;
+	private List<Animal> filteredAddedAnimals;
+	private boolean showAnimalCreateOrEdit;
 
+	private boolean showCreateOrEdit;
+	private boolean showInfo;
 
-    private boolean showCreateOrEdit;
-    private boolean showInfo;
+	@Override
+	@PostConstruct
+	public void viewOlustur() {
+		super.altVerileriVeIlkEkraniHazirla();
+		allZoos = zooService.getAll();
+		filteredZoos = new ArrayList<>(allZoos);
+	}
 
-    @Override
-    @PostConstruct
-    public void viewOlustur() {
-        super.altVerileriVeIlkEkraniHazirla();
-        allZoos = zooService.getAll();
-        filteredZoos = new ArrayList<>(allZoos);
-    }
+	@Override
+	public void ilkEkraniHazirla() {
+		showCreateOrEdit = false;
+		showInfo = false;
+		zoo = new Zoo();
+		workers = userService.getAll();
+		showWorkerCreateOrEdit = false;
+		workerInfo = false;
+		addedWorkers = new ArrayList<>();
+		selectedAddedWorkers = new ArrayList<>();
+		filteredAddedWorkers = new ArrayList<>();
+		filteredWorkers = new ArrayList<>();
+		selectedWorkers = new ArrayList<>();
+		animals = animalService.getAll();
+		filteredAnimals = new ArrayList<>();
+		filteredAddedAnimals = new ArrayList<>();
+		addedAnimals = new ArrayList<>();
+		showAnimalCreateOrEdit = false;
+	}
 
-    @Override
-    public void ilkEkraniHazirla() {
-        showCreateOrEdit = false;
-        showInfo = false;
-        zoo = new Zoo();
-        workers = userService.getAll();
-        showWorkerCreateOrEdit = false;
-        workerInfo = false;
-        addedWorkers = new ArrayList<>();
-        selectedAddedWorkers = new ArrayList<>();
-        filteredAddedWorkers = new ArrayList<>();
-        filteredWorkers = new ArrayList<>();
-        selectedWorkers = new ArrayList<>();
-        animals = animalService.getAll();
-        filteredAnimals = new ArrayList<>();
-        filteredAddedAnimals = new ArrayList<>();
-        addedAnimals = new ArrayList<>();
-        showAnimalCreateOrEdit = false;
-    }
+	public void kaydet() throws IOException {
+		zooService.save(zoo);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Başarılı", "Zoo verisi başarıyla işlem görmüştür."));
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
 
-    public void kaydet() throws IOException {
-        zooService.save(zoo);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı",  "Zoo verisi başarıyla işlem görmüştür.") );
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+	}
 
-    }
+	public void prepareNewScreen() {
+		showCreateOrEdit = true;
+	}
 
-    public void prepareNewScreen(){
-        showCreateOrEdit = true;
-    }
+	public void prepareUpdateScreen() {
+		zoo = selectedZoos.stream().findFirst().get();
+		showCreateOrEdit = true;
+	}
 
-    public void prepareUpdateScreen(){
-        zoo = selectedZoos.stream().findFirst().get();
-        showCreateOrEdit = true;
-    }
+	public void prepareInfoScreen() {
+		zoo = selectedZoos.stream().findFirst().get();
+		showCreateOrEdit = true;
+		showInfo = true;
+	}
 
-    public void prepareInfoScreen(){
-        zoo = selectedZoos.stream().findFirst().get();
-        showCreateOrEdit = true;
-        showInfo = true;
-    }
+	public void sil() throws IOException {
+		zooService.delete(selectedZoos);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+	}
 
-    public void sil() throws IOException {
-        zooService.delete(selectedZoos);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
-    }
+	public void prepareWorkerNewScreen() {
+		showWorkerCreateOrEdit = true;
+		findWorkers();
+		findWorkersForAdd();
+	}
 
-    public void prepareWorkerNewScreen() {
-        showWorkerCreateOrEdit = true;
-        findWorkers();
-        findWorkersForAdd();
-    }
+	public void prepareAnimalNewScreen() {
+		showAnimalCreateOrEdit = true;
+		findAnimals();
+		findAnimalsForAdd();
+	}
 
+	private void findAnimals() {
+		zooId = selectedZoos.stream().findFirst().get().getId();
+		List<ZooAnimal> animalsIn = zooService.getAnimalsByZooId(zooId);
+		Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ZooAnimal::getAnimalId).collect(Collectors.toList()));
+		if(animals.isPresent()){
+			addedAnimals = animals.get();
+		} else {
+			addedAnimals = new ArrayList<>();
+		}
+		filteredAddedAnimals = addedAnimals;
+		showAnimalCreateOrEdit = true;
+	}
 
-    public void prepareAnimalNewScreen() {
-        showAnimalCreateOrEdit = true;
-        findAnimals();
-        findAnimalsForAdd();
-    }
+	private void findAnimalsForAdd() {
+		animals.removeAll(addedWorkers);
+		filteredAnimals = animals;
+	}
 
-    private void findAnimals() {
-        zooId = selectedZoos.stream().findFirst().get().getId();
-        List<ZooAnimal> animalsIn = zooService.getAnimalsByZooId(zooId);
-        Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ZooAnimal::getAnimalId).collect(Collectors.toList()));
-        if (animals.isPresent()) {
-            addedAnimals = animals.get();
-        } else {
-            addedAnimals = new ArrayList<>();
-        }
-        filteredAddedAnimals = addedAnimals;
-        showAnimalCreateOrEdit = true;
-    }
+	public void prepareWorkerUpdateScreen() {
+		findWorkers();
+		findWorkersForAdd();
+	}
 
-    private void findAnimalsForAdd() {
-        animals.removeAll(addedWorkers);
-        filteredAnimals = animals;
-    }
+	public void prepareWorkerInfoScreen() {
+		findWorkersForAdd();
+		findWorkers();
+		workerInfo = true;
+	}
 
-    public void prepareWorkerUpdateScreen() {
-        findWorkers();
-        findWorkersForAdd();
-    }
+	public void addWorker() {
+		addedWorkers.addAll(selectedWorkers);
+		workers.removeAll(selectedWorkers);
+		selectedWorkers = new ArrayList<>();
+	}
 
-    public void prepareWorkerInfoScreen() {
-        findWorkersForAdd();
-        findWorkers();
-        workerInfo = true;
-    }
+	public void deleteWorker() {
+		addedWorkers.removeAll(selectedAddedWorkers);
+		workers.addAll(selectedAddedWorkers);
+		selectedAddedWorkers = new ArrayList<>();
+	}
 
-    public void addWorker() {
-        addedWorkers.addAll(selectedWorkers);
-        workers.removeAll(selectedWorkers);
-        selectedWorkers = new ArrayList<>();
-    }
+	public void addAnimal() {
+		addedAnimals.addAll(selectedAnimals);
+		animals.removeAll(selectedAnimals);
+		selectedAnimals = new ArrayList<>();
+	}
 
-    public void deleteWorker() {
-        addedWorkers.removeAll(selectedAddedWorkers);
-        workers.addAll(selectedAddedWorkers);
-        selectedAddedWorkers = new ArrayList<>();
-    }
+	public void deleteAnimal() {
+		addedAnimals.removeAll(selectedAddedAnimals);
+		animals.addAll(selectedAddedAnimals);
+		selectedAddedWorkers = new ArrayList<>();
+	}
 
-    public void addAnimal() {
-        addedAnimals.addAll(selectedAnimals);
-        animals.removeAll(selectedAnimals);
-        selectedAnimals = new ArrayList<>();
-    }
+	private void findWorkers() {
+		zooId = selectedZoos.stream().findFirst().get().getId();
+		List<ZooWorker> workersIn = zooService.getWorkersByShelterId(zooId);
+		Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(ZooWorker::getWorkerId).collect(Collectors.toList()));
+		if(kullanicis.isPresent()){
+			addedWorkers = kullanicis.get();
+		} else {
+			addedWorkers = new ArrayList<>();
+		}
+		filteredAddedWorkers = addedWorkers;
+		showWorkerCreateOrEdit = true;
+	}
 
-    public void deleteAnimal() {
-        addedAnimals.removeAll(selectedAddedAnimals);
-        animals.addAll(selectedAddedAnimals);
-        selectedAddedWorkers = new ArrayList<>();
-    }
+	private void findWorkersForAdd() {
+		workers.removeAll(addedWorkers);
+		filteredWorkers = workers;
+	}
 
+	public void workerSave() throws IOException {
+		List<ZooWorker> zooWorkers = new ArrayList<>();
+		addedWorkers.stream().forEach(kullanici -> {
+			zooWorkers.add(ZooWorker.builder().id(UUID.randomUUID().toString()).zooId(zooId).workerId(kullanici.id).build());
+		});
 
-    private void findWorkers() {
-        zooId = selectedZoos.stream().findFirst().get().getId();
-        List<ZooWorker> workersIn = zooService.getWorkersByShelterId(zooId);
-        Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(ZooWorker::getWorkerId).collect(Collectors.toList()));
-        if (kullanicis.isPresent()) {
-            addedWorkers = kullanicis.get();
-        } else {
-            addedWorkers = new ArrayList<>();
-        }
-        filteredAddedWorkers = addedWorkers;
-        showWorkerCreateOrEdit = true;
-    }
+		zooService.saveWorker(zooWorkers, zooId);
 
-    private void findWorkersForAdd() {
-        workers.removeAll(addedWorkers);
-        filteredWorkers = workers;
-    }
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesi Çalışanları Başarıyla Güncellendi."));
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+	}
 
-    public void workerSave() throws IOException {
-        List<ZooWorker> zooWorkers = new ArrayList<>();
-        if(addedWorkers.size() > 0){
-            addedWorkers.stream().forEach(kullanici -> {
-                zooWorkers.add(ZooWorker.builder()
-                        .id(UUID.randomUUID().toString())
-                        .zooId(zooId)
-                        .workerId(kullanici.id)
-                        .build());
-            });
+	public void animalsSave() throws IOException {
+		List<ZooAnimal> zooAnimals = new ArrayList<>();
+		if(addedAnimals.size() > 0){
+			addedAnimals.stream().forEach(animal -> {
+				zooAnimals.add(ZooAnimal.builder().id(UUID.randomUUID().toString()).zooId(zooId).animalId(animal.id).build());
+			});
 
-            zooService.saveWorker(zooWorkers, zooId);
-        }
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesi Çalışanları Başarıyla Güncellendi."));
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
-    }
-
-    public void animalsSave() throws IOException {
-        List<ZooAnimal> zooAnimals = new ArrayList<>();
-        if(addedAnimals.size() > 0){
-            addedAnimals.stream().forEach(animal -> {
-                zooAnimals.add(ZooAnimal.builder()
-                        .id(UUID.randomUUID().toString())
-                        .zooId(zooId)
-                        .animalId(animal.id)
-                        .build());
-            });
-
-            zooService.saveAnimal(zooAnimals, zooId);
-        }
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesine Ait Hayvanlar Başarıyla Güncellendi."));
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
-    }
-
+			zooService.saveAnimal(zooAnimals, zooId);
+		}
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Başarılı", "Hayvanat Bahçesine Ait Hayvanlar Başarıyla Güncellendi."));
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/zoo/zoo.jsf");
+	}
 
 }

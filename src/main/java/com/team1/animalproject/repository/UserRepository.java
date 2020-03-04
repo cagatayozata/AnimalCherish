@@ -1,6 +1,7 @@
 package com.team1.animalproject.repository;
 
 import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.repository.custom.CustomUserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<Kullanici, String> {
+public interface UserRepository extends JpaRepository<Kullanici, String>, CustomUserRepository {
 
     Optional<List<Kullanici>> findByUserNameOrEmailOrPhoneNumber(String username, String email, String phonenumber);
 
@@ -19,6 +20,4 @@ public interface UserRepository extends JpaRepository<Kullanici, String> {
     Optional<Kullanici> findById(String id);
 
     Optional<List<Kullanici>> findByIdIn(List<String> ids);
-
-    List<Kullanici> findByIdNotIn(List<String> ids);
 }

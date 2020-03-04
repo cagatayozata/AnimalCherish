@@ -8,6 +8,7 @@ import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.view.utils.JSFUtil;
+import com.team1.animalproject.view.utils.KullaniciTipiEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.ocpsoft.common.util.Strings;
@@ -135,7 +136,7 @@ public class KullaniciSessionVerisi implements Serializable {
 	}
 
 	public String getRol() {
-		return kullanici.getEmail();
+		return KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get().getTextMessageKey();
 	}
 
 }
