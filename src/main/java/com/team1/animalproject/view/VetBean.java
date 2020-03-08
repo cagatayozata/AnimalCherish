@@ -1,8 +1,11 @@
 package com.team1.animalproject.view;
 
+import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.Vet;
+import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.service.VetService;
 import com.team1.animalproject.view.utils.JSONUtils;
+import com.team1.animalproject.view.utils.KullaniciTipiEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
@@ -33,6 +36,8 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 
 	@Autowired
 	private VetService vetService;
+	@Autowired
+	private UserService userService;
 
 	private Vet vet = new Vet();
 	private List<Vet> selectedVets;
@@ -44,7 +49,8 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 
 	private boolean showCreateOrEdit;
 	private boolean showInfo;
-
+	private boolean showKullaniciIliski;
+	private String kullaniciAdi;
 
 	@Override
 	@PostConstruct
@@ -65,6 +71,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		cities = jsonUtils.getCities();
 		data = jsonUtils.getData();
 		showCreateOrEdit = false;
+		showKullaniciIliski = false;
 		cities =  cities
 				.entrySet()
 				.stream()
@@ -78,7 +85,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	public void kaydet() throws IOException {
 		vetService.save(vet);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner verisi başarıyla işlem görmüştür.") );
+		context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner hekim verisi başarıyla işlem görmüştür.") );
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
 
@@ -111,6 +118,41 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 			distincts = data.get(vet.getCity());
 		} else
 			distincts = new HashMap<String, String>();
+	}
+
+	public void kullaniciIliskiEkraniHazirla(){
+		vet = selectedVets.stream().findFirst().get();
+		showKullaniciIliski = true;
+		showCreateOrEdit = false;
+	}
+
+	public void dogrula() throws IOException {
+		Kullanici kullanici = userService.findByUserName(vet.getKullaniciAdi());
+		if(kullanici != null){
+			vet.setKullaniciId(kullanici.getId());
+		}else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			context.addMessage(null, new FacesMessage("Başarısız",  "Girilen kullanıcı adı bulunamadı veya başka bir yerde görevldiri.") );
+		}
+	}
+
+	public void kullaniciKaydet() throws IOException {
+		if(vet.getKullaniciId() != null){
+			vetService.save(vet);
+			Kullanici byId = userService.findById(vet.getKullaniciId()).get();
+			byId.setKullaniciTipi(KullaniciTipiEnum.VET.getId());
+			userService.save(byId);
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Başarılı",  "Veteriner hekim başarıyla bir kullanıcı ile ilişkilendirilmiştir.") );
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/vet/vet.jsf");
+		}else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			context.addMessage(null, new FacesMessage("Hata",  "Lütfen doğru bir kullanıcı giriniz!") );
+		}
+
 	}
 
 

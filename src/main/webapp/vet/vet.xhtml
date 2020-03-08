@@ -3,7 +3,7 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				template="../WEB-INF/template.xhtml">
 
-	<ui:define name="viewname"> Veteriner Listesi
+	<ui:define name="viewname"> Veteriner Hekim Listesi
 	</ui:define>
 
 	<ui:define name="content">
@@ -11,7 +11,7 @@
 		<h:form id="form">
 			<p:growl id="growl" showDetail="true" sticky="true" />
 
-			<p:panel styleClass="card card-w-title" rendered="#{!vetBean.showCreateOrEdit}">
+			<p:panel styleClass="card card-w-title" rendered="#{!vetBean.showCreateOrEdit and !vetBean.showKullaniciIliski}">
 
 				<p:dataTable id="vetDataTable" var="vet"
 							 styleClass="dataTableStandart"
@@ -20,7 +20,7 @@
 							 paginator="true"
 							 paginatorPosition="bottom"
 							 rows="10"
-							 emptyMessage="Eklenmiş bir veteriner bulunamadı!"
+							 emptyMessage="Eklenmiş bir veteriner hekim bulunamadı!"
 							 filteredValue="#{vetBean.filteredVets}"
 							 selection="#{vetBean.selectedVets}">
 					<p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
@@ -29,7 +29,7 @@
 					<p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
 					<p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
 
-					<f:facet name="header">Veteriner Listesi
+					<f:facet name="header">Veteriner Hekim Listesi
 
 						<p:outputPanel id="dataTableHeaderBtn"
 									   styleClass="dataTableHeaderBtnContainer">
@@ -48,7 +48,7 @@
 							<hr style="clear: both;"/>
 
 							<p:commandButton
-									value="Veteriner Ekle"
+									value="Veteriner Hekim Ekle"
 									styleClass="dataTableHeaderBtn" update=":form"
 									resetValues="true"
 									rendered="#{kullaniciSessionVerisi.yetkiVarmi('VETERINER_EKLEME_YETKISI')}"
@@ -66,6 +66,16 @@
 									resetValues="true">
 								<f:actionListener
 										binding="#{vetBean.prepareInfoScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
+									value="Kullanıcı İlişkilendir"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-search"
+									disabled="#{vetBean.selectedVets.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{vetBean.kullaniciIliskiEkraniHazirla()}"/>
 							</p:commandButton>
 							<p:commandButton
 									value="Güncelle"
@@ -92,10 +102,7 @@
 
 					<p:column selectionMode="multiple"
 							  style="width:16px;text-align:center" toggleable="false" exportable="false"/>
-					<p:column headerText="Veteriner Id" sortBy="#{vet.id}"
-							  filterBy="#{vet.id}" filterMatchMode="contains">
-						<h:outputText value="#{vet.id}"/>
-					</p:column>
+
 					<p:column headerText="İsim" sortBy="#{vet.name}"
 							  filterBy="#{vet.name}" filterMatchMode="contains">
 						<h:outputText value="#{vet.name}"/>
@@ -108,6 +115,7 @@
 
 			</p:panel>
 			<ui:include src="vet_add.xhtml"/>
+			<ui:include src="vet_hekim_iliskilendir.xhtml"/>
 
 		</h:form>
 	</ui:define>

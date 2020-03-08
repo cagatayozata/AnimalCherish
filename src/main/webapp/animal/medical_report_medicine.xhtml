@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="ilacPanel" styleClass="card card-w-title" rendered="#{animalBean.showIlacList}">
+
+        <p:fieldset styleClass="block"
+                    legend="İlaçlar">
+
+            <p:dataTable id="ilacDataTable" var="ilac"
+                         styleClass="dataTableStandart"
+                         value="#{animalBean.medicalReportMedicines}" rowKey="#{ilac.ilacId}"
+                         widgetVar="ilacDataTableWidgetVar" draggableColumns="true" reflow="true"
+                         paginator="true"
+                         sortBy="#{ilac.ilacId}"
+                         rows="10"
+                         sortOrder="DESCENDING"
+                         paginatorPosition="bottom"
+                         emptyMessage="Eklenmiş bir ilaç bulunamadı!">
+                <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                <f:facet name="header">İlaç Listesi
+
+                    <p:outputPanel id="dataTableHeaderBtn"
+                                   styleClass="dataTableHeaderBtnContainer">
+
+                        <div style="float:right;    margin-top: -20px;">
+
+                            <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                <p:graphicImage name="/images/csv-icon.png"/>
+                                <p:dataExporter type="csv" target="ilacDataTable" encoding="CP1254" fileName="ilac"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                <p:graphicImage name="/images/pdf-icon.png"/>
+                                <p:dataExporter type="pdf" target="ilacDataTable" encoding="CP1254" fileName="ilac"/>
+                            </p:commandLink>
+
+                        </div>
+
+                        <hr style="clear: both;"/>
+
+                        <p:commandButton
+                                value="İlaç Ekle"
+                                styleClass="dataTableHeaderBtn" update=":form"
+                                resetValues="true"
+                                icon="fa fa-plus">
+                            <f:actionListener
+                                    binding="#{animalBean.ilacYeniEkraniHazirla()}"/>
+                        </p:commandButton>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column selectionMode="multiple"
+                          style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                <p:column headerText="Ilac Id" sortBy="#{ilac.ilacId}" filterable="true"
+                          filterBy="#{ilac.ilacId}" filterMatchMode="contains">
+                    <h:outputText value="#{ilac.ilacId}"/>
+                </p:column>
+
+                <p:column headerText="Ilac Ad" sortBy="#{ilac.ilacAd}" filterable="true"
+                          filterBy="#{ilac.ilacAd}" filterMatchMode="contains">
+                    <h:outputText value="#{ilac.ilacAd}"/>
+                </p:column>
+
+                <p:column headerText="Kullanım Şekli" sortBy="#{ilac.kullanimSekli}"
+                          filterBy="#{ilac.kullanimSekli}" filterMatchMode="contains">
+                    <h:outputText value="#{ilac.kullanimSekli}"/>
+                </p:column>
+
+                <p:column headerText="Adet" sortBy="#{ilac.adet}"
+                          filterBy="#{ilac.adet}" filterMatchMode="contains">
+                    <h:outputText value="#{ilac.adet}"/>
+                </p:column>
+            </p:dataTable>
+
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kapat" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{animalBean.ilacEkraniKapat()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

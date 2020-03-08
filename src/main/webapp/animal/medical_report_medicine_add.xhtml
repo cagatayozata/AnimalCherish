@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="ilacAddPanel" styleClass="card card-w-title" rendered="#{animalBean.showIlacCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="İlaç Detayları">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="ilac" value="İlaç"/>
+                    <p:selectOneMenu id="ilac" value="#{animalBean.medicalReportMedicine.ilacId}" required="true">
+                        <f:selectItem itemLabel="Seçiniz" itemValue=""
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{animalBean.ilaclar}" var="ilac"
+                                       itemValue="#{ilac.id}" itemLabel="#{ilac.name}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="kullanim" value="Kullanım Detayları"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="kullanim"
+                                     required="true"
+                                     value="#{animalBean.medicalReportMedicine.kullanimSekli}"
+                                     autocomplete="off"/>
+                        <p:message for="kullanim"/>
+                    </p:panel>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="adet" value="Adet"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="adet"
+                                     value="#{animalBean.medicalReportMedicine.adet}"
+                                     autocomplete="off"/>
+                        <p:message for="adet"/>
+                    </p:panel>
+                </p:panel>
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                             value="Kaydet" update=":form, :form:ilacDataTable" icon="fa fa-save"
+                             resetValues="true">
+                <f:actionListener
+                        binding="#{animalBean.ilacKaydet()}"/>
+                <f:actionListener
+                        binding="#{animalBean.medicalReportEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    >
+                <f:actionListener
+                        binding="#{animalBean.medicalReportEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

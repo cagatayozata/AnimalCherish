@@ -10,7 +10,7 @@ public enum KullaniciTipiEnum {
 
 	ADMINISTRATOR(1, "Administrator"),
 	NORMAL_USER(2, "Normal Kullanıcı"),
-	VET(3, "Veteriner"),
+	VET(3, "Veteriner Hekim"),
 	SHELTER(4, "Barınak Görevlisi"),
 	PETSHOP(5, "Pet Shop Görevlisi"),
 	ZOO(6, "Hayvanat Bahçesi Görevlisi"),

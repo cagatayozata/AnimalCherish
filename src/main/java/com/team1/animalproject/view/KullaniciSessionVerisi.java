@@ -136,7 +136,9 @@ public class KullaniciSessionVerisi implements Serializable {
 	}
 
 	public String getRol() {
+		if(kullanici.getId() != null)
 		return KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get().getTextMessageKey();
+		return KullaniciTipiEnum.NON_USER.getTextMessageKey();
 	}
 
 }

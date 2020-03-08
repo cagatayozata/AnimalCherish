@@ -58,9 +58,10 @@ public class UserService implements IBaseService<Kullanici> {
 				kullanici.setId(UUID.randomUUID().toString());
 				String sifreHashed = md5Java(kullanici.getPassword());
 				kullanici.setPassword(sifreHashed);
-			} else {
-				kullanici.setKullaniciTipi(KullaniciTipiEnum.NORMAL_USER.getId());
 			}
+
+			if(!girisYapili) kullanici.setKullaniciTipi(KullaniciTipiEnum.NORMAL_USER.getId());
+			kullanici.setOlusturanKullanici("");
 			userRepository.save(kullanici);
 			if(kullanici.getFileUploadEvent() != null){
 				File newFile = new File(Constants.AVATAR_PATH + kullanici.getId() + ".jpg");
@@ -105,6 +106,17 @@ public class UserService implements IBaseService<Kullanici> {
 
 	public Optional<Kullanici> findByUserNameAndEmail(String username, String email) {
 		return userRepository.findByUserNameAndEmail(username, email);
+	}
+
+	public Kullanici findByUserName(String username) {
+		Optional<Kullanici> byUserName = userRepository.findByUserName(username);
+		if(byUserName.isPresent()){
+			Kullanici kullanici = byUserName.get();
+			if(kullanici.getKullaniciTipi() == KullaniciTipiEnum.NORMAL_USER.getId()){
+				return kullanici;
+			}
+		}
+		return null;
 	}
 
 	public Optional<Kullanici> findById(String id) {

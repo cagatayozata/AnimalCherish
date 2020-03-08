@@ -57,7 +57,6 @@ public class Auditable<I extends Serializable, U> {
 		if (this.olusmaTarihi == null) olusmaTarihi = new Date();
 		if (this.sonGuncellenmeTarihi == null) sonGuncellenmeTarihi = new Date();
 		if(this.olusturanKullanici == null) olusturanKullanici = ((KullaniciPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-		;
 	}
 
 	@PreUpdate

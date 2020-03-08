@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<parameter name="subReport" class="java.lang.String">
+		<parameterDescription><![CDATA[subReport]]></parameterDescription>
+	</parameter>
+	<parameter name="style" class="java.lang.String">
+		<parameterDescription><![CDATA[style]]></parameterDescription>
+	</parameter>
+	<field name="tedaviBaslangicTarihi" class="java.lang.String">
+		<fieldDescription><![CDATA[tedaviBaslangicTarihi]]></fieldDescription>
+	</field>
+	<field name="seriNo" class="java.lang.String">
+		<fieldDescription><![CDATA[seriNo]]></fieldDescription>
+	</field>
+	<field name="sinifi" class="java.lang.String">
+		<fieldDescription><![CDATA[sinifi]]></fieldDescription>
+	</field>
+	<field name="sifresi" class="java.lang.String">
+		<fieldDescription><![CDATA[sifresi]]></fieldDescription>
+	</field>
+	<field name="ilacRaporList" class="java.util.List">
+		<fieldDescription><![CDATA[ilacRaporList]]></fieldDescription>
+	</field>
+	<field name="kupeNumarasi" class="java.lang.String">
+		<fieldDescription><![CDATA[kupeNumarasi]]></fieldDescription>
+	</field>
+	<field name="yas" class="java.lang.String">
+		<fieldDescription><![CDATA[yas]]></fieldDescription>
+	</field>
+	<field name="cinsiyet" class="java.lang.String">
+		<fieldDescription><![CDATA[cinsiyet]]></fieldDescription>
+	</field>
+	<field name="irk" class="java.lang.String">
+		<fieldDescription><![CDATA[irk]]></fieldDescription>
+	</field>
+	<field name="esgal" class="java.lang.String">
+		<fieldDescription><![CDATA[esgal]]></fieldDescription>
+	</field>
+	<title>
+		<band height="109" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="-19" width="595" height="120" uuid="0c4fb764-1845-483f-b0e6-a412ef1acc53"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-20" width="595" height="60" uuid="547782a2-2493-463a-9ce1-c0839665c890"/>
+			</rectangle>
+			<image>
+				<reportElement x="490" y="-14" width="35" height="50" uuid="15582100-3a96-410a-b917-ff9f59c8f3ed"/>
+				<imageExpression><![CDATA["https://logosrated.net/wp-content/uploads/parser/T%C3%9CRK-VETER%C4%B0NER-HEK%C4%B0MLER%C4%B0-B%C4%B0RL%C4%B0%C4%9E%C4%B0-Logo-1.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="40" y="-14" width="50" height="50" uuid="583fca45-d91f-437c-8431-199ac59bb307"/>
+				<imageExpression><![CDATA["https://upload.wikimedia.org/wikipedia/tr/2/23/G%C4%B1da%2C_Tar%C4%B1m_ve_Hayvanc%C4%B1l%C4%B1k_Bakanl%C4%B1%C4%9F%C4%B1.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="-20" y="-4" width="595" height="30" uuid="75bc8c14-5f9d-48bc-ab4e-d62b4bb89bca"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<text><![CDATA[Veteriner Hekim İlaç Reçetesi]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-20" y="41" width="100" height="60" uuid="2b5bb530-30c5-48c2-b0ba-5bf589b18c88"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-20" y="57" width="100" height="26" uuid="c68ebc69-51b4-4cb8-b20b-12eeed8410a8"/>
+				<textElement textAlignment="Center" markup="html">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Reçetenin]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="80" y="41" width="495" height="30" uuid="e7e71f9d-f56d-4a66-a5c5-4b15fbdcd2dc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="96" y="48" width="117" height="18" forecolor="#000000" uuid="d0874650-7088-47ab-bdd2-beec8d083a7c"/>
+				<textElement markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Düzenlenme Tarihi:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="48" width="90" height="18" forecolor="#000000" uuid="8b46f0ca-8f70-4b13-9420-bbb241ef4da9"/>
+				<textElement markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Seri Numarası:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="426" y="48" width="100" height="16" forecolor="#FF0000" uuid="e7314c05-63db-4b68-baca-3f87908f7baa"/>
+				<textFieldExpression><![CDATA[$F{seriNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="96" y="78" width="44" height="18" forecolor="#000000" uuid="f0f47d57-a5ce-421b-88b8-3047b2c4e7bc"/>
+				<textElement markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sınıfı:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="78" width="100" height="18" forecolor="#FF0400" uuid="e9be7a94-8919-45ad-9b12-185459bc8cd5"/>
+				<textFieldExpression><![CDATA[$F{sinifi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="291" y="78" width="44" height="18" forecolor="#000000" uuid="2fc474ad-e272-441f-a465-28a05933388c"/>
+				<textElement markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Şifresi:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="335" y="78" width="100" height="18" forecolor="#FF130F" uuid="49c53c2b-1d32-475f-b9a4-ec6078ba2cbc"/>
+				<textFieldExpression><![CDATA[$F{sifresi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="210" y="48" width="100" height="18" forecolor="#FF0C08" uuid="0c7f5a2e-8cee-4620-8d5d-bd169576fe83"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="592" splitType="Stretch">
+			<staticText>
+				<reportElement x="-14" y="73" width="117" height="18" forecolor="#000000" uuid="ec694537-6eb4-49f9-b4eb-4b95ed1c87b5"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Sicil/Oda Kayit No  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-13" y="95" width="118" height="18" forecolor="#000000" uuid="bb5f8c3b-db4f-43a3-8013-4133c4ad2578"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Adres                      :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="280" y="12" width="1" height="97" uuid="a2680fed-a3f9-4ea0-b875-81986071f865"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-13" y="50" width="117" height="18" forecolor="#000000" uuid="a5fb5a60-110b-40fd-9f87-56e31e35cfbc"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Diploma Numarası :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-13" y="26" width="117" height="18" forecolor="#000000" uuid="365dec7e-0747-4c33-ac78-d0478b9ca5ef"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Adı Soyadı             :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-13" y="125" width="223" height="1" uuid="5fa7eebd-1480-4e6d-843d-bd33ccb19793"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="300" y="20" width="117" height="18" forecolor="#000000" uuid="48065b61-3074-44d0-bb87-622117e9f2a6"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Adı Soyadı             :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="38" width="118" height="18" forecolor="#000000" uuid="0b25c516-1998-4185-a7bc-794ded6080ed"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Adres                      :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="60" width="117" height="18" forecolor="#000000" uuid="78cfb68f-db6a-4882-8041-069e90417598"/>
+				<textElement markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hayvanın;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="81" width="117" height="18" forecolor="#000000" uuid="f74bc735-b3cf-431d-be14-18279e75b6fc"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Türü             :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="102" width="117" height="18" forecolor="#000000" uuid="96f34524-6786-492e-bf66-633da1f409ec"/>
+				<textElement markup="none">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[İşletme No    :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-13" y="155" width="223" height="1" uuid="f0999dfb-f622-48cf-8fe4-30481e44836e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-11" y="135" width="117" height="12" forecolor="#000000" uuid="8a5fc900-a232-4110-b852-93646aa867d2"/>
+				<textElement markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tedavi Başlangıç Tarihi: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="135" width="171" height="12" uuid="2c08ee31-dcd4-4adb-861b-ad3f72233533">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32ce43dc-7662-402f-9ba6-3405844be0e1"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tedaviBaslangicTarihi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-13" y="162" width="223" height="12" forecolor="#000000" uuid="adf07fd5-f2a5-4e7c-9314-693366895e2e"/>
+				<textElement markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hastalığın Görüldüğü Sistem / Hastalık Türü]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-13" y="183" width="32" height="12" forecolor="#000000" uuid="12b57c0f-0ea2-44ec-b3a2-4014a4d854c7"/>
+				<textElement markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teşhis:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-10" y="230" width="223" height="1" uuid="34ef6f1d-83f4-4cd9-a5f9-6861878b3d9e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="160" y="310" width="274" height="30" forecolor="#000000" uuid="af6e6e65-0975-4e15-9ae1-92f1eb2f71ca"/>
+				<textElement markup="none">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Önerilen Veteriner Hekim İlaç/lar]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="344" width="544" height="69" uuid="b299f308-7c1d-4dec-99c6-9d15e237f681"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{ilacRaporList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{subReport}]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="-11" y="280" width="100" height="20" uuid="40040929-ae84-42a5-8d05-65101cf8a015"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kupeNumarasi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-11" y="247" width="100" height="30" uuid="2d3d4119-abe0-4a6f-ab55-252c3a1994a6"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Sistem No/Küpe No/Çip No]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-11" y="278" width="560" height="1" uuid="b8e6004a-4cb0-45ff-aa67-aaf46c882253"/>
+			</rectangle>
+			<textField>
+				<reportElement x="90" y="280" width="100" height="20" uuid="e6b74e9b-9919-4335-9aa2-0804fb2454ca"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{yas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="88" y="257" width="100" height="21" uuid="13a7b03c-b26d-424f-bf75-336a706666a3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yaş]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="189" y="277" width="100" height="23" uuid="34b24bff-4df5-448d-9b12-b67fb6bdacba"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cinsiyet}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="189" y="257" width="100" height="20" uuid="ab3adeed-c94d-4619-a59f-14973e699517"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Cinsiyet]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="289" y="279" width="100" height="21" uuid="a71b3bc5-e173-412e-99c7-1cf35ecd6f5d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{irk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="289" y="257" width="100" height="20" uuid="30fd0ca1-9094-4985-83fe-969cdf55ca2a"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Irk]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="278" width="100" height="22" uuid="8d4c0f38-5f9e-4827-8095-f5c269eeab2f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{esgal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="257" width="100" height="21" uuid="17a68d18-8088-4161-9438-af41b433f7ca"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Eşgal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-13" y="0" width="117" height="18" forecolor="#000000" uuid="46925dd0-1cb9-41b8-93eb-2c08d6717ffa"/>
+				<textElement markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Veteriner Hekimin;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="0" width="117" height="18" forecolor="#000000" uuid="1ab0513c-7f46-4462-b6c5-a1bfcf12aeb6"/>
+				<textElement markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hayvan Sahibinin;]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="130" y="22" width="436" height="18" uuid="3eb6e474-2e5c-4286-9954-5b80a7207c09"/>
+				<text><![CDATA[Animal Cherish sistemi üzerinden otomatik olarak güvenli veri üzerinden doldurulmuştur.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

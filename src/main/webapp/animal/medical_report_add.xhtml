@@ -56,6 +56,17 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="esgal" value="Eşgal"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="esgal"
+                                     disabled="#{animalBean.showInfo}"
+                                     value="#{animalBean.medicalReport.esgal}"
+                                     autocomplete="off"/>
+                        <p:message for="weight"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="description" value="Genel Detaylar"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputTextarea id="description"
@@ -76,20 +87,6 @@
                         <p:message for="surgeryDescription"/>
                     </p:panel>
                 </p:panel>
-
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="medicines" value="İlaçlar"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputTextarea id="medicines"
-                                         disabled="#{animalBean.showInfo}"
-                                         value="#{animalBean.medicalReport.medicines}"
-                                         autocomplete="off"/>
-                        <p:message for="medicines"/>
-                    </p:panel>
-                </p:panel>
-
-
-
 
             </p:panelGrid>
 

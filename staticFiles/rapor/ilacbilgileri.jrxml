@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ilacbilgileri" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d25ca3e-dfb6-4b44-844f-ffa8e8434eb8">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="urunAdi" class="java.lang.String">
+		<fieldDescription><![CDATA[urunAdi]]></fieldDescription>
+	</field>
+	<field name="urunAdet" class="java.lang.String">
+		<fieldDescription><![CDATA[urunAdet]]></fieldDescription>
+	</field>
+	<field name="sistemNo" class="java.lang.String">
+		<fieldDescription><![CDATA[sistemNo]]></fieldDescription>
+	</field>
+	<field name="kullanimSekli" class="java.lang.String">
+		<fieldDescription><![CDATA[kullanimSekli]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="41" width="595" height="1" uuid="ff3dc3c2-55f4-400e-80ae-95cb0849b04e"/>
+			</rectangle>
+			<textField>
+				<reportElement x="-10" y="40" width="100" height="30" uuid="068fcaf3-e115-4878-a543-4a947f9830b8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{urunAdi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="20" width="100" height="20" uuid="c6893c86-947c-4405-8c01-4d10d232cb60"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Ürün Adı]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="40" width="100" height="30" uuid="9b00d23c-f3a9-4a8f-a6ad-93c4620f8bf2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{urunAdet}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="20" width="100" height="21" uuid="ef56a828-a8ad-4a9c-a1a6-e6dcdedc62bb"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Ürün Adet]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="40" width="100" height="30" uuid="ff1be1b6-02ba-44e7-8f7c-075be4b89443"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sistemNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="20" width="100" height="20" uuid="92039af8-7736-4527-aa62-728e9c842055"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Sistem No]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="42" width="285" height="28" uuid="9af3e205-f15f-4ff0-92bf-c8acd80d9859"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kullanimSekli}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="20" width="285" height="20" uuid="4c52e234-a6fc-4716-872c-27a0d446bcf7"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Kullanım Şekli]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

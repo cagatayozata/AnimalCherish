@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> İlaç Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+
+            <p:panel styleClass="card card-w-title" rendered="#{!ilacBean.showCreateOrEdit}">
+
+                <p:dataTable id="ilacDataTable" var="ilac"
+                             styleClass="dataTableStandart"
+                             value="#{ilacBean.allIlacs}" rowKey="#{ilac.id}"
+                             widgetVar="ilacDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="10"
+                             emptyMessage="Eklenmiş bir tür bulunamadı!"
+                             filteredValue="#{ilacBean.filteredIlacs}"
+                             selection="#{ilacBean.selectedIlacs}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">İlaç Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="ilacDataTable" encoding="CP1254" fileName="ilac"/>
+                                </p:commandLink>
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="ilacDataTable" encoding="CP1254" fileName="ilac"/>
+                                </p:commandLink>
+                            </div>
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="İlaç Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_EKLEME_YETKISI')}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{ilacBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_DETAY_YETKISI')}"
+                                    icon="fa fa-search"
+                                    disabled="#{ilacBean.selectedIlacs.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{ilacBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_GUNCELLEME_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{ilacBean.selectedIlacs.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{ilacBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Kullanıma Al"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_KULLANIMA_ALMA_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{ilacBean.selectedIlacs.size() ne 1 or ilacBean.kullanimdaVarmi()}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{ilacBean.kullanimaAl()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty ilacBean.selectedIlacs? '' : ' ( '.concat(ilacBean.selectedIlacs.size()) . concat(' )')}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty ilacBean.selectedIlacs  or ilacBean.kullanimdaVarmi()}">
+                                <p:confirm header="Silme İşlemi" message="İlaç verisini silerseniz, bağlı tüm cinsleri sileceksiniz. Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{ilacBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="İlaç ID" sortBy="#{ilac.id}"
+                              filterBy="#{ilac.id}" filterMatchMode="contains">
+                        <h:outputText value="#{ilac.id}"/>
+                    </p:column>
+                    <p:column headerText="Ad" sortBy="#{ilac.name}"
+                              filterBy="#{ilac.name}" filterMatchMode="contains">
+                        <h:outputText value="#{ilac.name}"/>
+                    </p:column>
+                    <p:column headerText="Durum" sortBy="#{ilac.durum}"
+                              filterBy="#{ilac.durum}" filterMatchMode="exact">
+                        <h:outputText value="#{ilac.durum ? 'Kullanımda' : 'Taslak'}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="ilac_add.xhtml"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

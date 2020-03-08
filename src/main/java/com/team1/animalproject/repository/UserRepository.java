@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<Kullanici, String>, Custom
 
     Optional<Kullanici> findByUserNameAndEmail(String userName, String email);
 
+    Optional<Kullanici> findByUserName(String userName);
+
     Optional<Kullanici> findById(String id);
 
     Optional<List<Kullanici>> findByIdIn(List<String> ids);

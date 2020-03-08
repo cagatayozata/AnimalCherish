@@ -32,11 +32,11 @@
 
                         <div style="float:right;    margin-top: -20px;">
 
-                            <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                            <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
                                 <p:graphicImage name="/images/csv-icon.png"/>
                                 <p:dataExporter type="csv" target="reportDataTable" encoding="CP1254" fileName="report"/>
                             </p:commandLink>
-                            <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                            <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
                                 <p:graphicImage name="/images/pdf-icon.png"/>
                                 <p:dataExporter type="pdf" target="reportDataTable" encoding="CP1254" fileName="report"/>
                             </p:commandLink>
@@ -53,6 +53,24 @@
                                 icon="fa fa-plus">
                             <f:actionListener
                                     binding="#{animalBean.saglikRaporuYeniEkraniHazirla()}"/>
+                        </p:commandButton>
+                        <p:commandButton
+                                value="İlaçlar"
+                                styleClass="dataTableHeaderBtn" update=":form"
+                                resetValues="true"
+                                disabled="#{animalBean.selectedMedicalReports.size() ne 1}"
+                                icon="fa fa-hospital-o">
+                            <f:actionListener
+                                    binding="#{animalBean.ilacEklemeEkraniHazirla()}"/>
+                        </p:commandButton>
+                        <p:commandButton
+                                value="Çıktı Al"
+                                styleClass="dataTableHeaderBtn" update=":form"
+                                resetValues="true"
+                                disabled="#{animalBean.selectedMedicalReports.size() ne 1}"
+                                icon="fa fa-print">
+                            <f:actionListener
+                                    binding="#{animalBean.receteCikart()}"/>
                         </p:commandButton>
                         <p:commandButton
                                 value="Detay"
@@ -101,7 +119,7 @@
                     <h:outputText value="#{report.reportNum}"/>
                 </p:column>
 
-                <p:column headerText="Ekleyen Veteriner" sortBy="#{report.olusturan}"
+                <p:column headerText="Ekleyen Veteriner Hekim" sortBy="#{report.olusturan}"
                           filterBy="#{report.olusturan}" filterMatchMode="contains">
                     <h:outputText value="#{report.olusturan}"/>
                 </p:column>

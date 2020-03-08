@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -55,5 +56,20 @@ public class Vet extends Auditable<String, String> implements Serializable {
 
 	@Column(name="ilce")
 	private String ilce;
+
+	@Column(name = "diplomaNo")
+	private String diplomaNo;
+
+	@Column(name = "userId")
+	private String userId;
+
+	@Column(name = "sicilNo")
+	private String sicilNo;
+
+	@Column(name="kullanici_id")
+	private String kullaniciId;
+
+	@Transient
+	private String kullaniciAdi;
 
 }
