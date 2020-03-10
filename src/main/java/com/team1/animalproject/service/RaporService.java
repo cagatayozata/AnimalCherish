@@ -4,15 +4,19 @@ import com.google.common.collect.Lists;
 import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
+import com.team1.animalproject.model.GercekKisi;
+import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import com.team1.animalproject.model.Tur;
+import com.team1.animalproject.model.Vet;
 import com.team1.animalproject.model.rapor.IlacRapor;
 import com.team1.animalproject.model.rapor.IlacRecetesi;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -32,7 +36,8 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.TimeZone;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,14 +57,18 @@ public class RaporService {
 	private TurService turService;
 	@Autowired
 	private CinsService cinsService;
+	@Autowired
+	private GercekKisiService gercekKisiService;
 
 	String fileName = Constants.FILE_PATH + "rapor\\recete.jasper";
 	String fileNameXML = Constants.FILE_PATH + "rapor\\recete.jrxml";
 
-	String outFileNamePDF = Constants.FILE_PATH + "rapor\\s.pdf";
+	String outFileNamePDF = Constants.FILE_PATH + "raporcikti\\";
 	Map hm = new HashMap();
 
-	public void raporuOlustur(String userId, String medicalReportId) {
+	public String raporuOlustur(String userId, String medicalReportId) {
+		String raporId = UUID.randomUUID().toString();
+
 		try{
 
 			File newFile = new File(fileNameXML);
@@ -76,6 +85,9 @@ public class RaporService {
 			MedicalReport medicalReport = blockchainService.getAllByReportId(userId, medicalReportId).stream().findFirst().get();
 			List<MedicalReportMedicine> medicalReportMedicines = blockchainService.ilaclariGetir(medicalReportId);
 
+			Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
+			Vet vet = vetService.findByKullaniciId(kullanici.getId());
+
 			Animal animal = animalService.findByIdIn(Lists.newArrayList(medicalReport.getAnimalId())).get().stream().findFirst().get();
 
 			List<IlacRapor> ilacRapolar = medicalReportMedicines.stream()
@@ -89,11 +101,13 @@ public class RaporService {
 
 			Tur tur = turService.findById(animal.getTurId());
 			Cins cins = cinsService.findById(animal.getCinsId());
+			GercekKisi gercekKisi = gercekKisiService.findById(animal.getSahipId());
 
-			List<Object> reportDataSource = Lists.newArrayList(IlacRecetesi.builder().adres("").cinsiyet(animal.isCinsiyet() ? "Erkek" : "Dişi").diplomaNo("").esgal(medicalReport.getEsgal()).irk(cins.getName()).isletmeNo("").kupeNumarasi(animal.getId()).sahipAd("").sahipAdres("").seriNo("").sicilNo("").sifresi(
-					RandomStringUtils.randomAlphabetic(5)).sinifi(RandomStringUtils.randomAlphabetic(7)).tedaviBaslangicTarihi(medicalReport.getDate()).teshis(medicalReport.getDescription()).tur(tur.getName()).veterinerAdi("").yas(5+"").ilacRaporList(ilacRapolar).build());
+			List<Object> reportDataSource = Lists.newArrayList(IlacRecetesi.builder().adres(vet.getWorkplace()).cinsiyet(animal.isCinsiyet() ? "Erkek" : "Dişi").diplomaNo(vet.getDiplomaNo()).esgal(medicalReport.getEsgal()).irk(cins.getName()).isletmeNo(vet.getClinic()).kupeNumarasi(animal.getId()).sahipAd(gercekKisi.getAd()).sahipAdres(gercekKisi.getAdresi()).seriNo(RandomStringUtils.randomAlphabetic(8).toUpperCase()).sicilNo(vet.getSicilNo()).sifresi(
+					RandomStringUtils.randomAlphabetic(5)).sinifi(RandomStringUtils.randomAlphabetic(7)).tedaviBaslangicTarihi(medicalReport.getDate()).teshis(medicalReport.getDescription()).tur(tur.getName()).veterinerAdi(vet.getName()).yas(5+"").ilacRaporList(ilacRapolar).build());
 
 			JRProperties.setProperty("net.sf.jasperreports.default.pdf.encoding", "Cp1254");
+			JRProperties.setProperty("net.sf.jasperreports.jdbc.time.zone", "Europe/Istanbul");
 
 			JasperReport jasperReport = JasperCompileManager.compileReport(fileNameXML);
 
@@ -101,21 +115,24 @@ public class RaporService {
 
 			hm.put("subReport", Constants.FILE_PATH + "rapor\\ilacbilgileri.jasper");
 			hm.put("style", Constants.FILE_PATH + "rapor\\animal_style.jrtx");
+			hm.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("Europe/Istanbul"));
 
 			JasperPrint print = JasperFillManager.fillReport(jasperReport, hm, dataSource);
 
 			JRExporter exporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
 			//parameter used for the destined file.
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileNamePDF);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileNamePDF + raporId);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
 			//export to .pdf
 			exporter.exportReport();
-			System.out.println("Created file: " + outFileNamePDF);
+			System.out.println("Created file: " + outFileNamePDF + raporId);
 			System.out.println("Done!");
 
 		} catch (JRException | IOException e){
 			e.printStackTrace();
 		}
+
+		return outFileNamePDF + raporId;
 	}
 
 }

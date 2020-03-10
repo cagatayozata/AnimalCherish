@@ -37,4 +37,8 @@ public class VetService implements IBaseService<Vet> {
     public void delete(List<Vet> t) {
         vetRepository.delete(t);
     }
+
+    public Vet findByKullaniciId(String id){
+        return vetRepository.findByKullaniciId(id);
+    }
 }

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository("vetRepository")
 public interface VetRepository extends JpaRepository<Vet, String> {
 
+	Vet findByKullaniciId(String kullaniciId);
+
 }

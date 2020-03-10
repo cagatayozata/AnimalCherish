@@ -169,12 +169,14 @@
                         <p:menuitem icon="fa fa-toggle-on" rendered="#{kullaniciSessionVerisi.yetkiVarmi('ROL_MENU_YETKISI')}" style="width: 235px"
                                     url="/rol/rol.jsf">Rol</p:menuitem>
 
-                        <p:submenu label="Referans Veriler" icon="fa fa-minus">
+                        <p:submenu label="Referans Veriler">
+                            <p:menuitem  icon="fa fa-users" rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_MENU_YETKISI')}" style="width: 235px"
+                                         url="/gercekkisi/gercekkisi.jsf">Gerçek Kişi</p:menuitem>
                             <p:menuitem  icon="fa fa-github" rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_MENU_YETKISI')}" style="width: 235px"
                                          url="/tur/tur.jsf">Tür</p:menuitem>
                             <p:menuitem  icon="fa fa-qq" rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_MENU_YETKISI')}" style="width: 235px"
                                          url="/cins/cins.jsf">Cins</p:menuitem>
-                            <p:menuitem  icon="fa fa-qq" rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_MENU_YETKISI')}" style="width: 235px"
+                            <p:menuitem  icon="fa fa-adjust" rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_MENU_YETKISI')}" style="width: 235px"
                                          url="/ilac/ilac.jsf">İlaç</p:menuitem>
                         </p:submenu>
                     </p:menu>

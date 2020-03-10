@@ -26,11 +26,13 @@ $(window).on('beforeunload', function(){
 
     setTimeout(function () {
         startPageRedirectionBlockUI();
+        console.log("blocklaniyor")
     }, 100);
 
 });
 
 var removePageRedirectBlock = function(){
+    console.log("girdi");
     setTimeout(function () {
         try {PF('pageRedirectBlock').hide();
         }

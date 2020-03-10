@@ -9,6 +9,7 @@
     <ui:define name="content">
 
         <h:form id="form">
+
             <p:growl id="growl" showDetail="true" sticky="true"/>
 
             <p:panel styleClass="card card-w-title"
@@ -94,6 +95,16 @@
                                         binding="#{animalBean.prepareUpdateScreen()}"/>
                             </p:commandButton>
                             <p:commandButton
+                                    value="Sahip Ekle"
+                                    styleClass="dataTableHeaderBtn"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_GUNCELLEME_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    onclick="PF('sahipEklemeDialogWidgetVar').show()"
+                                    disabled="#{animalBean.selectedAnimals.size() ne 1}">
+                                <f:actionListener
+                                        binding="#{animalBean.sahipEklemeEkraniHazirla()}"/>
+                            </p:commandButton>
+                            <p:commandButton
                                     value="Sağlık Raporları"
                                     styleClass="dataTableHeaderBtn"
                                     update=":form"
@@ -148,6 +159,40 @@
             <ui:include src="medical_report_add.xhtml"/>
             <ui:include src="medical_report_medicine.xhtml"/>
             <ui:include src="medical_report_medicine_add.xhtml"/>
+
+            <p:dialog id="sahipEklemeDialog" modal="true" widgetVar="sahipEklemeDialogWidgetVar"
+                      responsive="true" resizable="false" closable="true" closeOnEscape="true">
+
+                <f:facet name="header">
+                    Sahip Seçimi
+                </f:facet>
+
+                <h:panelGrid columns="1" border="0" id="mesajPanel" width="100%">
+
+                    <h:panelGrid border="0" width="100%" columns="1">
+                        <p:inputNumber id="kimlikNo" placeholder="Kimlik No Giriniz" value="#{animalBean.sahipNo}" decimalPlaces="0" thousandSeparator=""
+                                       style="width: 100%;"/>
+                        <p:message for="kimlikNo"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="4" border="0">
+
+                        <p:commandButton value="Doğrula ve Kaydet" styleClass="ui-confirmdialog-yes GreenButton"
+                                         icon="ui-icon-check" id="onayla"
+                                         update="form">
+                            <f:actionListener binding="#{animalBean.sahipDogrulaVeKaydet()}"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="İptal Et" styleClass="ui-confirmdialog-no RedButton" icon="ui-icon-close"
+                                         onclick="PF('sahipEklemeDialogWidgetVar').hide()"
+                                         update="mesajPanel" process="@this">
+                        </p:commandButton>
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+            </p:dialog>
 
         </h:form>
     </ui:define>

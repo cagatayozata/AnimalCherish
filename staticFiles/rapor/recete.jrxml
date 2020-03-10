@@ -37,6 +37,27 @@
 	<field name="esgal" class="java.lang.String">
 		<fieldDescription><![CDATA[esgal]]></fieldDescription>
 	</field>
+	<field name="adres" class="java.lang.String">
+		<fieldDescription><![CDATA[adres]]></fieldDescription>
+	</field>
+	<field name="sicilNo" class="java.lang.String">
+		<fieldDescription><![CDATA[sicilNo]]></fieldDescription>
+	</field>
+	<field name="diplomaNo" class="java.lang.String">
+		<fieldDescription><![CDATA[diplomaNo]]></fieldDescription>
+	</field>
+	<field name="veterinerAdi" class="java.lang.String">
+		<fieldDescription><![CDATA[veterinerAdi]]></fieldDescription>
+	</field>
+	<field name="sahipAd" class="java.lang.String">
+		<fieldDescription><![CDATA[sahipAd]]></fieldDescription>
+	</field>
+	<field name="sahipAdres" class="java.lang.String">
+		<fieldDescription><![CDATA[sahipAdres]]></fieldDescription>
+	</field>
+	<field name="tur" class="java.lang.String">
+		<fieldDescription><![CDATA[tur]]></fieldDescription>
+	</field>
 	<title>
 		<band height="109" splitType="Stretch">
 			<rectangle>
@@ -113,7 +134,7 @@
 				<reportElement x="335" y="78" width="100" height="18" forecolor="#FF130F" uuid="49c53c2b-1d32-475f-b9a4-ec6078ba2cbc"/>
 				<textFieldExpression><![CDATA[$F{sifresi}]]></textFieldExpression>
 			</textField>
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="M/d/yy HH:mm">
 				<reportElement x="210" y="48" width="100" height="18" forecolor="#FF0C08" uuid="0c7f5a2e-8cee-4620-8d5d-bd169576fe83"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -305,6 +326,34 @@
 				</textElement>
 				<text><![CDATA[Hayvan Sahibinin;]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="112" y="95" width="156" height="24" uuid="0ef7bf20-2509-4fa3-8e82-e77fbd9146a3"/>
+				<textFieldExpression><![CDATA[$F{adres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="73" width="154" height="18" uuid="f3f8f23b-3cba-43b4-bbc1-0086432adc16"/>
+				<textFieldExpression><![CDATA[$F{sicilNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="50" width="156" height="18" uuid="a6331ab9-0a03-45d2-be2d-6fdf30a94ce6"/>
+				<textFieldExpression><![CDATA[$F{diplomaNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="26" width="154" height="18" uuid="c9f2fb5a-f1ab-4fff-ba35-336a81069734"/>
+				<textFieldExpression><![CDATA[$F{veterinerAdi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="21" width="122" height="16" uuid="f0763715-6552-4639-88ad-20ce11a683b5"/>
+				<textFieldExpression><![CDATA[$F{sahipAd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="40" width="120" height="16" uuid="1e42456e-ff5c-43af-a0b5-03783c7f18ad"/>
+				<textFieldExpression><![CDATA[$F{sahipAdres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="82" width="100" height="16" uuid="ed04ee72-b60c-4a79-b602-3f51b1492575"/>
+				<textFieldExpression><![CDATA[$F{tur}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

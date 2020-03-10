@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Gerçek Kişi Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+
+            <p:panel styleClass="card card-w-title" rendered="#{!gercekKisiBean.showCreateOrEdit}">
+
+                <p:dataTable id="gercekKisiDataTable" var="gercekkisi"
+                             styleClass="dataTableStandart"
+                             value="#{gercekKisiBean.allGercekKisis}" rowKey="#{gercekkisi.id}"
+                             widgetVar="gercekKisiDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="10"
+                             emptyMessage="Eklenmiş bir Gerçek Kişi bulunamadı!"
+                             filteredValue="#{gercekKisiBean.filteredGercekKisis}"
+                             selection="#{gercekKisiBean.selectedGercekKisis}">
+
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Cins Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="gercekKisiDataTable" encoding="CP1254" fileName="gercekKisi"/>
+                                </p:commandLink>
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="gercekKisiDataTable" encoding="CP1254" fileName="gercekKisi"/>
+                                </p:commandLink>
+                            </div>
+
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Gerçek Kişi Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_EKLEME_YETKISI')}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{gercekKisiBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_DETAY_YETKISI')}"
+                                    icon="fa fa-search"
+                                    disabled="#{gercekKisiBean.selectedGercekKisis.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{gercekKisiBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_GUNCELLEME_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{gercekKisiBean.selectedGercekKisis.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{gercekKisiBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty gercekKisiBean.selectedGercekKisis? '' : ' ( '.concat(gercekKisiBean.selectedGercekKisis.size()) . concat(' )')}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('CINS_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty gercekKisiBean.selectedGercekKisis}">
+                                <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{gercekKisiBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Ad Soyad" sortBy="#{gercekkisi.ad}"
+                              filterBy="#{gercekkisi.ad}" filterMatchMode="contains">
+                        <h:outputText value="#{gercekkisi.ad}"/>
+                    </p:column>
+                    <p:column headerText="Kimlik No" sortBy="#{gercekkisi.kimlikNo}"
+                              filterBy="#{gercekkisi.kimlikNo}" filterMatchMode="contains">
+                        <h:outputText value="#{gercekkisi.kimlikNo}"/>
+                    </p:column>
+                    <p:column headerText="Doğum Tarihi" sortBy="#{gercekkisi.dogumTarihi}">
+                        <h:outputText value="#{gercekkisi.dogumTarihi}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="gercekkisi_add.xhtml"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

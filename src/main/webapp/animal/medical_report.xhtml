@@ -67,10 +67,10 @@
                                 value="Çıktı Al"
                                 styleClass="dataTableHeaderBtn" update=":form"
                                 resetValues="true"
+                                onclick="removePageRedirectBlock(); PrimeFaces.monitorDownload(start, stop);"
                                 disabled="#{animalBean.selectedMedicalReports.size() ne 1}"
                                 icon="fa fa-print">
-                            <f:actionListener
-                                    binding="#{animalBean.receteCikart()}"/>
+                            <p:fileDownload value="#{animalBean.receteCikart()}"/>
                         </p:commandButton>
                         <p:commandButton
                                 value="Detay"

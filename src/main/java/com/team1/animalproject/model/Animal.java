@@ -50,6 +50,9 @@ public class Animal extends Auditable<String, String> implements Serializable {
 	@Column(name = "cinsiyet")
 	public boolean cinsiyet;
 
+	@Column(name="sahip_id")
+	public String sahipId;
+
 	@Transient
 	public String turAd;
 

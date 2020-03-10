@@ -1,7 +1,9 @@
 package com.team1.animalproject.view;
 
+import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Cins;
+import com.team1.animalproject.model.GercekKisi;
 import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
@@ -10,11 +12,15 @@ import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.CinsService;
+import com.team1.animalproject.service.GercekKisiService;
 import com.team1.animalproject.service.IlacService;
 import com.team1.animalproject.service.RaporService;
 import com.team1.animalproject.service.TurService;
+import com.team1.animalproject.view.utils.JSFUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -34,6 +42,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,6 +74,9 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	@Autowired
 	private RaporService raporService;
 
+	@Autowired
+	private GercekKisiService gercekKisiService;
+
 	private Animal animal = new Animal();
 	private List<Animal> selectedAnimals;
 	private List<Animal> allAnimals;
@@ -84,6 +97,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	private List<Tur> turler;
 	private List<Cins> cinsler;
 	private List<Ilac> ilaclar;
+	private String sahipNo;
 
 	private boolean showCreateOrEdit;
 	private boolean showInfo;
@@ -232,8 +246,32 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showIlacList = false;
 	}
 
-	public void receteCikart(){
-		raporService.raporuOlustur(kullaniciPrincipal.getId(), medicalReport.getId());
+	public void sahipEklemeEkraniHazirla(){
+		sahipNo = null;
+		animal = selectedAnimals.stream().findFirst().get();
+	}
+
+	public void sahipDogrulaVeKaydet(){
+		Optional<GercekKisi> byKimlikNo = gercekKisiService.findByKimlikNo(sahipNo);
+		if(byKimlikNo.isPresent()){
+			animal.setSahipId(byKimlikNo.get().getId());
+			animalService.update(animal);
+			JSFUtil.hideDialog("sahipEklemeDialogWidgetVar");
+		}else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Hata", "Kimlik No Doğrulanamadı!"));
+			context.getExternalContext().getFlash().setKeepMessages(true);
+		}
+	}
+
+	public StreamedContent receteCikart() throws FileNotFoundException {
+		medicalReport = selectedMedicalReports.stream().findFirst().get();
+		String raporYolu = raporService.raporuOlustur(kullaniciPrincipal.getId(), medicalReport.getId());
+		FileInputStream fileInputStream = new FileInputStream(new File(raporYolu));
+		DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
+		defaultStreamedContent.setName(UUID.randomUUID().toString()+".pdf");
+		JSFUtil.executeScript("removePageRedirectBlock()");
+		return defaultStreamedContent;
 	}
 
 	public void sil() throws IOException {

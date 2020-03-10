@@ -123,15 +123,12 @@ public class BlockchainService {
 			String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
 			JSONObject jsonObject = new JSONObject(jsonObjects);
 			if(jsonObject.has("olusturan") && jsonObject.getString("id").equals(reportId)){
-				String id = jsonObject.getString("olusturan");
-				Kullanici kullanici = userService.findById(id).get();
-				String olusturan = kullanici.getName() + " " + kullanici.getSurname();
 				medicalReports.add(MedicalReport.builder()
 						.id(jsonObject.getString("id"))
 						.date(jsonObject.getString("date"))
 						.tension(jsonObject.getString("tension"))
 						.animalId(jsonObject.getString("animalId"))
-						.olusturan(olusturan)
+						.olusturan(jsonObject.getString("olusturan"))
 						.surgeryDescription(jsonObject.getString("surgeryDescription"))
 						.esgal(jsonObject.getString("esgal"))
 						.description(jsonObject.getString("description"))
