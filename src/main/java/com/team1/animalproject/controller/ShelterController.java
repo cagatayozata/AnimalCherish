@@ -1,7 +1,7 @@
 package com.team1.animalproject.controller;
 
-import com.team1.animalproject.model.Animal;
-import com.team1.animalproject.service.AnimalService;
+import com.team1.animalproject.model.Shelter;
+import com.team1.animalproject.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,27 +16,27 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping ("api/v1/animal")
-public class AnimalController {
+@RequestMapping ("api/v1/shelter")
+public class ShelterController {
 
     @Autowired
-    private AnimalService animalService;
+    private ShelterService service;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Animal> save(@RequestBody Animal animal) {
-        animalService.save(animal);
-        return ResponseEntity.ok().body(animal);
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Animal>> delete(@RequestBody List<Animal> veriler) {
-        animalService.delete(veriler);
-        return ResponseEntity.ok().body(veriler);
+    public ResponseEntity<Shelter> save(@RequestBody Shelter veri) {
+        service.save(veri);
+        return ResponseEntity.ok().body(veri);
     }
 
     @GetMapping(value = "/getall")
-    public ResponseEntity<List<Animal>> getAll() {
-        return ResponseEntity.ok().body(animalService.getAll());
+    public ResponseEntity<List<Shelter>> getAll() {
+        return ResponseEntity.ok().body(service.getAll());
     }
 
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Shelter>> delete(@RequestBody List<Shelter> veriler) {
+        service.delete(veriler);
+        return ResponseEntity.ok().body(veriler);
+    }
 }

@@ -77,7 +77,7 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 				.antMatchers(Constants.IMAGES_URL).permitAll()
 				.antMatchers(Constants.REGISTER_URL).permitAll()
 				.antMatchers(Constants.LOGOUT_PAGE_URL).permitAll()
-				.antMatchers("/animal/**").permitAll()
+				.antMatchers("/api/v1/**").permitAll()
 				.antMatchers(Constants.RESOURCES).permitAll()
 				.antMatchers(Constants.HOME_PAGE_URL).permitAll()
 				.antMatchers(Constants.HOME_PAGE_URL.concat("**")).hasRole(RoleConstants.USER)

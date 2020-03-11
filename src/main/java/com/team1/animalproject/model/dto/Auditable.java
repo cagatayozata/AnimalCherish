@@ -1,5 +1,6 @@
 package com.team1.animalproject.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team1.animalproject.view.KullaniciSessionVerisi;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ public class Auditable<I extends Serializable, U> {
 
 	@Autowired
 	@Transient
+	@JsonIgnore
 	private KullaniciSessionVerisi kullaniciSessionVerisi;
 
 	@Id
@@ -56,7 +58,11 @@ public class Auditable<I extends Serializable, U> {
 	protected void prePersist() {
 		if (this.olusmaTarihi == null) olusmaTarihi = new Date();
 		if (this.sonGuncellenmeTarihi == null) sonGuncellenmeTarihi = new Date();
-		if(this.olusturanKullanici == null) olusturanKullanici = ((KullaniciPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		try {
+			if(this.olusturanKullanici == null) olusturanKullanici = ((KullaniciPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		}catch (ClassCastException e){
+			System.out.println("Mobil Tarafindan Olusturuldu");
+		}
 	}
 
 	@PreUpdate
