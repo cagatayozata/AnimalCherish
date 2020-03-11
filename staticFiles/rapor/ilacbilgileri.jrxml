@@ -17,12 +17,12 @@
 		<fieldDescription><![CDATA[kullanimSekli]]></fieldDescription>
 	</field>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<rectangle>
 				<reportElement x="-20" y="41" width="595" height="1" uuid="ff3dc3c2-55f4-400e-80ae-95cb0849b04e"/>
 			</rectangle>
 			<textField>
-				<reportElement x="-10" y="40" width="100" height="30" uuid="068fcaf3-e115-4878-a543-4a947f9830b8"/>
+				<reportElement stretchType="RelativeToBandHeight" x="-10" y="40" width="100" height="30" uuid="068fcaf3-e115-4878-a543-4a947f9830b8"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{urunAdi}]]></textFieldExpression>
 			</textField>
@@ -32,7 +32,7 @@
 				<text><![CDATA[Ürün Adı]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="90" y="40" width="100" height="30" uuid="9b00d23c-f3a9-4a8f-a6ad-93c4620f8bf2"/>
+				<reportElement key="" stretchType="RelativeToBandHeight" x="90" y="40" width="100" height="30" uuid="9b00d23c-f3a9-4a8f-a6ad-93c4620f8bf2"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{urunAdet}]]></textFieldExpression>
 			</textField>
@@ -42,7 +42,7 @@
 				<text><![CDATA[Ürün Adet]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="190" y="40" width="100" height="30" uuid="ff1be1b6-02ba-44e7-8f7c-075be4b89443"/>
+				<reportElement stretchType="RelativeToBandHeight" x="190" y="40" width="100" height="30" uuid="ff1be1b6-02ba-44e7-8f7c-075be4b89443"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{sistemNo}]]></textFieldExpression>
 			</textField>
@@ -52,7 +52,7 @@
 				<text><![CDATA[Sistem No]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="290" y="42" width="285" height="28" uuid="9af3e205-f15f-4ff0-92bf-c8acd80d9859"/>
+				<reportElement stretchType="RelativeToBandHeight" x="290" y="42" width="285" height="28" uuid="9af3e205-f15f-4ff0-92bf-c8acd80d9859"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{kullanimSekli}]]></textFieldExpression>
 			</textField>

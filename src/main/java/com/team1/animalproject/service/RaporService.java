@@ -107,7 +107,6 @@ public class RaporService {
 					RandomStringUtils.randomAlphabetic(5)).sinifi(RandomStringUtils.randomAlphabetic(7)).tedaviBaslangicTarihi(medicalReport.getDate()).teshis(medicalReport.getDescription()).tur(tur.getName()).veterinerAdi(vet.getName()).yas(5+"").ilacRaporList(ilacRapolar).build());
 
 			JRProperties.setProperty("net.sf.jasperreports.default.pdf.encoding", "Cp1254");
-			JRProperties.setProperty("net.sf.jasperreports.jdbc.time.zone", "Europe/Istanbul");
 
 			JasperReport jasperReport = JasperCompileManager.compileReport(fileNameXML);
 
@@ -123,6 +122,7 @@ public class RaporService {
 			//parameter used for the destined file.
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outFileNamePDF + raporId);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+			exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "Cp1254");
 			//export to .pdf
 			exporter.exportReport();
 			System.out.println("Created file: " + outFileNamePDF + raporId);

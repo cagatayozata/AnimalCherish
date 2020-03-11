@@ -11,6 +11,30 @@
             <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="diplomaNo" value="Diploma No"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputNumber id="diplomaNo" decimalPlaces="0" thousandSeparator=""
+                                     disabled="#{vetBean.showInfo}"
+                                     value="#{vetBean.vet.diplomaNo}"
+                                     autocomplete="off"/>
+                        <p:message for="diplomaNo"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="sicilNo" value="Sicil No"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputNumber id="sicilNo"
+                                       decimalPlaces="0"
+                                       thousandSeparator=""
+                                       disabled="#{vetBean.showInfo}"
+                                       value="#{vetBean.vet.sicilNo}"
+                                       autocomplete="off"/>
+                        <p:message for="sicilNo"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="name" value="Adı"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="name"
@@ -82,7 +106,7 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="details" value="Klinik Bilgisi"/>
+                    <p:outputLabel for="details" value="Klinik Adresi"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputTextarea id="details"
                                          disabled="#{vetBean.showInfo}"
