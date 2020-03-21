@@ -114,4 +114,8 @@ public class ShelterService implements IBaseService<Shelter> {
         shelterAnimalRepository.deleteByShelterId(shelterId);
         shelterAnimalRepository.save(shelterAnimals);
     }
+
+    public long toplamSayi(){
+        return shelterRepository.count();
+    }
 }

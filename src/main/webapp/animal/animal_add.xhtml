@@ -23,6 +23,20 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="cinsiyet" value="Cinsiyet"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:selectOneMenu id="cinsiyet" disabled="#{animalBean.showInfo}" value="#{animalBean.animal.cinsiyet}" required="true">
+                            <f:selectItem itemLabel="Seçiniz" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Erkek" itemValue="#{true}"/>
+                            <f:selectItem itemLabel="Dişi" itemValue="#{false}"/>
+                        </p:selectOneMenu>
+                        <p:message for="cinsiyet"/>
+                    </p:panel>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="name" value="İsim"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputText id="name"
@@ -60,7 +74,7 @@
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="cins" value="Cins"/>
-                    <p:selectOneMenu id="cins" disabled="#{animalBean.showInfo}" value="#{animalBean.animal.cinsId}" required="true">
+                    <p:selectOneMenu id="cins" disabled="#{animalBean.showInfo}" value="#{animalBean.animal.cinsId}">
                         <f:selectItem itemLabel="Seçiniz" itemValue="#{null}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{animalBean.cinsler}" var="tur"

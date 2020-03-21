@@ -131,4 +131,8 @@ public class UserService implements IBaseService<Kullanici> {
 		return userRepository.kullaniciBaskaYerdeGorevliMi(kullaniciId, kullaniciTipiEnum);
 	}
 
+	public long toplamSayi(){
+		return userRepository.count();
+	}
+
 }

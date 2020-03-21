@@ -1,6 +1,9 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.service.AnimalService;
+import com.team1.animalproject.service.ShelterService;
+import com.team1.animalproject.service.UserService;
+import com.team1.animalproject.service.VetService;
 import com.team1.animalproject.view.utils.DayEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,6 +38,12 @@ public class ChartBean implements Serializable {
 
     @Autowired
     private AnimalService animalService;
+    @Autowired
+    private VetService vetService;
+    @Autowired
+    private ShelterService shelterService;
+    @Autowired
+    private UserService userService;
 
     private BarChartModel barModel;
 
@@ -124,5 +133,21 @@ public class ChartBean implements Serializable {
                 "Item Index: " + event.getItemIndex() + ", DataSet Index:" + event.getDataSetIndex());
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public long toplamVeterinerSayisi(){
+        return vetService.toplamSayi();
+    }
+
+    public long toplamHayvanSayisi(){
+        return animalService.toplamSayi();
+    }
+
+    public long toplamBarinakSayisi(){
+        return shelterService.toplamSayi();
+    }
+
+    public long toplamKullaniciSayisi(){
+        return userService.toplamSayi();
     }
 }

@@ -41,4 +41,8 @@ public class VetService implements IBaseService<Vet> {
     public Vet findByKullaniciId(String id){
         return vetRepository.findByKullaniciId(id);
     }
+
+    public long toplamSayi(){
+        return vetRepository.count();
+    }
 }

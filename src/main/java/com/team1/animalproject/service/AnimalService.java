@@ -37,6 +37,10 @@ public class AnimalService implements IBaseService<Animal> {
 		animalRepository.delete(o);
 	}
 
+	public long toplamSayi(){
+		return animalRepository.count();
+	}
+
 	public Optional<List<Animal>> findByIdIn(List<String> ids) {
 		return animalRepository.findByIdIn(ids);
 	}

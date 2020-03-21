@@ -103,7 +103,7 @@ public class RaporService {
 			Cins cins = cinsService.findById(animal.getCinsId());
 			GercekKisi gercekKisi = gercekKisiService.findById(animal.getSahipId());
 
-			List<Object> reportDataSource = Lists.newArrayList(IlacRecetesi.builder().adres(vet.getWorkplace()).cinsiyet(animal.isCinsiyet() ? "Erkek" : "Dişi").diplomaNo(vet.getDiplomaNo()).esgal(medicalReport.getEsgal()).irk(cins.getName()).isletmeNo(vet.getClinic()).kupeNumarasi(animal.getId()).sahipAd(gercekKisi.getAd()).sahipAdres(gercekKisi.getAdresi()).seriNo(RandomStringUtils.randomAlphabetic(8).toUpperCase()).sicilNo(vet.getSicilNo()).sifresi(
+			List<Object> reportDataSource = Lists.newArrayList(IlacRecetesi.builder().adres(vet.getWorkplace()).cinsiyet(animal.getCinsiyet() ? "Erkek" : "Dişi").diplomaNo(vet.getDiplomaNo()).esgal(medicalReport.getEsgal()).irk(cins.getName()).isletmeNo(vet.getClinic()).kupeNumarasi(animal.getId()).sahipAd(gercekKisi.getAd()).sahipAdres(gercekKisi.getAdresi()).seriNo(RandomStringUtils.randomAlphabetic(8).toUpperCase()).sicilNo(vet.getSicilNo()).sifresi(
 					RandomStringUtils.randomAlphabetic(5)).sinifi(RandomStringUtils.randomAlphabetic(7)).tedaviBaslangicTarihi(medicalReport.getDate()).teshis(medicalReport.getDescription()).tur(tur.getName()).veterinerAdi(vet.getName()).yas(5+"").ilacRaporList(ilacRapolar).build());
 
 			JRProperties.setProperty("net.sf.jasperreports.default.pdf.encoding", "Cp1254");

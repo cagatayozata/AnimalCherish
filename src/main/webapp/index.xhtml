@@ -16,6 +16,13 @@
 
         </script>
 
+        <style>
+            .dashboard .stats .mark-icon {
+                height: 34px;
+                width: unset !important;
+            }
+        </style>
+
         <h:outputScript name="js/jquery-ui.js" library="california-layout"/>
         <h:outputScript name="js/marquee.js" library="california-layout"/>
         <h:outputStylesheet name="css/marquee.css" library="california-layout"/>
@@ -40,16 +47,65 @@
             </div>
         </p:panel>
 
+        <p:fieldset style="background: none; border: 0; padding: 0">
+            <div class="dashboard">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="stats">
+                            <div class="stats-icon">
+                                <p:graphicImage name="images/icon-checked.png" library="california-layout" styleClass="mark-icon"/>
+                            </div>
+                            <div class="stats-numbers">#{chartBean.toplamVeterinerSayisi()}</div>
+                            <div class="stats-title">Sistemdeki kayıtlı veteriner sayısı</div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="stats">
+                            <div class="stats-icon">
+                                <p:graphicImage name="images/icon-access.png" library="california-layout" styleClass="mark-icon"/>
+                            </div>
+                            <div class="stats-numbers">#{chartBean.toplamHayvanSayisi()}</div>
+                            <div class="stats-title">Sistemdeki kayıtlı hayvan sayısı</div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="stats">
+                            <div class="stats-icon">
+                                <p:graphicImage name="images/logo-barcelona.png" library="california-layout" styleClass="mark-icon"/>
+                            </div>
+                            <div class="stats-numbers">#{chartBean.toplamBarinakSayisi()}</div>
+                            <div class="stats-title">Sistemdeki kayıtlı barınak sayısı</div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="stats">
+                            <div class="stats-icon">
+                                <p:graphicImage name="images/icon-profile.png" library="california-layout" styleClass="mark-icon"/>
+                            </div>
+                            <div class="stats-numbers">#{chartBean.toplamKullaniciSayisi()}</div>
+                            <div class="stats-title">Sistemdeki kayıtlı kullanıcı sayısı</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+
         <p:fieldset legend="Yenilikler" style="margin-top: 10px; margin-bottom:20px">
             <h:panelGrid columns="1">
-                <p:graphicImage styleClass="login-image" width="25%" height="25%" name="images/landing/3.jpg" library="california-layout"/>
                 <h:outputText
                         value="Veteriner hekim ekranı eklendi. Veteriner hekim ekranı üzerinden yetkili kişiler veteriner hekim ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir."/>
+               <hr/>
+                <h:outputText
+                        value="Hayvan ekranı eklendi. Hayvan ekranı üzerinden yetkili kişiler hayvan ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir. Veteriner hekimler sağlık raporlarını girebilir, çıktısını alabilir."/>
+                <hr/>
+                <h:outputText
+                        value="Barınak ekranı eklendi. Barınak ekranı üzerinden yetkili kişiler Barınak ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir. Barınak çalışanları ve barınaktaki hayvanlar buradan eklenip çıkartılabilir."/>
+
             </h:panelGrid>
         </p:fieldset>
 
-        <p:panel>
-            <p:barChart model="#{chartBean.barModel}" style="width: 100%; height: 500px;"/>
+        <p:panel style="width: 100%; margin: 20px auto; height: 40%">
+            <p:barChart model="#{chartBean.barModel}" style="width: 50%; height: 50%"/>
         </p:panel>
 
     </ui:define>

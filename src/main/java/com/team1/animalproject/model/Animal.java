@@ -44,11 +44,11 @@ public class Animal extends Auditable<String, String> implements Serializable {
 	@Column(name = "tur_id", nullable = false)
 	public String turId;
 
-	@Column(name = "cins_id", nullable = false)
+	@Column(name = "cins_id")
 	public String cinsId;
 
 	@Column(name = "cinsiyet")
-	public boolean cinsiyet;
+	public Boolean cinsiyet;
 
 	@Column(name="sahip_id")
 	public String sahipId;
