@@ -2,18 +2,34 @@ package com.team1.animalproject.service;
 
 import com.google.gson.Gson;
 import com.team1.animalproject.auth.Constants;
+import com.team1.animalproject.helpers.model.Chart;
+import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import org.apache.commons.compress.utils.Lists;
-import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BlockchainService {
@@ -142,7 +158,6 @@ public class BlockchainService {
 		return medicalReports;
 	}
 
-
 	public List<MedicalReport> getAllByAnimalId(String animalId) {
 		List<String> authorityHashes = readFile("authority");
 		List<MedicalReport> medicalReports = new ArrayList<>();
@@ -200,7 +215,7 @@ public class BlockchainService {
 				medicalReportMedicines.add(MedicalReportMedicine.builder()
 						.ilacId(jsonObject.getString("ilacId"))
 						.ilacAd(ilac.getName())
-                        .adet(jsonObject.getString("adet"))
+						.adet(jsonObject.getString("adet"))
 						.kullanimSekli(jsonObject.getString("kullanimSekli"))
 						.medicalReportId(jsonObject.getString("medicalReportId"))
 						.build());
@@ -233,5 +248,56 @@ public class BlockchainService {
 			is.close();
 			os.close();
 		}
+	}
+
+	public List<ChartDTO> enCokYazilanIlaclar(String userId) {
+		List<MedicalReport> medicalReports = getAll(userId);
+		List<MedicalReportMedicine> medicalReportMedicines = Lists.newArrayList();
+		if(!CollectionUtils.isEmpty(medicalReports)){
+			medicalReports.stream().forEach(medicalReport -> {
+				medicalReportMedicines.addAll(ilaclariGetir(medicalReport.getId()));
+			});
+		}
+
+		Map<String, Integer> ilacMiktar = new HashMap<>();
+		Map<String, List<String>> ilacRapor = new HashMap<>();
+
+		List<ChartDTO> chartDTOs = Lists.newArrayList();
+
+		if(!CollectionUtils.isEmpty(medicalReportMedicines)){
+			medicalReportMedicines.stream().forEach(medicalReportMedicine -> {
+				if(ilacMiktar.containsKey(medicalReportMedicine.getIlacAd())){
+					Integer miktar = ilacMiktar.get(medicalReportMedicine.getIlacAd());
+					miktar = miktar + Integer.valueOf(medicalReportMedicine.getAdet());
+					ilacMiktar.put(medicalReportMedicine.getIlacAd(), miktar);
+				} else {
+					ilacMiktar.put(medicalReportMedicine.getIlacAd(), Integer.valueOf(medicalReportMedicine.getAdet()));
+				}
+
+				if(ilacRapor.containsKey(medicalReportMedicine.getIlacAd())){
+					List<String> bilgiler = ilacRapor.get(medicalReportMedicine.getIlacAd());
+					List<MedicalReport> raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+					raporlar.stream().forEach(medicalReport -> {
+						Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
+						bilgiler.add("Veteriner: " + kullanici.getName() + " " + kullanici.getSurname() + "- Rapor Tarihi: " + medicalReport.getDate());
+					});
+					ilacRapor.put(medicalReportMedicine.getIlacAd(), bilgiler);
+				} else {
+					List<MedicalReport> raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+					ilacRapor.put(medicalReportMedicine.getIlacAd(),
+							raporlar.stream().map(medicalReport -> "Veteriner: " + userService.findById(medicalReport.getOlusturan()).get().getName().concat(" ".concat(userService.findById(medicalReport.getOlusturan()).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate()).collect(Collectors.toList()));
+				}
+			});
+		}
+
+		ilacMiktar.forEach((s, integer) -> {
+			List<ChartDTO> raporlar = Lists.newArrayList();
+			ilacRapor.get(s).stream().forEach(s1 -> {
+				raporlar.add(ChartDTO.builder().name(s1).value(integer).build());
+			});
+			chartDTOs.add(ChartDTO.builder().name(s).value(Integer.valueOf(integer)).drillDownList(raporlar).build());
+		});
+
+		return chartDTOs;
 	}
 }

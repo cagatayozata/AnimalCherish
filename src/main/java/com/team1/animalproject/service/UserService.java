@@ -1,21 +1,17 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.auth.Constants;
-import com.team1.animalproject.exception.BaseExceptionType;
-import com.team1.animalproject.exception.BusinessRuleException;
-import com.team1.animalproject.exception.ViewException;
+import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.KullaniciRol;
 import com.team1.animalproject.repository.UserRepository;
 import com.team1.animalproject.view.utils.KullaniciTipiEnum;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -26,10 +22,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class UserService implements IBaseService<Kullanici> {
@@ -131,8 +129,26 @@ public class UserService implements IBaseService<Kullanici> {
 		return userRepository.kullaniciBaskaYerdeGorevliMi(kullaniciId, kullaniciTipiEnum);
 	}
 
-	public long toplamSayi(){
+	public long toplamSayi() {
 		return userRepository.count();
+	}
+
+	public List<ChartDTO> kullanicilarNerede() {
+		List<ChartDTO> chartDTOS = Lists.newArrayList();
+
+		List<Kullanici> kullanicilar = getAll();
+		Map<Integer, List<Kullanici>> gorevlerdekiKullanicilar = kullanicilar.stream().collect(groupingBy(kullanici -> kullanici.getKullaniciTipi()));
+
+		Arrays.stream(KullaniciTipiEnum.values())
+				.forEach(kullaniciTipiEnum -> chartDTOS.add(ChartDTO.builder()
+						.name(kullaniciTipiEnum.getTextMessageKey())
+						.value(gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()) == null ? 0 : gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()).size())
+						.drillDownList(gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()) == null ? Lists.newArrayList() : gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId())
+								.stream()
+								.map(kullanici -> ChartDTO.builder().name(kullanici.getName() + " " + kullanici.getSurname()).value(1).build())
+								.collect(Collectors.toList()))
+						.build()));
+		return chartDTOS;
 	}
 
 }

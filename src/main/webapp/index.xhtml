@@ -6,6 +6,11 @@
 
     <ui:define name="content">
         <p:growl id="growl" showDetail="true"/>
+        <h:outputScript name="highcharts.js" library="js"/>
+        <h:outputScript name="data.js" library="js"/>
+        <h:outputScript name="drilldown.js" library="js"/>
+        <h:outputScript name="exporting.js" library="js"/>
+        <h:outputScript name="export-data.js" library="js"/>
 
         <script>
             $(function () {
@@ -20,6 +25,10 @@
             .dashboard .stats .mark-icon {
                 height: 34px;
                 width: unset !important;
+            }
+
+            body {
+                position: relative;
             }
         </style>
 
@@ -94,7 +103,7 @@
             <h:panelGrid columns="1">
                 <h:outputText
                         value="Veteriner hekim ekranı eklendi. Veteriner hekim ekranı üzerinden yetkili kişiler veteriner hekim ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir."/>
-               <hr/>
+                <hr/>
                 <h:outputText
                         value="Hayvan ekranı eklendi. Hayvan ekranı üzerinden yetkili kişiler hayvan ekleme, çıkarma, güncelleme ve detay görüntüleme işlemleri yapabilir. Veteriner hekimler sağlık raporlarını girebilir, çıktısını alabilir."/>
                 <hr/>
@@ -104,9 +113,13 @@
             </h:panelGrid>
         </p:fieldset>
 
-        <p:panel style="width: 100%; margin: 20px auto; height: 40%">
-            <p:barChart model="#{chartBean.barModel}" style="width: 50%; height: 50%"/>
-        </p:panel>
+        <div class="ui-g">
+            <ui:include src="ilac_chart.xhtml"/>
+            <ui:include src="kullanici_chart.xhtml"/>
+            <p:panel style="width: 100%; margin: 20px auto; height: 40%">
+                <p:barChart model="#{chartBean.barModel}" style="width: 50%; height: 50%"/>
+            </p:panel>
+        </div>
 
     </ui:define>
 </ui:composition>

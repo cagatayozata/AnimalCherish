@@ -60,10 +60,10 @@ public class RaporService {
 	@Autowired
 	private GercekKisiService gercekKisiService;
 
-	String fileName = Constants.FILE_PATH + "rapor\\recete.jasper";
-	String fileNameXML = Constants.FILE_PATH + "rapor\\recete.jrxml";
+	String fileName = Constants.FILE_PATH + "rapor/recete.jasper";
+	String fileNameXML = Constants.FILE_PATH + "rapor/recete.jrxml";
 
-	String outFileNamePDF = Constants.FILE_PATH + "raporcikti\\";
+	String outFileNamePDF = Constants.FILE_PATH + "raporcikti/";
 	Map hm = new HashMap();
 
 	public String raporuOlustur(String userId, String medicalReportId) {
@@ -112,8 +112,8 @@ public class RaporService {
 
 			JRDataSource dataSource = new JRBeanCollectionDataSource(reportDataSource);
 
-			hm.put("subReport", Constants.FILE_PATH + "rapor\\ilacbilgileri.jasper");
-			hm.put("style", Constants.FILE_PATH + "rapor\\animal_style.jrtx");
+			hm.put("subReport", Constants.FILE_PATH + "rapor/ilacbilgileri.jasper");
+			hm.put("style", Constants.FILE_PATH + "rapor/animal_style.jrtx");
 			hm.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("Europe/Istanbul"));
 
 			JasperPrint print = JasperFillManager.fillReport(jasperReport, hm, dataSource);

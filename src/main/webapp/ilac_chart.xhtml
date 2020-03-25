@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <script>
+
+        Highcharts.SVGRenderer.prototype.symbols.download = function (x, y, w, h) {
+            var path = [
+                // Arrow stem
+                'M', x + w * 0.5, y,
+                'L', x + w * 0.5, y + h * 0.7,
+                // Arrow head
+                'M', x + w * 0.3, y + h * 0.5,
+                'L', x + w * 0.5, y + h * 0.7,
+                'L', x + w * 0.7, y + h * 0.5,
+                // Box
+                'M', x, y + h * 0.9,
+                'L', x, y + h,
+                'L', x + w, y + h,
+                'L', x + w, y + h * 0.9
+            ];
+            return path;
+        };
+
+        function ilacChartiOlustur() {
+            var defaultTitle = "Yazılan İlaçlar";
+            var drilldownTitle = " İlacı";
+            // Create the chart
+            var chart = new Highcharts.chart('ilacContainer', {
+                chart: {
+                    borderColor: '#d2d2d2',
+                    borderWidth: 1,
+                    type: 'pie',
+                    events: {
+                        drilldown: function (e) {
+                            chart.setTitle({text: e.point.name + drilldownTitle});
+                        },
+                        drillup: function (e) {
+                            chart.setTitle({text: defaultTitle});
+                        }
+                    }
+                },
+                lang: {
+                    drillUpText: '◁ Geri'
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: defaultTitle
+                },
+
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}: {point.y} <br> % {point.percentage:.1f}</br>'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: "",
+                        colorByPoint: true,
+                        data: [#{chartBean.enCokYazilanlarChart.dataJson}]
+                    }
+
+                ],
+                drilldown: {
+                    series: [#{chartBean.enCokYazilanlarChart.drilldownDataJson}]
+                },
+                exporting: {
+                    buttons: {
+                        contextButton: {
+                            symbol: 'download',
+                            text: 'İndir',
+                            titleKey: '',
+                            onclick: function (event) {
+                                this.exportChart();
+                                setTimeout(function () {
+                                    try {
+                                        PF('pageRedirectBlock').hide();
+                                    } catch (e) {
+                                    }
+
+                                }, 1000);
+                            }
+                        }
+                    }
+                },
+            });
+        }
+
+        $(document).ready(function () {
+            ilacChartiOlustur();
+        });
+    </script>
+
+
+    <div id="ilacContainer" class="ui-g-6 ui-md-6 ui-lg-6">
+    </div>
+
+
+</ui:composition>

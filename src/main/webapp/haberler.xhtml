@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+    <ui:define name="viewname">Haberler</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="growl" showDetail="true"/>
+        <h:outputStylesheet name="bootstrap.css" library="css"/>
+
+        <style>
+            .dashboard .stats .mark-icon {
+                height: 34px;
+                width: unset !important;
+            }
+        </style>
+
+        <div id="list-example" class="list-group">
+            <table>
+                <p:feedReader value="https://www.hurriyet.com.tr/rss/hayvan" var="feed">
+                    <tr style="margin-top: 15px">
+                        <td width="180">
+                            <img style="float:left; height: 200px" src="#{feed.enclosures[0].url}"/>
+                        </td>
+                        <td>
+                            <li class="list-group-item list-group-item-action" style="height: 200px">
+                                <a class="list-group-item list-group-item-action" style="font-weight: bold !important;" href="#{feed.link}">#{feed.title}</a>
+                                <a class="list-group-item list-group-item-action" style="height: 120px" href="#{feed.link}">#{feed.description.value}</a>
+                            </li>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br/></td>
+                    </tr>
+                </p:feedReader>
+            </table>
+        </div>
+
+
+    </ui:define>
+</ui:composition>
