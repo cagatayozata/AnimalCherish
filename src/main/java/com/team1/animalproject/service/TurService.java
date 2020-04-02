@@ -50,6 +50,6 @@ public class TurService implements IBaseService<Tur> {
 	}
 
 	public Tur findById(String id) {
-		return turRepository.findById(id);
+		return turRepository.findById(id).get();
 	}
 }

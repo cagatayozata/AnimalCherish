@@ -2,7 +2,6 @@ package com.team1.animalproject.repository.custom;
 
 import com.querydsl.core.Tuple;
 import com.team1.animalproject.model.Animal;
-import com.team1.animalproject.model.AnimalTarihce;
 import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.GercekKisi;
 import com.team1.animalproject.model.PetShop;
@@ -24,7 +23,6 @@ import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +74,7 @@ public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements C
 				Long aLong = veri.get(day);
 				aLong = tuple.get(qAnimal.count()) + aLong;
 				veri.put(day, aLong);
-			}else {
+			} else {
 				veri.put(day, tuple.get(qAnimal.count()));
 			}
 		});
@@ -85,7 +83,7 @@ public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements C
 	}
 
 	@Override
-	public AnimalTarihceDetay hayvanNerede(String animalId){
+	public AnimalTarihceDetay hayvanNerede(String animalId) {
 		QAnimal qAnimal = QAnimal.animal;
 		QZoo qZoo = QZoo.zoo;
 		QZooAnimal qZooAnimal = QZooAnimal.zooAnimal;
@@ -132,7 +130,7 @@ public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements C
 				GercekKisi gercekKisi = tuple.get(qGercekKisi);
 				animalTarihceDetay.setKurumAdi(gercekKisi.getAd());
 				animalTarihceDetay.setKurumaTanimlanmaTarihi(DateUtil.dateAsString(gercekKisi.getOlusmaTarihi()));
-			}else {
+			} else {
 				animalTarihceDetay.setKurumAdi("Bilinmiyor");
 			}
 		});

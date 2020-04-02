@@ -39,7 +39,7 @@ public class GercekKisiService implements IBaseService<GercekKisi> {
 	}
 
 	public GercekKisi findById(String id) {
-		return gercekKisiRepository.findById(id);
+		return gercekKisiRepository.findById(id).get();
 	}
 
 	public Optional<GercekKisi> findByKimlikNo(String no) {

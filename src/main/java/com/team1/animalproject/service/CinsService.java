@@ -67,6 +67,6 @@ public class CinsService implements IBaseService<Cins> {
 	}
 
 	public Cins findById(String id) {
-		return cinsRepository.findById(id);
+		return cinsRepository.findById(id).get();
 	}
 }

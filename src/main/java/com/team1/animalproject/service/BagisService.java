@@ -39,6 +39,6 @@ public class BagisService implements IBaseService<Bagis> {
 	}
 
 	public Bagis findById(String id) {
-		return bagisRepository.findById(id);
+		return bagisRepository.findById(id).get();
 	}
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository ("gercekKisiRepository")
 public interface GercekKisiRepository extends JpaRepository<GercekKisi, String> {
 
-	GercekKisi findById(String id);
+	Optional<GercekKisi> findById(String id);
 
 	Optional<GercekKisi> findByKimlikNo(String kimlikNo);
 }

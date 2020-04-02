@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.jdbcUrl",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.jdbcUrl."
+  }
+] }

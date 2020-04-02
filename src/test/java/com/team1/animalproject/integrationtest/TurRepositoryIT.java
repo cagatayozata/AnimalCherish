@@ -50,7 +50,7 @@ public class TurRepositoryIT {
 		Tur tur = TurPreparer.olustur(true);
 		turRepository.saveAndFlush(tur);
 
-		Tur savedTur = turRepository.findById(tur.getId());
+		Tur savedTur = turRepository.findById(tur.getId()).get();
 		Assert.assertTrue(savedTur.equals(tur));
 	}
 

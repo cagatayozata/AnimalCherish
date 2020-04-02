@@ -13,7 +13,7 @@ public interface CinsRepository extends JpaRepository<Cins, String>, CustomCinsR
 
 	Optional<List<Cins>> findByTurId(String turId);
 
-	Cins findById(String id);
+	Optional<Cins> findById(String id);
 
 	void deleteByTurId(String turId);
 

@@ -1,15 +1,11 @@
 package com.team1.animalproject.repository.custom;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.CollectionExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.QCins;
 import com.team1.animalproject.model.QTur;
 import org.apache.commons.compress.utils.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

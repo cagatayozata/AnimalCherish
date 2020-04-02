@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("turRepository")
 public interface TurRepository extends JpaRepository<Tur, String> {
 
-    Tur findById(String id);
+    Optional<Tur> findById(String id);
 
     List<Tur> findAllByDurum(boolean durum);
 

@@ -45,6 +45,6 @@ public class IlacService implements IBaseService<Ilac> {
 	}
 
 	public Ilac findById(String id) {
-		return ilacRepository.findById(id);
+		return ilacRepository.findById(id).get();
 	}
 }
