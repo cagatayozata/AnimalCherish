@@ -12,6 +12,7 @@ import com.team1.animalproject.model.Tur;
 import com.team1.animalproject.model.Vet;
 import com.team1.animalproject.model.rapor.IlacRapor;
 import com.team1.animalproject.model.rapor.IlacRecetesi;
+import com.team1.animalproject.view.utils.DateUtil;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -83,7 +84,7 @@ public class RaporService {
 			hm.put("", "Hello Report");
 			//JasperReport manager=JasperManager.compileReport(fileName);
 			MedicalReport medicalReport = blockchainService.getAllByReportId(userId, medicalReportId).stream().findFirst().get();
-			List<MedicalReportMedicine> medicalReportMedicines = blockchainService.ilaclariGetir(medicalReportId);
+			List<MedicalReportMedicine> medicalReportMedicines = blockchainService.ilaclariGetir(medicalReportId, userId);
 
 			Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
 			Vet vet = vetService.findByKullaniciId(kullanici.getId());
@@ -103,10 +104,17 @@ public class RaporService {
 			Cins cins = cinsService.findById(animal.getCinsId());
 			GercekKisi gercekKisi = gercekKisiService.findById(animal.getSahipId());
 
+			if(vet == null) vet = Vet.builder().birthdate(DateUtil.nowAsDate()).city("").clinic("").details("").diplomaNo("").name("").sicilNo("").workplace("").build();
+
+			if(cins == null) cins = Cins.builder().name("").description("").build();
+
+			if(gercekKisi == null) gercekKisi = GercekKisi.builder().ad("").adresi("").build();
+
 			List<Object> reportDataSource = Lists.newArrayList(IlacRecetesi.builder().adres(vet.getWorkplace()).cinsiyet(animal.getCinsiyet() ? "Erkek" : "Dişi").diplomaNo(vet.getDiplomaNo()).esgal(medicalReport.getEsgal()).irk(cins.getName()).isletmeNo(vet.getClinic()).kupeNumarasi(animal.getId()).sahipAd(gercekKisi.getAd()).sahipAdres(gercekKisi.getAdresi()).seriNo(RandomStringUtils.randomAlphabetic(8).toUpperCase()).sicilNo(vet.getSicilNo()).sifresi(
 					RandomStringUtils.randomAlphabetic(5)).sinifi(RandomStringUtils.randomAlphabetic(7)).tedaviBaslangicTarihi(medicalReport.getDate()).teshis(medicalReport.getDescription()).tur(tur.getName()).veterinerAdi(vet.getName()).yas(5+"").ilacRaporList(ilacRapolar).build());
 
 			JRProperties.setProperty("net.sf.jasperreports.default.pdf.encoding", "Cp1254");
+			JRProperties.setProperty("net.sf.jasperreports.legacy.band.evaluation.enabled", "true");
 
 			JasperReport jasperReport = JasperCompileManager.compileReport(fileNameXML);
 

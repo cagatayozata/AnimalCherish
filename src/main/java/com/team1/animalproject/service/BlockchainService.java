@@ -1,114 +1,81 @@
 package com.team1.animalproject.service;
 
 import com.google.gson.Gson;
-import com.team1.animalproject.auth.Constants;
-import com.team1.animalproject.helpers.model.Chart;
+import com.team1.animalproject.blockchain.ipfs.IpfsService;
+import com.team1.animalproject.blockchain.models.Transactions;
+import com.team1.animalproject.blockchain.queries.AccountDetails;
+import com.team1.animalproject.blockchain.queries.Payment;
 import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.Ilac;
+import com.team1.animalproject.model.IpfsID;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
+import com.team1.animalproject.repository.IpfsIDRepository;
+import io.ipfs.multihash.Multihash;
 import org.apache.commons.compress.utils.Lists;
 import org.primefaces.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.stellar.sdk.KeyPair;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 public class BlockchainService {
 
-	private List<String> hashes;
-
 	@Autowired
-	private AnimalService animalService;
+	@Qualifier("ipfsIDRepository")
+	private IpfsIDRepository ipfsIDRepository;
 
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private IlacService ilacService;
 
-	public void init() throws IOException {
-		File newFile = new File(Constants.FILE_PATH + "authority.achain");
-		if(!newFile.exists()){
-			newFile.createNewFile();
-		}
-	}
+	public List<String> readFile(String userId) throws IOException {
 
-	public void kullaniciDosyasiOlustur(String userId) throws IOException {
-		File newFile = new File(Constants.FILE_PATH + userId + ".achain");
-		if(!newFile.exists()){
-			newFile.createNewFile();
-		}
-	}
+		Kullanici kullanici = userService.findById(userId).get();
 
-	public void dosyayiGuncelHaleGetir(String userId) throws IOException {
+		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId(kullanici.getKeyPair()));
+		List<Transactions> transactions = accountDetails.getTransactionsFull(false);
 
-		String json = null;
-		File newFile = new File(Constants.FILE_PATH + userId + ".achain");
+		List<String> datas = Lists.newArrayList();
 
-		hashes = new ArrayList<>();
+		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(transactions)){
+			List<String> ipfsUrls = transactions.stream().map(Transactions::getMemo).collect(Collectors.toList());
 
-		FileWriter writer = new FileWriter(newFile);
-		for(String str : hashes){
-			writer.write(str + "\n");
-		}
-		writer.close();
-	}
-
-	public boolean validate(String userId) {
-		List<String> userHashes = readFile(userId);
-		List<String> authorityHashes = readFile("authority");
-		for(int i = 0; i < userHashes.size(); i++){
-			if(!authorityHashes.contains(userHashes.get(0))){
-				return false;
+			List<IpfsID> ipfsIds = ipfsIDRepository.findByIdIn(ipfsUrls);
+			if(!CollectionUtils.isEmpty(ipfsIds)){
+				List<String> collect = ipfsIds.stream().map(IpfsID::getIpfsHash).collect(Collectors.toList());
+				collect.stream().forEach(s -> {
+					try{
+						datas.add(IpfsService.getFile(s));
+					} catch (IOException e){
+					}
+				});
 			}
 		}
-		return true;
+
+		return datas;
 	}
 
-	public List<String> readFile(String userId) {
-		List<String> hashlist = new ArrayList<>();
-		try{
-			File myObj = new File(Constants.FILE_PATH + userId + ".achain");
-			if(myObj.exists()){
-				Scanner myReader = new Scanner(myObj);
-				myReader.useDelimiter("/nextBlock/");
-				while(myReader.hasNext()){
-					String data = myReader.next();
-					hashlist.add(data);
-				}
-				myReader.close();
-			}
-		} catch (FileNotFoundException e){
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
-		return hashlist;
-	}
-
-	public List<MedicalReport> getAll(String userId) {
+	public List<MedicalReport> getAll(String userId) throws IOException {
 		List<String> authorityHashes = readFile(userId);
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
-			JSONObject jsonObject = new JSONObject(jsonObjects);
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("olusturan")){
 				String id = jsonObject.getString("olusturan");
 				Kullanici kullanici = userService.findById(id).get();
@@ -132,12 +99,11 @@ public class BlockchainService {
 		return medicalReports;
 	}
 
-	public List<MedicalReport> getAllByReportId(String userId, String reportId) {
+	public List<MedicalReport> getAllByReportId(String userId, String reportId) throws IOException {
 		List<String> authorityHashes = readFile(userId);
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
-			JSONObject jsonObject = new JSONObject(jsonObjects);
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("olusturan") && jsonObject.getString("id").equals(reportId)){
 				medicalReports.add(MedicalReport.builder()
 						.id(jsonObject.getString("id"))
@@ -158,12 +124,11 @@ public class BlockchainService {
 		return medicalReports;
 	}
 
-	public List<MedicalReport> getAllByAnimalId(String animalId) {
-		List<String> authorityHashes = readFile("authority");
+	public List<MedicalReport> getAllByAnimalId(String animalId, String userId) throws IOException {
+		List<String> authorityHashes = readFile(userId);
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
-			JSONObject jsonObject = new JSONObject(jsonObjects);
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("animalId") && jsonObject.getString("animalId").equals(animalId)){
 				String id = jsonObject.getString("olusturan");
 				Kullanici kullanici = userService.findById(id).get();
@@ -188,28 +153,58 @@ public class BlockchainService {
 	}
 
 	public void transactionOlustur(MedicalReport medicalReport) throws IOException {
-		List<MedicalReport> all = getAll("authority");
+		List<MedicalReport> all = getAll(medicalReport.getOlusturan());
 		medicalReport.setId(UUID.randomUUID().toString());
 		medicalReport.setReportNum(all.size() + 1 + "");
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(medicalReport);
-		String encoded = Base64.getEncoder().encodeToString(jsonStr.getBytes());
-		uzerineYaz(encoded, medicalReport.getOlusturan());
+		String id = UUID.randomUUID().toString();
+		PrintWriter out = new PrintWriter(id);
+		out.println(jsonStr);
+		out.close();
+		String olusturan = medicalReport.getOlusturan();
+		Kullanici kullanici = userService.findById(olusturan).get();
+		String keyPair = kullanici.getKeyPair();
+
+		Multihash saved = IpfsService.save(id);
+		String ipfsId = UUID.randomUUID().toString().substring(0, 20);
+
+		ipfsIDRepository.save(IpfsID.builder().id(ipfsId).ipfsHash(saved.toBase58()).build());
+
+		if(isNotBlank(keyPair)){
+			Payment payment = new Payment(KeyPair.fromAccountId(keyPair));
+			payment.send(ipfsId, KeyPair.fromAccountId(keyPair));
+		}
 	}
 
 	public void transactionOlustur(MedicalReportMedicine medicalReportMedicine, String kullaniciId) throws IOException {
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(medicalReportMedicine);
-		String encoded = Base64.getEncoder().encodeToString(jsonStr.getBytes());
-		uzerineYaz(encoded, kullaniciId);
+		String id = UUID.randomUUID().toString();
+		PrintWriter out = new PrintWriter(id);
+		out.println(jsonStr);
+		out.close();
+		Kullanici kullanici = userService.findById(kullaniciId).get();
+		String keyPair = kullanici.getKeyPair();
+
+		Multihash saved = IpfsService.save(id);
+
+		String ipfsId = UUID.randomUUID().toString().substring(0, 20);
+
+		ipfsIDRepository.save(IpfsID.builder().id(ipfsId).ipfsHash(saved.toBase58()).build());
+
+		if(isNotBlank(keyPair)){
+			Payment payment = new Payment(KeyPair.fromAccountId(keyPair));
+			payment.send(ipfsId, KeyPair.fromAccountId(keyPair));
+		}
 	}
 
-	public List<MedicalReportMedicine> ilaclariGetir(String medicalReportId) {
-		List<String> authorityHashes = readFile("authority");
+	public List<MedicalReportMedicine> ilaclariGetir(String medicalReportId, String userId) throws IOException {
+		List<String> authorityHashes = readFile(userId);
 		List<MedicalReportMedicine> medicalReportMedicines = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(Base64.getDecoder().decode(s.getBytes()));
-			JSONObject jsonObject = new JSONObject(jsonObjects);
+			String jsonObjects = new String(s);
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("medicalReportId") && jsonObject.getString("medicalReportId").equals(medicalReportId)){
 				Ilac ilac = ilacService.findById(jsonObject.getString("ilacId"));
 				medicalReportMedicines.add(MedicalReportMedicine.builder()
@@ -224,38 +219,17 @@ public class BlockchainService {
 		return medicalReportMedicines;
 	}
 
-	public void uzerineYaz(String data, String olusturan) throws IOException {
-		File file = new File(Constants.FILE_PATH + "authority.achain");
-		FileWriter fr = new FileWriter(file, true);
-		fr.write(data + "/nextBlock/");
-		fr.close();
+	public List<ChartDTO> enCokYazilanIlaclar(String userId) throws IOException {
 
-		copyFileUsingStream(new File(Constants.FILE_PATH + "authority.achain"), new File(Constants.FILE_PATH + olusturan + ".achain"));
-	}
-
-	public static void copyFileUsingStream(File source, File dest) throws IOException {
-		InputStream is = null;
-		OutputStream os = null;
-		try{
-			is = new FileInputStream(source);
-			os = new FileOutputStream(dest);
-			byte[] buffer = new byte[1024];
-			int length;
-			while((length = is.read(buffer)) > 0){
-				os.write(buffer, 0, length);
-			}
-		} finally{
-			is.close();
-			os.close();
-		}
-	}
-
-	public List<ChartDTO> enCokYazilanIlaclar(String userId) {
 		List<MedicalReport> medicalReports = getAll(userId);
 		List<MedicalReportMedicine> medicalReportMedicines = Lists.newArrayList();
 		if(!CollectionUtils.isEmpty(medicalReports)){
 			medicalReports.stream().forEach(medicalReport -> {
-				medicalReportMedicines.addAll(ilaclariGetir(medicalReport.getId()));
+				try{
+					medicalReportMedicines.addAll(ilaclariGetir(medicalReport.getId(), userId));
+				} catch (IOException e){
+					e.printStackTrace();
+				}
 			});
 		}
 
@@ -276,16 +250,30 @@ public class BlockchainService {
 
 				if(ilacRapor.containsKey(medicalReportMedicine.getIlacAd())){
 					List<String> bilgiler = ilacRapor.get(medicalReportMedicine.getIlacAd());
-					List<MedicalReport> raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+					List<MedicalReport> raporlar = null;
+					try{
+						raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+					} catch (IOException e){
+						e.printStackTrace();
+					}
 					raporlar.stream().forEach(medicalReport -> {
 						Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
 						bilgiler.add("Veteriner: " + kullanici.getName() + " " + kullanici.getSurname() + "- Rapor Tarihi: " + medicalReport.getDate());
 					});
 					ilacRapor.put(medicalReportMedicine.getIlacAd(), bilgiler);
 				} else {
-					List<MedicalReport> raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
-					ilacRapor.put(medicalReportMedicine.getIlacAd(),
-							raporlar.stream().map(medicalReport -> "Veteriner: " + userService.findById(medicalReport.getOlusturan()).get().getName().concat(" ".concat(userService.findById(medicalReport.getOlusturan()).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate()).collect(Collectors.toList()));
+					List<MedicalReport> raporlar = null;
+					try{
+						raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+					} catch (IOException e){
+						e.printStackTrace();
+					}
+					ilacRapor.put(medicalReportMedicine.getIlacAd(), raporlar.stream()
+							.map(medicalReport -> "Veteriner: " + userService.findById(medicalReport.getOlusturan())
+									.get()
+									.getName()
+									.concat(" ".concat(userService.findById(medicalReport.getOlusturan()).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate())
+							.collect(Collectors.toList()));
 				}
 			});
 		}

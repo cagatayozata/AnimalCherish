@@ -1,11 +1,20 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.auth.Constants;
+import com.team1.animalproject.blockchain.models.Transactions;
+import com.team1.animalproject.blockchain.queries.AccountDetails;
+import com.team1.animalproject.blockchain.queries.AssetQuery;
+import com.team1.animalproject.blockchain.queries.CreateAccount;
+import com.team1.animalproject.blockchain.queries.Payment;
 import com.team1.animalproject.exception.BaseExceptionType;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.EmailService;
 import com.team1.animalproject.service.UserService;
+import io.ipfs.api.IPFS;
+import io.ipfs.api.MerkleNode;
+import io.ipfs.api.NamedStreamable;
+import io.ipfs.multihash.Multihash;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +28,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.stellar.sdk.KeyPair;
+import org.stellar.sdk.responses.SubmitTransactionResponse;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -32,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.team1.animalproject.auth.Constants.MAIN_URL;
@@ -104,6 +116,11 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
         boolean kayit = userService.kayitOl(kullanici, girisYapili, sifreDegis);
         if (validate) {
             if (kayit) {
+
+                // Steller key id set edilir
+                kullanici.setKeyPair("GDY3SM5JRS7S5QSPONHJAFCEOJWD7NZQ7CJUZ3LNQEOVC4DXBK3FMS46");
+                userService.update(kullanici);
+
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Başarılı", "Başarıyla kaydolundu."));
                 context.getExternalContext().getFlash().setKeepMessages(true);

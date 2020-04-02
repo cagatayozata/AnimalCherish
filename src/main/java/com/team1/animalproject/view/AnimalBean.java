@@ -1,7 +1,7 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Animal;
+import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.GercekKisi;
 import com.team1.animalproject.model.Ilac;
@@ -89,6 +89,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	private List<MedicalReportMedicine> medicalReportMedicines;
 	private MedicalReport medicalReport;
 	private MedicalReportMedicine medicalReportMedicine;
+	private AnimalTarihceDetay animalTarihceDetay;
 	private boolean showMedicalReport;
 	private boolean showMedicalReportCreateOrEdit;
 	private boolean showIlacList;
@@ -98,6 +99,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	private List<Cins> cinsler;
 	private List<Ilac> ilaclar;
 	private String sahipNo;
+	private String kupeNo;
 
 	private boolean showCreateOrEdit;
 	private boolean showInfo;
@@ -142,30 +144,17 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	}
 
 	public void medicalReportEkraniHazirla() throws IOException {
-		blockchainService.init();
-		blockchainService.kullaniciDosyasiOlustur(kullaniciPrincipal.getId());
-		medicalReports = blockchainService.getAllByAnimalId(selectedAnimals.stream().findFirst().get().getId());
+		medicalReports = blockchainService.getAllByAnimalId(selectedAnimals.stream().findFirst().get().getId(), kullaniciPrincipal.getId());
 		medicalReport = new MedicalReport();
 		filteredMedicalReports = medicalReports;
 		showMedicalReport = true;
 		showMedicalReportCreateOrEdit = false;
 		showIlacList = false;
 		showIlacCreateOrEdit = false;
-		boolean validate = blockchainService.validate(kullaniciPrincipal.getId());
-		if(!validate){
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hata", "Blockchain Hatası, Verilerde Değişiklik Tespit Edildi. Veriniz Güncelleniyor, Lütfen Sayfayı Yenileyiniz."));
-			context.getExternalContext().getFlash().setKeepMessages(true);
-			showMedicalReport = false;
-			blockchainService.copyFileUsingStream(new File("authority.achain"), new File(kullaniciPrincipal.getId() + ".achain"));
-			selectedMedicalReports = new ArrayList<>();
-		} else {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Başarılı", "Blockchain başarıyla çalıştırıldı."));
-			context.getExternalContext().getFlash().setKeepMessages(true);
-			selectedMedicalReports = new ArrayList<>();
-		}
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Başarılı", "Blockchain başarıyla çalıştırıldı."));
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		selectedMedicalReports = new ArrayList<>();
 	}
 
 	public void saglikRaporuYeniEkraniHazirla() {
@@ -219,16 +208,16 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showInfo = true;
 	}
 
-	public void ilacEklemeEkraniHazirla() {
+	public void ilacEklemeEkraniHazirla() throws IOException {
 		ilaclar = ilacService.getAll();
 		showIlacCreateOrEdit = false;
 		showIlacList = true;
 		medicalReport = selectedMedicalReports.stream().findFirst().get();
-		medicalReportMedicines = blockchainService.ilaclariGetir(medicalReport.getId());
+		medicalReportMedicines = blockchainService.ilaclariGetir(medicalReport.getId(), kullaniciPrincipal.getId());
 		medicalReportMedicine = MedicalReportMedicine.builder().build();
 	}
 
-	public void ilacYeniEkraniHazirla(){
+	public void ilacYeniEkraniHazirla() {
 		ilaclar = ilacService.getAll();
 		showIlacCreateOrEdit = true;
 		showIlacList = false;
@@ -240,24 +229,24 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		blockchainService.transactionOlustur(medicalReportMedicine, kullaniciPrincipal.getId());
 	}
 
-	public void ilacEkraniKapat(){
+	public void ilacEkraniKapat() {
 		showMedicalReport = true;
 		showIlacCreateOrEdit = false;
 		showIlacList = false;
 	}
 
-	public void sahipEklemeEkraniHazirla(){
+	public void sahipEklemeEkraniHazirla() {
 		sahipNo = null;
 		animal = selectedAnimals.stream().findFirst().get();
 	}
 
-	public void sahipDogrulaVeKaydet(){
+	public void sahipDogrulaVeKaydet() {
 		Optional<GercekKisi> byKimlikNo = gercekKisiService.findByKimlikNo(sahipNo);
 		if(byKimlikNo.isPresent()){
 			animal.setSahipId(byKimlikNo.get().getId());
 			animalService.update(animal);
 			JSFUtil.hideDialog("sahipEklemeDialogWidgetVar");
-		}else {
+		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Hata", "Kimlik No Doğrulanamadı!"));
 			context.getExternalContext().getFlash().setKeepMessages(true);
@@ -265,12 +254,20 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	}
 
 	public StreamedContent receteCikart() throws FileNotFoundException {
-		medicalReport = selectedMedicalReports.stream().findFirst().get();
-		String raporYolu = raporService.raporuOlustur(kullaniciPrincipal.getId(), medicalReport.getId());
-		FileInputStream fileInputStream = new FileInputStream(new File(raporYolu));
-		DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
-		defaultStreamedContent.setName(UUID.randomUUID().toString()+".pdf");
-		JSFUtil.executeScript("removePageRedirectBlock()");
+		DefaultStreamedContent defaultStreamedContent = null;
+		try {
+			medicalReport = selectedMedicalReports.stream().findFirst().get();
+			String raporYolu = raporService.raporuOlustur(kullaniciPrincipal.getId(), medicalReport.getId());
+			FileInputStream fileInputStream = new FileInputStream(new File(raporYolu));
+			defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
+			defaultStreamedContent.setName(UUID.randomUUID().toString() + ".pdf");
+			JSFUtil.executeScript("removePageRedirectBlock()");
+		} catch (Exception e){
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Hata", "Reçetesini çıkartmak istediğiniz rapora ilaç girilmemiştir."));
+			context.getExternalContext().getFlash().setKeepMessages(true);
+		}
+
 		return defaultStreamedContent;
 	}
 
@@ -279,4 +276,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
 	}
 
+	public void sorgula(){
+		animalTarihceDetay = animalService.hayvanNerede(kupeNo);
+	}
 }

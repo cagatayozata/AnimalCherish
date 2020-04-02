@@ -1,6 +1,7 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Animal;
+import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.repository.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,4 +50,7 @@ public class AnimalService implements IBaseService<Animal> {
 		return animalRepository.sonYediGunIcinEklenenHayvanVerileriniGetir();
 	}
 
+	public AnimalTarihceDetay hayvanNerede(String animalId){
+		return animalRepository.hayvanNerede(animalId);
+	}
 }

@@ -45,17 +45,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -208,14 +199,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.ocpsoft.rewrite</groupId>
-			<artifactId>rewrite-servlet</artifactId>
-			<version>3.4.1.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.ocpsoft.rewrite</groupId>
-			<artifactId>rewrite-config-prettyfaces</artifactId>
-			<version>3.4.1.Final</version>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
 		</dependency>
 
 		<dependency>
@@ -231,7 +217,27 @@
 			<version>6.1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.stellar</groupId>
+			<artifactId>java-stellar-sdk</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.ipfs</groupId>
+			<artifactId>java-ipfs-http-client</artifactId>
+			<version>v1.2.3</version>
+		</dependency>
+
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<!-- query dsl build plugins start -->
@@ -283,6 +289,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>10</source>
+					<target>10</target>
+				</configuration>
 			</plugin>
 		</plugins>
 		<finalName>docker-spring-boot</finalName>

@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="onlemPanel" styleClass="card card-w-title" rendered="#{bagisBean.showCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Bağış Detayları">
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="name" value="Bağış Bekleyen Kurum"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="name"
+                                     value="#{bagisBean.bagis.name}"
+                                     autocomplete="off"
+                                     disabled="#{bagisBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="name"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="description" value="Açıklama"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="description"
+                                         rows="10"
+                                         disabled="#{bagisBean.showInfo}"
+                                         value="#{bagisBean.bagis.description}"
+                                         autocomplete="off"/>
+                        <p:message for="description"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="date" value="Yayın Tarihi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:datePicker id="date"
+                                      disabled="#{bagisBean.showInfo}"
+                                      value="#{bagisBean.bagis.startDate}"
+                                      autocomplete="off"
+                                      required="true"/>
+                        <p:message for="date"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="enddate" value="Sonlanma Tarihi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:datePicker id="enddate"
+                                      disabled="#{bagisBean.showInfo}"
+                                      value="#{bagisBean.bagis.endDate}"
+                                      autocomplete="off"/>
+                        <p:message for="date"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="iban" value="Hesap Numaraları"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputTextarea id="iban"
+                                         rows="20"
+                                         disabled="#{bagisBean.showInfo}"
+                                         value="#{bagisBean.bagis.iban}"
+                                         autocomplete="off"/>
+                        <p:message for="iban"/>
+                    </p:panel>
+                </p:panel>
+
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kaydet" update=":form, :form:bagisDataTable" icon="fa fa-save"
+                    rendered="#{bagisBean.showCreateOrEdit and !bagisBean.showInfo}">
+                <f:actionListener
+                        binding="#{bagisBean.kaydet()}"/>
+                <f:actionListener
+                        binding="#{bagisBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{bagisBean.showCreateOrEdit}">
+                <f:actionListener
+                        binding="#{bagisBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

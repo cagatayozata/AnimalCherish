@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Bağış Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+
+            <p:panel styleClass="card card-w-title" rendered="#{!bagisBean.showCreateOrEdit}">
+
+                <p:dataTable id="bagisDataTable" var="bagis"
+                             styleClass="dataTableStandart"
+                             value="#{bagisBean.allBagiss}" rowKey="#{bagis.id}"
+                             widgetVar="bagisDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             ariaRowLabel="as"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="10"
+                             emptyMessage="Eklenmiş bir bağış bulunamadı!"
+                             filteredValue="#{bagisBean.filteredBagiss}"
+                             selection="#{bagisBean.selectedBagiss}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Bağış Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="bagisDataTable" encoding="CP1254" fileName="bagis"/>
+                                </p:commandLink>
+                                <p:commandLink  ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="bagisDataTable" encoding="CP1254" fileName="bagis"/>
+                                </p:commandLink>
+                            </div>
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Bağış Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_EKLEME_YETKISI')}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{bagisBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_DETAY_YETKISI')}"
+                                    icon="fa fa-search"
+                                    disabled="#{bagisBean.selectedBagiss.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{bagisBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_GUNCELLEME_YETKISI')}"
+                                    icon="fa fa-edit"
+                                    disabled="#{bagisBean.selectedBagiss.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{bagisBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty bagisBean.selectedBagiss? '' : ' ( '.concat(bagisBean.selectedBagiss.size()) . concat(' )')}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('TUR_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty bagisBean.selectedBagiss}">
+                                <p:confirm header="Silme İşlemi" message="Bağış verisini Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{bagisBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Bağış Bekleyen Kurum" sortBy="#{bagis.name}"
+                              filterBy="#{bagis.name}" filterMatchMode="contains">
+                        <h:outputText value="#{bagis.name}"/>
+                    </p:column>
+                    <p:column headerText="Yayın Tarihi" sortBy="#{bagis.startDate}"
+                              filterBy="#{bagis.startDate}" filterMatchMode="exact">
+                        <h:outputText value="#{bagis.startDate}"/>
+                    </p:column>
+                    <p:column headerText="Sonlanma Tarihi" sortBy="#{bagis.endDate}"
+                              filterBy="#{bagis.endDate}" filterMatchMode="exact">
+                        <h:outputText value="#{bagis.endDate}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="bagis_add.xhtml"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

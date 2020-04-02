@@ -50,6 +50,9 @@ public class Kullanici extends Auditable<String, String> implements Serializable
     @Column(name = "kullanici_tipi")
     private int kullaniciTipi;
 
+    @Column
+    private String keyPair;
+
     @Transient
     public FileUploadEvent fileUploadEvent;
 }

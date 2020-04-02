@@ -394,16 +394,6 @@
                     </div>
                 </div>
 
-                <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000">
-                    <h:form>
-                    <h3>BlockChain Hash Kodunuz:</h3>
-                    <p:scrollPanel style="height: 500px; width: 280px" styleClass="ui-grid-col-12 borderAndPaddingRemove"><p:inputTextarea style="width: 270px" disabled="true" value="#{kullaniciSessionVerisi.getHash()}" /></p:scrollPanel>
-                        <p:commandButton style="width: 280px;" value="İndir" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" oncomplete="window.location.top.reload();" icon="fa fa-arrow-down">
-                            <p:fileDownload value="#{kullaniciSessionVerisi.hashIndir()}"/>
-                        </p:commandButton>
-                        <p:outputPanel value="Blockchain Servis Durumu: Hata Yok">Blockchain Servis Durumu: <span style="color:green">Hata Yok</span></p:outputPanel>
-                    </h:form>
-                </p:sidebar>
 
                 <ui:include src="./footer.xhtml"/>
             </div>

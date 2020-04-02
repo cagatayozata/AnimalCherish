@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,11 @@ public class ChartBean extends BaseViewController<Chart> implements Serializable
 
 	@Override
 	public void ilkEkraniHazirla() {
-		saglikRaporuIstatistikleri();
+		try{
+			saglikRaporuIstatistikleri();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 	public void createBarModel() {
@@ -163,7 +168,7 @@ public class ChartBean extends BaseViewController<Chart> implements Serializable
 		return userService.toplamSayi();
 	}
 
-	public void saglikRaporuIstatistikleri() {
+	public void saglikRaporuIstatistikleri() throws IOException {
 		enCokYazilanlarChart = new Chart.Builder().add(blockchainService.enCokYazilanIlaclar(kullaniciPrincipal.getId())).build();
 		kullanicilarChart = new Chart.Builder().add(userService.kullanicilarNerede()).build();
 	}

@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Hayvan Yer Bilgisi Sorgulama
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+
+            <h:panelGrid columns="4" cellpadding="5">
+                <h:outputLabel for="txt1" value="Küpe Numarası: *"/>
+                <p:inputText id="txt1" value="#{animalBean.kupeNo}" required="true" label="Küpe Numarası">
+                    <f:validateLength minimum="2"/>
+                </p:inputText>
+                <p:message for="txt1"/>
+                <h:outputText value="#{animalBean.animalTarihceDetay.kurumAdi ne null ? 'Sorgulama Başarılı' : 'Sorgulama Yapılmadı'}"/>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" border="0">
+                <p:commandButton update="form" value="Sorgula" actionListener="#{animalBean.sorgula()}" resetValues="true"/>
+            </h:panelGrid>
+
+
+            <p:panel id="kurumPanel">
+                Hayvan Yer Bilgisi;
+                <br/>
+                <br/>
+                <hr/>
+                Kurum/Şahıs Adı:
+                <br/>
+                <br/>
+                #{animalBean.animalTarihceDetay.kurumAdi ne null ? animalBean.animalTarihceDetay.kurumAdi : 'Lütfen sorgulama yapınız'}
+                <br/>
+                <hr/>
+                Sisteme Tanımlanma Tarihi
+                <br/>
+                <br/>
+                #{animalBean.animalTarihceDetay.kurumaTanimlanmaTarihi ne null ? animalBean.animalTarihceDetay.kurumaTanimlanmaTarihi : 'Bulunamadı'}
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -3,7 +3,6 @@ package com.team1.animalproject.view;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.UserService;
@@ -11,8 +10,7 @@ import com.team1.animalproject.view.utils.JSFUtil;
 import com.team1.animalproject.view.utils.KullaniciTipiEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.ocpsoft.common.util.Strings;
-import org.primefaces.component.graphicimage.GraphicImage;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -116,28 +117,8 @@ public class KullaniciSessionVerisi implements Serializable {
 		return "anonim";
 	}
 
-	public String getHash() {
-		List<String> all = blockchainService.readFile(getKullaniciId());
-		String join = "Blockchain Hashiniz Bulunmamaktadır";
-		if(all != null && all.size() > 0){
-			join = Strings.join(all, "/nextBlock/");
-		}
-		return join;
-	}
-
-	public StreamedContent hashIndir() throws IOException {
-		if(getHash().equalsIgnoreCase("Blockchain Hashiniz Bulunmamaktadır")){
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/index.jsf");
-		}
-		FileInputStream fileInputStream = new FileInputStream(new File(Constants.FILE_PATH + kullanici.getId() + ".achain"));
-		DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(fileInputStream);
-		defaultStreamedContent.setName(kullanici.getName() + "_" + kullanici.getSurname() + "_hashFile.achain");
-		return defaultStreamedContent;
-	}
-
 	public String getRol() {
-		if(kullanici.getId() != null)
-		return KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get().getTextMessageKey();
+		if(kullanici.getId() != null) return KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get().getTextMessageKey();
 		return KullaniciTipiEnum.NON_USER.getTextMessageKey();
 	}
 

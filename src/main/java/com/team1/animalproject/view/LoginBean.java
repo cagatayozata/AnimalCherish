@@ -1,5 +1,6 @@
 package com.team1.animalproject.view;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.team1.animalproject.auth.Constants;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.service.AnimalService;
@@ -31,6 +32,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Slf4j
 @Data
+@URLMapping (id = "loginBean", pattern = "/deneme", viewId = "/login.jsf")
 public class LoginBean extends BaseViewController<Animal> implements Serializable {
 
 	private static final long serialVersionUID = -4864366458003777266L;
