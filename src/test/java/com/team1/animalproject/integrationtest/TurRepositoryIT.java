@@ -3,20 +3,20 @@ package com.team1.animalproject.integrationtest;
 import com.team1.animalproject.model.Tur;
 import com.team1.animalproject.preparer.TurPreparer;
 import com.team1.animalproject.repository.TurRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
-@RunWith (SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase
-public class TurRepositoryIT {
+@EnableAutoConfiguration
+@TestPropertySource (locations = "classpath:/application-test.properties")
+@SpringBootTest
+public class TurRepositoryIT extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private TurRepository turRepository;
@@ -29,6 +29,7 @@ public class TurRepositoryIT {
 
 		List<Tur> turler = turRepository.findAll();
 		Assert.assertTrue(turler.size() == 5);
+		turRepository.deleteAll();
 	}
 
 	@Test
@@ -43,6 +44,7 @@ public class TurRepositoryIT {
 
 		List<Tur> allByDurum = turRepository.findAllByDurum(false);
 		Assert.assertTrue(allByDurum.size() == 5);
+		turRepository.deleteAll();
 	}
 
 	@Test
@@ -52,6 +54,7 @@ public class TurRepositoryIT {
 
 		Tur savedTur = turRepository.findById(tur.getId()).get();
 		Assert.assertTrue(savedTur.equals(tur));
+		turRepository.deleteAll();
 	}
 
 }

@@ -4,21 +4,21 @@ import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.preparer.IlacPreparer;
 import com.team1.animalproject.repository.IlacRepository;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith (SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase
-public class IlacRepositoryIT {
+@EnableAutoConfiguration
+@TestPropertySource (locations = "classpath:/application-test.properties")
+@SpringBootTest
+public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private IlacRepository ilacRepository;
@@ -31,6 +31,7 @@ public class IlacRepositoryIT {
 
 		List<Ilac> all = ilacRepository.findAll();
 		Assert.assertTrue(all.size() == 5);
+		ilacRepository.deleteAll();
 	}
 
 	@Test
@@ -41,6 +42,7 @@ public class IlacRepositoryIT {
 
 		List<Ilac> all = ilacRepository.findAllByDurum(true);
 		Assert.assertTrue(all.size() == 5);
+		ilacRepository.deleteAll();
 	}
 
 	@Test
@@ -50,6 +52,7 @@ public class IlacRepositoryIT {
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
 		Assert.assertTrue(savedIlac.equals(ilac));
+		ilacRepository.deleteAll();
 	}
 
 	@Test
@@ -66,6 +69,7 @@ public class IlacRepositoryIT {
 
 		Ilac updated = ilacRepository.findById(ilac.getId()).get();
 		Assert.assertEquals(updated.getName(), toUpdate);
+		ilacRepository.deleteAll();
 	}
 
 	@Test
@@ -80,6 +84,7 @@ public class IlacRepositoryIT {
 
 		Optional<Ilac> deleted = ilacRepository.findById(ilac.getId());
 		Assert.assertFalse(deleted.isPresent());
+		ilacRepository.deleteAll();
 	}
 
 	@Test
@@ -89,6 +94,7 @@ public class IlacRepositoryIT {
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
 		Assert.assertTrue(savedIlac.equals(ilac));
+		ilacRepository.deleteAll();
 	}
 
 

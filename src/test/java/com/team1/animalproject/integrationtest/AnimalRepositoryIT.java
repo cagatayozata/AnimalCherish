@@ -6,23 +6,23 @@ import com.team1.animalproject.repository.AnimalRepository;
 import com.team1.animalproject.view.utils.DateUtil;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RunWith (SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase
-public class AnimalRepositoryIT {
+@EnableAutoConfiguration
+@TestPropertySource (locations = "classpath:/application-test.properties")
+@SpringBootTest
+public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private AnimalRepository animalRepository;
@@ -35,6 +35,7 @@ public class AnimalRepositoryIT {
 
 		List<Animal> animals = animalRepository.animalAra();
 		Assert.assertTrue(animals.size() == 10);
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -45,6 +46,7 @@ public class AnimalRepositoryIT {
 
 		List<Animal> animals = animalRepository.findAll();
 		Assert.assertTrue(animals.size() == 5);
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -57,6 +59,7 @@ public class AnimalRepositoryIT {
 
 		Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
 		Assert.assertTrue(savedAnimal.equals(animal));
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -78,7 +81,7 @@ public class AnimalRepositoryIT {
 		Animal updatedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
 
 		Assert.assertFalse(updatedAnimal.getName().equals(animal.getName()));
-
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -99,6 +102,7 @@ public class AnimalRepositoryIT {
 		Optional<List<Animal>> optionalAnimal = animalRepository.findByIdIn(animalIds);
 
 		Assert.assertFalse(optionalAnimal.isPresent());
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -114,6 +118,7 @@ public class AnimalRepositoryIT {
 		List<Animal> saveds = animalRepository.findByIdIn(ids).get();
 
 		Assert.assertTrue(saveds.size() == 5);
+		animalRepository.deleteAll();
 	}
 
 	@Test
@@ -130,7 +135,7 @@ public class AnimalRepositoryIT {
 		Map<Integer, Long> yediGun = animalRepository.sonYediGunIcinEklenenHayvanVerileriniGetir();
 
 		Assert.assertTrue(yediGun.keySet().size() == 5);
-
+		animalRepository.deleteAll();
 	}
 
 }

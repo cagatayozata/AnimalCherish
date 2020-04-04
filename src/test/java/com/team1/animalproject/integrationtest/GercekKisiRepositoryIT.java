@@ -4,21 +4,21 @@ import com.team1.animalproject.model.GercekKisi;
 import com.team1.animalproject.preparer.GercekKisiPreparer;
 import com.team1.animalproject.repository.GercekKisiRepository;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith (SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase
-public class GercekKisiRepositoryIT {
+@EnableAutoConfiguration
+@TestPropertySource (locations = "classpath:/application-test.properties")
+@SpringBootTest
+public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private GercekKisiRepository gercekKisiRepository;
@@ -31,6 +31,7 @@ public class GercekKisiRepositoryIT {
 
 		List<GercekKisi> all = gercekKisiRepository.findAll();
 		Assert.assertTrue(all.size() == 5);
+		gercekKisiRepository.deleteAll();
 	}
 
 	@Test
@@ -40,6 +41,7 @@ public class GercekKisiRepositoryIT {
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
 		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		gercekKisiRepository.deleteAll();
 	}
 
 	@Test
@@ -56,6 +58,7 @@ public class GercekKisiRepositoryIT {
 
 		GercekKisi updated = gercekKisiRepository.findById(gercekKisi.getId()).get();
 		Assert.assertEquals(updated.getAd(), toUpdate);
+		gercekKisiRepository.deleteAll();
 	}
 
 	@Test
@@ -70,6 +73,7 @@ public class GercekKisiRepositoryIT {
 
 		Optional<GercekKisi> deleted = gercekKisiRepository.findById(gercekKisi.getId());
 		Assert.assertFalse(deleted.isPresent());
+		gercekKisiRepository.deleteAll();
 	}
 
 	@Test
@@ -79,6 +83,7 @@ public class GercekKisiRepositoryIT {
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
 		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		gercekKisiRepository.deleteAll();
 	}
 
 	@Test
@@ -88,6 +93,7 @@ public class GercekKisiRepositoryIT {
 
 		Optional<GercekKisi> savedGercekKisi = gercekKisiRepository.findByKimlikNo(gercekKisi.getKimlikNo());
 		Assert.assertTrue(savedGercekKisi.isPresent());
+		gercekKisiRepository.deleteAll();
 	}
 
 

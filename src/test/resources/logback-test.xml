@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZZ} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="com.zaxxer.hikari" level="info"/>
+    <logger name="org.flywaydb" level="info"/>
+    <logger name="org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl" level="OFF"/>
+    <logger name="org.hibernate.type" level="INFO"/>
+
+</configuration>

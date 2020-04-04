@@ -4,21 +4,23 @@ import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.preparer.CinsPreparer;
 import com.team1.animalproject.repository.CinsRepository;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith (SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase
-public class CinsRepositoryIT {
+@EnableAutoConfiguration
+@TestPropertySource (locations = "classpath:/application-test.properties")
+@SpringBootTest
+@Transactional
+public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private CinsRepository cinsRepository;
@@ -31,6 +33,7 @@ public class CinsRepositoryIT {
 
 		List<Cins> all = cinsRepository.cinsAra();
 		Assert.assertTrue(all.size() == 5);
+		cinsRepository.deleteAll();
 	}
 
 	@Test
@@ -41,6 +44,7 @@ public class CinsRepositoryIT {
 
 		List<Cins> all = cinsRepository.findAllByDurum(true);
 		Assert.assertTrue(all.size() == 5);
+		cinsRepository.deleteAll();
 	}
 
 	@Test
@@ -50,6 +54,7 @@ public class CinsRepositoryIT {
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
 		Assert.assertTrue(savedCins.equals(cins));
+		cinsRepository.deleteAll();
 	}
 
 	@Test
@@ -66,6 +71,7 @@ public class CinsRepositoryIT {
 
 		Cins updated = cinsRepository.findById(cins.getId()).get();
 		Assert.assertEquals(updated.getName(), toUpdate);
+		cinsRepository.deleteAll();
 	}
 
 	@Test
@@ -80,6 +86,7 @@ public class CinsRepositoryIT {
 
 		Optional<Cins> deleted = cinsRepository.findById(cins.getId());
 		Assert.assertFalse(deleted.isPresent());
+		cinsRepository.deleteAll();
 	}
 
 	@Test
@@ -89,17 +96,6 @@ public class CinsRepositoryIT {
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
 		Assert.assertTrue(savedCins.equals(cins));
+		cinsRepository.deleteAll();
 	}
-
-	@Test
-	public void deleteByTurId() {
-		Cins cins = CinsPreparer.olustur();
-		cinsRepository.saveAndFlush(cins);
-
-		cinsRepository.deleteByTurId(cins.getTurId());
-
-		Optional<Cins> deleted = cinsRepository.findById(cins.getId());
-		Assert.assertFalse(deleted.isPresent());
-	}
-
 }
