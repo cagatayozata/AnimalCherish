@@ -4,9 +4,12 @@ import com.team1.animalproject.model.Vet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("vetRepository")
+import java.util.Optional;
+
+@Repository ("vetRepository")
 public interface VetRepository extends JpaRepository<Vet, String> {
 
 	Vet findByKullaniciId(String kullaniciId);
 
+	Optional<Vet> findById(String id);
 }

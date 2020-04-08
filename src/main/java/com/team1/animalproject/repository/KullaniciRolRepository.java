@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("kullaniciRolRepository")
 public interface KullaniciRolRepository extends JpaRepository<KullaniciRol, String> {
@@ -18,4 +19,5 @@ public interface KullaniciRolRepository extends JpaRepository<KullaniciRol, Stri
 
     void deleteByRolId(String rolId);
 
+	Optional<KullaniciRol> findById(String id);
 }

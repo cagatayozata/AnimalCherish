@@ -55,4 +55,7 @@ public class Kullanici extends Auditable<String, String> implements Serializable
 
     @Transient
     public FileUploadEvent fileUploadEvent;
+
+    @Transient
+    private boolean isExpired;
 }

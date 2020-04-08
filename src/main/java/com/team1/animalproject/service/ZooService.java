@@ -7,7 +7,7 @@ import com.team1.animalproject.model.Zoo;
 import com.team1.animalproject.model.ZooAnimal;
 import com.team1.animalproject.model.ZooWorker;
 import com.team1.animalproject.repository.ZooRepository;
-import com.team1.animalproject.repository.ZooShopAnimalRepository;
+import com.team1.animalproject.repository.ZooAnimalRepository;
 import com.team1.animalproject.repository.ZooWorkerRepository;
 import com.team1.animalproject.view.utils.KullaniciTipiEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class ZooService implements IBaseService<Zoo> {
 	@Autowired
 	private ZooWorkerRepository zooWorkerRepository;
 
-	@Qualifier ("zooShopAnimalRepository")
+	@Qualifier ("zooAnimalRepository")
 	@Autowired
-	private ZooShopAnimalRepository zooShopAnimalRepository;
+	private ZooAnimalRepository zooAnimalRepository;
 
 	@Autowired
 	private UserService userService;
@@ -102,12 +102,12 @@ public class ZooService implements IBaseService<Zoo> {
 	}
 
 	public List<ZooAnimal> getAnimalsByZooId(String zooId) {
-		return zooShopAnimalRepository.findByZooId(zooId);
+		return zooAnimalRepository.findByZooId(zooId);
 	}
 
 	@Transactional
 	public void saveAnimal(List<ZooAnimal> zooAnimals, String zooId) {
-		zooShopAnimalRepository.deleteByZooId(zooId);
-		zooShopAnimalRepository.save(zooAnimals);
+		zooAnimalRepository.deleteByZooId(zooId);
+		zooAnimalRepository.save(zooAnimals);
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("zooWorkerRepository")
 public interface ZooWorkerRepository extends JpaRepository<ZooWorker, String> {
@@ -15,4 +16,5 @@ public interface ZooWorkerRepository extends JpaRepository<ZooWorker, String> {
 
     void deleteByZooId(String zooId);
 
+	Optional<ZooWorker> findById(String id);
 }

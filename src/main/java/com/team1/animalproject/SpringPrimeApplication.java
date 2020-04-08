@@ -62,5 +62,4 @@ public class SpringPrimeApplication {
 		configurer.setScopes(scopes);
 		return configurer;
 	}
-
 }

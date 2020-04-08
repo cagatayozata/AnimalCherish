@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Veteriner Hekim Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:panel styleClass="card card-w-title">
+
+                <p:dataTable id="vetDataTable" var="vet"
+                             styleClass="dataTableStandart"
+                             value="#{userSessionBean.kullanici}" rowKey="#{vet.id}"
+                             widgetVar="vetDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             selectionMode="single"
+                             selection="#{userSessionBean.selectedKullanici}"
+                             rows="10"
+                             emptyMessage="Eklenmiş bir veteriner hekim bulunamadı!">
+                    <f:facet name="header">
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <p:commandButton
+                                    value="Kill"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-search"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{userSessionBean.kill()}"/>
+                            </p:commandButton>
+
+                        </p:outputPanel>
+
+                        Giriş Yapmış Kullanıcı Listesi
+                    </f:facet>
+
+                    <p:column selectionMode="single"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                    <p:column headerText="İsim" sortBy="#{vet.name}"
+                              filterBy="#{vet.name}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Kullanıcı Adı" sortBy="#{vet.userName}"
+                              filterBy="#{vet.userName}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.userName}"/>
+                    </p:column>
+
+                    <p:column headerText="Expired" sortBy="#{vet.expired}"
+                              filterBy="#{vet.expired}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.expired}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

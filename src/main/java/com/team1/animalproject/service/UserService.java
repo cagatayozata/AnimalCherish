@@ -5,7 +5,6 @@ import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.repository.UserRepository;
 import com.team1.animalproject.view.utils.KullaniciTipiEnum;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

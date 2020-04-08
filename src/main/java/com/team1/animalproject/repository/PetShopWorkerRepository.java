@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("petShopWorkerRepository")
 public interface PetShopWorkerRepository extends JpaRepository<PetShopWorker, String> {
@@ -15,4 +16,5 @@ public interface PetShopWorkerRepository extends JpaRepository<PetShopWorker, St
 
     void deleteByPetShopId(String petshopId);
 
+	Optional<PetShopWorker> findById(String id);
 }

@@ -10,11 +10,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @EnableWebSecurity
-@Order(1)
+@Order (1)
 public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -100,6 +102,7 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 				.logoutSuccessHandler(customLogoutSuccessHandler);
 		//@formatter:on
 
+		http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
 	}
 
 	@Override
@@ -118,6 +121,11 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 		firewall.setAllowUrlEncodedSlash(true);
 		firewall.setAllowSemicolon(true);
 		return firewall;
+	}
+
+	@Bean
+	public SessionRegistry sessionRegistry() {
+		return new SessionRegistryImpl();
 	}
 
 }

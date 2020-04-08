@@ -4,7 +4,9 @@ import com.team1.animalproject.model.ShelterWorker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Repository("shelterWorkerRepository")
 public interface ShelterWorkerRepository extends JpaRepository<ShelterWorker, String> {
@@ -15,4 +17,5 @@ public interface ShelterWorkerRepository extends JpaRepository<ShelterWorker, St
 
     void deleteByShelterId(String shelterId);
 
+	Optional<ShelterWorker> findById(String id);
 }
