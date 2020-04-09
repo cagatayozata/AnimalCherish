@@ -11,7 +11,7 @@
 		<h:form id="form">
 			<p:growl id="growl" showDetail="true" sticky="true" />
 
-			<p:panel styleClass="card card-w-title" rendered="#{!vetBean.showCreateOrEdit and !vetBean.showKullaniciIliski}">
+			<p:panel styleClass="card card-w-title" rendered="#{!vetBean.showCreateOrEdit and !vetBean.showKullaniciIliski and !vetBean.showRandevu}">
 
 				<p:dataTable id="vetDataTable" var="vet"
 							 styleClass="dataTableStandart"
@@ -78,6 +78,17 @@
 										binding="#{vetBean.kullaniciIliskiEkraniHazirla()}"/>
 							</p:commandButton>
 							<p:commandButton
+									value="Randevu"
+									styleClass="dataTableHeaderBtn"
+									update=":form"
+									icon="fa fa-leanpub"
+									oncomplete="PF('vetRandevuDataTableWidgetVar').filter()"
+									disabled="#{vetBean.selectedVets.size() ne 1}"
+									resetValues="true">
+								<f:actionListener
+										binding="#{vetBean.prepareRandevuScreen()}"/>
+							</p:commandButton>
+							<p:commandButton
 									value="Güncelle"
 									styleClass="dataTableHeaderBtn"
 									update=":form"
@@ -116,7 +127,8 @@
 			</p:panel>
 			<ui:include src="vet_add.xhtml"/>
 			<ui:include src="vet_hekim_iliskilendir.xhtml"/>
-
+			<ui:include src="vet_randevu.xhtml"/>
+			<ui:include src="vet_randevu_add.xhtml"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

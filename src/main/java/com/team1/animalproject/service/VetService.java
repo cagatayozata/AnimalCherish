@@ -1,6 +1,8 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Vet;
+import com.team1.animalproject.model.VetRandevu;
+import com.team1.animalproject.repository.VetRandevuRepository;
 import com.team1.animalproject.repository.VetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,9 +18,31 @@ public class VetService implements IBaseService<Vet> {
     @Autowired
     private VetRepository vetRepository;
 
+    @Qualifier("vetRandevuRepository")
+    @Autowired
+    private VetRandevuRepository vetRandevuRepository;
+
     @Override
     public List<Vet> getAll() {
         return vetRepository.findAll();
+    }
+
+    public List<VetRandevu> getAllRandevu(String vetId) {
+        return vetRandevuRepository.findByVetId(vetId);
+    }
+
+    public List<VetRandevu> getAllRandevuByKullanici(String kullaniciId) {
+        return vetRandevuRepository.findByRandevuAlanKullanici(kullaniciId);
+    }
+
+    public void vetRandevuKaydet(VetRandevu vetRandevu){
+        if(vetRandevu.getId() == null)
+            vetRandevu.setId(UUID.randomUUID().toString());
+        vetRandevuRepository.save(vetRandevu);
+    }
+
+    public void vetRandevuSil(VetRandevu vetRandevu){
+        vetRandevuRepository.delete(vetRandevu);
     }
 
     @Override

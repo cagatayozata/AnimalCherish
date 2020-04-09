@@ -34,20 +34,9 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 		return super.authenticationManagerBean();
 	}
 
-	//	@Bean
-	//	public CookieSerializer cookieSerializer() {
-	//		DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-	//		serializer.setCookieName("ss-gbs-uaa-sid");
-	//		//		serializer.setCookiePath("/");
-	//		//		serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
-	//		return serializer;
-	//	}
-
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-
 		web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
-
 	}
 
 	@Override

@@ -72,7 +72,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
 				boolean multipleErrorMessage = false;
 
-				// handle gbs rest exceptions
 				if(rootCause instanceof ViewException){
 
 					multipleErrorMessage = true;

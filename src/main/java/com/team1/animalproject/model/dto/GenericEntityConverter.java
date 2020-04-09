@@ -10,7 +10,7 @@ import java.util.UUID;
 @SuppressWarnings ("rawtypes")
 public class GenericEntityConverter implements Converter {
 
-	private static final String KEY = "gov.kktc.gbs.kktcfaces.helpers.jsf.converter";
+	private static final String KEY = "com.team1.animalproject.converter";
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object entity) {

@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel id="vetRandevuPanel" styleClass="card card-w-title" rendered="#{vetBean.showRandevu and !vetBean.showRandevuNewScreen}">
+
+        <p:dataTable id="vetRandevuDataTable" var="vet"
+                     styleClass="dataTableStandart"
+                     value="#{vetBean.allVetRandevus}" rowKey="#{vet.id}"
+                     widgetVar="vetRandevuDataTableWidgetVar" draggableColumns="true" reflow="true"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     rows="10"
+                     emptyMessage="Uygun bir randevu tarihi bulunamadı!"
+                     filteredValue="#{vetBean.filteredVetRandevus}"
+                     selection="#{vetBean.selectedVetRandevus}">
+            <p:ajax event="rowSelect" update="dataTableHeaderBtnRandevu"/>
+            <p:ajax event="rowUnselect" update="dataTableHeaderBtnRandevu"/>
+            <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnRandevu"/>
+            <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnRandevu"/>
+            <p:ajax event="toggleSelect" update="dataTableHeaderBtnRandevu"/>
+
+            <f:facet name="header">Veteriner Randevu Listesi
+
+                <p:outputPanel id="dataTableHeaderBtnRandevu"
+                               styleClass="dataTableHeaderBtnContainer">
+
+                    <div style="float:right;    margin-top: -20px;">
+                        <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                            <p:graphicImage name="/images/csv-icon.png"/>
+                            <p:dataExporter type="csv" target="vetDataTable" encoding="CP1254" fileName="vet"/>
+                        </p:commandLink>
+                        <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                            <p:graphicImage name="/images/pdf-icon.png"/>
+                            <p:dataExporter type="pdf" target="vetDataTable" encoding="CP1254" fileName="vet"/>
+                        </p:commandLink>
+                    </div>
+
+                    <hr style="clear: both;"/>
+
+                    <p:commandButton
+                            value="Randevu Saati Ekle"
+                            styleClass="dataTableHeaderBtn" update=":form"
+                            resetValues="true"
+                            rendered="#{vetBean.veterinerMi()}"
+                            icon="fa fa-plus">
+                        <f:actionListener
+                                binding="#{vetBean.prepareRandevuNewScreen()}"/>
+                    </p:commandButton>
+                    <p:commandButton
+                            value="Randevu Al"
+                            styleClass="dataTableHeaderBtn" update=":form"
+                            resetValues="true"
+                            disabled="#{vetBean.selectedVetRandevus.size() ne 1}"
+                            rendered="#{vetBean.randevuIcinUygunMu()}"
+                            icon="fa fa-plus">
+                        <p:confirm header="Randevu İşlemi" message="Bu tarih için randevu alınacaktır onaylıyor musunuz?"/>
+                        <f:actionListener
+                                binding="#{vetBean.randevuAl()}"/>
+                    </p:commandButton>
+                    <p:commandButton
+                            value="Randevumu Iptal Et"
+                            styleClass="dataTableHeaderBtn" update=":form"
+                            resetValues="true"
+                            disabled="#{vetBean.selectedVetRandevus.size() ne 1}"
+                            rendered="#{vetBean.randevuIptalEdilebilirMi()}"
+                            icon="fa fa-remove">
+                        <p:confirm header="Randevu İptali" message="Bu tarih için randevu iptal edilecektir onaylıyor musunuz?"/>
+                        <f:actionListener
+                                binding="#{vetBean.randevuIptalEt()}"/>
+                    </p:commandButton>
+                    <p:commandButton
+                            value="Randevu Alan Kişiyi Göster"
+                            styleClass="dataTableHeaderBtn" update=":form"
+                            resetValues="true"
+							oncomplete="PF('dlg2').show()"
+                            disabled="#{vetBean.selectedVetRandevus.size() ne 1 or vetBean.selectedVetRandevus.get(0).randevuAlanKullanici eq null}"
+                            rendered="#{vetBean.veterinerMi() and !vetBean.randevuIcinUygunMu()}"
+                            icon="fa fa-search">
+                        <f:actionListener
+                                binding="#{vetBean.randevuAlanKisiBilgileriniGetir()}"/>
+                    </p:commandButton>
+
+                    <ui:param name="sizeOfSelectedItems"
+                              value="#{empty vetBean.selectedVetRandevus? '' : ' ( '.concat(vetBean.selectedVetRandevus.size()) .concat(' )')}"/>
+                    <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                     rendered="#{vetBean.veterinerMi()}" oncomplete="PF('vetRandevuDataTableWidgetVar').filter()"
+                                     icon="fa fa-trash" disabled="#{empty vetBean.selectedVetRandevus}">
+                        <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                        <f:actionListener
+                                binding="#{vetBean.vetRandevuSil()}"/>
+                    </p:commandButton>
+                </p:outputPanel>
+            </f:facet>
+
+            <p:column selectionMode="multiple"
+                      style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+            <p:column headerText="Tarih" sortBy="#{vet.randevuTarihi}"
+                      filterBy="#{vet.randevuTarihi}" filterMatchMode="contains">
+                <h:outputText value="#{vet.randevuTarihi}"/>
+            </p:column>
+            <p:column headerText="Uygun" sortBy="#{vet.randevuAlanKullanici}"
+                      filterBy="#{vet.randevuAlanKullanici}" filterMatchMode="contains">
+                <h:outputText value="#{vet.randevuAlanKullanici eq null ? 'Uygun' : 'Dolu'}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:dialog header="Randevu alan kişi bilgileri" widgetVar="dlg2" modal="true" height="100">
+            <h:outputText value="Adı : #{vetBean.randevuAlanKisi.name}"/>
+			<br/>
+			<hr/>
+            <h:outputText value="Soyadı : #{vetBean.randevuAlanKisi.surname}"/>
+			<br/>
+			<hr/>
+			<h:outputText value="Telefon : #{vetBean.randevuAlanKisi.phoneNumber}"/>
+        </p:dialog>
+
+		<h:panelGrid columns="1" border="0">
+			<p:commandButton
+					value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+				<f:actionListener
+						binding="#{vetBean.ilkEkraniHazirla()}"/>
+			</p:commandButton>
+		</h:panelGrid>
+
+
+
+    </p:panel>
+
+</ui:composition>

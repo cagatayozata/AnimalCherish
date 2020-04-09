@@ -22,12 +22,12 @@ public class Chart implements Serializable {
 
 	public static class Builder {
 
-		private List<ChartData> gbsPieChartModelList;
-		private List<ChartDrilldownData> gbsPieChartDrilldownList;
+		private List<ChartData> pieChartModelList;
+		private List<ChartDrilldownData> pieChartDrilldownList;
 
 		public Builder() {
-			gbsPieChartModelList = new ArrayList<>();
-			gbsPieChartDrilldownList = new ArrayList<>();
+			pieChartModelList = new ArrayList<>();
+			pieChartDrilldownList = new ArrayList<>();
 		}
 
 		public Builder add(String name, Number value) {
@@ -50,45 +50,45 @@ public class Chart implements Serializable {
 			return add(ChartData.builder().name(name).y(value).birim(birim).color(color).drilldown(UUID.randomUUID().toString()).build(), getDrillDownList);
 		}
 
-		public Builder add(List<ChartDTO> gbsChartDTOs) {
-			(gbsChartDTOs).stream().forEach(gbsChartDTO -> {
-				if(isNotEmpty(gbsChartDTO.getDrillDownList())){
-					add(gbsChartDTO.getName(), gbsChartDTO.getValue(), gbsChartDTO.getBirim(), gbsChartDTO.getColor(), gbsChartDTO.getDrillDownList());
+		public Builder add(List<ChartDTO> chartDTOs) {
+			(chartDTOs).stream().forEach(chartDTO -> {
+				if(isNotEmpty(chartDTO.getDrillDownList())){
+					add(chartDTO.getName(), chartDTO.getValue(), chartDTO.getBirim(), chartDTO.getColor(), chartDTO.getDrillDownList());
 				} else {
-					add(gbsChartDTO.getName(), gbsChartDTO.getValue(), gbsChartDTO.getBirim(), gbsChartDTO.getColor());
+					add(chartDTO.getName(), chartDTO.getValue(), chartDTO.getBirim(), chartDTO.getColor());
 				}
 			});
 			return this;
 		}
 
-		public Builder add(ChartDTO gbsChartDTO) {
-			return add(gbsChartDTO.getName(), gbsChartDTO.getValue(), gbsChartDTO.getColor(), gbsChartDTO.getDrillDownList());
+		public Builder add(ChartDTO chartDTO) {
+			return add(chartDTO.getName(), chartDTO.getValue(), chartDTO.getColor(), chartDTO.getDrillDownList());
 		}
 
-		public Builder add(ChartData gbsPieChartModel, List<ChartDTO> gbsChartList) {
-			ChartDrilldownData gbsPieChartDrilldown = ChartDrilldownData.builder().name(gbsPieChartModel.getName()).build();
+		public Builder add(ChartData pieChartModel, List<ChartDTO> chartList) {
+			ChartDrilldownData pieChartDrilldown = ChartDrilldownData.builder().name(pieChartModel.getName()).build();
 
-			(gbsChartList).stream().forEach(gbsChartDTO -> {
-				gbsPieChartDrilldown.getData().add(ChartData.builder().color(gbsChartDTO.getColor()).name(gbsChartDTO.getName()).y(gbsChartDTO.getValue()).birim(gbsChartDTO.getBirim()).build());
+			(chartList).stream().forEach(chartDTO -> {
+				pieChartDrilldown.getData().add(ChartData.builder().color(chartDTO.getColor()).name(chartDTO.getName()).y(chartDTO.getValue()).birim(chartDTO.getBirim()).build());
 			});
 
-			return add(gbsPieChartModel, gbsPieChartDrilldown);
+			return add(pieChartModel, pieChartDrilldown);
 		}
 
-		public Builder add(ChartData gbsPieChartModel) {
-			gbsPieChartModelList.add(gbsPieChartModel);
+		public Builder add(ChartData pieChartModel) {
+			pieChartModelList.add(pieChartModel);
 			return this;
 		}
 
-		public Builder add(ChartData gbsPieChartModel, ChartDrilldownData gbsPieChartDrilldown) {
-			gbsPieChartModelList.add(gbsPieChartModel);
-			gbsPieChartDrilldown.setId(gbsPieChartModel.getDrilldown());
-			gbsPieChartDrilldownList.add(gbsPieChartDrilldown);
+		public Builder add(ChartData pieChartModel, ChartDrilldownData pieChartDrilldown) {
+			pieChartModelList.add(pieChartModel);
+			pieChartDrilldown.setId(pieChartModel.getDrilldown());
+			pieChartDrilldownList.add(pieChartDrilldown);
 			return this;
 		}
 
 		public Chart build() {
-			return new Chart(JsonUtil.getJsonStringForChart(gbsPieChartModelList), JsonUtil.getJsonStringForChart(gbsPieChartDrilldownList));
+			return new Chart(JsonUtil.getJsonStringForChart(pieChartModelList), JsonUtil.getJsonStringForChart(pieChartDrilldownList));
 		}
 	}
 }
