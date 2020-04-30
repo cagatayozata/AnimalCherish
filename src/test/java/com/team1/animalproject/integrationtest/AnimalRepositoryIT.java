@@ -1,5 +1,6 @@
 package com.team1.animalproject.integrationtest;
 
+import com.team1.animalproject.blockchain.queries.CreateAccount;
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.preparer.AnimalPreparer;
 import com.team1.animalproject.repository.AnimalRepository;
@@ -11,9 +12,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.stellar.sdk.KeyPair;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -136,6 +139,24 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 
 		Assert.assertTrue(yediGun.keySet().size() == 5);
 		animalRepository.deleteAll();
+	}
+
+	@Test
+	public void accountUret() throws IOException {
+		KeyPair keyPair = KeyPair.random();
+		CreateAccount createAccount = new CreateAccount();
+		String testAccount = createAccount.createTestAccount(keyPair);
+
+		System.out.println(testAccount);
+	}
+
+	@Test
+	public void secretSeedUret() throws IOException {
+		KeyPair keyPair = KeyPair.random();
+		CreateAccount createAccount = new CreateAccount();
+		String testAccount = createAccount.createTestAccount(keyPair);
+
+		System.out.println(testAccount);
 	}
 
 }

@@ -57,7 +57,7 @@ public class CreateAccount
                 pair.getAccountId());
         InputStream response = new URL(friendbotUrl).openStream();
 
-        return new Scanner(response, StandardCharsets.UTF_8).useDelimiter("\\A").next();
+        return new Scanner(response).useDelimiter("\\A").next();
     }
 
 

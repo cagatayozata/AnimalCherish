@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.team1.animalproject.blockchain.ipfs.IpfsService;
 import com.team1.animalproject.blockchain.models.Transactions;
 import com.team1.animalproject.blockchain.queries.AccountDetails;
+import com.team1.animalproject.blockchain.queries.CreateAccount;
 import com.team1.animalproject.blockchain.queries.Payment;
 import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.Ilac;
@@ -48,7 +49,7 @@ public class BlockchainService {
 
 		Kullanici kullanici = userService.findById(userId).get();
 
-		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId(kullanici.getKeyPair()));
+		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU"));
 		List<Transactions> transactions = accountDetails.getTransactionsFull(false);
 
 		List<String> datas = Lists.newArrayList();
@@ -172,8 +173,8 @@ public class BlockchainService {
 		ipfsIDRepository.save(IpfsID.builder().id(ipfsId).ipfsHash(saved.toBase58()).build());
 
 		if(isNotBlank(keyPair)){
-			Payment payment = new Payment(KeyPair.fromAccountId(keyPair));
-			payment.send(ipfsId, KeyPair.fromAccountId(keyPair));
+			Payment payment = new Payment(KeyPair.fromSecretSeed(keyPair));
+			payment.send(ipfsId, KeyPair.fromSecretSeed(keyPair));
 		}
 	}
 
@@ -195,7 +196,7 @@ public class BlockchainService {
 
 		if(isNotBlank(keyPair)){
 			Payment payment = new Payment(KeyPair.fromAccountId(keyPair));
-			payment.send(ipfsId, KeyPair.fromAccountId(keyPair));
+			payment.send(ipfsId, KeyPair.fromSecretSeed(keyPair));
 		}
 	}
 

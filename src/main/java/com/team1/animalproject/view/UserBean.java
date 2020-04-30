@@ -113,12 +113,18 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
     public void kayitOl() throws IOException, NoSuchAlgorithmException {
         kullanici.setFileUploadEvent(fileEvent);
         boolean validate = validatePassword();
+
+        if(!girisYapili){
+            KeyPair keyPair = KeyPair.random();
+            CreateAccount createAccount = new CreateAccount();
+            String testAccount = createAccount.createTestAccount(keyPair);
+            kullanici.setKeyPair(new String(keyPair.getSecretSeed()));
+        }
+
         boolean kayit = userService.kayitOl(kullanici, girisYapili, sifreDegis);
         if (validate) {
             if (kayit) {
 
-                // Steller key id set edilir
-                kullanici.setKeyPair("GDY3SM5JRS7S5QSPONHJAFCEOJWD7NZQ7CJUZ3LNQEOVC4DXBK3FMS46");
                 userService.update(kullanici);
 
                 FacesContext context = FacesContext.getCurrentInstance();

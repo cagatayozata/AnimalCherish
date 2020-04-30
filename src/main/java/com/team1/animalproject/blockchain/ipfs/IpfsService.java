@@ -10,18 +10,17 @@ import java.io.IOException;
 
 public class IpfsService {
 
-	public static final String ipfsAddress = "/ip4/127.0.0.1/tcp/5001";
+	public static final String ipfsAddress = "/dns4/jupiter.i.ipfs.io/tcp/4001/";
 
 	public static Multihash save(String savedFile) throws IOException {
-		IPFS ipfs = new IPFS(ipfsAddress);
-		ipfs.refs.local();
+		IPFS ipfs = new IPFS("/dnsaddr/ipfs.infura.io/tcp/5001/https");
 		NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File(savedFile));
 		MerkleNode addResult = ipfs.add(file).get(0);
 		return addResult.hash;
 	}
 
 	public static String getFile(String hash) throws IOException {
-		IPFS ipfs = new IPFS(ipfsAddress);
+		IPFS ipfs = new IPFS("/dnsaddr/ipfs.infura.io/tcp/5001/https");
 		byte[] bytes = ipfs.get(Multihash.fromBase58(hash));
 		return new String(bytes);
 	}
