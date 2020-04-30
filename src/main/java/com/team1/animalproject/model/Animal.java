@@ -58,6 +58,9 @@ public class Animal extends Auditable<String, String> implements Serializable {
 
 	@Transient
 	public String cinsAd;
+
+	@Transient
+	public String guncelleyenId;
 }
 
 

@@ -13,7 +13,7 @@
             <p:growl id="growl" showDetail="true" sticky="true"/>
 
             <p:panel styleClass="card card-w-title"
-                     rendered="#{!animalBean.showCreateOrEdit and !animalBean.showMedicalReport and !animalBean.showMedicalReportCreateOrEdit}">
+                     rendered="#{!animalBean.showCreateOrEdit and !animalBean.showMedicalReport and !animalBean.showMedicalReportCreateOrEdit and !animalBean.showTarihce}">
 
                 <p:dataTable id="animalDataTable" var="animal"
                              styleClass="dataTableStandart"
@@ -24,6 +24,8 @@
                              paginatorPosition="bottom"
                              emptyMessage="Eklenmiş bir hayvan bulunamadı!"
                              filteredValue="#{animalBean.filteredAnimals}"
+                             sortBy="#{animal.olusmaTarihi}"
+                             sortOrder="DESCENDING"
                              selection="#{animalBean.selectedAnimals}">
                     <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
                     <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
@@ -116,6 +118,17 @@
                                 <f:actionListener
                                         binding="#{animalBean.medicalReportEkraniHazirla()}"/>
                             </p:commandButton>
+                            <p:commandButton
+                                    value="Tarihçe"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    process=":form"
+                                    icon="fa fa-heartbeat"
+                                    disabled="#{animalBean.selectedAnimals.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{animalBean.tarihceHazirla()}"/>
+                            </p:commandButton>
                             <ui:param name="sizeOfSelectedItems"
                                       value="#{empty animalBean.selectedAnimals? '' : ' ( '.concat(animalBean.selectedAnimals.size()) . concat(' )')}"/>
                             <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn"
@@ -159,6 +172,7 @@
             <ui:include src="medical_report_add.xhtml"/>
             <ui:include src="medical_report_medicine.xhtml"/>
             <ui:include src="medical_report_medicine_add.xhtml"/>
+            <ui:include src="tarihce.xhtml"/>
 
             <p:dialog id="sahipEklemeDialog" modal="true" widgetVar="sahipEklemeDialogWidgetVar"
                       responsive="true" resizable="false" closable="true" closeOnEscape="true">

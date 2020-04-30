@@ -1,10 +1,12 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.model.Animal;
+import com.team1.animalproject.model.AnimalTarihce;
 import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.GercekKisi;
 import com.team1.animalproject.model.Ilac;
+import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import com.team1.animalproject.model.Tur;
@@ -16,9 +18,12 @@ import com.team1.animalproject.service.GercekKisiService;
 import com.team1.animalproject.service.IlacService;
 import com.team1.animalproject.service.RaporService;
 import com.team1.animalproject.service.TurService;
+import com.team1.animalproject.service.UserService;
+import com.team1.animalproject.view.utils.DateUtil;
 import com.team1.animalproject.view.utils.JSFUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.compress.utils.Lists;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
@@ -75,6 +80,9 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	private RaporService raporService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private GercekKisiService gercekKisiService;
 
 	private Animal animal = new Animal();
@@ -94,6 +102,10 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	private boolean showMedicalReportCreateOrEdit;
 	private boolean showIlacList;
 	private boolean showIlacCreateOrEdit;
+	private boolean showTarihce;
+
+	//Tarihce
+	private List<AnimalTarihce> tarihceList;
 
 	private List<Tur> turler;
 	private List<Cins> cinsler;
@@ -118,6 +130,8 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showIlacCreateOrEdit = false;
 		showCreateOrEdit = false;
 		showInfo = false;
+		showTarihce = false;
+		tarihceList = Lists.newArrayList();
 
 		allAnimals = animalService.getAll();
 		if(kullaniciPrincipal.getAramaKelimesi() != null){
@@ -144,7 +158,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	}
 
 	public void medicalReportEkraniHazirla() throws IOException {
-		medicalReports = blockchainService.getAllByAnimalId(selectedAnimals.stream().findFirst().get().getId(), kullaniciPrincipal.getId());
+		medicalReports = blockchainService.getAllByAnimalId(selectedAnimals.stream().findFirst().get().getId());
 		medicalReport = new MedicalReport();
 		filteredMedicalReports = medicalReports;
 		showMedicalReport = true;
@@ -176,6 +190,14 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		medicalReport.setDate(dateFormat.format(date));
 		medicalReport.setOlusturan(kullaniciPrincipal.getId());
 		blockchainService.transactionOlustur(medicalReport);
+		AnimalTarihce animalTarihce = AnimalTarihce.builder()
+				.animalId(selectedAnimals.stream().findFirst().get().getId())
+				.deger("Rapor Numarası: " + medicalReport.getReportNum())
+				.kimTarafindan(kullaniciPrincipal.getId())
+				.neZaman(DateUtil.nowAsDate())
+				.yapilanIslem("Hayvan sayfasında sağlık raporu ekleme işlemi")
+				.build();
+		animalService.tarihceKaydet(animalTarihce);
 	}
 
 	public void onTurChange() {
@@ -183,6 +205,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	}
 
 	public void kaydet() throws IOException {
+		animal.setGuncelleyenId(kullaniciPrincipal.getId());
 		animalService.save(animal);
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Başarılı", "Hayvan verisi başarıyla işlem görmüştür."));
@@ -227,6 +250,14 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	public void ilacKaydet() throws IOException {
 		medicalReportMedicine.setMedicalReportId(medicalReport.getId());
 		blockchainService.transactionOlustur(medicalReportMedicine, kullaniciPrincipal.getId());
+		AnimalTarihce animalTarihce = AnimalTarihce.builder()
+				.animalId(selectedAnimals.stream().findFirst().get().getId())
+				.deger("Rapor Numarası: " + medicalReport.getReportNum() + " / Eklenen İlaç: " + medicalReportMedicine.getIlacId())
+				.kimTarafindan(kullaniciPrincipal.getId())
+				.neZaman(DateUtil.nowAsDate())
+				.yapilanIslem("Hayvan sayfasında sağlık raporu için ilaç ekleme işlemi")
+				.build();
+		animalService.tarihceKaydet(animalTarihce);
 	}
 
 	public void ilacEkraniKapat() {
@@ -243,9 +274,19 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 	public void sahipDogrulaVeKaydet() {
 		Optional<GercekKisi> byKimlikNo = gercekKisiService.findByKimlikNo(sahipNo);
 		if(byKimlikNo.isPresent()){
+			animal.setGuncelleyenId(kullaniciPrincipal.getId());
 			animal.setSahipId(byKimlikNo.get().getId());
 			animalService.update(animal);
 			JSFUtil.hideDialog("sahipEklemeDialogWidgetVar");
+			AnimalTarihce animalTarihce = AnimalTarihce.builder()
+					.animalId(animal.getId())
+					.deger("Sahip kimlik no: " + sahipNo)
+					.kimTarafindan(kullaniciPrincipal.getId())
+					.neZaman(DateUtil.nowAsDate())
+					.yapilanIslem("Hayvan sayfasında hayvan sahibi ilişkilendirme işlemi")
+					.build();
+			animalService.tarihceKaydet(animalTarihce);
+
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Hata", "Kimlik No Doğrulanamadı!"));
@@ -255,7 +296,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 
 	public StreamedContent receteCikart() throws FileNotFoundException {
 		DefaultStreamedContent defaultStreamedContent = null;
-		try {
+		try{
 			medicalReport = selectedMedicalReports.stream().findFirst().get();
 			String raporYolu = raporService.raporuOlustur(kullaniciPrincipal.getId(), medicalReport.getId());
 			FileInputStream fileInputStream = new FileInputStream(new File(raporYolu));
@@ -276,7 +317,17 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/animal/animal.jsf");
 	}
 
-	public void sorgula(){
+	public void sorgula() {
 		animalTarihceDetay = animalService.hayvanNerede(kupeNo);
+	}
+
+	public void tarihceHazirla() {
+		showTarihce = true;
+		tarihceList = animalService.tarihceGetir(selectedAnimals.stream().findFirst().get().getId());
+
+		tarihceList.stream().forEach(animalTarihce -> {
+			Optional<Kullanici> byId = userService.findById(animalTarihce.getKimTarafindan());
+			byId.ifPresent(kullanici -> animalTarihce.setKimTarafindan(kullanici.getUserName()));
+		});
 	}
 }

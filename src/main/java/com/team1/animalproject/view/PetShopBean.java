@@ -5,6 +5,7 @@ import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.PetShopService;
 import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
+import com.team1.animalproject.view.utils.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.id.UUIDGenerator;
@@ -224,6 +225,15 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
 		if(addedAnimals.size() > 0){
 			addedAnimals.stream().forEach(animal -> {
 				petShopAnimals.add(PetShopAnimal.builder().id(UUID.randomUUID().toString()).petshopId(petShopId).animalId(animal.id).build());
+
+				AnimalTarihce animalTarihce = AnimalTarihce.builder()
+						.animalId(animal.getId())
+						.deger("Petshop: " + selectedPetShops.stream().findFirst().get().getName())
+						.kimTarafindan(kullaniciPrincipal.getId())
+						.neZaman(DateUtil.nowAsDate())
+						.yapilanIslem("Petshop sayfasında hayvan ilişkilendirme işlemi")
+						.build();
+				animalService.tarihceKaydet(animalTarihce);
 			});
 
 			petShopService.saveAnimal(petShopAnimals, petShopId);

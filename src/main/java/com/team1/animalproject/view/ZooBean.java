@@ -4,6 +4,7 @@ import com.team1.animalproject.model.*;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.service.ZooService;
+import com.team1.animalproject.view.utils.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
@@ -225,6 +226,15 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 		if(addedAnimals.size() > 0){
 			addedAnimals.stream().forEach(animal -> {
 				zooAnimals.add(ZooAnimal.builder().id(UUID.randomUUID().toString()).zooId(zooId).animalId(animal.id).build());
+
+				AnimalTarihce animalTarihce = AnimalTarihce.builder()
+						.animalId(animal.getId())
+						.deger("Hayvanat Bahçesi: " + selectedZoos.stream().findFirst().get())
+						.kimTarafindan(kullaniciPrincipal.getId())
+						.neZaman(DateUtil.nowAsDate())
+						.yapilanIslem("Hayvanat bahçesi sayfasında hayvan ilişkilendirme işlemi")
+						.build();
+				animalService.tarihceKaydet(animalTarihce);
 			});
 
 			zooService.saveAnimal(zooAnimals, zooId);

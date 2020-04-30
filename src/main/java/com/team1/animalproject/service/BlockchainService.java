@@ -44,10 +44,10 @@ public class BlockchainService {
 	private UserService userService;
 	@Autowired
 	private IlacService ilacService;
+	@Autowired
+	private AnimalService animalService;
 
-	public List<String> readFile(String userId) throws IOException {
-
-		Kullanici kullanici = userService.findById(userId).get();
+	public List<String> readFile() throws IOException {
 
 		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU"));
 		List<Transactions> transactions = accountDetails.getTransactionsFull(false);
@@ -73,7 +73,7 @@ public class BlockchainService {
 	}
 
 	public List<MedicalReport> getAll(String userId) throws IOException {
-		List<String> authorityHashes = readFile(userId);
+		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
@@ -101,7 +101,7 @@ public class BlockchainService {
 	}
 
 	public List<MedicalReport> getAllByReportId(String userId, String reportId) throws IOException {
-		List<String> authorityHashes = readFile(userId);
+		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
@@ -125,8 +125,8 @@ public class BlockchainService {
 		return medicalReports;
 	}
 
-	public List<MedicalReport> getAllByAnimalId(String animalId, String userId) throws IOException {
-		List<String> authorityHashes = readFile(userId);
+	public List<MedicalReport> getAllByAnimalId(String animalId) throws IOException {
+		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
@@ -195,13 +195,13 @@ public class BlockchainService {
 		ipfsIDRepository.save(IpfsID.builder().id(ipfsId).ipfsHash(saved.toBase58()).build());
 
 		if(isNotBlank(keyPair)){
-			Payment payment = new Payment(KeyPair.fromAccountId(keyPair));
+			Payment payment = new Payment(KeyPair.fromSecretSeed(keyPair));
 			payment.send(ipfsId, KeyPair.fromSecretSeed(keyPair));
 		}
 	}
 
 	public List<MedicalReportMedicine> ilaclariGetir(String medicalReportId, String userId) throws IOException {
-		List<String> authorityHashes = readFile(userId);
+		List<String> authorityHashes = readFile();
 		List<MedicalReportMedicine> medicalReportMedicines = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
 			String jsonObjects = new String(s);

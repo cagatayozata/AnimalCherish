@@ -1,12 +1,17 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.*;
+import com.team1.animalproject.model.Animal;
+import com.team1.animalproject.model.AnimalTarihce;
+import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.Shelter;
+import com.team1.animalproject.model.ShelterAnimal;
+import com.team1.animalproject.model.ShelterWorker;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
+import com.team1.animalproject.view.utils.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.id.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -222,7 +227,17 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 		List<ShelterAnimal> shelterAnimals = new ArrayList<>();
 		if(addedAnimals.size() > 0){
 			addedAnimals.stream().forEach(animal -> {
+
 				shelterAnimals.add(ShelterAnimal.builder().id(UUID.randomUUID().toString()).shelterId(shelterId).animalId(animal.id).build());
+				AnimalTarihce animalTarihce = AnimalTarihce.builder()
+						.animalId(animal.getId())
+						.deger("Hayvanat Bahçesi: " + selectedShelters.stream().findFirst().get().getName())
+						.kimTarafindan(kullaniciPrincipal.getId())
+						.neZaman(DateUtil.nowAsDate())
+						.yapilanIslem("Barınak sayfasında hayvan ilişkilendirme işlemi")
+						.build();
+				animalService.tarihceKaydet(animalTarihce);
+
 			});
 
 			shelterService.saveAnimal(shelterAnimals, shelterId);
