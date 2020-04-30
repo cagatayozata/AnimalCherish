@@ -194,7 +194,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 				.animalId(selectedAnimals.stream().findFirst().get().getId())
 				.deger("Rapor Numarası: " + medicalReport.getReportNum())
 				.kimTarafindan(kullaniciPrincipal.getId())
-				.neZaman(DateUtil.nowAsDate())
+				.neZaman(DateUtil.nowAsString())
 				.yapilanIslem("Hayvan sayfasında sağlık raporu ekleme işlemi")
 				.build();
 		animalService.tarihceKaydet(animalTarihce);
@@ -254,7 +254,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 				.animalId(selectedAnimals.stream().findFirst().get().getId())
 				.deger("Rapor Numarası: " + medicalReport.getReportNum() + " / Eklenen İlaç: " + medicalReportMedicine.getIlacId())
 				.kimTarafindan(kullaniciPrincipal.getId())
-				.neZaman(DateUtil.nowAsDate())
+				.neZaman(DateUtil.nowAsString())
 				.yapilanIslem("Hayvan sayfasında sağlık raporu için ilaç ekleme işlemi")
 				.build();
 		animalService.tarihceKaydet(animalTarihce);
@@ -282,7 +282,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 					.animalId(animal.getId())
 					.deger("Sahip kimlik no: " + sahipNo)
 					.kimTarafindan(kullaniciPrincipal.getId())
-					.neZaman(DateUtil.nowAsDate())
+					.neZaman(DateUtil.nowAsString())
 					.yapilanIslem("Hayvan sayfasında hayvan sahibi ilişkilendirme işlemi")
 					.build();
 			animalService.tarihceKaydet(animalTarihce);
@@ -321,9 +321,9 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		animalTarihceDetay = animalService.hayvanNerede(kupeNo);
 	}
 
-	public void tarihceHazirla() {
+	public void tarihceHazirla() throws IOException {
 		showTarihce = true;
-		tarihceList = animalService.tarihceGetir(selectedAnimals.stream().findFirst().get().getId());
+		tarihceList = blockchainService.tarihceGetir(selectedAnimals.stream().findFirst().get().getId());
 
 		tarihceList.stream().forEach(animalTarihce -> {
 			Optional<Kullanici> byId = userService.findById(animalTarihce.getKimTarafindan());

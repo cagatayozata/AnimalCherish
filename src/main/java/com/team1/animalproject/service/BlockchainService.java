@@ -7,6 +7,8 @@ import com.team1.animalproject.blockchain.queries.AccountDetails;
 import com.team1.animalproject.blockchain.queries.CreateAccount;
 import com.team1.animalproject.blockchain.queries.Payment;
 import com.team1.animalproject.helpers.model.ChartDTO;
+import com.team1.animalproject.model.AnimalTarihce;
+import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.IpfsID;
 import com.team1.animalproject.model.Kullanici;
@@ -130,7 +132,7 @@ public class BlockchainService {
 		List<MedicalReport> medicalReports = new ArrayList<>();
 		authorityHashes.stream().forEach(s -> {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
-			if(jsonObject.has("animalId") && jsonObject.getString("animalId").equals(animalId)){
+			if(!jsonObject.has("kimTarafindan") && jsonObject.has("animalId") && jsonObject.getString("animalId").equals(animalId)){
 				String id = jsonObject.getString("olusturan");
 				Kullanici kullanici = userService.findById(id).get();
 				String olusturan = kullanici.getName() + " " + kullanici.getSurname();
@@ -178,6 +180,29 @@ public class BlockchainService {
 		}
 	}
 
+	public void transactionOlustur(AnimalTarihce animalTarihce) throws IOException {
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(animalTarihce);
+		String id = UUID.randomUUID().toString();
+		PrintWriter out = new PrintWriter(id);
+		out.println(jsonStr);
+		out.close();
+		String olusturan = animalTarihce.getKimTarafindan();
+		Kullanici kullanici = userService.findById(olusturan).get();
+		String keyPair = kullanici.getKeyPair();
+
+		Multihash saved = IpfsService.save(id);
+		String ipfsId = UUID.randomUUID().toString().substring(0, 20);
+
+		ipfsIDRepository.save(IpfsID.builder().id(ipfsId).ipfsHash(saved.toBase58()).build());
+
+		if(isNotBlank(keyPair)){
+			Payment payment = new Payment(KeyPair.fromSecretSeed(keyPair));
+			payment.send(ipfsId, KeyPair.fromSecretSeed(keyPair));
+		}
+	}
+
+
 	public void transactionOlustur(MedicalReportMedicine medicalReportMedicine, String kullaniciId) throws IOException {
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(medicalReportMedicine);
@@ -218,6 +243,25 @@ public class BlockchainService {
 			}
 		});
 		return medicalReportMedicines;
+	}
+
+	public List<AnimalTarihce> tarihceGetir(String animalId) throws IOException {
+		List<String> authorityHashes = readFile();
+		List<AnimalTarihce> animalTarihces = new ArrayList<>();
+		authorityHashes.stream().forEach(s -> {
+			String jsonObjects = new String(s);
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+			if(jsonObject.has("kimTarafindan") && jsonObject.getString("animalId").equals(animalId)){
+				animalTarihces.add(AnimalTarihce.builder()
+				.animalId(jsonObject.getString("animalId"))
+				.deger(jsonObject.getString("deger"))
+				.yapilanIslem(jsonObject.getString("yapilanIslem"))
+				.neZaman(jsonObject.getString("neZaman"))
+				.kimTarafindan(jsonObject.getString("kimTarafindan"))
+				.build());
+			}
+		});
+		return animalTarihces;
 	}
 
 	public List<ChartDTO> enCokYazilanIlaclar(String userId) throws IOException {

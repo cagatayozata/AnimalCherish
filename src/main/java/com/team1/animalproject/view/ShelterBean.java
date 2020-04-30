@@ -233,7 +233,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 						.animalId(animal.getId())
 						.deger("Hayvanat Bahçesi: " + selectedShelters.stream().findFirst().get().getName())
 						.kimTarafindan(kullaniciPrincipal.getId())
-						.neZaman(DateUtil.nowAsDate())
+						.neZaman(DateUtil.nowAsString())
 						.yapilanIslem("Barınak sayfasında hayvan ilişkilendirme işlemi")
 						.build();
 				animalService.tarihceKaydet(animalTarihce);

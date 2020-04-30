@@ -12,7 +12,7 @@
                          value="#{animalBean.tarihceList}" rowKey="#{tarihce.id}"
                          widgetVar="tarihceDataTableWidgetVar" draggableColumns="true" reflow="true"
                          paginator="true"
-                         sortBy="#{tarihce.olusmaTarihi}"
+                         sortBy="#{tarihce.neZaman}"
                          rows="10"
                          sortOrder="DESCENDING"
                          paginatorPosition="bottom"
@@ -44,7 +44,7 @@
                 </f:facet>
 
                 <p:column headerText="Tarih">
-                    <h:outputText value="#{tarihce.olusmaTarihi}"/>
+                    <h:outputText value="#{tarihce.neZaman}"/>
                 </p:column>
 
                 <p:column style="width: 350px" headerText="Yapılan İşlem">

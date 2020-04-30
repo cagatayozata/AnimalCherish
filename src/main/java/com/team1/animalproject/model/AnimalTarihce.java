@@ -16,15 +16,13 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
-public class AnimalTarihce extends Auditable<String, String> implements Serializable {
+public class AnimalTarihce {
 
 	private static final long serialVersionUID = 4687592548276958651L;
 
@@ -45,7 +43,7 @@ public class AnimalTarihce extends Auditable<String, String> implements Serializ
 	private String kimTarafindan;
 
 	@Column
-	private Date neZaman;
+	private String neZaman;
 }
 
 

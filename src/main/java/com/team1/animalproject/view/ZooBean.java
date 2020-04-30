@@ -231,7 +231,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 						.animalId(animal.getId())
 						.deger("Hayvanat Bahçesi: " + selectedZoos.stream().findFirst().get())
 						.kimTarafindan(kullaniciPrincipal.getId())
-						.neZaman(DateUtil.nowAsDate())
+						.neZaman(DateUtil.nowAsString())
 						.yapilanIslem("Hayvanat bahçesi sayfasında hayvan ilişkilendirme işlemi")
 						.build();
 				animalService.tarihceKaydet(animalTarihce);

@@ -5,8 +5,6 @@ import com.team1.animalproject.model.AnimalTarihce;
 import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.repository.AnimalRepository;
-import com.team1.animalproject.repository.AnimalTarihceRepository;
-import com.team1.animalproject.view.KullaniciSessionVerisi;
 import com.team1.animalproject.view.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AnimalService implements IBaseService<Animal> {
@@ -25,10 +22,6 @@ public class AnimalService implements IBaseService<Animal> {
 	@Qualifier ("animalRepository")
 	@Autowired
 	private AnimalRepository animalRepository;
-
-	@Qualifier ("animalTarihceRepository")
-	@Autowired
-	private AnimalTarihceRepository animalTarihceRepository;
 
 	@Autowired
 	private BlockchainService blockchainService;
@@ -46,19 +39,13 @@ public class AnimalService implements IBaseService<Animal> {
 		if(o.getOlusmaTarihi() != null){
 			islem = "Hayvan sayfasında hayvan güncelleme işlemi";
 			deger = "Güncellendi";
-		}else {
+		} else {
 			islem = "Hayvan sayfasında hayvan ekleme işlemi";
 			deger = "Eklendi";
 		}
 
 		Animal save = animalRepository.save(o);
-		AnimalTarihce animalTarihce = AnimalTarihce.builder()
-				.animalId(o.id)
-				.deger(deger)
-				.kimTarafindan(o.guncelleyenId)
-				.neZaman(DateUtil.nowAsDate())
-				.yapilanIslem(islem)
-				.build();
+		AnimalTarihce animalTarihce = AnimalTarihce.builder().animalId(o.id).deger(deger).kimTarafindan(o.guncelleyenId).neZaman(DateUtil.nowAsString()).yapilanIslem(islem).build();
 		tarihceKaydet(animalTarihce);
 	}
 
@@ -69,7 +56,7 @@ public class AnimalService implements IBaseService<Animal> {
 				.animalId(o.id)
 				.deger("Güncellendi")
 				.kimTarafindan(o.guncelleyenId)
-				.neZaman(DateUtil.nowAsDate())
+				.neZaman(DateUtil.nowAsString())
 				.yapilanIslem("Hayvan sayfasında hayvan güncelleme işlemi")
 				.build();
 		tarihceKaydet(animalTarihce);
@@ -106,12 +93,10 @@ public class AnimalService implements IBaseService<Animal> {
 	}
 
 	public void tarihceKaydet(AnimalTarihce animalTarihce) {
-		if(animalTarihce.id == null) animalTarihce.setId(UUID.randomUUID().toString());
-		animalTarihceRepository.saveAndFlush(animalTarihce);
+		try{
+			blockchainService.transactionOlustur(animalTarihce);
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
-
-	public List<AnimalTarihce> tarihceGetir(String hayvanId) {
-		return animalTarihceRepository.findByAnimalId(hayvanId);
-	}
-
 }
