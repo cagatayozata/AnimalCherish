@@ -18,6 +18,7 @@ import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import com.team1.animalproject.repository.IpfsIDRepository;
 import com.team1.animalproject.view.utils.DateUtil;
+import io.ipfs.api.IPFS;
 import io.ipfs.multihash.Multihash;
 import org.apache.commons.compress.utils.Lists;
 import org.hyperledger.fabric.sdk.BlockchainInfo;
@@ -60,8 +61,11 @@ public class BlockchainService {
 	private UserService userService;
 	@Autowired
 	private IlacService ilacService;
-	@Autowired
-	private AnimalService animalService;
+
+	private Map<String, String> ipfsHashes = new HashMap<>();
+	private Map<String, IpfsID> ipfsIds = new HashMap<>();
+	private Map<String, Kullanici> user = new HashMap<>();
+	private Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();
@@ -91,7 +95,6 @@ public class BlockchainService {
 				e.printStackTrace();
 			}
 
-
 			blockchainExplorers.add(blockchainExplorer);
 
 		});
@@ -109,15 +112,36 @@ public class BlockchainService {
 		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(transactions)){
 			List<String> ipfsUrls = transactions.stream().map(Transactions::getMemo).collect(Collectors.toList());
 
-			List<IpfsID> ipfsIds = ipfsIDRepository.findByIdIn(ipfsUrls);
-			if(!CollectionUtils.isEmpty(ipfsIds)){
-				ipfsIds.stream().forEach(ipfsID -> {
+			ipfsUrls.stream().forEach(ipfsId -> {
+				IpfsID ipfsID = null;
+				if(ipfsIds.containsKey(ipfsId)){
+					ipfsID = ipfsIds.get(ipfsId);
 					try{
-						datas.add(IpfsService.getFile(ipfsID.getIpfsHash()));
+						if(ipfsHashes.containsKey(ipfsID.getIpfsHash())){
+							datas.add(ipfsHashes.get(ipfsID.getIpfsHash()));
+						} else {
+							String file = IpfsService.getFile(ipfsID.getIpfsHash());
+							ipfsHashes.put(ipfsID.getIpfsHash(), file);
+							datas.add(file);
+						}
 					} catch (IOException e){
 					}
-				});
-			}
+				} else {
+					ipfsIDRepository.findById(ipfsId).ifPresent(ipfsidd -> {
+						ipfsIds.put(ipfsId, ipfsidd);
+						try{
+							if(ipfsHashes.containsKey(ipfsidd.getIpfsHash())){
+								datas.add(ipfsHashes.get(ipfsidd.getIpfsHash()));
+							} else {
+								String file = IpfsService.getFile(ipfsidd.getIpfsHash());
+								ipfsHashes.put(ipfsidd.getIpfsHash(), file);
+								datas.add(file);
+							}
+						} catch (IOException e){
+						}
+					});
+				}
+			});
 		}
 
 		return datas;
@@ -130,7 +154,13 @@ public class BlockchainService {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("olusturan")){
 				String id = jsonObject.getString("olusturan");
-				Kullanici kullanici = userService.findById(id).get();
+				Kullanici kullanici = null;
+				if(user.containsKey(id)){
+					kullanici = user.get(id);
+				} else {
+					kullanici = userService.findById(id).get();
+					user.put(id, kullanici);
+				}
 				String olusturan = kullanici.getName() + " " + kullanici.getSurname();
 				medicalReports.add(MedicalReport.builder()
 						.id(jsonObject.getString("id"))
@@ -183,7 +213,13 @@ public class BlockchainService {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(!jsonObject.has("kimTarafindan") && jsonObject.has("animalId") && jsonObject.getString("animalId").equals(animalId)){
 				String id = jsonObject.getString("olusturan");
-				Kullanici kullanici = userService.findById(id).get();
+				Kullanici kullanici = null;
+				if(user.containsKey(id)){
+					kullanici = user.get(id);
+				} else {
+					kullanici = userService.findById(id).get();
+					user.put(id, kullanici);
+				}
 				String olusturan = kullanici.getName() + " " + kullanici.getSurname();
 				medicalReports.add(MedicalReport.builder()
 						.id(jsonObject.getString("id"))
@@ -215,7 +251,13 @@ public class BlockchainService {
 		out.println(jsonStr);
 		out.close();
 		String olusturan = medicalReport.getOlusturan();
-		Kullanici kullanici = userService.findById(olusturan).get();
+		Kullanici kullanici = null;
+		if(user.containsKey(olusturan)){
+			kullanici = user.get(olusturan);
+		} else {
+			kullanici = userService.findById(olusturan).get();
+			user.put(id, kullanici);
+		}
 		String keyPair = kullanici.getKeyPair();
 
 		Multihash saved = IpfsService.save(id);
@@ -237,7 +279,13 @@ public class BlockchainService {
 		out.println(jsonStr);
 		out.close();
 		String olusturan = animalTarihce.getKimTarafindan();
-		Kullanici kullanici = userService.findById(olusturan).get();
+		Kullanici kullanici = null;
+		if(user.containsKey(olusturan)){
+			kullanici = user.get(olusturan);
+		} else {
+			kullanici = userService.findById(olusturan).get();
+			user.put(olusturan, kullanici);
+		}
 		String keyPair = kullanici.getKeyPair();
 
 		Multihash saved = IpfsService.save(id);
@@ -258,7 +306,13 @@ public class BlockchainService {
 		PrintWriter out = new PrintWriter(id);
 		out.println(jsonStr);
 		out.close();
-		Kullanici kullanici = userService.findById(kullaniciId).get();
+		Kullanici kullanici = null;
+		if(user.containsKey(kullaniciId)){
+			kullanici = user.get(kullaniciId);
+		} else {
+			kullanici = userService.findById(kullaniciId).get();
+			user.put(kullaniciId, kullanici);
+		}
 		String keyPair = kullanici.getKeyPair();
 
 		Multihash saved = IpfsService.save(id);
@@ -313,23 +367,33 @@ public class BlockchainService {
 	}
 
 	public List<ChartDTO> enCokYazilanIlaclar(String userId) throws IOException {
-
+		long start = System.currentTimeMillis();
 		List<MedicalReport> medicalReports = getAll(userId);
 		List<MedicalReportMedicine> medicalReportMedicines = Lists.newArrayList();
 		if(!CollectionUtils.isEmpty(medicalReports)){
 			medicalReports.stream().forEach(medicalReport -> {
+				List<MedicalReportMedicine> medicalReportMedicines1 = null;
 				try{
-					medicalReportMedicines.addAll(ilaclariGetir(medicalReport.getId(), userId));
+					if(medicalReportMedicineByReport.containsKey(medicalReport.getId())){
+						medicalReportMedicines1 = medicalReportMedicineByReport.get(medicalReport.getId());
+					}else {
+						medicalReportMedicines1 = ilaclariGetir(medicalReport.getId(), userId);
+						medicalReportMedicineByReport.put(medicalReport.getId(), medicalReportMedicines1);
+					}
+					medicalReportMedicines.addAll(medicalReportMedicines1);
 				} catch (IOException e){
 					e.printStackTrace();
 				}
 			});
 		}
+		System.out.println("Ilaclari Doldurma Suresi: " + ((System.currentTimeMillis() - start) / 1000F));
 
 		Map<String, Integer> ilacMiktar = new HashMap<>();
 		Map<String, List<String>> ilacRapor = new HashMap<>();
 
 		List<ChartDTO> chartDTOs = Lists.newArrayList();
+
+		start = System.currentTimeMillis();
 
 		if(!CollectionUtils.isEmpty(medicalReportMedicines)){
 			medicalReportMedicines.stream().forEach(medicalReportMedicine -> {
@@ -350,7 +414,13 @@ public class BlockchainService {
 						e.printStackTrace();
 					}
 					raporlar.stream().forEach(medicalReport -> {
-						Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
+						Kullanici kullanici = null;
+						if(user.containsKey(medicalReport.getOlusturan())){
+							kullanici = user.get(medicalReport.getOlusturan());
+						} else {
+							kullanici = userService.findById(medicalReport.getOlusturan()).get();
+							user.put(medicalReport.getOlusturan(), kullanici);
+						}
 						bilgiler.add("Veteriner: " + kullanici.getName() + " " + kullanici.getSurname() + "- Rapor Tarihi: " + medicalReport.getDate());
 					});
 					ilacRapor.put(medicalReportMedicine.getIlacAd(), bilgiler);
@@ -361,6 +431,7 @@ public class BlockchainService {
 					} catch (IOException e){
 						e.printStackTrace();
 					}
+
 					ilacRapor.put(medicalReportMedicine.getIlacAd(), raporlar.stream()
 							.map(medicalReport -> "Veteriner: " + userService.findById(medicalReport.getOlusturan())
 									.get()
@@ -378,6 +449,8 @@ public class BlockchainService {
 			});
 			chartDTOs.add(ChartDTO.builder().name(s).value(Integer.valueOf(integer)).drillDownList(raporlar).build());
 		});
+
+		System.out.println("Ilac Chart Doldurma Suresi: " + ((System.currentTimeMillis() - start) / 1000F));
 
 		return chartDTOs;
 	}

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> İstatistikler
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputScript name="highcharts.js" library="js"/>
+        <h:outputScript name="data.js" library="js"/>
+        <h:outputScript name="drilldown.js" library="js"/>
+        <h:outputScript name="exporting.js" library="js"/>
+        <h:outputScript name="export-data.js" library="js"/>
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:panel styleClass="card card-w-title">
+                <div class="ui-g">
+                    <p:link href="#{chartBean.saglikRaporuIstatistikleri()}"/>
+                    <ui:include src="ilac_chart.xhtml"/>
+                    <ui:include src="kullanici_chart.xhtml"/>
+                    <p:panel style="width: 100%; margin: 20px auto; height: 40%">
+                        <p:barChart model="#{chartBean.barModel}" style="width: 50%; height: 50%"/>
+                    </p:panel>
+                </div>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

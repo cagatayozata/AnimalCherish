@@ -1,7 +1,6 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.helpers.model.Chart;
-import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.BlockchainService;
 import com.team1.animalproject.service.ShelterService;
@@ -66,11 +65,7 @@ public class ChartBean extends BaseViewController<Chart> implements Serializable
 
 	@Override
 	public void ilkEkraniHazirla() {
-		try{
-			saglikRaporuIstatistikleri();
-		} catch (IOException e){
-			e.printStackTrace();
-		}
+
 	}
 
 	public void createBarModel() {
@@ -168,8 +163,9 @@ public class ChartBean extends BaseViewController<Chart> implements Serializable
 		return userService.toplamSayi();
 	}
 
-	public void saglikRaporuIstatistikleri() throws IOException {
+	public String saglikRaporuIstatistikleri() throws IOException {
 		enCokYazilanlarChart = new Chart.Builder().add(blockchainService.enCokYazilanIlaclar(kullaniciPrincipal.getId())).build();
 		kullanicilarChart = new Chart.Builder().add(userService.kullanicilarNerede()).build();
+		return "#";
 	}
 }
