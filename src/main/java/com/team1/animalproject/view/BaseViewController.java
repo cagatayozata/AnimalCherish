@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +21,7 @@ public abstract class BaseViewController<T> implements Serializable {
 
 	protected KullaniciPrincipal kullaniciPrincipal;
 
-	public abstract void viewOlustur();
+	public abstract void viewOlustur() throws IOException;
 
 	public abstract void ilkEkraniHazirla();
 

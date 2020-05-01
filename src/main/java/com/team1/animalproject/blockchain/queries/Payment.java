@@ -24,7 +24,6 @@
 
 package com.team1.animalproject.blockchain.queries;
 
-import com.team1.animalproject.blockchain.ipfs.IpfsService;
 import com.team1.animalproject.blockchain.utils.Connections;
 import org.stellar.sdk.AssetTypeNative;
 import org.stellar.sdk.KeyPair;
@@ -36,7 +35,6 @@ import org.stellar.sdk.Transaction;
 import org.stellar.sdk.responses.AccountResponse;
 import org.stellar.sdk.responses.SubmitTransactionResponse;
 
-import javax.print.attribute.standard.Compression;
 import java.io.IOException;
 
 public class Payment {
@@ -99,23 +97,21 @@ public class Payment {
 		AccountResponse sourceAccount = server.accounts().account(source);
 
 		// Start building the transaction.
-		Transaction transaction = new Transaction.Builder(sourceAccount)
-				.addOperation(new PaymentOperation.Builder(destination, new AssetTypeNative(), "10").build())
+		Transaction transaction = new Transaction.Builder(sourceAccount).addOperation(new PaymentOperation.Builder(destination, new AssetTypeNative(), "10").build())
 				// A memo allows you to add your own metadata to a transaction. It's
 				// optional and does not affect how Stellar treats the transaction.
 				.addMemo(Memo.text(memo))
 				// Wait a maximum of three minutes for the transaction
-				.setTimeout(180)
-				.build();
+				.setTimeout(180).build();
 		// Sign the transaction to prove you are actually the person sending it.
 		transaction.sign(source);
 
 		// And finally, send it off to Stellar!
-		try {
+		try{
 			SubmitTransactionResponse response = server.submitTransaction(transaction);
 			System.out.println("Success!");
 			System.out.println(response);
-		} catch (Exception e) {
+		} catch (Exception e){
 			System.out.println("Something went wrong!");
 			System.out.println(e.getMessage());
 			// If the result is unknown (no response body, timeout etc.) we simply resubmit

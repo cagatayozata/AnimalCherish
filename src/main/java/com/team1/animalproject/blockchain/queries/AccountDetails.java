@@ -34,6 +34,7 @@ import org.stellar.sdk.KeyPair;
 import org.stellar.sdk.Server;
 import org.stellar.sdk.requests.ErrorResponse;
 import org.stellar.sdk.requests.PaymentsRequestBuilder;
+import org.stellar.sdk.requests.RequestBuilder;
 import org.stellar.sdk.responses.AccountResponse;
 import org.stellar.sdk.responses.Page;
 import org.stellar.sdk.responses.TransactionResponse;
@@ -83,7 +84,7 @@ public class AccountDetails {
 	public List<Transactions> getTransactionsFull ( boolean isMainNet ) throws IOException {
 		Server server = Connections.getServer(isMainNet);
 		List<Transactions> transactions = Lists.newArrayList();
-		ArrayList<TransactionResponse> transactionResponses = server.transactions().forAccount(pair).limit(100).execute().getRecords();
+		ArrayList<TransactionResponse> transactionResponses = server.transactions().forAccount(pair).order(RequestBuilder.Order.DESC).limit(200).execute().getRecords();
 
 		for (TransactionResponse response : transactionResponses) {
 			byte[] bytes = Base64.getDecoder().decode(response.getEnvelopeXdr());

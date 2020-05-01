@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Sisteme Ait Blockchain Akışı
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:panel styleClass="card card-w-title">
+                <p:dataView var="blockchainExplorer" value="#{blockchainBean.blockchainExplorers}"  paginator="true"
+                            paginatorPosition="bottom"
+                            rows="10">
+
+                    <f:facet name="header">
+                        Blockchain Akış Listesi
+                    </f:facet>
+
+
+                    <p:dataViewListItem>
+                        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Hash:" />
+                                    <h:outputText value="#{blockchainExplorer.hash}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Ne Zaman:" />
+                                    <h:outputText value="#{blockchainExplorer.zaman}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Kimden:" />
+                                    <h:outputText value="#{blockchainExplorer.from}" style="font-weight: bold"/>
+
+                                    <h:outputText value="IPFS URL:" />
+                                    <p:link target="_blank" href="https://ipfs.io/ipfs/#{blockchainExplorer.memo}">
+                                    <h:outputText value="#{blockchainExplorer.memo}" style="font-weight: bold"/>
+                                    </p:link>
+                                </h:panelGrid>
+                            </p:outputPanel>
+
+                            <p:link target="_blank"  title="Link" href="https://testnet.steexp.com/tx/#{blockchainExplorer.hash}">
+                                <h:outputText styleClass="fa fa-search" style="margin:0 auto;" />
+                            </p:link>
+                        </h:panelGrid>
+
+                        <hr/>
+                    </p:dataViewListItem>
+                </p:dataView>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

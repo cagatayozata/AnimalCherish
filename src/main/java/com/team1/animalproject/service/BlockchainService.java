@@ -6,27 +6,41 @@ import com.team1.animalproject.blockchain.models.Transactions;
 import com.team1.animalproject.blockchain.queries.AccountDetails;
 import com.team1.animalproject.blockchain.queries.CreateAccount;
 import com.team1.animalproject.blockchain.queries.Payment;
+import com.team1.animalproject.blockchain.utils.Connections;
 import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.AnimalTarihce;
 import com.team1.animalproject.model.AnimalTarihceDetay;
+import com.team1.animalproject.model.BlockchainExplorer;
 import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.IpfsID;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import com.team1.animalproject.repository.IpfsIDRepository;
+import com.team1.animalproject.view.utils.DateUtil;
 import io.ipfs.multihash.Multihash;
 import org.apache.commons.compress.utils.Lists;
+import org.hyperledger.fabric.sdk.BlockchainInfo;
 import org.primefaces.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.stellar.sdk.KeyPair;
+import org.stellar.sdk.Network;
+import org.stellar.sdk.Server;
+import org.stellar.sdk.requests.RequestBuilder;
+import org.stellar.sdk.responses.Page;
+import org.stellar.sdk.responses.TransactionResponse;
+import org.stellar.sdk.xdr.Transaction;
+import org.stellar.sdk.xdr.TransactionEnvelope;
+import org.stellar.sdk.xdr.XdrDataInputStream;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +53,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class BlockchainService {
 
 	@Autowired
-	@Qualifier("ipfsIDRepository")
+	@Qualifier ("ipfsIDRepository")
 	private IpfsIDRepository ipfsIDRepository;
 
 	@Autowired
@@ -48,6 +62,42 @@ public class BlockchainService {
 	private IlacService ilacService;
 	@Autowired
 	private AnimalService animalService;
+
+	public List<BlockchainExplorer> explorer() throws IOException {
+		Network.useTestNetwork();
+		Server server = new Server("https://horizon-testnet.stellar.org");
+		KeyPair destination = KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU");
+
+		Page<TransactionResponse> execute = server.transactions().order(RequestBuilder.Order.DESC).forAccount(destination).limit(200).execute();
+
+		List<BlockchainExplorer> blockchainExplorers = Lists.newArrayList();
+
+		execute.getRecords().forEach(transactionResponse -> {
+			BlockchainExplorer blockchainExplorer = BlockchainExplorer.builder()
+					.from(new String(transactionResponse.getSourceAccount().getAccountId()))
+					.hash(transactionResponse.getHash())
+					.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
+					.build();
+
+			byte[] bytes = Base64.getDecoder().decode(transactionResponse.getEnvelopeXdr());
+			XdrDataInputStream in = new XdrDataInputStream(new ByteArrayInputStream(bytes));
+			try{
+				Transaction tx = TransactionEnvelope.decode(in).getTx();
+				ipfsIDRepository.findById(tx.getMemo().getText()).ifPresent(ipfsID -> {
+					blockchainExplorer.setMemo(ipfsID.getIpfsHash());
+					blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
+				});
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+
+
+			blockchainExplorers.add(blockchainExplorer);
+
+		});
+
+		return blockchainExplorers;
+	}
 
 	public List<String> readFile() throws IOException {
 
@@ -61,10 +111,9 @@ public class BlockchainService {
 
 			List<IpfsID> ipfsIds = ipfsIDRepository.findByIdIn(ipfsUrls);
 			if(!CollectionUtils.isEmpty(ipfsIds)){
-				List<String> collect = ipfsIds.stream().map(IpfsID::getIpfsHash).collect(Collectors.toList());
-				collect.stream().forEach(s -> {
+				ipfsIds.stream().forEach(ipfsID -> {
 					try{
-						datas.add(IpfsService.getFile(s));
+						datas.add(IpfsService.getFile(ipfsID.getIpfsHash()));
 					} catch (IOException e){
 					}
 				});
@@ -202,7 +251,6 @@ public class BlockchainService {
 		}
 	}
 
-
 	public void transactionOlustur(MedicalReportMedicine medicalReportMedicine, String kullaniciId) throws IOException {
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(medicalReportMedicine);
@@ -253,12 +301,12 @@ public class BlockchainService {
 			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
 			if(jsonObject.has("kimTarafindan") && jsonObject.getString("animalId").equals(animalId)){
 				animalTarihces.add(AnimalTarihce.builder()
-				.animalId(jsonObject.getString("animalId"))
-				.deger(jsonObject.getString("deger"))
-				.yapilanIslem(jsonObject.getString("yapilanIslem"))
-				.neZaman(jsonObject.getString("neZaman"))
-				.kimTarafindan(jsonObject.getString("kimTarafindan"))
-				.build());
+						.animalId(jsonObject.getString("animalId"))
+						.deger(jsonObject.getString("deger"))
+						.yapilanIslem(jsonObject.getString("yapilanIslem"))
+						.neZaman(jsonObject.getString("neZaman"))
+						.kimTarafindan(jsonObject.getString("kimTarafindan"))
+						.build());
 			}
 		});
 		return animalTarihces;
