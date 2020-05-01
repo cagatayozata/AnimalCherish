@@ -24,6 +24,9 @@
 
 package com.team1.animalproject.blockchain.models;
 
+import lombok.Data;
+
+@Data
 public class Transactions
 {
     private String assetName;
@@ -32,6 +35,7 @@ public class Transactions
     private String memo;
     private String toFrom;
     private Boolean wasSent;
+    private String paging;
 
     public Transactions(String assetName, String amount, String date, String memo) {
         this.assetName = assetName;
@@ -41,13 +45,14 @@ public class Transactions
     }
 
     public Transactions(String assetName, String amount, String date,
-                        String memo, String toFrom, Boolean wasSent ) {
+                        String memo, String toFrom, Boolean wasSent, String paging) {
         this.assetName = assetName;
         this.amount = amount;
         this.date = date;
         this.memo = memo;
         this.toFrom = toFrom;
         this.wasSent = wasSent;
+        this.paging = paging;
     }
 
     public Transactions(String assetName, String amount, String date, Boolean wasSent) {
@@ -63,49 +68,5 @@ public class Transactions
         this.date = date;
         this.toFrom = toFrom;
         this.wasSent = wasSent;
-    }
-
-    public String getAssetName() {
-        return assetName;
-    }
-
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public void setMemo(String memo) {
-        this.memo = memo;
-    }
-
-    public String getToFrom() {
-        return toFrom;
-    }
-
-    public void setToFrom(String toFrom) {
-        this.toFrom = toFrom;
-    }
-
-    public Boolean getWasSent() {
-        return wasSent;
     }
 }

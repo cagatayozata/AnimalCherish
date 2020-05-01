@@ -80,33 +80,39 @@ public class AccountDetails {
 		return balanceAmount;
 	}
 
-	@SuppressWarnings("Duplicates")
-	public List<Transactions> getTransactionsFull ( boolean isMainNet ) throws IOException {
+	@SuppressWarnings ("Duplicates")
+	public List<Transactions> getTransactionsFull(boolean isMainNet, String paging) throws IOException {
 		Server server = Connections.getServer(isMainNet);
 		List<Transactions> transactions = Lists.newArrayList();
-		ArrayList<TransactionResponse> transactionResponses = server.transactions().forAccount(pair).order(RequestBuilder.Order.DESC).limit(200).execute().getRecords();
+		ArrayList<TransactionResponse> transactionResponses = null;
+		if(paging == null){
+			transactionResponses = server.transactions().forAccount(pair).order(RequestBuilder.Order.DESC).limit(200).execute().getRecords();
+		} else {
+			transactionResponses = server.transactions().forAccount(pair).order(RequestBuilder.Order.DESC).cursor(paging).limit(200).execute().getRecords();
+		}
 
-		for (TransactionResponse response : transactionResponses) {
+		for(TransactionResponse response : transactionResponses){
 			byte[] bytes = Base64.getDecoder().decode(response.getEnvelopeXdr());
 			XdrDataInputStream in = new XdrDataInputStream(new ByteArrayInputStream(bytes));
 			Transaction tx = TransactionEnvelope.decode(in).getTx();
 
 			/* a tx can have multiple operations, so iterate through (potentially) all of them */
-			for (int i = 0; i < tx.getOperations().length; i++) {
-				if (tx.getOperations()[i].getBody().getDiscriminant() == OperationType.PAYMENT) {
+			for(int i = 0; i < tx.getOperations().length; i++){
+				if(tx.getOperations()[i].getBody().getDiscriminant() == OperationType.PAYMENT){
 					org.stellar.sdk.xdr.Asset asset = tx.getOperations()[i].getBody().getPaymentOp().getAsset();
 
 					String amount = Format.parseAmountString(tx.getOperations()[i].getBody().getPaymentOp().getAmount().getInt64().toString());
 					String coin = Resolve.assetName(asset);
 					String memo = tx.getMemo().getText();
+					String cursor = response.getPagingToken();
 					KeyPair srcKey = Resolve.getKeyPairFromAccountIdStr(transactionResponses.get(0).getSourceAccount().getAccountId()); // the user's account
 					KeyPair destKey = Resolve.getKeyPairFromAccountId(tx.getOperations()[i].getBody().getPaymentOp().getDestination());
 					String addr;
 					boolean isPayment;
 
 					/* determine if we sent or recieved this payment */
-					if (!pair.getAccountId().equalsIgnoreCase(srcKey.getAccountId()) && pair.getAccountId().equalsIgnoreCase(destKey.getAccountId())) {
-						if (!srcKey.getAccountId().equalsIgnoreCase(pair.getAccountId())) {
+					if(!pair.getAccountId().equalsIgnoreCase(srcKey.getAccountId()) && pair.getAccountId().equalsIgnoreCase(destKey.getAccountId())){
+						if(!srcKey.getAccountId().equalsIgnoreCase(pair.getAccountId())){
 							//this means the current account is RECEIVING the payment
 							isPayment = false;
 							addr = srcKey.getAccountId();
@@ -123,13 +129,7 @@ public class AccountDetails {
 
 					}
 
-					transactions.add(new Transactions(
-							coin
-							, amount
-							, Format.time(response.getCreatedAt())
-							, memo
-							, addr
-							, isPayment));
+					transactions.add(new Transactions(coin, amount, Format.time(response.getCreatedAt()), memo, addr, isPayment, cursor));
 				}
 			}
 		}

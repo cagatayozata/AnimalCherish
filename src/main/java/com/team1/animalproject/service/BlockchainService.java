@@ -96,8 +96,34 @@ public class BlockchainService {
 			}
 
 			blockchainExplorers.add(blockchainExplorer);
-
 		});
+
+		while(execute.getRecords().size() != 0){
+			TransactionResponse response = execute.getRecords().get(execute.getRecords().size() - 1);
+			String pagingToken = response.getPagingToken();
+			execute = server.transactions().order(RequestBuilder.Order.DESC).forAccount(destination).cursor(pagingToken).limit(200).execute();
+			execute.getRecords().forEach(transactionResponse -> {
+				BlockchainExplorer blockchainExplorer = BlockchainExplorer.builder()
+						.from(new String(transactionResponse.getSourceAccount().getAccountId()))
+						.hash(transactionResponse.getHash())
+						.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
+						.build();
+
+				byte[] bytes = Base64.getDecoder().decode(transactionResponse.getEnvelopeXdr());
+				XdrDataInputStream in = new XdrDataInputStream(new ByteArrayInputStream(bytes));
+				try{
+					Transaction tx = TransactionEnvelope.decode(in).getTx();
+					ipfsIDRepository.findById(tx.getMemo().getText()).ifPresent(ipfsID -> {
+						blockchainExplorer.setMemo(ipfsID.getIpfsHash());
+						blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
+					});
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+
+				blockchainExplorers.add(blockchainExplorer);
+			});
+		}
 
 		return blockchainExplorers;
 	}
@@ -105,7 +131,13 @@ public class BlockchainService {
 	public List<String> readFile() throws IOException {
 
 		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU"));
-		List<Transactions> transactions = accountDetails.getTransactionsFull(false);
+		List<Transactions> transactions = Lists.newArrayList();
+		List<Transactions> toAdd = accountDetails.getTransactionsFull(false, null);
+
+		while(!CollectionUtils.isEmpty(toAdd)){
+			transactions.addAll(toAdd);
+			toAdd = accountDetails.getTransactionsFull(false, toAdd.get(toAdd.size()-1).getPaging());
+		}
 
 		List<String> datas = Lists.newArrayList();
 
