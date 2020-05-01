@@ -113,5 +113,17 @@
             </h:panelGrid>
         </p:fieldset>
 
+        <p:panel styleClass="card card-w-title">
+            <div class="ui-g">
+                <p:link href="#{chartBean.saglikRaporuIstatistikleri()}"/>
+                <ui:include src="ilac_chart.xhtml"/>
+                <ui:include src="kullanici_chart.xhtml"/>
+                <p:panel style="width: 100%; margin: 20px auto; height: 40%">
+                    <p:barChart model="#{chartBean.barModel}" style="width: 50%; height: 50%"/>
+                </p:panel>
+            </div>
+        </p:panel>
+
+
     </ui:define>
 </ui:composition>

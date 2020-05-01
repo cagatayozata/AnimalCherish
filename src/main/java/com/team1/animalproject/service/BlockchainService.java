@@ -45,6 +45,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,7 @@ public class BlockchainService {
 	private Map<String, IpfsID> ipfsIds = new HashMap<>();
 	private Map<String, Kullanici> user = new HashMap<>();
 	private Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
+	private Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();
@@ -441,7 +443,12 @@ public class BlockchainService {
 					List<String> bilgiler = ilacRapor.get(medicalReportMedicine.getIlacAd());
 					List<MedicalReport> raporlar = null;
 					try{
-						raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
+							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
+						}else {
+							raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
+						}
 					} catch (IOException e){
 						e.printStackTrace();
 					}
@@ -459,16 +466,21 @@ public class BlockchainService {
 				} else {
 					List<MedicalReport> raporlar = null;
 					try{
-						raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
+							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
+						}else {
+							raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
+						}
 					} catch (IOException e){
 						e.printStackTrace();
 					}
 
 					ilacRapor.put(medicalReportMedicine.getIlacAd(), raporlar.stream()
-							.map(medicalReport -> "Veteriner: " + userService.findById(medicalReport.getOlusturan())
+							.map(medicalReport -> "Veteriner: " + (user.containsKey(medicalReport.getOlusturan()) ? Optional.of(user.get(medicalReport.getOlusturan())) : userService.findById(medicalReport.getOlusturan()))
 									.get()
 									.getName()
-									.concat(" ".concat(userService.findById(medicalReport.getOlusturan()).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate())
+									.concat(" ".concat((user.containsKey(medicalReport.getOlusturan()) ? Optional.of(user.get(medicalReport.getOlusturan())) : userService.findById(medicalReport.getOlusturan())).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate())
 							.collect(Collectors.toList()));
 				}
 			});
