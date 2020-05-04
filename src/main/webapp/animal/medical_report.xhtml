@@ -49,7 +49,7 @@
                                 value="Sağlık Raporu Ekle"
                                 styleClass="dataTableHeaderBtn" update=":form"
                                 resetValues="true"
-                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_EKLEME_YETKISI')}"
+                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_EKLEME_YETKISI') and kullaniciSessionVerisi.veterinerMi()}"
                                 icon="fa fa-plus">
                             <f:actionListener
                                     binding="#{animalBean.saglikRaporuYeniEkraniHazirla()}"/>
@@ -82,26 +82,6 @@
                                 resetValues="true">
                             <f:actionListener
                                     binding="#{animalBean.saglikRaporuDetayHazirla()}"/>
-                        </p:commandButton>
-                        <p:commandButton
-                                value="Güncelle"
-                                styleClass="dataTableHeaderBtn"
-                                update=":form"
-                                rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_GUNCELLEME_YETKISI')}"
-                                icon="fa fa-edit"
-                                disabled="#{true}"
-                                resetValues="true">
-                            <f:actionListener
-                                    binding="#{animalBean.prepareUpdateScreen()}"/>
-                        </p:commandButton>
-                        <ui:param name="sizeOfSelectedItems"
-                                  value="#{empty animalBean.selectedMedicalReports? '' : ' ( '.concat(animalBean.selectedMedicalReports.size()) . concat(' )')}"/>
-                        <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
-                                         rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_SILME_YETKISI')}"
-                                         icon="fa fa-trash" disabled="#{true}">
-                            <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
-                            <f:actionListener
-                                    binding="#{animalBean.sil()}"/>
                         </p:commandButton>
                     </p:outputPanel>
                 </f:facet>

@@ -122,4 +122,8 @@ public class KullaniciSessionVerisi implements Serializable {
 		return KullaniciTipiEnum.NON_USER.getTextMessageKey();
 	}
 
+	public boolean veterinerMi(){
+		return KullaniciTipiEnum.VET.equals(KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get());
+	}
+
 }

@@ -47,6 +47,7 @@
                                 value="İlaç Ekle"
                                 styleClass="dataTableHeaderBtn" update=":form"
                                 resetValues="true"
+                                rendered="#{kullaniciSessionVerisi.veterinerMi()}"
                                 icon="fa fa-plus">
                             <f:actionListener
                                     binding="#{animalBean.ilacYeniEkraniHazirla()}"/>
