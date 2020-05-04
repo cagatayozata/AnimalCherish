@@ -62,9 +62,10 @@
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="tel" value="Telefon"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputNumber id="tel"
+                        <p:inputMask id="tel"
                                        value="#{gercekKisiBean.gercekKisi.telefon}"
                                        autocomplete="off"
+                                       mask="(999) 999-9999"
                                        disabled="#{gercekKisiBean.showInfo}"
                                        required="true"/>
                         <p:message for="tel"/>

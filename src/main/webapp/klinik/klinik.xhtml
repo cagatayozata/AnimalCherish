@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../WEB-INF/template.xhtml">
+
+    <ui:define name="viewname"> Klinik Listesi
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" sticky="true"/>
+
+            <p:panel styleClass="card card-w-title" rendered="#{!klinikBean.showCreateOrEdit and !klinikBean.showVetCreateOrEdit}">
+
+                <p:dataTable id="klinikDataTable" var="klinik"
+                             styleClass="dataTableStandart"
+                             value="#{klinikBean.allKliniks}" rowKey="#{klinik.id}"
+                             widgetVar="klinikDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             emptyMessage="Eklemiş bir Klinik bulunamadı!"
+                             filteredValue="#{klinikBean.filteredKliniks}"
+                             selection="#{klinikBean.selectedKliniks}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Klinik Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <div style="float:right;    margin-top: -20px;">
+                                <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/csv-icon.png"/>
+                                    <p:dataExporter type="csv" target="klinikDataTable" encoding="CP1254" fileName="klinik"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false" onclick="removePageRedirectBlock()">
+                                    <p:graphicImage name="/images/pdf-icon.png"/>
+                                    <p:dataExporter type="pdf" target="klinikDataTable" encoding="CP1254" fileName="klinik"/>
+                                </p:commandLink>
+                            </div>
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Klinik Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_EKLEME_YETKISI')}"
+                                    resetValues="true"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{klinikBean.prepareNewScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Detay"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_DETAY_YETKISI')}"
+                                    icon="fa fa-search"
+                                    disabled="#{klinikBean.selectedKliniks.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{klinikBean.prepareInfoScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Güncelle"
+                                    styleClass="dataTableHeaderBtn"
+                                    update=":form"
+                                    icon="fa fa-edit"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_GUNCELLEME_YETKISI')}"
+                                    disabled="#{klinikBean.selectedKliniks.size() ne 1}"
+                                    resetValues="true">
+                                <f:actionListener
+                                        binding="#{klinikBean.prepareUpdateScreen()}"/>
+                            </p:commandButton>
+                            <p:commandButton
+                                    value="Çalışan İlişkilendirme"
+                                    styleClass="dataTableHeaderBtn" update=":form"
+                                    resetValues="true"
+                                    rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_ILISKILENDIRME_YETKISI')}"
+                                    disabled="#{klinikBean.selectedKliniks.size() ne 1}"
+                                    icon="fa fa-user-plus">
+                                <f:actionListener
+                                        binding="#{klinikBean.prepareVetNewScreen()}"/>
+                            </p:commandButton>
+                            <ui:param name="sizeOfSelectedItems"
+                                      value="#{empty klinikBean.selectedKliniks? '' : ' ( '.concat(klinikBean.selectedKliniks.size()) . concat(' )')}"/>
+                            <p:commandButton value="Sil#{sizeOfSelectedItems}" styleClass="dataTableHeaderBtn" update=":form"
+                                             rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_SILME_YETKISI')}"
+                                             icon="fa fa-trash" disabled="#{empty klinikBean.selectedKliniks}">
+                                <p:confirm header="Silme İşlemi" message="Silme işlemini onaylıyor musunuz?"/>
+                                <f:actionListener
+                                        binding="#{klinikBean.sil()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="Klinik Id" sortBy="#{klinik.id}"
+                              filterBy="#{klinik.id}" filterMatchMode="contains">
+                        <h:outputText value="#{klinik.id}"/>
+                    </p:column>
+                    <p:column headerText="Ad" sortBy="#{klinik.name}"
+                              filterBy="#{klinik.name}" filterMatchMode="contains">
+                        <h:outputText value="#{klinik.name}"/>
+                    </p:column>
+                    <p:column headerText="Çalışan Sayısı">
+                        <h:outputText value="#{klinik.workerCount}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+            <ui:include src="klinik_add.xhtml"/>
+            <ui:include src="klinik_worker_add.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

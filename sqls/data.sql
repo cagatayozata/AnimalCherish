@@ -54,3 +54,27 @@ INSERT INTO public.yetki (id,kod,"name") VALUES
 ,('6fcd9163-ca6b-4eb8-b967-7eb3f0cca646','PETSHOP_MENU_YETKISI','Petshop Menü Yetkisi')
 ,('7fcd9163-ca6b-4eb8-b967-7eb3f0cca646','PETSHOP_CALISAN_ILISKILENDIRME_YETKISI','Petshop Çalışan İlişkilendirme Yetkisi')
 ;
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf57-1cc3-455c-aca2-9375c331a136 ', 'KLINIK_EKLEME_YETKISI', 'Klinik Ekleme Yetkisi', NULL, NULL, NULL);
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf57-1cc3-455c-bca2-9375c331a136 ', 'KLINIK_GUNCELLEME_YETKISI', 'Klinik Güncelleme Yetkisi', NULL, NULL, NULL);
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf77-1cc3-455c-bca2-9375c331a136 ', 'KLINIK_DETAY_YETKISI', 'Klinik Detay Yetkisi', NULL, NULL, NULL);
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf77-1cc3-455c-bca2-9375c331a131 ', 'KLINIK_SILME_YETKISI', 'Klinik Silme Yetkisi', NULL, NULL, NULL);
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf77-1cc3-455c-bca2-9375c331a231 ', 'KLINIK_ILISKILENDIRME_YETKISI', 'Klinik Veteriner Hekim İlişkilendirme Yetkisi', NULL, NULL, NULL);
+
+INSERT INTO public.yetki
+(id, kod, "name", olusma_tarihi, son_guncellenme_tarihi, olusturan_kullanici)
+VALUES('b4accf23-1cc3-455c-bca2-9375c331a231 ', 'KLINIK_MENU_YETKISI', 'Klinik Menü Yetkisi', NULL, NULL, NULL);

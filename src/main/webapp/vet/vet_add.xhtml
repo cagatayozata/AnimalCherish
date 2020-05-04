@@ -94,31 +94,6 @@
                 </p:panel>
 
                 <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="specie" value="Klinik Bilgisi"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputText id="specie"
-                                     disabled="#{vetBean.showInfo}"
-                                     value="#{vetBean.vet.clinic}"
-                                     autocomplete="off"
-                                     required="true"/>
-                        <p:message for="specie"/>
-                    </p:panel>
-                </p:panel>
-
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                    <p:outputLabel for="details" value="Klinik Adresi"/>
-                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
-                        <p:inputTextarea id="details"
-                                         disabled="#{vetBean.showInfo}"
-                                         value="#{vetBean.vet.details}"
-                                         autocomplete="off"
-                                         maxlength="255"
-                                         required="true"/>
-                        <p:message for="details"/>
-                    </p:panel>
-                </p:panel>
-
-                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
                     <p:outputLabel for="phone" value="Telefon Numarası"/>
                     <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
                         <p:inputMask id="phone"

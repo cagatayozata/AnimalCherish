@@ -156,13 +156,15 @@
                     <p:menu id="menu"
                             style="width: 1500px; height: 1500px;">
                         <p:menuitem url="/index.jsf" icon="fa fa-area-chart" style="width: 235px">Giriş Sayfası</p:menuitem>
-                        <p:menuitem icon="fa fa-github-alt" style="width: 235px" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_MENU_YETKISI')}"
+                        <p:menuitem icon="fa fa-paw" style="width: 235px" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVAN_MENU_YETKISI')}"
                                     url="/animal/animal.jsf">Hayvan</p:menuitem>
                         <p:menuitem icon="fa fa-user-md" rendered="#{kullaniciSessionVerisi.yetkiVarmi('VETERINER_MENU_YETKISI')}" style="width: 235px"
-                                    url="/vet/vet.jsf">Veteriner</p:menuitem>
+                                    url="/vet/vet.jsf">Veteriner Hekim</p:menuitem>
+                        <p:menuitem icon="fa fa-hospital-o" rendered="#{kullaniciSessionVerisi.yetkiVarmi('KLINIK_MENU_YETKISI')}" style="width: 235px"
+                                    url="/klinik/klinik.jsf">Klinik</p:menuitem>
                         <p:menuitem icon="fa fa-home" rendered="#{kullaniciSessionVerisi.yetkiVarmi('BARINAK_MENU_YETKISI')}" style="width: 235px"
                                     url="/shelter/shelter.jsf">Barınak</p:menuitem>
-                        <p:menuitem icon="fa fa-home"  rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_MENU_YETKISI')}" style="width: 235px"
+                        <p:menuitem icon="fa fa-ge"  rendered="#{kullaniciSessionVerisi.yetkiVarmi('PETSHOP_MENU_YETKISI')}" style="width: 235px"
                                     url="/petshop/petshop.jsf">Pet Shop</p:menuitem>
                         <p:menuitem icon="fa fa-bank" rendered="#{kullaniciSessionVerisi.yetkiVarmi('HAYVANAT_BAHCESI_MENU_YETKISI')}" style="width: 235px"
                                     url="/zoo/zoo.jsf">Hayvanat Bahçesi</p:menuitem>
@@ -189,7 +191,7 @@
                         <p:menuitem style="background: #3e8b1c; color:white; text-align: center; width: 235px; font-size: 12px"
                                     url="/nerede/nerede.jsf"><span style="color:white;">Hayvan Yeri Bilgisi Sorgulama</span></p:menuitem>
 
-                        <p:menuitem style="background: greenyellow; color:white; text-align: center; width: 235px; font-size: 16px"
+                        <p:menuitem icon="fa fa-line-chart" style="background: greenyellow; color:white; text-align: center; width: 235px; font-size: 16px"
                                     url="/statistics.jsf"><span style="color:white;">İstatistikler</span></p:menuitem>
 
                         <p:menuitem icon="fa fa-btc" style="background: #00ffcc; color:white; text-align: center; width: 235px; font-size: 16px"

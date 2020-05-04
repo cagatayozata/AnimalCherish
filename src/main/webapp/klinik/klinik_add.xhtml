@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="onlemPanel" styleClass="card card-w-title" rendered="#{klinikBean.showCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Klinik Detayları">
+
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-g-12 ui-md-12 ui-panelgrid-blank form-group">
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="name" value="Ad"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="name"
+                                     value="#{klinikBean.klinik.name}"
+                                     autocomplete="off"
+                                     disabled="#{klinikBean.showInfo}"
+                                     required="true"/>
+                        <p:message for="name"/>
+                    </p:panel>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="address" value="Adresi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="address"
+                                     required="true"
+                                     disabled="#{klinikBean.showInfo}"
+                                     value="#{klinikBean.klinik.address}"
+                                     autocomplete="off"/>
+                        <p:message for="address"/>
+                    </p:panel>
+                </p:panel>
+
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="phone" value="Telefon Numarası"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="phone"
+                                     disabled="#{klinikBean.showInfo}"
+                                     value="#{klinikBean.klinik.phone}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="phone"/>
+                    </p:panel>
+                </p:panel>
+
+                <p:panel styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                    <p:outputLabel for="mail" value="Mail Adresi"/>
+                    <p:panel columns="1" styleClass="ui-grid-col-12 borderAndPaddingRemove">
+                        <p:inputText id="mail"
+                                     disabled="#{klinikBean.showInfo}"
+                                     value="#{klinikBean.klinik.email}"
+                                     autocomplete="off"
+                                     required="true"/>
+                        <p:message for="mail"/>
+                    </p:panel>
+                </p:panel>
+
+            </p:panelGrid>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+
+            <p:commandButton
+                    value="Kaydet" update=":form, :form:klinikDataTable" icon="fa fa-save"
+                    rendered="#{klinikBean.showCreateOrEdit and !klinikBean.showInfo}">
+                <f:actionListener
+                        binding="#{klinikBean.kaydet()}"/>
+                <f:actionListener
+                        binding="#{klinikBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true"
+                    rendered="#{klinikBean.showCreateOrEdit}">
+                <f:actionListener
+                        binding="#{klinikBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>

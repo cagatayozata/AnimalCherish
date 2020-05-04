@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -68,5 +69,9 @@ public class VetService implements IBaseService<Vet> {
 
     public long toplamSayi(){
         return vetRepository.count();
+    }
+
+    public Optional<List<Vet>> findByIdIn(List<String> collect) {
+        return vetRepository.findByIdIn(collect);
     }
 }

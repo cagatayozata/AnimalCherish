@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:panel id="vetPanel" styleClass="card card-w-title" rendered="#{klinikBean.showVetCreateOrEdit}">
+
+        <p:fieldset styleClass="block"
+                    legend="Klinik Çalışanları">
+            <p:panel>
+                <p:dataTable id="klinikVetDataTable" var="vet"
+                             styleClass="dataTableStandart"
+                             value="#{klinikBean.vets}" rowKey="#{vet.id}"
+                             widgetVar="klinikVetDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             lazy="true"
+                             emptyMessage="Eklenebilecek bir çalışan bulunamadı!"
+                             filteredValue="#{klinikBean.filteredVets}"
+                             selection="#{klinikBean.selectedVets}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtn"/>
+
+                    <f:facet name="header">Eklenebilecek Çalışan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Ekle"
+                                    styleClass="dataTableHeaderBtn" update=":form:vetPanel"
+                                    resetValues="true"
+                                    disabled="#{empty klinikBean.selectedVets}"
+                                    process="@this"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{klinikBean.addVet()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+                    <p:column headerText="İsim" sortBy="#{vet.name}"
+                              filterBy="#{vet.name}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.name}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{vet.phone}"
+                              filterBy="#{vet.phone}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.phone}"/>
+                    </p:column>
+                    <p:column headerText="Diploma No" sortBy="#{vet.diplomaNo}"
+                              filterBy="#{vet.diplomaNo}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.diplomaNo}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel>
+
+                <p:dataTable id="klinikVetEklenmisDataTable" var="vetAdded"
+                             styleClass="dataTableStandart"
+                             value="#{klinikBean.addedVets}" rowKey="#{vetAdded.id}"
+                             widgetVar="klinikVetEklenmisDataTableWidgetVar" draggableColumns="true" reflow="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="10"
+                             lazy="true"
+                             emptyMessage="Eklemiş bir çalışan bulunamadı!"
+                             filteredValue="#{klinikBean.filteredAddedVets}"
+                             selection="#{klinikBean.selectedAddedVets}">
+                    <p:ajax event="rowSelect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselect" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowSelectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="rowUnselectCheckbox" update="dataTableHeaderBtnn"/>
+                    <p:ajax event="toggleSelect" update="dataTableHeaderBtnn"/>
+
+                    <f:facet name="header">Eklenmiş Çalışan Listesi
+
+                        <p:outputPanel id="dataTableHeaderBtnn"
+                                       styleClass="dataTableHeaderBtnContainer">
+
+                            <hr style="clear: both;"/>
+
+                            <p:commandButton
+                                    value="Çıkar"
+                                    styleClass="dataTableHeaderBtn" update=":form:vetPanel"
+                                    resetValues="true"
+                                    process="@this"
+                                    disabled="#{empty klinikBean.selectedAddedVets}"
+                                    icon="fa fa-plus">
+                                <f:actionListener
+                                        binding="#{klinikBean.deleteVet()}"/>
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column selectionMode="multiple"
+                              style="width:16px;text-align:center" toggleable="false" exportable="false"/>
+
+                    <p:column headerText="İsim" sortBy="#{vetAdded.name}"
+                              filterBy="#{vetAdded.name}" filterMatchMode="contains">
+                        <h:outputText value="#{vetAdded.name}"/>
+                    </p:column>
+                    <p:column headerText="Telefon" sortBy="#{vetAdded.phone}"
+                              filterBy="#{vetAdded.phone}" filterMatchMode="contains">
+                        <h:outputText value="#{vetAdded.phone}"/>
+                    </p:column>
+                    <p:column headerText="Diploma No" sortBy="#{vetAdded.diplomaNo}"
+                              filterBy="#{vetAdded.diplomaNo}" filterMatchMode="contains">
+                        <h:outputText value="#{vetAdded.diplomaNo}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+
+        </p:fieldset>
+
+        <h:panelGrid columns="4" border="0">
+            <p:commandButton
+                    value="Kayıt Et" update=":form" icon="fa fa-save" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{klinikBean.vetSave()}"/>
+                <f:actionListener
+                        binding="#{klinikBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+            <p:commandButton
+                    value="İptal et" update=":form" icon="fa fa-remove" resetValues="true" immediate="true">
+                <f:actionListener
+                        binding="#{klinikBean.ilkEkraniHazirla()}"/>
+            </p:commandButton>
+        </h:panelGrid>
+
+    </p:panel>
+</ui:composition>
