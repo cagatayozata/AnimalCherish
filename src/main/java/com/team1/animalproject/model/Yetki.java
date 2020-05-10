@@ -5,7 +5,6 @@ import com.team1.animalproject.model.dto.Auditable;
 import lombok.*;
 
 import javax.persistence.Column;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

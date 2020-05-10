@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

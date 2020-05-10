@@ -1,6 +1,5 @@
 package com.team1.animalproject.preparer;
 
-import com.team1.animalproject.model.ZooAnimal;
 import com.team1.animalproject.model.ZooWorker;
 import com.team1.animalproject.view.utils.DateUtil;
 import org.apache.commons.lang3.RandomStringUtils;

@@ -40,21 +40,21 @@ public class Assets
      */
 
 
-    private String assetCode;
-    private String totalSupply;
-    private String assetType;
-    private String pagingToken;
-    private String issuer;
-    private int     numAccounts;
+    private final String assetCode;
+    private final String totalSupply;
+    private final String assetType;
+    private final String pagingToken;
+    private final String issuer;
+    private final int     numAccounts;
     /* this parameter means the issuer must give authorization to the
        account ( the person who wants to hold it ) which wants to hold the asset.
        This allows the issuer to control who its "customers" are
      */
-    private boolean authRequired;
+    private final boolean authRequired;
     /* when set to TRUE, the issuer can freeze the asset on any account
         which holds it.
      */
-    private boolean authRevocable;
+    private final boolean authRevocable;
 
     public Assets(String assetCode, String totalSupply, String assetType, String pagingToken,
                   String issuer, int numAccounts, boolean authRequired, boolean authRevocable) {

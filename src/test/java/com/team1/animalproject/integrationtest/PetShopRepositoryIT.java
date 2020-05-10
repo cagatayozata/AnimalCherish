@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class PetShopRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<PetShop> all = petShopRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		petShopRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class PetShopRepositoryIT extends AbstractTestNGSpringContextTests {
 		petShopRepository.saveAndFlush(petShop);
 
 		PetShop savedPetShop = petShopRepository.findById(petShop.getId()).get();
-		Assert.assertTrue(savedPetShop.equals(petShop));
+		Assert.assertEquals(petShop, savedPetShop);
 		petShopRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class PetShopRepositoryIT extends AbstractTestNGSpringContextTests {
 		petShopRepository.saveAndFlush(petShop);
 
 		PetShop savedPetShop = petShopRepository.findById(petShop.getId()).get();
-		Assert.assertTrue(savedPetShop.equals(petShop));
+		Assert.assertEquals(petShop, savedPetShop);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedPetShop.setName(toUpdate);
@@ -67,7 +68,7 @@ public class PetShopRepositoryIT extends AbstractTestNGSpringContextTests {
 		petShopRepository.saveAndFlush(petShop);
 
 		PetShop savedPetShop = petShopRepository.findById(petShop.getId()).get();
-		Assert.assertTrue(savedPetShop.equals(petShop));
+		Assert.assertEquals(petShop, savedPetShop);
 
 		petShopRepository.delete(savedPetShop);
 
@@ -82,7 +83,7 @@ public class PetShopRepositoryIT extends AbstractTestNGSpringContextTests {
 		petShopRepository.saveAndFlush(petShop);
 
 		PetShop savedPetShop = petShopRepository.findById(petShop.getId()).get();
-		Assert.assertTrue(savedPetShop.equals(petShop));
+		Assert.assertEquals(petShop, savedPetShop);
 		petShopRepository.deleteAll();
 	}
 

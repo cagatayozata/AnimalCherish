@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class IpfsIDRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<IpfsID> all = ipfsIdRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		ipfsIdRepository.deleteAll();
 	}
 
@@ -39,8 +40,9 @@ public class IpfsIDRepositoryIT extends AbstractTestNGSpringContextTests {
 		IpfsID ipfsId = IpfsIDPreparer.olustur();
 		ipfsIdRepository.saveAndFlush(ipfsId);
 
-		IpfsID savedIpfsID = ipfsIdRepository.findById(ipfsId.getId()).get();
-		Assert.assertTrue(savedIpfsID.equals(ipfsId));
+		IpfsID savedIpfsID;
+		savedIpfsID = ipfsIdRepository.findById(ipfsId.getId()).get();
+		Assert.assertEquals(ipfsId, savedIpfsID);
 		ipfsIdRepository.deleteAll();
 	}
 
@@ -50,7 +52,7 @@ public class IpfsIDRepositoryIT extends AbstractTestNGSpringContextTests {
 		ipfsIdRepository.saveAndFlush(ipfsId);
 
 		IpfsID savedIpfsID = ipfsIdRepository.findById(ipfsId.getId()).get();
-		Assert.assertTrue(savedIpfsID.equals(ipfsId));
+		Assert.assertEquals(ipfsId, savedIpfsID);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedIpfsID.setIpfsHash(toUpdate);
@@ -67,7 +69,7 @@ public class IpfsIDRepositoryIT extends AbstractTestNGSpringContextTests {
 		ipfsIdRepository.saveAndFlush(ipfsId);
 
 		IpfsID savedIpfsID = ipfsIdRepository.findById(ipfsId.getId()).get();
-		Assert.assertTrue(savedIpfsID.equals(ipfsId));
+		Assert.assertEquals(ipfsId, savedIpfsID);
 
 		ipfsIdRepository.delete(savedIpfsID);
 
@@ -82,7 +84,7 @@ public class IpfsIDRepositoryIT extends AbstractTestNGSpringContextTests {
 		ipfsIdRepository.saveAndFlush(ipfsId);
 
 		IpfsID savedIpfsID = ipfsIdRepository.findById(ipfsId.getId()).get();
-		Assert.assertTrue(savedIpfsID.equals(ipfsId));
+		Assert.assertEquals(ipfsId, savedIpfsID);
 		ipfsIdRepository.deleteAll();
 	}
 

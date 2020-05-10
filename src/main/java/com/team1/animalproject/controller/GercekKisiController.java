@@ -1,9 +1,6 @@
 package com.team1.animalproject.controller;
 
-import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.model.GercekKisi;
-import com.team1.animalproject.model.Shelter;
-import com.team1.animalproject.service.CinsService;
 import com.team1.animalproject.service.GercekKisiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

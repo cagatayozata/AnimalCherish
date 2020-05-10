@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class VetRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Vet> all = vetRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		vetRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class VetRepositoryIT extends AbstractTestNGSpringContextTests {
 		vetRepository.saveAndFlush(vet);
 
 		Vet savedVet = vetRepository.findById(vet.getId()).get();
-		Assert.assertTrue(savedVet.equals(vet));
+		Assert.assertEquals(vet, savedVet);
 		vetRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class VetRepositoryIT extends AbstractTestNGSpringContextTests {
 		vetRepository.saveAndFlush(vet);
 
 		Vet savedVet = vetRepository.findById(vet.getId()).get();
-		Assert.assertTrue(savedVet.equals(vet));
+		Assert.assertEquals(vet, savedVet);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedVet.setName(toUpdate);
@@ -67,7 +68,7 @@ public class VetRepositoryIT extends AbstractTestNGSpringContextTests {
 		vetRepository.saveAndFlush(vet);
 
 		Vet savedVet = vetRepository.findById(vet.getId()).get();
-		Assert.assertTrue(savedVet.equals(vet));
+		Assert.assertEquals(vet, savedVet);
 
 		vetRepository.delete(savedVet);
 
@@ -82,7 +83,7 @@ public class VetRepositoryIT extends AbstractTestNGSpringContextTests {
 		vetRepository.saveAndFlush(vet);
 
 		Vet savedVet = vetRepository.findById(vet.getId()).get();
-		Assert.assertTrue(savedVet.equals(vet));
+		Assert.assertEquals(vet, savedVet);
 		vetRepository.deleteAll();
 	}
 

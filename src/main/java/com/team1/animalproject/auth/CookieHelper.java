@@ -53,7 +53,7 @@ public final class CookieHelper {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
 		Cookie[] userCookies = request.getCookies();
-		if(userCookies.length != 0 && userCookies != null){
+		if(userCookies.length != 0){
 			return Arrays.stream(userCookies).filter(c -> c.getName().equals(name)).findFirst();
 		}
 		return Optional.empty();

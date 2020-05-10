@@ -5,6 +5,7 @@ import lombok.Data;
 import org.primefaces.json.JSONObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +14,9 @@ public class JSONUtils {
 
     private Map<String, String> cities;
 
-    private Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> data = new HashMap<>();
 
-    public void jsonParse() throws IOException {
+    public void jsonParse() {
 
         cities = new HashMap<>();
         data = new HashMap<>();
@@ -32,8 +33,7 @@ public class JSONUtils {
             String sehiradi = o.getString("il");
             cities.put(sehiradi, sehiradi);
             org.primefaces.json.JSONArray ilceler = o.getJSONArray("ilceleri");
-            Map<String, String> map = new HashMap<String, String>();
-            ;
+            Map<String, String> map = new HashMap<>();
             for (int k = 0; k < ilceler.length(); k++) {
                 map.put(ilceler.getString(k), ilceler.getString(k));
             }
@@ -42,8 +42,8 @@ public class JSONUtils {
         }
     }
 
-    public String loadJSON() throws IOException {
-        String json = null;
+    public String loadJSON() {
+        String json;
         try {
             InputStream is = new FileInputStream(new File(Constants.FILE_PATH + "cities.json"));
 
@@ -51,11 +51,12 @@ public class JSONUtils {
 
             byte[] buffer = new byte[size];
 
+            //noinspection ResultOfMethodCallIgnored
             is.read(buffer);
 
             is.close();
 
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
 
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -24,9 +24,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class KlinikBean extends BaseViewController<Klinik> implements Serializable {
 
@@ -136,11 +137,7 @@ public class KlinikBean extends BaseViewController<Klinik> implements Serializab
 		klinikId = selectedKliniks.stream().findFirst().get().getId();
 		List<KlinikVet> vetsIn = klinikService.getWorkersByKlinikId(klinikId);
 		Optional<List<Vet>> kullanicis = vetService.findByIdIn(vetsIn.stream().map(KlinikVet::getVetId).collect(Collectors.toList()));
-		if(kullanicis.isPresent()){
-			addedVets = kullanicis.get();
-		} else {
-			addedVets = new ArrayList<>();
-		}
+		addedVets = kullanicis.orElseGet(ArrayList::new);
 		filteredAddedVets = addedVets;
 		showVetCreateOrEdit = true;
 	}
@@ -157,9 +154,7 @@ public class KlinikBean extends BaseViewController<Klinik> implements Serializab
 
 	public void vetSave() throws IOException {
 		List<KlinikVet> klinikVet = new ArrayList<>();
-		addedVets.stream().forEach(kullanici -> {
-			klinikVet.add(KlinikVet.builder().id(UUID.randomUUID().toString()).klinikId(klinikId).vetId(kullanici.id).build());
-		});
+		addedVets.forEach(kullanici -> klinikVet.add(KlinikVet.builder().id(UUID.randomUUID().toString()).klinikId(klinikId).vetId(kullanici.id).build()));
 
 		klinikService.saveWorker(klinikVet);
 

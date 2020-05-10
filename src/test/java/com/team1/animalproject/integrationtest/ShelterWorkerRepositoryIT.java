@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ShelterWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		}
 
 		List<ShelterWorker> all = shelterWorkerRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		shelterWorkerRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ShelterWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterWorkerRepository.saveAndFlush(shelterWorker);
 
 		ShelterWorker savedShelterWorker = shelterWorkerRepository.findById(shelterWorker.getId()).get();
-		Assert.assertTrue(savedShelterWorker.equals(shelterWorker));
+		Assert.assertEquals(shelterWorker, savedShelterWorker);
 		shelterWorkerRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ShelterWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterWorkerRepository.saveAndFlush(shelterWorker);
 
 		ShelterWorker savedShelterWorker = shelterWorkerRepository.findById(shelterWorker.getId()).get();
-		Assert.assertTrue(savedShelterWorker.equals(shelterWorker));
+		Assert.assertEquals(shelterWorker, savedShelterWorker);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedShelterWorker.setShelterId(toUpdate);
@@ -67,7 +68,7 @@ public class ShelterWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterWorkerRepository.saveAndFlush(shelterWorker);
 
 		ShelterWorker savedShelterWorker = shelterWorkerRepository.findById(shelterWorker.getId()).get();
-		Assert.assertTrue(savedShelterWorker.equals(shelterWorker));
+		Assert.assertEquals(shelterWorker, savedShelterWorker);
 
 		shelterWorkerRepository.delete(savedShelterWorker);
 
@@ -82,7 +83,7 @@ public class ShelterWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterWorkerRepository.saveAndFlush(shelterWorker);
 
 		ShelterWorker savedShelterWorker = shelterWorkerRepository.findById(shelterWorker.getId()).get();
-		Assert.assertTrue(savedShelterWorker.equals(shelterWorker));
+		Assert.assertEquals(shelterWorker, savedShelterWorker);
 		shelterWorkerRepository.deleteAll();
 	}
 

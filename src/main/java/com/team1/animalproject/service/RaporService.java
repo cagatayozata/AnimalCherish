@@ -41,6 +41,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Service
 public class RaporService {
 
@@ -62,11 +63,12 @@ public class RaporService {
 	private GercekKisiService gercekKisiService;
 
 	String fileName = Constants.FILE_PATH + "rapor/recete.jasper";
-	String fileNameXML = Constants.FILE_PATH + "rapor/recete.jrxml";
+	final String fileNameXML = Constants.FILE_PATH + "rapor/recete.jrxml";
 
-	String outFileNamePDF = Constants.FILE_PATH + "raporcikti/";
-	Map hm = new HashMap();
+	final String outFileNamePDF = Constants.FILE_PATH + "raporcikti/";
+	final Map hm = new HashMap();
 
+	@SuppressWarnings ("rawtypes")
 	public String raporuOlustur(String userId, String medicalReportId) {
 		String raporId = UUID.randomUUID().toString();
 
@@ -81,10 +83,11 @@ public class RaporService {
 			fileInputStream.close();
 
 			System.out.println("Filling report...");
+			//noinspection unchecked
 			hm.put("", "Hello Report");
 			//JasperReport manager=JasperManager.compileReport(fileName);
-			MedicalReport medicalReport = blockchainService.getAllByReportId(userId, medicalReportId).stream().findFirst().get();
-			List<MedicalReportMedicine> medicalReportMedicines = blockchainService.ilaclariGetir(medicalReportId, userId);
+			MedicalReport medicalReport = blockchainService.getAllByReportId(medicalReportId).stream().findFirst().get();
+			List<MedicalReportMedicine> medicalReportMedicines = blockchainService.ilaclariGetir(medicalReportId);
 
 			Kullanici kullanici = userService.findById(medicalReport.getOlusturan()).get();
 			Vet vet = vetService.findByKullaniciId(kullanici.getId());
@@ -95,7 +98,7 @@ public class RaporService {
 					.map(medicalReportMedicine -> IlacRapor.builder().urunAdi(medicalReportMedicine.getIlacId()).kullanimSekli(medicalReportMedicine.getKullanimSekli()).urunAdet(medicalReportMedicine.getAdet()).build())
 					.collect(Collectors.toList());
 
-			ilacRapolar.stream().forEach(ilacRapor -> {
+			ilacRapolar.forEach(ilacRapor -> {
 				ilacRapor.setUrunAdi(ilacService.findById(ilacRapor.getUrunAdi()).getName());
 				ilacRapor.setSistemNo(animal.getId());
 			});
@@ -120,11 +123,14 @@ public class RaporService {
 
 			JRDataSource dataSource = new JRBeanCollectionDataSource(reportDataSource);
 
+			//noinspection unchecked
 			hm.put("subReport", Constants.FILE_PATH + "rapor/ilacbilgileri.jasper");
+			//noinspection unchecked
 			hm.put("style", Constants.FILE_PATH + "rapor/animal_style.jrtx");
+			//noinspection unchecked
 			hm.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("Europe/Istanbul"));
 
-			JasperPrint print = JasperFillManager.fillReport(jasperReport, hm, dataSource);
+			@SuppressWarnings ("unchecked") JasperPrint print = JasperFillManager.fillReport(jasperReport, hm, dataSource);
 
 			JRExporter exporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
 			//parameter used for the destined file.

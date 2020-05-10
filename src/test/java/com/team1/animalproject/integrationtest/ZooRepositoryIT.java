@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ZooRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Zoo> all = zooRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		zooRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ZooRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooRepository.saveAndFlush(zoo);
 
 		Zoo savedZoo = zooRepository.findById(zoo.getId()).get();
-		Assert.assertTrue(savedZoo.equals(zoo));
+		Assert.assertEquals(zoo, savedZoo);
 		zooRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ZooRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooRepository.saveAndFlush(zoo);
 
 		Zoo savedZoo = zooRepository.findById(zoo.getId()).get();
-		Assert.assertTrue(savedZoo.equals(zoo));
+		Assert.assertEquals(zoo, savedZoo);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedZoo.setName(toUpdate);
@@ -67,7 +68,7 @@ public class ZooRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooRepository.saveAndFlush(zoo);
 
 		Zoo savedZoo = zooRepository.findById(zoo.getId()).get();
-		Assert.assertTrue(savedZoo.equals(zoo));
+		Assert.assertEquals(zoo, savedZoo);
 
 		zooRepository.delete(savedZoo);
 
@@ -82,7 +83,7 @@ public class ZooRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooRepository.saveAndFlush(zoo);
 
 		Zoo savedZoo = zooRepository.findById(zoo.getId()).get();
-		Assert.assertTrue(savedZoo.equals(zoo));
+		Assert.assertEquals(zoo, savedZoo);
 		zooRepository.deleteAll();
 	}
 

@@ -3,14 +3,11 @@ package com.team1.animalproject.auth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.Yetki;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.RolService;
 import com.team1.animalproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hyperledger.fabric.sdk.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,7 +18,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
@@ -37,7 +33,7 @@ import java.util.Optional;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+    protected final MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
     @Autowired
     private UserService userService;
@@ -65,14 +61,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         // Rolleri yetkileri koy
 
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(RoleConstants.ROLE_USER));
         String sifreHashed = "";
         try {
             sifreHashed = UserService.md5Java(sifre);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         Optional<Kullanici> byUsername = userService.findByUserNameAndPassword(kullaniciAdi.toLowerCase(), sifreHashed);
@@ -104,6 +98,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
             String serializedPrincipal;
             try {
+                //noinspection UnusedAssignment
                 serializedPrincipal = jacksonObjectMapper.writeValueAsString(kullaniciPrincipal);
             } catch (JsonProcessingException e) {
                 log.error("ERROR : coulndnt convert user principal to json string", e);

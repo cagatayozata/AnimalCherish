@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings ("ALL")
 @Service
 public class PetShopService implements IBaseService<PetShop> {
 
@@ -41,7 +42,7 @@ public class PetShopService implements IBaseService<PetShop> {
 	@Override
 	public List<PetShop> getAll() {
 		List<PetShop> all = petShopRepository.findAll();
-		all.stream().forEach(petShop -> {
+		all.forEach(petShop -> {
 			int size = 0;
 			List<PetShopWorker> byPetSopId = petShopWorkerRepository.findByPetShopId(petShop.getId());
 			if(byPetSopId != null){
@@ -78,7 +79,7 @@ public class PetShopService implements IBaseService<PetShop> {
 		if(!gorevli){
 			List<PetShopWorker> all = petShopWorkerRepository.findAll();
 
-			all.stream().forEach(shelterWorker -> {
+			all.forEach(shelterWorker -> {
 				Kullanici kullanici = userService.findById(shelterWorker.getId()).get();
 				kullanici.setKullaniciTipi(KullaniciTipiEnum.NORMAL_USER.getId());
 				userService.save(kullanici);
@@ -87,7 +88,7 @@ public class PetShopService implements IBaseService<PetShop> {
 			petShopWorkerRepository.deleteByPetShopId(petshopWorkers.stream().findFirst().get().getPetShopId());
 			petShopWorkerRepository.save(petshopWorkers);
 
-			petshopWorkers.stream().forEach(shelterWorker -> {
+			petshopWorkers.forEach(shelterWorker -> {
 				Kullanici kullanici = userService.findById(shelterWorker.getWorkerId()).get();
 				kullanici.setKullaniciTipi(KullaniciTipiEnum.SHELTER.getId());
 				userService.update(kullanici);

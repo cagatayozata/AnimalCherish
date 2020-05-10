@@ -2,7 +2,6 @@ package com.team1.animalproject.repository.custom;
 
 import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.AnimalTarihceDetay;
-import com.team1.animalproject.model.Cins;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;

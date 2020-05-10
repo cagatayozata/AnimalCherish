@@ -17,10 +17,10 @@ public enum KullaniciTipiEnum {
 	NON_USER(7, "Kayıtsız");
 
 	@Getter
-	private Integer id;
+	private final Integer id;
 
 	@Getter
-	private String textMessageKey;
+	private final String textMessageKey;
 
 	KullaniciTipiEnum(Integer id, String textMessageKey) {
 		this.id = id;

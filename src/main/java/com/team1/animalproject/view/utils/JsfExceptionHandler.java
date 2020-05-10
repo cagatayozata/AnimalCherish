@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
-	private ExceptionHandler wrapped;
+	private final ExceptionHandler wrapped;
 
 	@SuppressWarnings ("deprecation")
 	public JsfExceptionHandler(ExceptionHandler exception) {
@@ -90,7 +90,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
 							if(!CollectionUtils.isEmpty(businessRuleException.getParams())){
 								errorMessages.add(MessageFormat.format(bundle.getString(businessRuleException.getBaseExceptionType().getValidationMessage()),
-										businessRuleException.getParams().toArray(new String[businessRuleException.getParams().size()])));
+										(Object) businessRuleException.getParams().toArray(new String[0])));
 							} else {
 								errorMessages.add(MessageFormat.format(bundle.getString(businessRuleException.getBaseExceptionType().getValidationMessage()), businessRuleException.getParams()));
 

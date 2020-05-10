@@ -14,7 +14,7 @@ import java.util.List;
 
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

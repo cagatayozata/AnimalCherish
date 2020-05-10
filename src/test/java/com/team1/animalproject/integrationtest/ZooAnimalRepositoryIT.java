@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ZooAnimalRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<ZooAnimal> all = zooAnimalRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		zooAnimalRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ZooAnimalRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooAnimalRepository.saveAndFlush(zooAnimal);
 
 		ZooAnimal savedZooAnimal = zooAnimalRepository.findById(zooAnimal.getId()).get();
-		Assert.assertTrue(savedZooAnimal.equals(zooAnimal));
+		Assert.assertEquals(zooAnimal, savedZooAnimal);
 		zooAnimalRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ZooAnimalRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooAnimalRepository.saveAndFlush(zooAnimal);
 
 		ZooAnimal savedZooAnimal = zooAnimalRepository.findById(zooAnimal.getId()).get();
-		Assert.assertTrue(savedZooAnimal.equals(zooAnimal));
+		Assert.assertEquals(zooAnimal, savedZooAnimal);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedZooAnimal.setAnimalId(toUpdate);
@@ -67,7 +68,7 @@ public class ZooAnimalRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooAnimalRepository.saveAndFlush(zooAnimal);
 
 		ZooAnimal savedZooAnimal = zooAnimalRepository.findById(zooAnimal.getId()).get();
-		Assert.assertTrue(savedZooAnimal.equals(zooAnimal));
+		Assert.assertEquals(zooAnimal, savedZooAnimal);
 
 		zooAnimalRepository.delete(savedZooAnimal);
 
@@ -82,7 +83,7 @@ public class ZooAnimalRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooAnimalRepository.saveAndFlush(zooAnimal);
 
 		ZooAnimal savedZooAnimal = zooAnimalRepository.findById(zooAnimal.getId()).get();
-		Assert.assertTrue(savedZooAnimal.equals(zooAnimal));
+		Assert.assertEquals(zooAnimal, savedZooAnimal);
 		zooAnimalRepository.deleteAll();
 	}
 

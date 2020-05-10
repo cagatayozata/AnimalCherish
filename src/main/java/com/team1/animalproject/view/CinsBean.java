@@ -22,7 +22,7 @@ import java.util.List;
 
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 public class CinsBean extends BaseViewController<Cins> implements Serializable {
 
@@ -72,6 +72,7 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 
 	}
 
+	@SuppressWarnings ("OptionalGetWithoutIsPresent")
 	public void kullanimaAl() throws IOException {
 		cins = selectedCinss.stream().findFirst().get();
 		cins.setDurum(true);
@@ -79,18 +80,20 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 	}
 
 	public boolean kullanimdaVarmi(){
-		return selectedCinss.stream().anyMatch(c -> c.isDurum());
+		return selectedCinss.stream().anyMatch(Cins::isDurum);
 	}
 
 	public void prepareNewScreen(){
 		showCreateOrEdit = true;
 	}
 
+	@SuppressWarnings ("OptionalGetWithoutIsPresent")
 	public void prepareUpdateScreen(){
 		cins = selectedCinss.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
+	@SuppressWarnings ("OptionalGetWithoutIsPresent")
 	public void prepareInfoScreen(){
 		cins = selectedCinss.stream().findFirst().get();
 		showCreateOrEdit = true;

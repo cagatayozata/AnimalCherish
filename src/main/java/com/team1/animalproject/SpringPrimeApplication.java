@@ -57,7 +57,7 @@ public class SpringPrimeApplication {
 	@Bean
 	public static CustomScopeConfigurer customScopeConfigurer() {
 		CustomScopeConfigurer configurer = new CustomScopeConfigurer();
-		Map<String, Object> scopes = new HashMap<String, Object>();
+		Map<String, Object> scopes = new HashMap<>();
 		scopes.put("view", new ViewScope());
 		configurer.setScopes(scopes);
 		return configurer;

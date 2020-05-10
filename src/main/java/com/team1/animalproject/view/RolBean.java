@@ -23,9 +23,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 public class RolBean extends BaseViewController<Rol> implements Serializable {
 
@@ -88,16 +89,14 @@ public class RolBean extends BaseViewController<Rol> implements Serializable {
         List<Yetki> target = yetkis.getTarget();
 
         List<RolYetki> rolYetkis = new ArrayList<>();
-        target.stream().forEach(yetki -> {
-            rolYetkis.add(RolYetki.builder()
-                    .id(UUID.randomUUID().toString())
-                    .rolId(rol.getId())
-                    .yetkiId(yetki.getId())
-                    .build());
-        });
+        target.forEach(yetki -> rolYetkis.add(RolYetki.builder()
+				.id(UUID.randomUUID().toString())
+				.rolId(rol.getId())
+				.yetkiId(yetki.getId())
+				.build()));
 
         rolService.save(rol);
-        rolYetkis.stream().forEach(rolYetki -> rolYetki.setRolId(rol.getId()));
+        rolYetkis.forEach(rolYetki -> rolYetki.setRolId(rol.getId()));
         rolService.rolYetkiSave(rolYetkis, rol.getId());
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Başarılı", "Rol başarıyla eklendi."));
@@ -146,11 +145,7 @@ public class RolBean extends BaseViewController<Rol> implements Serializable {
         rolId = selectedRols.stream().findFirst().get().getId();
         List<KullaniciRol> workersIn = rolService.findByRolIdKullanici(rolId);
         Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(KullaniciRol::getKullaniciId).collect(Collectors.toList()));
-        if (kullanicis.isPresent()) {
-            addedWorkers = kullanicis.get();
-        } else {
-            addedWorkers = new ArrayList<>();
-        }
+		addedWorkers = kullanicis.orElseGet(ArrayList::new);
         filteredAddedWorkers = addedWorkers;
         showWorkerCreateOrEdit = true;
     }
@@ -179,7 +174,6 @@ public class RolBean extends BaseViewController<Rol> implements Serializable {
             List<RolYetki> byRolIdIn = rolService.findByRolIdIn(rol.getId());
 
             if (byRolIdNotIn != null) {
-                ekliOlmayanlar = byRolIdNotIn;
             }
 
             if (byRolIdIn != null) {
@@ -206,13 +200,11 @@ public class RolBean extends BaseViewController<Rol> implements Serializable {
     public void workerSave() throws IOException {
         List<KullaniciRol> kullaniciRols = new ArrayList<>();
         if(addedWorkers.size() > 0){
-            addedWorkers.stream().forEach(kullanici -> {
-                kullaniciRols.add(KullaniciRol.builder()
-                        .id(UUID.randomUUID().toString())
-                        .rolId(rolId)
-                        .kullaniciId(kullanici.id)
-                        .build());
-            });
+            addedWorkers.forEach(kullanici -> kullaniciRols.add(KullaniciRol.builder()
+					.id(UUID.randomUUID().toString())
+					.rolId(rolId)
+					.kullaniciId(kullanici.id)
+					.build()));
 
             rolService.saveKullanici(kullaniciRols, rolId);
         }

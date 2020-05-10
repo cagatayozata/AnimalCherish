@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -28,7 +29,7 @@ public class TurRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Tur> turler = turRepository.findAll();
-		Assert.assertTrue(turler.size() == 5);
+		Assert.assertEquals(turler.size(), 5);
 		turRepository.deleteAll();
 	}
 
@@ -43,7 +44,7 @@ public class TurRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Tur> allByDurum = turRepository.findAllByDurum(false);
-		Assert.assertTrue(allByDurum.size() == 5);
+		Assert.assertEquals(allByDurum.size(), 5);
 		turRepository.deleteAll();
 	}
 
@@ -53,7 +54,7 @@ public class TurRepositoryIT extends AbstractTestNGSpringContextTests {
 		turRepository.saveAndFlush(tur);
 
 		Tur savedTur = turRepository.findById(tur.getId()).get();
-		Assert.assertTrue(savedTur.equals(tur));
+		Assert.assertEquals(tur, savedTur);
 		turRepository.deleteAll();
 	}
 

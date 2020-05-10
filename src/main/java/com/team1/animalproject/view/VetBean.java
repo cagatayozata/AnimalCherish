@@ -32,9 +32,10 @@ import java.util.Optional;
 import static java.util.Map.Entry.comparingByValue;
 import static java.util.stream.Collectors.toMap;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class VetBean extends BaseViewController<Vet> implements Serializable {
 
@@ -60,7 +61,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 
 	private Map<String, String> distincts;
 	private Map<String, String> cities;
-	private Map<String, Map<String, String>> data = new HashMap<String, Map<String, String>>();
+	private Map<String, Map<String, String>> data = new HashMap<>();
 
 	private boolean showCreateOrEdit;
 	private boolean showInfo;
@@ -82,16 +83,12 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	@Override
 	public void ilkEkraniHazirla() {
 		JSONUtils jsonUtils = new JSONUtils();
-		try{
-			jsonUtils.jsonParse();
-		} catch (IOException e){
-			e.printStackTrace();
-		}
+		jsonUtils.jsonParse();
 		cities = jsonUtils.getCities();
 		data = jsonUtils.getData();
 		showCreateOrEdit = false;
 		showKullaniciIliski = false;
-		cities = cities.entrySet().stream().sorted(comparingByValue()).collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new));
+		cities = cities.entrySet().stream().sorted(comparingByValue()).collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 		showInfo = false;
 		showRandevu = false;
 		showRandevuInfo = false;
@@ -199,7 +196,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 	public void onCityChange() {
 		if(vet.getCity() != null && !vet.getCity().equals("")){
 			distincts = data.get(vet.getCity());
-		} else distincts = new HashMap<String, String>();
+		} else distincts = new HashMap<>();
 	}
 
 	public void kullaniciIliskiEkraniHazirla() {
@@ -208,7 +205,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		showCreateOrEdit = false;
 	}
 
-	public void dogrula() throws IOException {
+	public void dogrula() {
 		Kullanici kullanici = userService.findByUserName(vet.getKullaniciAdi());
 		if(kullanici != null){
 			vet.setKullaniciId(kullanici.getId());

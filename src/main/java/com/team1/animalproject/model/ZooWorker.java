@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

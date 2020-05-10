@@ -24,9 +24,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 
@@ -140,11 +141,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 		zooId = selectedZoos.stream().findFirst().get().getId();
 		List<ZooAnimal> animalsIn = zooService.getAnimalsByZooId(zooId);
 		Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ZooAnimal::getAnimalId).collect(Collectors.toList()));
-		if(animals.isPresent()){
-			addedAnimals = animals.get();
-		} else {
-			addedAnimals = new ArrayList<>();
-		}
+		addedAnimals = animals.orElseGet(ArrayList::new);
 		filteredAddedAnimals = addedAnimals;
 		showAnimalCreateOrEdit = true;
 	}
@@ -193,11 +190,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 		zooId = selectedZoos.stream().findFirst().get().getId();
 		List<ZooWorker> workersIn = zooService.getWorkersByShelterId(zooId);
 		Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(ZooWorker::getWorkerId).collect(Collectors.toList()));
-		if(kullanicis.isPresent()){
-			addedWorkers = kullanicis.get();
-		} else {
-			addedWorkers = new ArrayList<>();
-		}
+		addedWorkers = kullanicis.orElseGet(ArrayList::new);
 		filteredAddedWorkers = addedWorkers;
 		showWorkerCreateOrEdit = true;
 	}
@@ -209,9 +202,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 
 	public void workerSave() throws IOException {
 		List<ZooWorker> zooWorkers = new ArrayList<>();
-		addedWorkers.stream().forEach(kullanici -> {
-			zooWorkers.add(ZooWorker.builder().id(UUID.randomUUID().toString()).zooId(zooId).workerId(kullanici.id).build());
-		});
+		addedWorkers.forEach(kullanici -> zooWorkers.add(ZooWorker.builder().id(UUID.randomUUID().toString()).zooId(zooId).workerId(kullanici.id).build()));
 
 		zooService.saveWorker(zooWorkers, zooId);
 
@@ -224,7 +215,7 @@ public class ZooBean extends BaseViewController<Zoo> implements Serializable {
 	public void animalsSave() throws IOException {
 		List<ZooAnimal> zooAnimals = new ArrayList<>();
 		if(addedAnimals.size() > 0){
-			addedAnimals.stream().forEach(animal -> {
+			addedAnimals.forEach(animal -> {
 				zooAnimals.add(ZooAnimal.builder().id(UUID.randomUUID().toString()).zooId(zooId).animalId(animal.id).build());
 
 				AnimalTarihce animalTarihce = AnimalTarihce.builder()

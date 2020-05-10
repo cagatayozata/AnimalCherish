@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class RolYetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<RolYetki> all = rolYetkiRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		rolYetkiRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class RolYetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolYetkiRepository.saveAndFlush(rolYetki);
 
 		RolYetki savedRolYetki = rolYetkiRepository.findById(rolYetki.getId()).get();
-		Assert.assertTrue(savedRolYetki.equals(rolYetki));
+		Assert.assertEquals(rolYetki, savedRolYetki);
 		rolYetkiRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class RolYetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolYetkiRepository.saveAndFlush(rolYetki);
 
 		RolYetki savedRolYetki = rolYetkiRepository.findById(rolYetki.getId()).get();
-		Assert.assertTrue(savedRolYetki.equals(rolYetki));
+		Assert.assertEquals(rolYetki, savedRolYetki);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedRolYetki.setRolId(toUpdate);
@@ -67,7 +68,7 @@ public class RolYetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolYetkiRepository.saveAndFlush(rolYetki);
 
 		RolYetki savedRolYetki = rolYetkiRepository.findById(rolYetki.getId()).get();
-		Assert.assertTrue(savedRolYetki.equals(rolYetki));
+		Assert.assertEquals(rolYetki, savedRolYetki);
 
 		rolYetkiRepository.delete(savedRolYetki);
 
@@ -82,7 +83,7 @@ public class RolYetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolYetkiRepository.saveAndFlush(rolYetki);
 
 		RolYetki savedRolYetki = rolYetkiRepository.findById(rolYetki.getId()).get();
-		Assert.assertTrue(savedRolYetki.equals(rolYetki));
+		Assert.assertEquals(rolYetki, savedRolYetki);
 		rolYetkiRepository.deleteAll();
 	}
 

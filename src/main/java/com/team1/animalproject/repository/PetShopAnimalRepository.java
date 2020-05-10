@@ -1,7 +1,6 @@
 package com.team1.animalproject.repository;
 
 import com.team1.animalproject.model.PetShopAnimal;
-import com.team1.animalproject.model.ShelterAnimal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

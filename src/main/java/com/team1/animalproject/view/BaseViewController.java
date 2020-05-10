@@ -2,7 +2,6 @@ package com.team1.animalproject.view;
 
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -32,11 +31,9 @@ public abstract class BaseViewController<T> implements Serializable {
 
 		ilkEkraniHazirla();
 
-		List<FacesMessage> facesMessages = (List<FacesMessage>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("facesMessage");
+		@SuppressWarnings ("unchecked") List<FacesMessage> facesMessages = (List<FacesMessage>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("facesMessage");
 
-		Optional.ofNullable(facesMessages).orElse(Collections.emptyList()).forEach(facesMessage -> {
-			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-		});
+		Optional.ofNullable(facesMessages).orElse(Collections.emptyList()).forEach(facesMessage -> FacesContext.getCurrentInstance().addMessage(null, facesMessage));
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("facesMessage", null);
 

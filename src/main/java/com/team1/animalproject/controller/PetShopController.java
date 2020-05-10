@@ -1,9 +1,7 @@
 package com.team1.animalproject.controller;
 
 import com.team1.animalproject.model.PetShop;
-import com.team1.animalproject.model.Shelter;
 import com.team1.animalproject.service.PetShopService;
-import com.team1.animalproject.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

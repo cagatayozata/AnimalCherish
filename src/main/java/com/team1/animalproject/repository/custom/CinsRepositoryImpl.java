@@ -14,7 +14,7 @@ import java.util.List;
 public class CinsRepositoryImpl extends QueryDslRepositorySupport implements CustomCinsRepository {
 
 	@PersistenceContext
-	private EntityManager em;
+	private final EntityManager em;
 
 	public CinsRepositoryImpl(EntityManager entityManager) {
 		super(Cins.class);
@@ -30,7 +30,7 @@ public class CinsRepositoryImpl extends QueryDslRepositorySupport implements Cus
 		List<Tuple> tuples = from(qCins).select(qCins, qTur.name).leftJoin(qTur).on(qTur.id.eq(qCins.turId)).fetch();
 
 		List<Cins> cinsList = Lists.newArrayList();
-		tuples.stream().forEach(tuple -> {
+		tuples.forEach(tuple -> {
 			Cins cins = tuple.get(qCins);
 			cins.setTurAd(tuple.get(qTur.name));
 			cinsList.add(cins);

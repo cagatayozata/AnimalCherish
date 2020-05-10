@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ZooWorkerRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<ZooWorker> all = zooWorkerRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		zooWorkerRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ZooWorkerRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooWorkerRepository.saveAndFlush(zooWorker);
 
 		ZooWorker savedZooWorker = zooWorkerRepository.findById(zooWorker.getId()).get();
-		Assert.assertTrue(savedZooWorker.equals(zooWorker));
+		Assert.assertEquals(zooWorker, savedZooWorker);
 		zooWorkerRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ZooWorkerRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooWorkerRepository.saveAndFlush(zooWorker);
 
 		ZooWorker savedZooWorker = zooWorkerRepository.findById(zooWorker.getId()).get();
-		Assert.assertTrue(savedZooWorker.equals(zooWorker));
+		Assert.assertEquals(zooWorker, savedZooWorker);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedZooWorker.setWorkerId(toUpdate);
@@ -67,7 +68,7 @@ public class ZooWorkerRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooWorkerRepository.saveAndFlush(zooWorker);
 
 		ZooWorker savedZooWorker = zooWorkerRepository.findById(zooWorker.getId()).get();
-		Assert.assertTrue(savedZooWorker.equals(zooWorker));
+		Assert.assertEquals(zooWorker, savedZooWorker);
 
 		zooWorkerRepository.delete(savedZooWorker);
 
@@ -82,7 +83,7 @@ public class ZooWorkerRepositoryIT extends AbstractTestNGSpringContextTests {
 		zooWorkerRepository.saveAndFlush(zooWorker);
 
 		ZooWorker savedZooWorker = zooWorkerRepository.findById(zooWorker.getId()).get();
-		Assert.assertTrue(savedZooWorker.equals(zooWorker));
+		Assert.assertEquals(zooWorker, savedZooWorker);
 		zooWorkerRepository.deleteAll();
 	}
 

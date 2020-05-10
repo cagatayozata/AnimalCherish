@@ -30,17 +30,18 @@ public class KullaniciRolRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<KullaniciRol> all = kullaniciRolRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		kullaniciRolRepository.deleteAll();
 	}
 
+	@SuppressWarnings ("OptionalGetWithoutIsPresent")
 	@Test
 	public void save() {
 		KullaniciRol kullaniciRol = KullaniciRolPreparer.olustur();
 		kullaniciRolRepository.saveAndFlush(kullaniciRol);
 
 		KullaniciRol savedKullaniciRol = kullaniciRolRepository.findById(kullaniciRol.getId()).get();
-		Assert.assertTrue(savedKullaniciRol.equals(kullaniciRol));
+		Assert.assertEquals(kullaniciRol, savedKullaniciRol);
 		kullaniciRolRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class KullaniciRolRepositoryIT extends AbstractTestNGSpringContextTests {
 		kullaniciRolRepository.saveAndFlush(kullaniciRol);
 
 		KullaniciRol savedKullaniciRol = kullaniciRolRepository.findById(kullaniciRol.getId()).get();
-		Assert.assertTrue(savedKullaniciRol.equals(kullaniciRol));
+		Assert.assertEquals(kullaniciRol, savedKullaniciRol);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedKullaniciRol.setKullaniciId(toUpdate);
@@ -67,7 +68,7 @@ public class KullaniciRolRepositoryIT extends AbstractTestNGSpringContextTests {
 		kullaniciRolRepository.saveAndFlush(kullaniciRol);
 
 		KullaniciRol savedKullaniciRol = kullaniciRolRepository.findById(kullaniciRol.getId()).get();
-		Assert.assertTrue(savedKullaniciRol.equals(kullaniciRol));
+		Assert.assertEquals(kullaniciRol, savedKullaniciRol);
 
 		kullaniciRolRepository.delete(savedKullaniciRol);
 
@@ -82,7 +83,7 @@ public class KullaniciRolRepositoryIT extends AbstractTestNGSpringContextTests {
 		kullaniciRolRepository.saveAndFlush(kullaniciRol);
 
 		KullaniciRol savedKullaniciRol = kullaniciRolRepository.findById(kullaniciRol.getId()).get();
-		Assert.assertTrue(savedKullaniciRol.equals(kullaniciRol));
+		Assert.assertEquals(kullaniciRol, savedKullaniciRol);
 		kullaniciRolRepository.deleteAll();
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings ("ALL")
 @Service
 public class TurService implements IBaseService<Tur> {
 
@@ -45,7 +46,7 @@ public class TurService implements IBaseService<Tur> {
 	@Override
 	public void delete(List<Tur> t) {
 		// Animal varsa uyari var
-		t.stream().forEach(tur -> cinsService.deleteByTurId(tur.getId()));
+		t.forEach(tur -> cinsService.deleteByTurId(tur.getId()));
 		turRepository.delete(t);
 	}
 

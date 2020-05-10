@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class YetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Yetki> all = yetkiRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		yetkiRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class YetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		yetkiRepository.saveAndFlush(yetki);
 
 		Yetki savedYetki = yetkiRepository.findById(yetki.getId()).get();
-		Assert.assertTrue(savedYetki.equals(yetki));
+		Assert.assertEquals(yetki, savedYetki);
 		yetkiRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class YetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		yetkiRepository.saveAndFlush(yetki);
 
 		Yetki savedYetki = yetkiRepository.findById(yetki.getId()).get();
-		Assert.assertTrue(savedYetki.equals(yetki));
+		Assert.assertEquals(yetki, savedYetki);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedYetki.setName(toUpdate);
@@ -67,7 +68,7 @@ public class YetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		yetkiRepository.saveAndFlush(yetki);
 
 		Yetki savedYetki = yetkiRepository.findById(yetki.getId()).get();
-		Assert.assertTrue(savedYetki.equals(yetki));
+		Assert.assertEquals(yetki, savedYetki);
 
 		yetkiRepository.delete(savedYetki);
 
@@ -82,7 +83,7 @@ public class YetkiRepositoryIT extends AbstractTestNGSpringContextTests {
 		yetkiRepository.saveAndFlush(yetki);
 
 		Yetki savedYetki = yetkiRepository.findById(yetki.getId()).get();
-		Assert.assertTrue(savedYetki.equals(yetki));
+		Assert.assertEquals(yetki, savedYetki);
 		yetkiRepository.deleteAll();
 	}
 

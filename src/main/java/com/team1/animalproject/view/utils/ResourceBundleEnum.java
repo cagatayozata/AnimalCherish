@@ -2,11 +2,6 @@ package com.team1.animalproject.view.utils;
 
 import lombok.Getter;
 
-/**
- * Kullandigimiz resource bundleların faces-config.xml deki tanimli karsiliklarnin oldugu enum.
- *
- * @author ilkert
- */
 public enum ResourceBundleEnum {
 
 	SERVER_MESSAGE_BUNDLE("servermessage"),
@@ -15,7 +10,7 @@ public enum ResourceBundleEnum {
 	EXECEPTION_MESSAGES_BUNDLE("exmsg");
 
 	@Getter
-	private String bundleKey;
+	private final String bundleKey;
 
 	ResourceBundleEnum(String bundleKey) {
 		this.bundleKey = bundleKey;

@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ShelterRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Shelter> all = shelterRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		shelterRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ShelterRepositoryIT extends AbstractTestNGSpringContextTests {
 		shelterRepository.saveAndFlush(shelter);
 
 		Shelter savedShelter = shelterRepository.findById(shelter.getId()).get();
-		Assert.assertTrue(savedShelter.equals(shelter));
+		Assert.assertEquals(shelter, savedShelter);
 		shelterRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ShelterRepositoryIT extends AbstractTestNGSpringContextTests {
 		shelterRepository.saveAndFlush(shelter);
 
 		Shelter savedShelter = shelterRepository.findById(shelter.getId()).get();
-		Assert.assertTrue(savedShelter.equals(shelter));
+		Assert.assertEquals(shelter, savedShelter);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedShelter.setName(toUpdate);
@@ -67,7 +68,7 @@ public class ShelterRepositoryIT extends AbstractTestNGSpringContextTests {
 		shelterRepository.saveAndFlush(shelter);
 
 		Shelter savedShelter = shelterRepository.findById(shelter.getId()).get();
-		Assert.assertTrue(savedShelter.equals(shelter));
+		Assert.assertEquals(shelter, savedShelter);
 
 		shelterRepository.delete(savedShelter);
 
@@ -82,7 +83,7 @@ public class ShelterRepositoryIT extends AbstractTestNGSpringContextTests {
 		shelterRepository.saveAndFlush(shelter);
 
 		Shelter savedShelter = shelterRepository.findById(shelter.getId()).get();
-		Assert.assertTrue(savedShelter.equals(shelter));
+		Assert.assertEquals(shelter, savedShelter);
 		shelterRepository.deleteAll();
 	}
 

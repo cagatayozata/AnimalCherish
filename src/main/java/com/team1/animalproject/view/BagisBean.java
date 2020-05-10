@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 public class BagisBean extends BaseViewController<Bagis> implements Serializable {
 
@@ -70,11 +70,13 @@ public class BagisBean extends BaseViewController<Bagis> implements Serializable
 	}
 
 	public void prepareUpdateScreen(){
+		//noinspection OptionalGetWithoutIsPresent
 		bagis = selectedBagiss.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
 	public void prepareInfoScreen(){
+		//noinspection OptionalGetWithoutIsPresent
 		bagis = selectedBagiss.stream().findFirst().get();
 		showCreateOrEdit = true;
 		showInfo = true;

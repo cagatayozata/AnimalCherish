@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class PetShopAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		}
 
 		List<PetShopAnimal> all = petShopAnimalRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		petShopAnimalRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class PetShopAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopAnimalRepository.saveAndFlush(petShopAnimal);
 
 		PetShopAnimal savedPetShopAnimal = petShopAnimalRepository.findById(petShopAnimal.getId()).get();
-		Assert.assertTrue(savedPetShopAnimal.equals(petShopAnimal));
+		Assert.assertEquals(petShopAnimal, savedPetShopAnimal);
 		petShopAnimalRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class PetShopAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopAnimalRepository.saveAndFlush(petShopAnimal);
 
 		PetShopAnimal savedPetShopAnimal = petShopAnimalRepository.findById(petShopAnimal.getId()).get();
-		Assert.assertTrue(savedPetShopAnimal.equals(petShopAnimal));
+		Assert.assertEquals(petShopAnimal, savedPetShopAnimal);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedPetShopAnimal.setAnimalId(toUpdate);
@@ -67,7 +68,7 @@ public class PetShopAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopAnimalRepository.saveAndFlush(petShopAnimal);
 
 		PetShopAnimal savedPetShopAnimal = petShopAnimalRepository.findById(petShopAnimal.getId()).get();
-		Assert.assertTrue(savedPetShopAnimal.equals(petShopAnimal));
+		Assert.assertEquals(petShopAnimal, savedPetShopAnimal);
 
 		petShopAnimalRepository.delete(savedPetShopAnimal);
 
@@ -82,7 +83,7 @@ public class PetShopAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopAnimalRepository.saveAndFlush(petShopAnimal);
 
 		PetShopAnimal savedPetShopAnimal = petShopAnimalRepository.findById(petShopAnimal.getId()).get();
-		Assert.assertTrue(savedPetShopAnimal.equals(petShopAnimal));
+		Assert.assertEquals(petShopAnimal, savedPetShopAnimal);
 		petShopAnimalRepository.deleteAll();
 	}
 

@@ -5,7 +5,7 @@ import javax.faces.context.ExceptionHandlerFactory;
 
 public class JsfExceptionHandlerFactory extends ExceptionHandlerFactory {
 
-	private ExceptionHandlerFactory parent;
+	private final ExceptionHandlerFactory parent;
 
 	// this injection handles jsf
 	@SuppressWarnings ("deprecation")

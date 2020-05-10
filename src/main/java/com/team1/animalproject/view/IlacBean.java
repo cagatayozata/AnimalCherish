@@ -1,7 +1,6 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.model.Ilac;
-import com.team1.animalproject.model.Tur;
 import com.team1.animalproject.service.IlacService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +18,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 
@@ -73,7 +73,7 @@ public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 	}
 
 	public boolean kullanimdaVarmi(){
-		return selectedIlacs.stream().anyMatch(c -> c.isDurum());
+		return selectedIlacs.stream().anyMatch(Ilac::isDurum);
 	}
 
 	public void prepareNewScreen(){

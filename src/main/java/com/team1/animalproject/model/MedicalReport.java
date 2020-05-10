@@ -1,21 +1,13 @@
 package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.team1.animalproject.model.dto.Auditable;
 import lombok.*;
-import org.apache.commons.compress.utils.Lists;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

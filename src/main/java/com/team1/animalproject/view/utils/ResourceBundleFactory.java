@@ -5,13 +5,11 @@ import java.util.ResourceBundle;
 
 public class ResourceBundleFactory {
 
-	private static FacesContext facesContext;
-
 	private ResourceBundleFactory() {
 	}
 
 	public static ResourceBundle getResourceBundle(ResourceBundleEnum bundleEnum) {
-		facesContext = FacesContext.getCurrentInstance();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		return facesContext.getApplication().getResourceBundle(facesContext, bundleEnum.getBundleKey());
 
 	}

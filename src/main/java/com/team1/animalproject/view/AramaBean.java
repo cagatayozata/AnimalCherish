@@ -16,14 +16,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Slf4j
 @Data
 public class AramaBean extends BaseViewController<Animal> implements Serializable {

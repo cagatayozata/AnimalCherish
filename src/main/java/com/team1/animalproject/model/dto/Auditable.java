@@ -9,7 +9,6 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.Column;
@@ -33,13 +32,14 @@ public class Auditable<I extends Serializable, U> {
 
 	private static final long serialVersionUID = -2066755288726974124L;
 
+	@SuppressWarnings ("SpringJavaAutowiredMembersInspection")
 	@Autowired
 	@Transient
 	@JsonIgnore
 	private KullaniciSessionVerisi kullaniciSessionVerisi;
 
 	@Id
-	@Column (nullable = false, unique = true, updatable = false, length = 255)
+	@Column (nullable = false, unique = true, updatable = false)
 	private I id;
 
 	@CreatedDate

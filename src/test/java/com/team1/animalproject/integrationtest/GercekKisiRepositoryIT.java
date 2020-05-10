@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<GercekKisi> all = gercekKisiRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		gercekKisiRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 		gercekKisiRepository.saveAndFlush(gercekKisi);
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
-		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		Assert.assertEquals(gercekKisi, savedGercekKisi);
 		gercekKisiRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 		gercekKisiRepository.saveAndFlush(gercekKisi);
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
-		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		Assert.assertEquals(gercekKisi, savedGercekKisi);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedGercekKisi.setAd(toUpdate);
@@ -67,7 +68,7 @@ public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 		gercekKisiRepository.saveAndFlush(gercekKisi);
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
-		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		Assert.assertEquals(gercekKisi, savedGercekKisi);
 
 		gercekKisiRepository.delete(savedGercekKisi);
 
@@ -82,7 +83,7 @@ public class GercekKisiRepositoryIT extends AbstractTestNGSpringContextTests {
 		gercekKisiRepository.saveAndFlush(gercekKisi);
 
 		GercekKisi savedGercekKisi = gercekKisiRepository.findById(gercekKisi.getId()).get();
-		Assert.assertTrue(savedGercekKisi.equals(gercekKisi));
+		Assert.assertEquals(gercekKisi, savedGercekKisi);
 		gercekKisiRepository.deleteAll();
 	}
 

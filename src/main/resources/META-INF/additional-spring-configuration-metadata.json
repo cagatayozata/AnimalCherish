@@ -4,5 +4,25 @@
       "name": "spring.datasource.jdbcUrl",
       "type": "java.lang.String",
       "description": "Description for spring.datasource.jdbcUrl."
-  }
-] }
+    },
+    {
+      "name": "spring.datasource.connectionProperties",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.connectionProperties."
+    },
+    {
+      "name": "spring.jpa.hibernate.naming-strategy",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.hibernate.naming-strategy."
+    },
+    {
+      "name": "spring.datasource.validationQuery",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.validationQuery."
+    },
+    {
+      "name": "spring.datasource.testWhileIdle",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.testWhileIdle."
+    }
+  ] }

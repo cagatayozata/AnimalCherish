@@ -39,7 +39,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -51,9 +50,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class AnimalBean extends BaseViewController<Animal> implements Serializable {
 
@@ -236,7 +236,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showIlacCreateOrEdit = false;
 		showIlacList = true;
 		medicalReport = selectedMedicalReports.stream().findFirst().get();
-		medicalReportMedicines = blockchainService.ilaclariGetir(medicalReport.getId(), kullaniciPrincipal.getId());
+		medicalReportMedicines = blockchainService.ilaclariGetir(medicalReport.getId());
 		medicalReportMedicine = MedicalReportMedicine.builder().build();
 	}
 
@@ -294,7 +294,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		}
 	}
 
-	public StreamedContent receteCikart() throws FileNotFoundException {
+	public StreamedContent receteCikart() {
 		DefaultStreamedContent defaultStreamedContent = null;
 		try{
 			medicalReport = selectedMedicalReports.stream().findFirst().get();
@@ -325,7 +325,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showTarihce = true;
 		tarihceList = blockchainService.tarihceGetir(selectedAnimals.stream().findFirst().get().getId());
 
-		tarihceList.stream().forEach(animalTarihce -> {
+		tarihceList.forEach(animalTarihce -> {
 			Optional<Kullanici> byId = userService.findById(animalTarihce.getKimTarafindan());
 			byId.ifPresent(kullanici -> animalTarihce.setKimTarafindan(kullanici.getUserName()));
 		});

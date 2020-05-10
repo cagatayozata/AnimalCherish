@@ -30,7 +30,7 @@ public class BagisRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Bagis> all = bagisRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		bagisRepository.deleteAll();
 	}
 
@@ -39,8 +39,9 @@ public class BagisRepositoryIT extends AbstractTestNGSpringContextTests {
 		Bagis bagis = BagisPreparer.olustur();
 		bagisRepository.saveAndFlush(bagis);
 
+		//noinspection OptionalGetWithoutIsPresent
 		Bagis savedBagis = bagisRepository.findById(bagis.getId()).get();
-		Assert.assertTrue(savedBagis.equals(bagis));
+		Assert.assertEquals(bagis, savedBagis);
 		bagisRepository.deleteAll();
 	}
 
@@ -49,13 +50,15 @@ public class BagisRepositoryIT extends AbstractTestNGSpringContextTests {
 		Bagis bagis = BagisPreparer.olustur();
 		bagisRepository.saveAndFlush(bagis);
 
+		//noinspection OptionalGetWithoutIsPresent
 		Bagis savedBagis = bagisRepository.findById(bagis.getId()).get();
-		Assert.assertTrue(savedBagis.equals(bagis));
+		Assert.assertEquals(bagis, savedBagis);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedBagis.setName(toUpdate);
 		bagisRepository.saveAndFlush(savedBagis);
 
+		//noinspection OptionalGetWithoutIsPresent
 		Bagis updated = bagisRepository.findById(bagis.getId()).get();
 		Assert.assertEquals(updated.getName(), toUpdate);
 		bagisRepository.deleteAll();
@@ -66,8 +69,9 @@ public class BagisRepositoryIT extends AbstractTestNGSpringContextTests {
 		Bagis bagis = BagisPreparer.olustur();
 		bagisRepository.saveAndFlush(bagis);
 
+		//noinspection OptionalGetWithoutIsPresent
 		Bagis savedBagis = bagisRepository.findById(bagis.getId()).get();
-		Assert.assertTrue(savedBagis.equals(bagis));
+		Assert.assertEquals(bagis, savedBagis);
 
 		bagisRepository.delete(savedBagis);
 
@@ -81,8 +85,9 @@ public class BagisRepositoryIT extends AbstractTestNGSpringContextTests {
 		Bagis bagis = BagisPreparer.olustur();
 		bagisRepository.saveAndFlush(bagis);
 
+		//noinspection OptionalGetWithoutIsPresent
 		Bagis savedBagis = bagisRepository.findById(bagis.getId()).get();
-		Assert.assertTrue(savedBagis.equals(bagis));
+		Assert.assertEquals(bagis, savedBagis);
 		bagisRepository.deleteAll();
 	}
 

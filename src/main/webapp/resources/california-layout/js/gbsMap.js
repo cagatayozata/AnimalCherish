@@ -10,7 +10,7 @@ function zoomToLocation(targetMarker) {
 function smoothZoom(map, max, cnt) {
     var z;
     if (cnt >= max) {
-        return;
+
     }
     else {
         z = google.maps.event.addListener(map, 'zoom_changed', function (event) {

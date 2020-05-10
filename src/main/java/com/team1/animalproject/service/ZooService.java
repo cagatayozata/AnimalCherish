@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings ("ALL")
 @Service
 public class ZooService implements IBaseService<Zoo> {
 
@@ -41,7 +42,7 @@ public class ZooService implements IBaseService<Zoo> {
 	@Override
 	public List<Zoo> getAll() {
 		List<Zoo> all = zooRepository.findAll();
-		all.stream().forEach(zoo -> {
+		all.forEach(zoo -> {
 			int size = 0;
 			List<ZooWorker> byShelterId = zooWorkerRepository.findByZooId(zoo.getId());
 			if(byShelterId != null){
@@ -77,7 +78,7 @@ public class ZooService implements IBaseService<Zoo> {
 		if(!gorevli){
 			List<ZooWorker> all = zooWorkerRepository.findAll();
 
-			all.stream().forEach(shelterWorker -> {
+			all.forEach(shelterWorker -> {
 				Kullanici kullanici = userService.findById(shelterWorker.getId()).get();
 				kullanici.setKullaniciTipi(KullaniciTipiEnum.NORMAL_USER.getId());
 				userService.save(kullanici);
@@ -86,7 +87,7 @@ public class ZooService implements IBaseService<Zoo> {
 			zooWorkerRepository.deleteByZooId(zooId);
 			zooWorkerRepository.save(zooWorkers);
 
-			zooWorkers.stream().forEach(shelterWorker -> {
+			zooWorkers.forEach(shelterWorker -> {
 				Kullanici kullanici = userService.findById(shelterWorker.getWorkerId()).get();
 				kullanici.setKullaniciTipi(KullaniciTipiEnum.SHELTER.getId());
 				userService.update(kullanici);

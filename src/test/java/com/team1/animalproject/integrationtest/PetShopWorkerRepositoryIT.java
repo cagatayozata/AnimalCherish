@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class PetShopWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		}
 
 		List<PetShopWorker> all = petShopWorkerRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		petShopWorkerRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class PetShopWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopWorkerRepository.saveAndFlush(petShopWorker);
 
 		PetShopWorker savedPetShopWorker = petShopWorkerRepository.findById(petShopWorker.getId()).get();
-		Assert.assertTrue(savedPetShopWorker.equals(petShopWorker));
+		Assert.assertEquals(petShopWorker, savedPetShopWorker);
 		petShopWorkerRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class PetShopWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopWorkerRepository.saveAndFlush(petShopWorker);
 
 		PetShopWorker savedPetShopWorker = petShopWorkerRepository.findById(petShopWorker.getId()).get();
-		Assert.assertTrue(savedPetShopWorker.equals(petShopWorker));
+		Assert.assertEquals(petShopWorker, savedPetShopWorker);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedPetShopWorker.setPetShopId(toUpdate);
@@ -67,7 +68,7 @@ public class PetShopWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopWorkerRepository.saveAndFlush(petShopWorker);
 
 		PetShopWorker savedPetShopWorker = petShopWorkerRepository.findById(petShopWorker.getId()).get();
-		Assert.assertTrue(savedPetShopWorker.equals(petShopWorker));
+		Assert.assertEquals(petShopWorker, savedPetShopWorker);
 
 		petShopWorkerRepository.delete(savedPetShopWorker);
 
@@ -82,7 +83,7 @@ public class PetShopWorkerRepositoryIT extends AbstractTestNGSpringContextTests 
 		petShopWorkerRepository.saveAndFlush(petShopWorker);
 
 		PetShopWorker savedPetShopWorker = petShopWorkerRepository.findById(petShopWorker.getId()).get();
-		Assert.assertTrue(savedPetShopWorker.equals(petShopWorker));
+		Assert.assertEquals(petShopWorker, savedPetShopWorker);
 		petShopWorkerRepository.deleteAll();
 	}
 

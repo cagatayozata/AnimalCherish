@@ -24,27 +24,19 @@
 
 package com.team1.animalproject.blockchain.queries;
 
-import com.team1.animalproject.blockchain.exception.SubmitTransactionException;
-import com.team1.animalproject.blockchain.utils.Connections;
 import org.stellar.sdk.AccountFlag;
 import org.stellar.sdk.Asset;
 import org.stellar.sdk.AssetTypeCreditAlphaNum;
 import org.stellar.sdk.AssetTypeCreditAlphaNum12;
 import org.stellar.sdk.AssetTypeCreditAlphaNum4;
-import org.stellar.sdk.ChangeTrustOperation;
 import org.stellar.sdk.KeyPair;
-import org.stellar.sdk.PaymentOperation;
-import org.stellar.sdk.Server;
 import org.stellar.sdk.SetOptionsOperation;
 import org.stellar.sdk.Transaction;
 import org.stellar.sdk.responses.AccountResponse;
-import org.stellar.sdk.responses.SubmitTransactionResponse;
-
-import java.io.IOException;
 
 public class CreateAsset {
 
-	private KeyPair srcPair;
+	private final KeyPair srcPair;
 
 	public CreateAsset(KeyPair srcPair) {
 		this.srcPair = srcPair;

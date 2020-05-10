@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Ilac> all = ilacRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		ilacRepository.deleteAll();
 	}
 
@@ -41,7 +42,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Ilac> all = ilacRepository.findAllByDurum(true);
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		ilacRepository.deleteAll();
 	}
 
@@ -51,7 +52,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		ilacRepository.saveAndFlush(ilac);
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
-		Assert.assertTrue(savedIlac.equals(ilac));
+		Assert.assertEquals(ilac, savedIlac);
 		ilacRepository.deleteAll();
 	}
 
@@ -61,7 +62,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		ilacRepository.saveAndFlush(ilac);
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
-		Assert.assertTrue(savedIlac.equals(ilac));
+		Assert.assertEquals(ilac, savedIlac);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedIlac.setName(toUpdate);
@@ -78,7 +79,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		ilacRepository.saveAndFlush(ilac);
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
-		Assert.assertTrue(savedIlac.equals(ilac));
+		Assert.assertEquals(ilac, savedIlac);
 
 		ilacRepository.delete(savedIlac);
 
@@ -93,7 +94,7 @@ public class IlacRepositoryIT extends AbstractTestNGSpringContextTests {
 		ilacRepository.saveAndFlush(ilac);
 
 		Ilac savedIlac = ilacRepository.findById(ilac.getId()).get();
-		Assert.assertTrue(savedIlac.equals(ilac));
+		Assert.assertEquals(ilac, savedIlac);
 		ilacRepository.deleteAll();
 	}
 

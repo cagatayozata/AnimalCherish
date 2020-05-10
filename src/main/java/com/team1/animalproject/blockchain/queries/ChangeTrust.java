@@ -39,7 +39,7 @@ import java.util.TreeMap;
 
 public class ChangeTrust {
 
-	private KeyPair pair;
+	private final KeyPair pair;
 
 	public ChangeTrust(KeyPair pair) {
 		this.pair = pair;
@@ -72,9 +72,8 @@ public class ChangeTrust {
 	 * @param isMainNet to determine which horizon server to hit
 	 * @param assetCode short-hand name of the asset
 	 * @return Asset Object
-	 * @throws Exception thrown if there is more than one asset with the given asset code
 	 */
-	private Assets getAsset(boolean isMainNet, String assetCode) throws Exception {
+	private Assets getAsset(boolean isMainNet, String assetCode) {
 		return AssetQuery.getAssetInfo(isMainNet, assetCode);
 	}
 
@@ -111,15 +110,5 @@ public class ChangeTrust {
 	private ArrayList<Assets> getIssuersAssets(boolean isMainNet, String issuer) {
 		return AssetQuery.getIssuerAssets(isMainNet, issuer);
 	}
-
-	/**
-	 * Returns various responses of assets and their issuers
-	 * depending on what the user enters
-	 *
-	 * @param isMainNet to determine which horizon server to hit
-	 * @param asset     short-hand name of the asset
-	 * @param issuer    the issuer's key
-	 * @return a String response (parsed) from Horizon
-	 */
 
 }

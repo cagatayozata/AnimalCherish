@@ -33,9 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class ChartBean extends BaseViewController<Chart> implements Serializable {
 

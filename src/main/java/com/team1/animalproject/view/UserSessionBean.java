@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class UserSessionBean extends BaseViewController implements Serializable {
 
@@ -32,7 +33,7 @@ public class UserSessionBean extends BaseViewController implements Serializable 
 
 	List<KullaniciPrincipal> principals = Lists.newArrayList();
 
-	List<String> userNamesLists = new ArrayList<String>();
+	List<String> userNamesLists = new ArrayList<>();
 	private List<Kullanici> kullanici;
 	private Kullanici selectedKullanici;
 
@@ -62,13 +63,13 @@ public class UserSessionBean extends BaseViewController implements Serializable 
 		Optional<List<Kullanici>> kullanicis = userService.findByIdIn(userNamesLists);
 		kullanici = kullanicis.get();
 		kullanici.forEach(kullanici1 -> {
-			List<SessionInformation> allSessions = sessionRegistry.getAllSessions(principals.stream().filter(o -> ((KullaniciPrincipal) o).getId().equals(kullanici1.getId())).findFirst().get(), true);
-			kullanici1.setExpired(allSessions.stream().allMatch(sessionInformation -> sessionInformation.isExpired()));
+			List<SessionInformation> allSessions = sessionRegistry.getAllSessions(principals.stream().filter(o -> o.getId().equals(kullanici1.getId())).findFirst().get(), true);
+			kullanici1.setExpired(allSessions.stream().allMatch(SessionInformation::isExpired));
 		});
 	}
 
 	public void kill() {
-		List<SessionInformation> allSessions = sessionRegistry.getAllSessions(principals.stream().filter(o -> ((KullaniciPrincipal) o).getId().equals(selectedKullanici.getId())).findFirst().get(), true);
+		List<SessionInformation> allSessions = sessionRegistry.getAllSessions(principals.stream().filter(o -> o.getId().equals(selectedKullanici.getId())).findFirst().get(), true);
 		allSessions.forEach(sessionInformation -> {
 			sessionInformation.expireNow();
 			System.out.println(sessionInformation.getLastRequest());

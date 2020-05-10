@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class RolRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Rol> all = rolRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		rolRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class RolRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolRepository.saveAndFlush(rol);
 
 		Rol savedRol = rolRepository.findById(rol.getId()).get();
-		Assert.assertTrue(savedRol.equals(rol));
+		Assert.assertEquals(rol, savedRol);
 		rolRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class RolRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolRepository.saveAndFlush(rol);
 
 		Rol savedRol = rolRepository.findById(rol.getId()).get();
-		Assert.assertTrue(savedRol.equals(rol));
+		Assert.assertEquals(rol, savedRol);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedRol.setName(toUpdate);
@@ -67,7 +68,7 @@ public class RolRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolRepository.saveAndFlush(rol);
 
 		Rol savedRol = rolRepository.findById(rol.getId()).get();
-		Assert.assertTrue(savedRol.equals(rol));
+		Assert.assertEquals(rol, savedRol);
 
 		rolRepository.delete(savedRol);
 
@@ -82,7 +83,7 @@ public class RolRepositoryIT extends AbstractTestNGSpringContextTests {
 		rolRepository.saveAndFlush(rol);
 
 		Rol savedRol = rolRepository.findById(rol.getId()).get();
-		Assert.assertTrue(savedRol.equals(rol));
+		Assert.assertEquals(rol, savedRol);
 		rolRepository.deleteAll();
 	}
 

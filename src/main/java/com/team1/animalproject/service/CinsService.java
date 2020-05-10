@@ -2,7 +2,6 @@ package com.team1.animalproject.service;
 
 import com.team1.animalproject.model.Cins;
 import com.team1.animalproject.repository.CinsRepository;
-import com.team1.animalproject.repository.custom.CinsRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Service
 public class CinsService implements IBaseService<Cins> {
 
@@ -25,8 +25,7 @@ public class CinsService implements IBaseService<Cins> {
 
 	@Override
 	public List<Cins> getAll() {
-		List<Cins> all = cinsRepository.findAllByDurum(true);
-		return all;
+		return cinsRepository.findAllByDurum(true);
 	}
 
 	public List<Cins> ara() {

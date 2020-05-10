@@ -393,7 +393,7 @@ var reBuildDataTable = function () {
                             $this.onRowDblclick(e, $(this));
                         });
                     }
-                    ;
+
                 },
 
                 bindRowHover: function (selector) {

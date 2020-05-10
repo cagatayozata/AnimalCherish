@@ -10,7 +10,7 @@ public final class CommonUtils {
 
     public static Optional<String> sayisalStringDegeriArttir(String sayi, int artisMiktari) {
         try {
-            return Optional.ofNullable(String.valueOf(Integer.parseInt(sayi) + artisMiktari));
+            return Optional.of(String.valueOf(Integer.parseInt(sayi) + artisMiktari));
         } catch (NumberFormatException e) {
             return Optional.empty();
         }

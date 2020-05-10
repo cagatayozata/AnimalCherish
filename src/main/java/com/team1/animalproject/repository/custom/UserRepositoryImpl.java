@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 public class UserRepositoryImpl extends QueryDslRepositorySupport implements CustomUserRepository {
 
 	@PersistenceContext
-	private EntityManager em;
+	private final EntityManager em;
 
 	public UserRepositoryImpl(EntityManager entityManager) {
 		super(Kullanici.class);
@@ -30,12 +30,12 @@ public class UserRepositoryImpl extends QueryDslRepositorySupport implements Cus
 		QZooWorker qZooWorker = QZooWorker.zooWorker;
 		QPetShopWorker qPetShopWorker = QPetShopWorker.petShopWorker;
 
-		if(!kullaniciTipiEnum.PETSHOP.equals(kullaniciTipiEnum)) kullaniciGorevlimi = from(qPetShopWorker).select(qPetShopWorker.id).where(qPetShopWorker.workerId.eq(kullaniciId)).fetchCount() != 0;
+		if(!KullaniciTipiEnum.PETSHOP.equals(kullaniciTipiEnum)) kullaniciGorevlimi = from(qPetShopWorker).select(qPetShopWorker.id).where(qPetShopWorker.workerId.eq(kullaniciId)).fetchCount() != 0;
 
-		if(!kullaniciTipiEnum.ZOO.equals(kullaniciTipiEnum))
+		if(!KullaniciTipiEnum.ZOO.equals(kullaniciTipiEnum))
 			if(!kullaniciGorevlimi) kullaniciGorevlimi = from(qZooWorker).select(qZooWorker.id).where(qZooWorker.workerId.eq(kullaniciId)).fetchCount() != 0;
 
-		if(!kullaniciTipiEnum.SHELTER.equals(kullaniciTipiEnum))
+		if(!KullaniciTipiEnum.SHELTER.equals(kullaniciTipiEnum))
 			if(!kullaniciGorevlimi) kullaniciGorevlimi = from(qShelterWorker).select(qShelterWorker.id).where(qShelterWorker.workerId.eq(kullaniciId)).fetchCount() != 0;
 
 		return kullaniciGorevlimi;

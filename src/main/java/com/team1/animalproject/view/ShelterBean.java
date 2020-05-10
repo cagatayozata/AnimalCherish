@@ -29,9 +29,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class ShelterBean extends BaseViewController<Shelter> implements Serializable {
 
@@ -172,11 +173,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 		shelterId = selectedShelters.stream().findFirst().get().getId();
 		List<ShelterWorker> workersIn = shelterService.getWorkersByShelterId(shelterId);
 		Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(ShelterWorker::getWorkerId).collect(Collectors.toList()));
-		if(kullanicis.isPresent()){
-			addedWorkers = kullanicis.get();
-		} else {
-			addedWorkers = new ArrayList<>();
-		}
+		addedWorkers = kullanicis.orElseGet(ArrayList::new);
 		filteredAddedWorkers = addedWorkers;
 		showWorkerCreateOrEdit = true;
 	}
@@ -190,11 +187,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 		shelterId = selectedShelters.stream().findFirst().get().getId();
 		List<ShelterAnimal> animalsIn = shelterService.getAnimalsByShelterId(shelterId);
 		Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(ShelterAnimal::getAnimalId).collect(Collectors.toList()));
-		if(animals.isPresent()){
-			addedAnimals = animals.get();
-		} else {
-			addedAnimals = new ArrayList<>();
-		}
+		addedAnimals = animals.orElseGet(ArrayList::new);
 		filteredAddedAnimals = addedAnimals;
 		showAnimalCreateOrEdit = true;
 	}
@@ -211,9 +204,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 
 	public void workerSave() throws IOException {
 		List<ShelterWorker> shelterWorkers = new ArrayList<>();
-		addedWorkers.stream().forEach(kullanici -> {
-			shelterWorkers.add(ShelterWorker.builder().id(UUID.randomUUID().toString()).shelterId(shelterId).workerId(kullanici.id).build());
-		});
+		addedWorkers.forEach(kullanici -> shelterWorkers.add(ShelterWorker.builder().id(UUID.randomUUID().toString()).shelterId(shelterId).workerId(kullanici.id).build()));
 
 		shelterService.saveWorker(shelterWorkers, shelterId);
 
@@ -226,7 +217,7 @@ public class ShelterBean extends BaseViewController<Shelter> implements Serializ
 	public void animalsSave() throws IOException {
 		List<ShelterAnimal> shelterAnimals = new ArrayList<>();
 		if(addedAnimals.size() > 0){
-			addedAnimals.stream().forEach(animal -> {
+			addedAnimals.forEach(animal -> {
 
 				shelterAnimals.add(ShelterAnimal.builder().id(UUID.randomUUID().toString()).shelterId(shelterId).animalId(animal.id).build());
 				AnimalTarihce animalTarihce = AnimalTarihce.builder()

@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -70,11 +71,11 @@ public class UserService implements IBaseService<Kullanici> {
 		}
 	}
 
-	public static String md5Java(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		String digest = null;
+	public static String md5Java(String message) throws NoSuchAlgorithmException {
+		String digest;
 
 		MessageDigest md = MessageDigest.getInstance("MD5");
-		byte[] hash = md.digest(message.getBytes("UTF-8"));
+		byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
 
 		//converting byte array to Hexadecimal String
 		StringBuilder sb = new StringBuilder(2 * hash.length);
@@ -136,7 +137,7 @@ public class UserService implements IBaseService<Kullanici> {
 		List<ChartDTO> chartDTOS = Lists.newArrayList();
 
 		List<Kullanici> kullanicilar = getAll();
-		Map<Integer, List<Kullanici>> gorevlerdekiKullanicilar = kullanicilar.stream().collect(groupingBy(kullanici -> kullanici.getKullaniciTipi()));
+		Map<Integer, List<Kullanici>> gorevlerdekiKullanicilar = kullanicilar.stream().collect(groupingBy(Kullanici::getKullaniciTipi));
 
 		Arrays.stream(KullaniciTipiEnum.values())
 				.forEach(kullaniciTipiEnum -> chartDTOS.add(ChartDTO.builder()

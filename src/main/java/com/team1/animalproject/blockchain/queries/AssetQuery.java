@@ -81,7 +81,7 @@ public class AssetQuery {
 	}
 
 	@SuppressWarnings ("Duplicates")
-	public static Assets getAssetInfo(boolean isMainNet, String assetCode) throws Exception {
+	public static Assets getAssetInfo(boolean isMainNet, String assetCode) {
 		Assets asset = null;
 		String jsonString;
 		String URL;

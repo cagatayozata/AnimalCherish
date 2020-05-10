@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -32,7 +33,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Cins> all = cinsRepository.cinsAra();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		cinsRepository.deleteAll();
 	}
 
@@ -43,7 +44,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Cins> all = cinsRepository.findAllByDurum(true);
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		cinsRepository.deleteAll();
 	}
 
@@ -53,7 +54,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		cinsRepository.saveAndFlush(cins);
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
-		Assert.assertTrue(savedCins.equals(cins));
+		Assert.assertEquals(cins, savedCins);
 		cinsRepository.deleteAll();
 	}
 
@@ -63,7 +64,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		cinsRepository.saveAndFlush(cins);
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
-		Assert.assertTrue(savedCins.equals(cins));
+		Assert.assertEquals(cins, savedCins);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedCins.setName(toUpdate);
@@ -80,7 +81,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		cinsRepository.saveAndFlush(cins);
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
-		Assert.assertTrue(savedCins.equals(cins));
+		Assert.assertEquals(cins, savedCins);
 
 		cinsRepository.delete(savedCins);
 
@@ -95,7 +96,7 @@ public class CinsRepositoryIT extends AbstractTestNGSpringContextTests {
 		cinsRepository.saveAndFlush(cins);
 
 		Cins savedCins = cinsRepository.findById(cins.getId()).get();
-		Assert.assertTrue(savedCins.equals(cins));
+		Assert.assertEquals(cins, savedCins);
 		cinsRepository.deleteAll();
 	}
 }

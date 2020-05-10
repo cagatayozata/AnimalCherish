@@ -35,7 +35,7 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 	}
 
 	@Override
-	public void configure(WebSecurity web) throws Exception {
+	public void configure(WebSecurity web) {
 		web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
 	}
 
@@ -95,7 +95,7 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) {
 
 		auth.authenticationProvider(customAuthenticationProvider);
 

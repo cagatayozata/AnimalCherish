@@ -1,7 +1,6 @@
 package com.team1.animalproject.preparer;
 
 import com.team1.animalproject.model.KullaniciRol;
-import com.team1.animalproject.model.Rol;
 import com.team1.animalproject.view.utils.DateUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Profile;

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Service
 public class GercekKisiService implements IBaseService<GercekKisi> {
 

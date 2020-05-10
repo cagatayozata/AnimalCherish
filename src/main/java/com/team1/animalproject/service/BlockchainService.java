@@ -4,12 +4,9 @@ import com.google.gson.Gson;
 import com.team1.animalproject.blockchain.ipfs.IpfsService;
 import com.team1.animalproject.blockchain.models.Transactions;
 import com.team1.animalproject.blockchain.queries.AccountDetails;
-import com.team1.animalproject.blockchain.queries.CreateAccount;
 import com.team1.animalproject.blockchain.queries.Payment;
-import com.team1.animalproject.blockchain.utils.Connections;
 import com.team1.animalproject.helpers.model.ChartDTO;
 import com.team1.animalproject.model.AnimalTarihce;
-import com.team1.animalproject.model.AnimalTarihceDetay;
 import com.team1.animalproject.model.BlockchainExplorer;
 import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.IpfsID;
@@ -18,39 +15,35 @@ import com.team1.animalproject.model.MedicalReport;
 import com.team1.animalproject.model.MedicalReportMedicine;
 import com.team1.animalproject.repository.IpfsIDRepository;
 import com.team1.animalproject.view.utils.DateUtil;
-import io.ipfs.api.IPFS;
 import io.ipfs.multihash.Multihash;
 import org.apache.commons.compress.utils.Lists;
-import org.hyperledger.fabric.sdk.BlockchainInfo;
 import org.primefaces.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.stellar.sdk.KeyPair;
+import org.stellar.sdk.MemoText;
 import org.stellar.sdk.Network;
 import org.stellar.sdk.Server;
 import org.stellar.sdk.requests.RequestBuilder;
 import org.stellar.sdk.responses.Page;
 import org.stellar.sdk.responses.TransactionResponse;
-import org.stellar.sdk.xdr.Transaction;
-import org.stellar.sdk.xdr.TransactionEnvelope;
-import org.stellar.sdk.xdr.XdrDataInputStream;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+@SuppressWarnings ("ALL")
 @Service
 public class BlockchainService {
 
@@ -63,11 +56,11 @@ public class BlockchainService {
 	@Autowired
 	private IlacService ilacService;
 
-	private Map<String, String> ipfsHashes = new HashMap<>();
-	private Map<String, IpfsID> ipfsIds = new HashMap<>();
-	private Map<String, Kullanici> user = new HashMap<>();
-	private Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
-	private Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
+	private final Map<String, String> ipfsHashes = new HashMap<>();
+	private final Map<String, IpfsID> ipfsIds = new HashMap<>();
+	private final Map<String, Kullanici> user = new HashMap<>();
+	private final Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
+	private final Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();
@@ -80,22 +73,16 @@ public class BlockchainService {
 
 		execute.getRecords().forEach(transactionResponse -> {
 			BlockchainExplorer blockchainExplorer = BlockchainExplorer.builder()
-					.from(new String(transactionResponse.getSourceAccount().getAccountId()))
+					.from(transactionResponse.getSourceAccount().getAccountId())
 					.hash(transactionResponse.getHash())
 					.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
 					.build();
 
-			byte[] bytes = Base64.getDecoder().decode(transactionResponse.getEnvelopeXdr());
-			XdrDataInputStream in = new XdrDataInputStream(new ByteArrayInputStream(bytes));
-			try{
-				Transaction tx = TransactionEnvelope.decode(in).getTx();
-				ipfsIDRepository.findById(tx.getMemo().getText()).ifPresent(ipfsID -> {
-					blockchainExplorer.setMemo(ipfsID.getIpfsHash());
-					blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
-				});
-			} catch (IOException e){
-				e.printStackTrace();
-			}
+			if(transactionResponse.getMemo() instanceof MemoText)
+			ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
+				blockchainExplorer.setMemo(ipfsID.getIpfsHash());
+				blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
+			});
 
 			blockchainExplorers.add(blockchainExplorer);
 		});
@@ -106,22 +93,16 @@ public class BlockchainService {
 			execute = server.transactions().order(RequestBuilder.Order.DESC).forAccount(destination).cursor(pagingToken).limit(200).execute();
 			execute.getRecords().forEach(transactionResponse -> {
 				BlockchainExplorer blockchainExplorer = BlockchainExplorer.builder()
-						.from(new String(transactionResponse.getSourceAccount().getAccountId()))
+						.from(transactionResponse.getSourceAccount().getAccountId())
 						.hash(transactionResponse.getHash())
 						.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
 						.build();
 
-				byte[] bytes = Base64.getDecoder().decode(transactionResponse.getEnvelopeXdr());
-				XdrDataInputStream in = new XdrDataInputStream(new ByteArrayInputStream(bytes));
-				try{
-					Transaction tx = TransactionEnvelope.decode(in).getTx();
-					ipfsIDRepository.findById(tx.getMemo().getText()).ifPresent(ipfsID -> {
-						blockchainExplorer.setMemo(ipfsID.getIpfsHash());
-						blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
-					});
-				} catch (IOException e){
-					e.printStackTrace();
-				}
+				if(transactionResponse.getMemo() instanceof MemoText)
+					ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
+					blockchainExplorer.setMemo(ipfsID.getIpfsHash());
+					blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
+				});
 
 				blockchainExplorers.add(blockchainExplorer);
 			});
@@ -146,8 +127,8 @@ public class BlockchainService {
 		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(transactions)){
 			List<String> ipfsUrls = transactions.stream().map(Transactions::getMemo).collect(Collectors.toList());
 
-			ipfsUrls.stream().forEach(ipfsId -> {
-				IpfsID ipfsID = null;
+			ipfsUrls.forEach(ipfsId -> {
+				IpfsID ipfsID;
 				if(ipfsIds.containsKey(ipfsId)){
 					ipfsID = ipfsIds.get(ipfsId);
 					try{
@@ -158,7 +139,7 @@ public class BlockchainService {
 							ipfsHashes.put(ipfsID.getIpfsHash(), file);
 							datas.add(file);
 						}
-					} catch (IOException e){
+					} catch (IOException ignored){
 					}
 				} else {
 					ipfsIDRepository.findById(ipfsId).ifPresent(ipfsidd -> {
@@ -171,7 +152,7 @@ public class BlockchainService {
 								ipfsHashes.put(ipfsidd.getIpfsHash(), file);
 								datas.add(file);
 							}
-						} catch (IOException e){
+						} catch (IOException ignored){
 						}
 					});
 				}
@@ -181,14 +162,14 @@ public class BlockchainService {
 		return datas;
 	}
 
-	public List<MedicalReport> getAll(String userId) throws IOException {
+	public List<MedicalReport> getAll() throws IOException {
 		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
-		authorityHashes.stream().forEach(s -> {
-			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+		authorityHashes.forEach(s -> {
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{")));
 			if(jsonObject.has("olusturan")){
 				String id = jsonObject.getString("olusturan");
-				Kullanici kullanici = null;
+				Kullanici kullanici;
 				if(user.containsKey(id)){
 					kullanici = user.get(id);
 				} else {
@@ -215,11 +196,11 @@ public class BlockchainService {
 		return medicalReports;
 	}
 
-	public List<MedicalReport> getAllByReportId(String userId, String reportId) throws IOException {
+	public List<MedicalReport> getAllByReportId(String reportId) throws IOException {
 		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
-		authorityHashes.stream().forEach(s -> {
-			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+		authorityHashes.forEach(s -> {
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{")));
 			if(jsonObject.has("olusturan") && jsonObject.getString("id").equals(reportId)){
 				medicalReports.add(MedicalReport.builder()
 						.id(jsonObject.getString("id"))
@@ -243,11 +224,11 @@ public class BlockchainService {
 	public List<MedicalReport> getAllByAnimalId(String animalId) throws IOException {
 		List<String> authorityHashes = readFile();
 		List<MedicalReport> medicalReports = new ArrayList<>();
-		authorityHashes.stream().forEach(s -> {
-			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+		authorityHashes.forEach(s -> {
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{")));
 			if(!jsonObject.has("kimTarafindan") && jsonObject.has("animalId") && jsonObject.getString("animalId").equals(animalId)){
 				String id = jsonObject.getString("olusturan");
-				Kullanici kullanici = null;
+				Kullanici kullanici;
 				if(user.containsKey(id)){
 					kullanici = user.get(id);
 				} else {
@@ -275,7 +256,7 @@ public class BlockchainService {
 	}
 
 	public void transactionOlustur(MedicalReport medicalReport) throws IOException {
-		List<MedicalReport> all = getAll(medicalReport.getOlusturan());
+		List<MedicalReport> all = getAll();
 		medicalReport.setId(UUID.randomUUID().toString());
 		medicalReport.setReportNum(all.size() + 1 + "");
 		Gson gson = new Gson();
@@ -285,7 +266,7 @@ public class BlockchainService {
 		out.println(jsonStr);
 		out.close();
 		String olusturan = medicalReport.getOlusturan();
-		Kullanici kullanici = null;
+		Kullanici kullanici;
 		if(user.containsKey(olusturan)){
 			kullanici = user.get(olusturan);
 		} else {
@@ -313,7 +294,7 @@ public class BlockchainService {
 		out.println(jsonStr);
 		out.close();
 		String olusturan = animalTarihce.getKimTarafindan();
-		Kullanici kullanici = null;
+		Kullanici kullanici;
 		if(user.containsKey(olusturan)){
 			kullanici = user.get(olusturan);
 		} else {
@@ -340,7 +321,7 @@ public class BlockchainService {
 		PrintWriter out = new PrintWriter(id);
 		out.println(jsonStr);
 		out.close();
-		Kullanici kullanici = null;
+		Kullanici kullanici;
 		if(user.containsKey(kullaniciId)){
 			kullanici = user.get(kullaniciId);
 		} else {
@@ -361,12 +342,12 @@ public class BlockchainService {
 		}
 	}
 
-	public List<MedicalReportMedicine> ilaclariGetir(String medicalReportId, String userId) throws IOException {
+	public List<MedicalReportMedicine> ilaclariGetir(String medicalReportId) throws IOException {
 		List<String> authorityHashes = readFile();
 		List<MedicalReportMedicine> medicalReportMedicines = new ArrayList<>();
-		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(s);
-			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+		authorityHashes.forEach(s -> {
+			String jsonObjects = s;
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{")));
 			if(jsonObject.has("medicalReportId") && jsonObject.getString("medicalReportId").equals(medicalReportId)){
 				Ilac ilac = ilacService.findById(jsonObject.getString("ilacId"));
 				medicalReportMedicines.add(MedicalReportMedicine.builder()
@@ -384,9 +365,9 @@ public class BlockchainService {
 	public List<AnimalTarihce> tarihceGetir(String animalId) throws IOException {
 		List<String> authorityHashes = readFile();
 		List<AnimalTarihce> animalTarihces = new ArrayList<>();
-		authorityHashes.stream().forEach(s -> {
-			String jsonObjects = new String(s);
-			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{"), s.length()));
+		authorityHashes.forEach(s -> {
+			String jsonObjects = s;
+			JSONObject jsonObject = new JSONObject(s.substring(s.indexOf("{")));
 			if(jsonObject.has("kimTarafindan") && jsonObject.getString("animalId").equals(animalId)){
 				animalTarihces.add(AnimalTarihce.builder()
 						.animalId(jsonObject.getString("animalId"))
@@ -402,16 +383,16 @@ public class BlockchainService {
 
 	public List<ChartDTO> enCokYazilanIlaclar(String userId) throws IOException {
 		long start = System.currentTimeMillis();
-		List<MedicalReport> medicalReports = getAll(userId);
+		List<MedicalReport> medicalReports = getAll();
 		List<MedicalReportMedicine> medicalReportMedicines = Lists.newArrayList();
 		if(!CollectionUtils.isEmpty(medicalReports)){
-			medicalReports.stream().forEach(medicalReport -> {
-				List<MedicalReportMedicine> medicalReportMedicines1 = null;
+			medicalReports.forEach(medicalReport -> {
+				List<MedicalReportMedicine> medicalReportMedicines1;
 				try{
 					if(medicalReportMedicineByReport.containsKey(medicalReport.getId())){
 						medicalReportMedicines1 = medicalReportMedicineByReport.get(medicalReport.getId());
 					}else {
-						medicalReportMedicines1 = ilaclariGetir(medicalReport.getId(), userId);
+						medicalReportMedicines1 = ilaclariGetir(medicalReport.getId());
 						medicalReportMedicineByReport.put(medicalReport.getId(), medicalReportMedicines1);
 					}
 					medicalReportMedicines.addAll(medicalReportMedicines1);
@@ -430,10 +411,10 @@ public class BlockchainService {
 		start = System.currentTimeMillis();
 
 		if(!CollectionUtils.isEmpty(medicalReportMedicines)){
-			medicalReportMedicines.stream().forEach(medicalReportMedicine -> {
+			medicalReportMedicines.forEach(medicalReportMedicine -> {
 				if(ilacMiktar.containsKey(medicalReportMedicine.getIlacAd())){
 					Integer miktar = ilacMiktar.get(medicalReportMedicine.getIlacAd());
-					miktar = miktar + Integer.valueOf(medicalReportMedicine.getAdet());
+					miktar = miktar + Integer.parseInt(medicalReportMedicine.getAdet());
 					ilacMiktar.put(medicalReportMedicine.getIlacAd(), miktar);
 				} else {
 					ilacMiktar.put(medicalReportMedicine.getIlacAd(), Integer.valueOf(medicalReportMedicine.getAdet()));
@@ -446,14 +427,14 @@ public class BlockchainService {
 						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
 							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
 						}else {
-							raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+							raporlar = getAllByReportId(medicalReportMedicine.getMedicalReportId());
 							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
 						}
 					} catch (IOException e){
 						e.printStackTrace();
 					}
-					raporlar.stream().forEach(medicalReport -> {
-						Kullanici kullanici = null;
+					raporlar.forEach(medicalReport -> {
+						Kullanici kullanici;
 						if(user.containsKey(medicalReport.getOlusturan())){
 							kullanici = user.get(medicalReport.getOlusturan());
 						} else {
@@ -469,14 +450,14 @@ public class BlockchainService {
 						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
 							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
 						}else {
-							raporlar = getAllByReportId(userId, medicalReportMedicine.getMedicalReportId());
+							raporlar = getAllByReportId(medicalReportMedicine.getMedicalReportId());
 							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
 						}
 					} catch (IOException e){
 						e.printStackTrace();
 					}
 
-					ilacRapor.put(medicalReportMedicine.getIlacAd(), raporlar.stream()
+					ilacRapor.put(medicalReportMedicine.getIlacAd(), Objects.requireNonNull(raporlar).stream()
 							.map(medicalReport -> "Veteriner: " + (user.containsKey(medicalReport.getOlusturan()) ? Optional.of(user.get(medicalReport.getOlusturan())) : userService.findById(medicalReport.getOlusturan()))
 									.get()
 									.getName()
@@ -488,10 +469,8 @@ public class BlockchainService {
 
 		ilacMiktar.forEach((s, integer) -> {
 			List<ChartDTO> raporlar = Lists.newArrayList();
-			ilacRapor.get(s).stream().forEach(s1 -> {
-				raporlar.add(ChartDTO.builder().name(s1).value(integer).build());
-			});
-			chartDTOs.add(ChartDTO.builder().name(s).value(Integer.valueOf(integer)).drillDownList(raporlar).build());
+			ilacRapor.get(s).forEach(s1 -> raporlar.add(ChartDTO.builder().name(s1).value(integer).build()));
+			chartDTOs.add(ChartDTO.builder().name(s).value(integer).drillDownList(raporlar).build());
 		});
 
 		System.out.println("Ilac Chart Doldurma Suresi: " + ((System.currentTimeMillis() - start) / 1000F));

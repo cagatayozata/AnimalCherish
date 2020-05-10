@@ -33,8 +33,8 @@ public class AnimalService implements IBaseService<Animal> {
 
 	@Override
 	public void save(Animal o) {
-		String islem = "";
-		String deger = "";
+		String islem;
+		String deger;
 
 		if(o.getOlusmaTarihi() != null){
 			islem = "Hayvan sayfasında hayvan güncelleme işlemi";
@@ -64,7 +64,7 @@ public class AnimalService implements IBaseService<Animal> {
 
 	@Override
 	public void delete(List<Animal> o) {
-		o.stream().forEach(animal -> {
+		o.forEach(animal -> {
 			try{
 				List<MedicalReport> allByAnimalId = blockchainService.getAllByAnimalId(animal.id);
 				if(CollectionUtils.isEmpty(allByAnimalId)){

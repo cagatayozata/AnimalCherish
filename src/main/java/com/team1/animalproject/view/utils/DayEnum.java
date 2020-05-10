@@ -17,10 +17,10 @@ public enum DayEnum {
 	PAZAR(7, "Pazar");
 
 	@Getter
-	private Integer id;
+	private final Integer id;
 
 	@Getter
-	private String textMessageKey;
+	private final String textMessageKey;
 
 	DayEnum(Integer id, String textMessageKey) {
 		this.id = id;

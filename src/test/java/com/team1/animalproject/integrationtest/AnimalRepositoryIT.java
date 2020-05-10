@@ -37,7 +37,7 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Animal> animals = animalRepository.animalAra();
-		Assert.assertTrue(animals.size() == 10);
+		Assert.assertEquals(animals.size(), 10);
 		animalRepository.deleteAll();
 	}
 
@@ -48,7 +48,7 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Animal> animals = animalRepository.findAll();
-		Assert.assertTrue(animals.size() == 5);
+		Assert.assertEquals(animals.size(), 5);
 		animalRepository.deleteAll();
 	}
 
@@ -60,8 +60,8 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		List<String> animalIds = Lists.newArrayList();
 		animalIds.add(animal.getId());
 
-		Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
-		Assert.assertTrue(savedAnimal.equals(animal));
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
+		Assert.assertEquals(animal, savedAnimal);
 		animalRepository.deleteAll();
 	}
 
@@ -73,7 +73,7 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		List<String> animalIds = Lists.newArrayList();
 		animalIds.add(animal.getId());
 
-		Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
 
 		savedAnimal.setName(RandomStringUtils.randomAlphabetic(30));
 		animalRepository.save(savedAnimal);
@@ -81,9 +81,9 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		animalIds = Lists.newArrayList();
 		animalIds.add(savedAnimal.getId());
 
-		Animal updatedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") Animal updatedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
 
-		Assert.assertFalse(updatedAnimal.getName().equals(animal.getName()));
+		Assert.assertNotEquals(animal.getName(), updatedAnimal.getName());
 		animalRepository.deleteAll();
 	}
 
@@ -95,7 +95,7 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		List<String> animalIds = Lists.newArrayList();
 		animalIds.add(animal.getId());
 
-		Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") Animal savedAnimal = animalRepository.findByIdIn(animalIds).get().get(0);
 
 		animalRepository.delete(savedAnimal);
 
@@ -118,9 +118,9 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 
 		List<String> ids = animals.stream().map(Animal::getId).collect(Collectors.toList());
 
-		List<Animal> saveds = animalRepository.findByIdIn(ids).get();
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") List<Animal> saveds = animalRepository.findByIdIn(ids).get();
 
-		Assert.assertTrue(saveds.size() == 5);
+		Assert.assertEquals(saveds.size(), 5);
 		animalRepository.deleteAll();
 	}
 
@@ -133,11 +133,11 @@ public class AnimalRepositoryIT  extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Animal> animals = animalRepository.findAll();
-		Assert.assertTrue(animals.size() == 5);
+		Assert.assertEquals(animals.size(), 5);
 
 		Map<Integer, Long> yediGun = animalRepository.sonYediGunIcinEklenenHayvanVerileriniGetir();
 
-		Assert.assertTrue(yediGun.keySet().size() == 5);
+		Assert.assertEquals(yediGun.keySet().size(), 5);
 		animalRepository.deleteAll();
 	}
 

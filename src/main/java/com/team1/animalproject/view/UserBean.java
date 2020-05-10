@@ -1,20 +1,11 @@
 package com.team1.animalproject.view;
 
 import com.team1.animalproject.auth.Constants;
-import com.team1.animalproject.blockchain.models.Transactions;
-import com.team1.animalproject.blockchain.queries.AccountDetails;
-import com.team1.animalproject.blockchain.queries.AssetQuery;
 import com.team1.animalproject.blockchain.queries.CreateAccount;
-import com.team1.animalproject.blockchain.queries.Payment;
 import com.team1.animalproject.exception.BaseExceptionType;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.EmailService;
 import com.team1.animalproject.service.UserService;
-import io.ipfs.api.IPFS;
-import io.ipfs.api.MerkleNode;
-import io.ipfs.api.NamedStreamable;
-import io.ipfs.multihash.Multihash;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.stellar.sdk.KeyPair;
-import org.stellar.sdk.responses.SubmitTransactionResponse;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -39,18 +27,16 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.team1.animalproject.auth.Constants.MAIN_URL;
 
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 @Slf4j
 public class UserBean extends BaseViewController<Kullanici> implements Serializable {
@@ -85,10 +71,7 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
         if (repeatPassword != null && repeatPassword.equals(kullanici.getPassword())) {
             return true;
         }
-        if(repeatPassword == null){
-            return true;
-        }
-        return false;
+        return repeatPassword == null;
     }
 
     @Override
@@ -144,7 +127,7 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
 
     }
 
-    public void login() throws IOException {
+    public void login() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext extenalContext = facesContext.getExternalContext();
         RequestDispatcher dispatcher = ((ServletRequest) extenalContext.getRequest()).getRequestDispatcher(Constants.LOGIN_PROCESSING_URL);
@@ -188,7 +171,7 @@ public class UserBean extends BaseViewController<Kullanici> implements Serializa
             anyFile = false;
     }
 
-    public void onUpload(FileUploadEvent file) throws IOException {
+    public void onUpload(FileUploadEvent file) {
         System.out.println("File Uploaded" + file.getFile().getFileName());
         this.fileEvent = file;
     }

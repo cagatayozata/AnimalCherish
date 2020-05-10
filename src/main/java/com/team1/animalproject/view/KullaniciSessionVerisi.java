@@ -10,9 +10,6 @@ import com.team1.animalproject.view.utils.JSFUtil;
 import com.team1.animalproject.view.utils.KullaniciTipiEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
@@ -20,16 +17,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Slf4j
 @Data
 @Component
@@ -82,9 +77,7 @@ public class KullaniciSessionVerisi implements Serializable {
 			KullaniciPrincipal kullaniciPrincipal = (KullaniciPrincipal) authentication.getPrincipal();
 			Optional<Kullanici> kullaniciResponse = userService.findById(kullaniciPrincipal.getId());
 
-			if(kullaniciResponse.isPresent()){
-				kullanici = kullaniciResponse.get();
-			}
+			kullaniciResponse.ifPresent(value -> kullanici = value);
 		}
 	}
 

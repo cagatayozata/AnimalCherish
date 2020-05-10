@@ -26,13 +26,13 @@ package com.team1.animalproject.blockchain.utils;
 
 public class Format
 {
-    public static String parseByteArray (byte array[] )
+    public static String parseByteArray (byte[] array)
     {
         StringBuilder parsedVal = new StringBuilder();
 
         for (Byte anArray : array)
         {
-            parsedVal.append ( Byte.toString ( anArray ) );
+            parsedVal.append (anArray);
         }
         return parsedVal.toString();
     }

@@ -12,6 +12,7 @@ import com.team1.animalproject.model.Yetki;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
 
+@SuppressWarnings ("ALL")
 @FacesConverter(value = "yetkiPickListConverter")
 public class YetkiPickListConverter implements Converter {
 
@@ -38,25 +39,20 @@ public class YetkiPickListConverter implements Converter {
 		final DualListModel<Yetki> dualList;
 		try {
 			dualList = (DualListModel<Yetki>) ((PickList) component).getValue();
-			Yetki resource = getObjectFromList(dualList.getSource(), Long.valueOf(value));
+			Yetki resource = getObjectFromList(dualList.getSource());
 			if (resource == null) {
-				resource = getObjectFromList(dualList.getTarget(), Long.valueOf(value));
+				resource = getObjectFromList(dualList.getTarget());
 			}
 
 			return resource;
-		} catch (ClassCastException cce) {
-			throw new ConverterException();
-		} catch (NumberFormatException nfe) {
+		} catch (ClassCastException | NumberFormatException cce) {
 			throw new ConverterException();
 		}
 	}
 
-	private Yetki getObjectFromList(final List<?> list, final Long identifier) {
+	private Yetki getObjectFromList(final List<?> list) {
 		for (final Object object : list) {
 			final Yetki resource = (Yetki) object;
-			if (resource.getId().equals(identifier)) {
-				return resource;
-			}
 		}
 		return null;
 	}

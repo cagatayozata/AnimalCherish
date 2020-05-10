@@ -1,7 +1,6 @@
 package com.team1.animalproject.service;
 
 import com.team1.animalproject.exception.BaseExceptionType;
-import com.team1.animalproject.exception.BusinessRuleException;
 import com.team1.animalproject.exception.ViewException;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.Shelter;
@@ -18,11 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.swing.text.View;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings ("ALL")
 @Service
 public class ShelterService implements IBaseService<Shelter> {
 
@@ -44,7 +42,7 @@ public class ShelterService implements IBaseService<Shelter> {
     @Override
     public List<Shelter> getAll() {
         List<Shelter> all = shelterRepository.findAll();
-        all.stream().forEach(shelter -> {
+        all.forEach(shelter -> {
             int size = 0;
             List<ShelterWorker> byShelterId = shelterWorkerRepository.findByShelterId(shelter.getId());
             if(byShelterId != null){
@@ -81,8 +79,7 @@ public class ShelterService implements IBaseService<Shelter> {
         if(!gorevli){
             List<ShelterWorker> all = shelterWorkerRepository.findAll();
 
-            all.stream().forEach(shelterWorker -> {
-                Kullanici kullanici = userService.findById(shelterWorker.getId()).get();
+            all.stream().map(shelterWorker -> userService.findById(shelterWorker.getId()).get()).forEach(kullanici -> {
                 kullanici.setKullaniciTipi(KullaniciTipiEnum.NORMAL_USER.getId());
                 userService.save(kullanici);
             });
@@ -90,7 +87,7 @@ public class ShelterService implements IBaseService<Shelter> {
             shelterWorkerRepository.deleteByShelterId(shelterId);
             shelterWorkerRepository.save(shelterWorkers);
 
-            shelterWorkers.stream().forEach(shelterWorker -> {
+            shelterWorkers.forEach(shelterWorker -> {
                 Kullanici kullanici = userService.findById(shelterWorker.getWorkerId()).get();
                 kullanici.setKullaniciTipi(KullaniciTipiEnum.SHELTER.getId());
                 userService.update(kullanici);

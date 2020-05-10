@@ -3,12 +3,10 @@ package com.team1.animalproject.view;
 import com.team1.animalproject.model.*;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.PetShopService;
-import com.team1.animalproject.service.ShelterService;
 import com.team1.animalproject.service.UserService;
 import com.team1.animalproject.view.utils.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.id.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class PetShopBean extends BaseViewController<PetShop> implements Serializable {
 
@@ -134,15 +133,12 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
 		petShopId = selectedPetShops.stream().findFirst().get().getId();
 		List<PetShopAnimal> animalsIn = petShopService.getAnimalsByPetShopId(petShopId);
 		Optional<List<Animal>> animals = animalService.findByIdIn(animalsIn.stream().map(PetShopAnimal::getAnimalId).collect(Collectors.toList()));
-		if(animals.isPresent()){
-			addedAnimals = animals.get();
-		} else {
-			addedAnimals = new ArrayList<>();
-		}
+		addedAnimals = animals.orElseGet(ArrayList::new);
 		filteredAddedAnimals = addedAnimals;
 		showAnimalCreateOrEdit = true;
 	}
 
+	@SuppressWarnings ("SuspiciousMethodCalls")
 	private void findAnimalsForAdd() {
 		animals.removeAll(addedWorkers);
 		filteredAnimals = animals;
@@ -175,11 +171,7 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
 		petShopId = selectedPetShops.stream().findFirst().get().getId();
 		List<PetShopWorker> workersIn = petShopService.getWorkersByPetShopId(petShopId);
 		Optional<List<Kullanici>> kullanicis = userService.findByIdIn(workersIn.stream().map(PetShopWorker::getWorkerId).collect(Collectors.toList()));
-		if(kullanicis.isPresent()){
-			addedWorkers = kullanicis.get();
-		} else {
-			addedWorkers = new ArrayList<>();
-		}
+		addedWorkers = kullanicis.orElseGet(ArrayList::new);
 		filteredAddedWorkers = addedWorkers;
 		showWorkerCreateOrEdit = true;
 	}
@@ -208,9 +200,7 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
 
 	public void workerSave() throws IOException {
 		List<PetShopWorker> petShopWorker = new ArrayList<>();
-		addedWorkers.stream().forEach(kullanici -> {
-			petShopWorker.add(PetShopWorker.builder().id(UUID.randomUUID().toString()).petShopId(petShopId).workerId(kullanici.id).build());
-		});
+		addedWorkers.forEach(kullanici -> petShopWorker.add(PetShopWorker.builder().id(UUID.randomUUID().toString()).petShopId(petShopId).workerId(kullanici.id).build()));
 
 		petShopService.saveWorker(petShopWorker);
 
@@ -223,7 +213,7 @@ public class PetShopBean extends BaseViewController<PetShop> implements Serializ
 	public void animalsSave() throws IOException {
 		List<PetShopAnimal> petShopAnimals = new ArrayList<>();
 		if(addedAnimals.size() > 0){
-			addedAnimals.stream().forEach(animal -> {
+			addedAnimals.forEach(animal -> {
 				petShopAnimals.add(PetShopAnimal.builder().id(UUID.randomUUID().toString()).petshopId(petShopId).animalId(animal.id).build());
 
 				AnimalTarihce animalTarihce = AnimalTarihce.builder()

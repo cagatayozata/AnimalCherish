@@ -29,7 +29,6 @@ import org.stellar.sdk.KeyPair;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class CreateAccount

@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class ShelterAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		}
 
 		List<ShelterAnimal> all = shelterAnimalRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		shelterAnimalRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class ShelterAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterAnimalRepository.saveAndFlush(shelterAnimal);
 
 		ShelterAnimal savedShelterAnimal = shelterAnimalRepository.findById(shelterAnimal.getId()).get();
-		Assert.assertTrue(savedShelterAnimal.equals(shelterAnimal));
+		Assert.assertEquals(shelterAnimal, savedShelterAnimal);
 		shelterAnimalRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class ShelterAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterAnimalRepository.saveAndFlush(shelterAnimal);
 
 		ShelterAnimal savedShelterAnimal = shelterAnimalRepository.findById(shelterAnimal.getId()).get();
-		Assert.assertTrue(savedShelterAnimal.equals(shelterAnimal));
+		Assert.assertEquals(shelterAnimal, savedShelterAnimal);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedShelterAnimal.setAnimalId(toUpdate);
@@ -67,7 +68,7 @@ public class ShelterAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterAnimalRepository.saveAndFlush(shelterAnimal);
 
 		ShelterAnimal savedShelterAnimal = shelterAnimalRepository.findById(shelterAnimal.getId()).get();
-		Assert.assertTrue(savedShelterAnimal.equals(shelterAnimal));
+		Assert.assertEquals(shelterAnimal, savedShelterAnimal);
 
 		shelterAnimalRepository.delete(savedShelterAnimal);
 
@@ -76,13 +77,14 @@ public class ShelterAnimalRepositoryIT extends AbstractTestNGSpringContextTests 
 		shelterAnimalRepository.deleteAll();
 	}
 
+	@SuppressWarnings ("OptionalGetWithoutIsPresent")
 	@Test
 	public void findById() {
 		ShelterAnimal shelterAnimal = ShelterAnimalPreparer.olustur();
 		shelterAnimalRepository.saveAndFlush(shelterAnimal);
 
-		ShelterAnimal savedShelterAnimal = shelterAnimalRepository.findById(shelterAnimal.getId()).get();
-		Assert.assertTrue(savedShelterAnimal.equals(shelterAnimal));
+		@SuppressWarnings ("OptionalGetWithoutIsPresent") ShelterAnimal savedShelterAnimal = shelterAnimalRepository.findById(shelterAnimal.getId()).get();
+		Assert.assertEquals(shelterAnimal, savedShelterAnimal);
 		shelterAnimalRepository.deleteAll();
 	}
 

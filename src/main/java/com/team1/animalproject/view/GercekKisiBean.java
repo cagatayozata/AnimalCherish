@@ -18,9 +18,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class GercekKisiBean extends BaseViewController<GercekKisi> implements Serializable {
 

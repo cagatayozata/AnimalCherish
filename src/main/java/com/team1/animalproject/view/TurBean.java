@@ -1,8 +1,6 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.Animal;
 import com.team1.animalproject.model.Tur;
-import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.TurService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,9 +18,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings ("ALL")
 @Component
 @Scope("view")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Data
 public class TurBean extends BaseViewController<Tur> implements Serializable {
 
@@ -74,7 +73,7 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 	}
 
 	public boolean kullanimdaVarmi(){
-		return selectedTurs.stream().anyMatch(c -> c.isDurum());
+		return selectedTurs.stream().anyMatch(Tur::isDurum);
 	}
 
 	public void prepareNewScreen(){

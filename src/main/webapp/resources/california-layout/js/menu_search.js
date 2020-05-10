@@ -63,7 +63,7 @@ $(document).ready(function () {
 
                     findParent($(this));
 
-                    return;
+
                 }
             });
         }

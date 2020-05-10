@@ -16,10 +16,10 @@ public enum BaseExceptionType {
 
 
 	@Getter
-	private String code;
+	private final String code;
 
 	@Getter
-	private String validationMessage;
+	private final String validationMessage;
 
 	BaseExceptionType(String code, String validationMessage) {
 		this.code = code;

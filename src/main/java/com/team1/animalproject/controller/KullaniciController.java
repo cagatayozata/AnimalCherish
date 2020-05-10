@@ -1,8 +1,6 @@
 package com.team1.animalproject.controller;
 
-import com.team1.animalproject.model.Ilac;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.service.IlacService;
 import com.team1.animalproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

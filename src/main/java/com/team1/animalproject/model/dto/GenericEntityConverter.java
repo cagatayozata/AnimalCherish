@@ -46,7 +46,7 @@ public class GenericEntityConverter implements Converter {
 		Map<String, Object> viewMap = context.getViewRoot().getViewMap();
 		Map<String, Object> idMap = (Map) viewMap.get(KEY);
 		if(idMap == null){
-			idMap = new HashMap<String, Object>();
+			idMap = new HashMap<>();
 			viewMap.put(KEY, idMap);
 		}
 		return idMap;

@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings ("ALL")
 @EnableAutoConfiguration
 @TestPropertySource (locations = "classpath:/application-test.properties")
 @SpringBootTest
@@ -30,7 +31,7 @@ public class UserRepositoryIT extends AbstractTestNGSpringContextTests {
 		}
 
 		List<Kullanici> all = userRepository.findAll();
-		Assert.assertTrue(all.size() == 5);
+		Assert.assertEquals(all.size(), 5);
 		userRepository.deleteAll();
 	}
 
@@ -40,7 +41,7 @@ public class UserRepositoryIT extends AbstractTestNGSpringContextTests {
 		userRepository.saveAndFlush(user);
 
 		Kullanici savedUser = userRepository.findById(user.getId()).get();
-		Assert.assertTrue(savedUser.equals(user));
+		Assert.assertEquals(user, savedUser);
 		userRepository.deleteAll();
 	}
 
@@ -50,7 +51,7 @@ public class UserRepositoryIT extends AbstractTestNGSpringContextTests {
 		userRepository.saveAndFlush(user);
 
 		Kullanici savedUser = userRepository.findById(user.getId()).get();
-		Assert.assertTrue(savedUser.equals(user));
+		Assert.assertEquals(user, savedUser);
 
 		String toUpdate = RandomStringUtils.randomNumeric(10);
 		savedUser.setName(toUpdate);
@@ -67,7 +68,7 @@ public class UserRepositoryIT extends AbstractTestNGSpringContextTests {
 		userRepository.saveAndFlush(user);
 
 		Kullanici savedUser = userRepository.findById(user.getId()).get();
-		Assert.assertTrue(savedUser.equals(user));
+		Assert.assertEquals(user, savedUser);
 
 		userRepository.delete(savedUser);
 
@@ -82,7 +83,7 @@ public class UserRepositoryIT extends AbstractTestNGSpringContextTests {
 		userRepository.saveAndFlush(user);
 
 		Kullanici savedUser = userRepository.findById(user.getId()).get();
-		Assert.assertTrue(savedUser.equals(user));
+		Assert.assertEquals(user, savedUser);
 		userRepository.deleteAll();
 	}
 

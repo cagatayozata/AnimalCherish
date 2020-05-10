@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings ("ALL")
 @Service
 public class KlinikService implements IBaseService<Klinik> {
 
@@ -29,7 +30,7 @@ public class KlinikService implements IBaseService<Klinik> {
 	@Override
 	public List<Klinik> getAll() {
 		List<Klinik> all = klinikRepository.findAll();
-		all.stream().forEach(klinik -> {
+		all.forEach(klinik -> {
 			int size = 0;
 			List<KlinikVet> klinikVets = klinikVetRepository.findByKlinikId(klinik.getId());
 			if(klinikVets != null){

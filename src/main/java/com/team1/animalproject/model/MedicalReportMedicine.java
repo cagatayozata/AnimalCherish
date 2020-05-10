@@ -1,7 +1,6 @@
 package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.team1.animalproject.model.dto.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 
 @ToString(callSuper = true)
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

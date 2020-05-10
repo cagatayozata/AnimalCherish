@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @Scope ("view")
-@EqualsAndHashCode (callSuper = false)
+@EqualsAndHashCode ()
 @Data
 public class BlockchainBean extends BaseViewController<BlockchainExplorer> implements Serializable {
 

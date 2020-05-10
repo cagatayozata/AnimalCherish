@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+@SuppressWarnings ("ALL")
 @ManagedBean(name = "language")
 @SessionScoped
 @Controller
@@ -18,9 +19,9 @@ public class Language {
 
 	@Autowired
 	private MessageSource messageSource;
-	private Locale locale;
+	private final Locale locale;
 
-	Map<String, Locale> languages = new HashMap<String, Locale>();
+	final Map<String, Locale> languages = new HashMap<>();
 
 	private String localeCode;
 
@@ -32,8 +33,7 @@ public class Language {
 	}
 
 	public String getMessage(String property) {
-		String message = messageSource.getMessage(property, null, this.locale);
-		return message;
+		return messageSource.getMessage(property, null, this.locale);
 	}
 
 	public Map<String, Locale> getLanguages() {

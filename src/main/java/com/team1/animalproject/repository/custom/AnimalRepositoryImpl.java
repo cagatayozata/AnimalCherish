@@ -30,7 +30,7 @@ import java.util.Map;
 public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements CustomAnimalRepository {
 
 	@PersistenceContext
-	private EntityManager em;
+	private final EntityManager em;
 
 	public AnimalRepositoryImpl(EntityManager entityManager) {
 		super(Animal.class);
@@ -47,7 +47,7 @@ public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements C
 		List<Tuple> tuples = from(qAnimal).select(qAnimal, qCins.name, qTur.name).leftJoin(qTur).on(qTur.id.eq(qAnimal.turId)).leftJoin(qCins).on(qCins.id.eq(qAnimal.cinsId)).fetch();
 
 		List<Animal> animalList = Lists.newArrayList();
-		tuples.stream().forEach(tuple -> {
+		tuples.forEach(tuple -> {
 			Animal animal = tuple.get(qAnimal);
 			animal.setTurAd(tuple.get(qTur.name));
 			animal.setCinsAd(tuple.get(qCins.name));
@@ -68,7 +68,8 @@ public class AnimalRepositoryImpl extends QueryDslRepositorySupport implements C
 
 		Map<Integer, Long> veri = new HashMap<>();
 
-		tuples.stream().forEach(tuple -> {
+		tuples.forEach(tuple -> {
+			//noinspection deprecation
 			int day = tuple.get(qAnimal.olusmaTarihi).getDay();
 			if(veri.containsKey(day)){
 				Long aLong = veri.get(day);

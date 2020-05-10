@@ -25,14 +25,14 @@ import java.util.stream.IntStream;
 
 public class DateUtil {
 
-	public static DateTimeFormatter droolsDateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	public static DateTimeFormatter formatterForStorage = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
-	public static DateTimeFormatter formatterForDownload = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
-	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	public static DateTimeFormatter formatterCalendar = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+	public static final DateTimeFormatter droolsDateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	public static final DateTimeFormatter formatterForStorage = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+	public static final DateTimeFormatter formatterForDownload = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	public static final DateTimeFormatter formatterCalendar = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 	public static DateTimeFormatter formatterCalendarForPfCalendar = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH,mm");
 	public static DateTimeFormatter formatterWithoutTime = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-	public static DateTimeFormatter humanReadableFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	public static final DateTimeFormatter humanReadableFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	public static SimpleDateFormat formatterAracYolcuExcel = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 	private final static long ONE_MINUTE_IN_MILLISECONDS = 6000;
 	private final static long ONE_SECOND_IN_MILLISECONDS = 1000;
@@ -126,9 +126,8 @@ public class DateUtil {
 		calendar.clear();
 		calendar.set(Calendar.MONTH, 12);
 		calendar.set(Calendar.YEAR, 3000);
-		Date date = calendar.getTime();
 
-		return date;
+		return calendar.getTime();
 	}
 
 	public static Date getNowDateWithoutTime() {
@@ -170,37 +169,32 @@ public class DateUtil {
 
 	public static Date nSecondsBefore(Date currentDate, int seconds) {
 		long dateInMillis = currentDate.getTime();
-		Date newDate = new Date(dateInMillis - (seconds * ONE_SECOND_IN_MILLISECONDS));
-		return newDate;
+		return new Date(dateInMillis - (seconds * ONE_SECOND_IN_MILLISECONDS));
 	}
 
 	public static Date nMinutesBefore(Date currentDate, int minutes) {
 		long dateInMillis = currentDate.getTime();
-		Date newDate = new Date(dateInMillis - (minutes * ONE_MINUTE_IN_MILLISECONDS));
-		return newDate;
+		return new Date(dateInMillis - (minutes * ONE_MINUTE_IN_MILLISECONDS));
 	}
 
 	public static Date addingDay(Date date, int gun) {
 		LocalDateTime ldt = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).plusDays(gun);
-		Date nevDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-		return nevDate;
+		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 	public static Date minusDays(Date date, int gun) {
 		LocalDateTime ldt = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).minusDays(gun);
-		Date nevDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-		return nevDate;
+		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
-	public static Date nMinutesAfter(int minutes) {
+	public static Date nMinutesAfter() {
 		LocalDateTime localDateTime = now();
 		return asDate(localDateTime.plusMinutes(1));
 	}
 
 	public static Date nMinutesAfter(Date currentDate, int minutes) {
 		long dateInMillis = currentDate.getTime();
-		Date newDate = new Date(dateInMillis + (minutes * ONE_MINUTE_IN_MILLISECONDS));
-		return newDate;
+		return new Date(dateInMillis + (minutes * ONE_MINUTE_IN_MILLISECONDS));
 	}
 
 	public static Date get01012010() {
@@ -228,14 +222,13 @@ public class DateUtil {
 	}
 
 	public static Date newDate(Long dateInMillis) {
-		Date newDate = new Date(dateInMillis);
-		return newDate;
+		return new Date(dateInMillis);
 	}
 
 	public static List<LocalDate> getAllDatesBetweenTwoDates(LocalDate startDate, LocalDate endDate, boolean withEndDate) {
 		long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		if(withEndDate) numOfDaysBetween++;
-		return IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
+		return IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(startDate::plusDays).collect(Collectors.toList());
 	}
 
 	public static List<LocalDate> getAllDatesBetweenTwoDates(Date startDate, Date endDate, boolean withEndDate) {
@@ -303,8 +296,7 @@ public class DateUtil {
 			GregorianCalendar gregorianCalendar = new GregorianCalendar();
 			DatatypeFactory datatypeFactory = null;
 			datatypeFactory = DatatypeFactory.newInstance();
-			XMLGregorianCalendar now = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
-			return now;
+			return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
 		} catch (DatatypeConfigurationException e){
 			return null;
 		}

@@ -1,11 +1,6 @@
 package com.team1.animalproject.scenariotest;
 
-import com.google.common.collect.Lists;
 import com.team1.animalproject.model.Kullanici;
-import com.team1.animalproject.model.Rol;
-import com.team1.animalproject.model.RolYetki;
-import com.team1.animalproject.preparer.RolPreparer;
-import com.team1.animalproject.preparer.RolYetkiPreparer;
 import com.team1.animalproject.preparer.UserPreparer;
 import com.team1.animalproject.repository.KullaniciRolRepository;
 import com.team1.animalproject.repository.RolRepository;
