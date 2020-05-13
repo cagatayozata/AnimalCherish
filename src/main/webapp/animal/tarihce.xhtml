@@ -4,6 +4,19 @@
 
     <p:panel id="tarihcePanel" styleClass="card card-w-title" rendered="#{animalBean.showTarihce}">
 
+        <style>
+            .ui-messages-info, .ui-message-info {
+                color: white;
+                background-color: green;
+            }
+        </style>
+
+        <div style="margin-bottom: 10px">
+            <p:staticMessage severity="info" summary="Bilgilendirme!" detail="Bu sayfada hayvan üzerinde yapılan tüm işlemleri görebilirsiniz. Bu kayıtlar IPFS
+zerinden blockchain teknolojisi kullanılarak çekilmektedir. Değişmiş olma veya silinme olasılığı yoktur."/>
+        </div>
+
+
         <p:fieldset styleClass="block"
                     legend="Tarihçe">
 

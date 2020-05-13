@@ -166,7 +166,7 @@ public class AnimalBean extends BaseViewController<Animal> implements Serializab
 		showIlacList = false;
 		showIlacCreateOrEdit = false;
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Başarılı", "Blockchain başarıyla çalıştırıldı."));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Başarılı", "IPFS verisi Blockchain ile sisteme aktarılmıştır."));
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		selectedMedicalReports = new ArrayList<>();
 	}

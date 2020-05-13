@@ -61,6 +61,7 @@ public class BlockchainService {
 	private final Map<String, Kullanici> user = new HashMap<>();
 	private final Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
 	private final Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
+	private List<String> helperList = Lists.newArrayList();
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();
@@ -123,6 +124,7 @@ public class BlockchainService {
 		}
 
 		List<String> datas = Lists.newArrayList();
+		helperList = Lists.newArrayList();
 
 		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(transactions)){
 			List<String> ipfsUrls = transactions.stream().map(Transactions::getMemo).collect(Collectors.toList());
