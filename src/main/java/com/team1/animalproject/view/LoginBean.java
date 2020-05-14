@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Slf4j
 @Data
 @URLMapping (id = "loginBean", pattern = "/deneme", viewId = "/login.jsf")
@@ -51,7 +51,6 @@ public class LoginBean extends BaseViewController<Animal> implements Serializabl
 
 	}
 
-
 	public void mainPage() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/landing.jsf");
 	}
@@ -67,6 +66,5 @@ public class LoginBean extends BaseViewController<Animal> implements Serializabl
 		}
 		facesContext.responseComplete();
 	}
-
 
 }

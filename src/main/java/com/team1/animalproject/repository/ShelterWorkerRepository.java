@@ -7,14 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("shelterWorkerRepository")
+@Repository ("shelterWorkerRepository")
 public interface ShelterWorkerRepository extends JpaRepository<ShelterWorker, String> {
 
-    List<ShelterWorker> findByShelterId(String shelterId);
+	List<ShelterWorker> findByShelterId(String shelterId);
 
-    List<ShelterWorker> findByShelterIdAndWorkerId(String shelterId, String workerId);
+	List<ShelterWorker> findByShelterIdAndWorkerId(String shelterId, String workerId);
 
-    void deleteByShelterId(String shelterId);
+	void deleteByShelterId(String shelterId);
 
 	Optional<ShelterWorker> findById(String id);
 }

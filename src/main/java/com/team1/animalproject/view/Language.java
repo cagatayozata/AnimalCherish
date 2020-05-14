@@ -1,28 +1,25 @@
 package com.team1.animalproject.view;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 @SuppressWarnings ("ALL")
-@ManagedBean(name = "language")
+@ManagedBean (name = "language")
 @SessionScoped
 @Controller
 public class Language {
 
+	final Map<String, Locale> languages = new HashMap<>();
+	private final Locale locale;
 	@Autowired
 	private MessageSource messageSource;
-	private final Locale locale;
-
-	final Map<String, Locale> languages = new HashMap<>();
-
 	private String localeCode;
 
 	public Language() {

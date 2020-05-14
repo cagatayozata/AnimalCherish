@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("turRepository")
+@Repository ("turRepository")
 public interface TurRepository extends JpaRepository<Tur, String> {
 
-    Optional<Tur> findById(String id);
+	Optional<Tur> findById(String id);
 
-    List<Tur> findAllByDurum(boolean durum);
+	List<Tur> findAllByDurum(boolean durum);
 
 }

@@ -140,7 +140,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		showRandevuNewScreen = true;
 	}
 
-	public void vetRandevuKaydet(){
+	public void vetRandevuKaydet() {
 		vetRandevu.setVetId(vet.getId());
 		vetService.vetRandevuKaydet(vetRandevu);
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -149,7 +149,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		prepareRandevuScreen();
 	}
 
-	public void vetRandevuSil(){
+	public void vetRandevuSil() {
 		vetRandevu = selectedVetRandevus.stream().findFirst().get();
 		vetService.vetRandevuSil(vetRandevu);
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -158,31 +158,32 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		prepareRandevuScreen();
 	}
 
-	public boolean veterinerMi(){
+	public boolean veterinerMi() {
 		return kullaniciPrincipal.getId().equals(vet.getKullaniciId());
 	}
 
-	public boolean randevuIcinUygunMu(){
-		return selectedVetRandevus != null && !CollectionUtils.isEmpty(selectedVetRandevus) && !kullaniciPrincipal.getId().equals(vet.getKullaniciId()) && selectedVetRandevus.stream().findFirst().get().getRandevuAlanKullanici() == null;
+	public boolean randevuIcinUygunMu() {
+		return selectedVetRandevus != null && !CollectionUtils.isEmpty(selectedVetRandevus) && !kullaniciPrincipal.getId().equals(vet.getKullaniciId())
+				&& selectedVetRandevus.stream().findFirst().get().getRandevuAlanKullanici() == null;
 	}
 
-	public boolean randevuIptalEdilebilirMi(){
+	public boolean randevuIptalEdilebilirMi() {
 		return !CollectionUtils.isEmpty(selectedVetRandevus) && kullaniciPrincipal.getId().equals(selectedVetRandevus.stream().findFirst().get().getRandevuAlanKullanici());
 	}
 
-	public void randevuAl(){
+	public void randevuAl() {
 		VetRandevu vetRandevu = selectedVetRandevus.stream().findFirst().get();
 		vetRandevu.setRandevuAlanKullanici(kullaniciPrincipal.getId());
 		vetService.vetRandevuKaydet(vetRandevu);
 	}
 
-	public void randevuIptalEt(){
+	public void randevuIptalEt() {
 		VetRandevu vetRandevu = selectedVetRandevus.stream().findFirst().get();
 		vetRandevu.setRandevuAlanKullanici(null);
 		vetService.vetRandevuKaydet(vetRandevu);
 	}
 
-	public void randevuAlanKisiBilgileriniGetir(){
+	public void randevuAlanKisiBilgileriniGetir() {
 		VetRandevu vetRandevu = selectedVetRandevus.stream().findFirst().get();
 		Optional<Kullanici> kullanici = userService.findById(vetRandevu.getRandevuAlanKullanici());
 		randevuAlanKisi = kullanici.get();

@@ -8,18 +8,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("userRepository")
+@Repository ("userRepository")
 public interface UserRepository extends JpaRepository<Kullanici, String>, CustomUserRepository {
 
-    Optional<List<Kullanici>> findByUserNameOrEmailOrPhoneNumber(String username, String email, String phonenumber);
+	Optional<List<Kullanici>> findByUserNameOrEmailOrPhoneNumber(String username, String email, String phonenumber);
 
-    Optional<Kullanici> findByUserNameAndPassword(String userName, String password);
+	Optional<Kullanici> findByUserNameAndPassword(String userName, String password);
 
-    Optional<Kullanici> findByUserNameAndEmail(String userName, String email);
+	Optional<Kullanici> findByUserNameAndEmail(String userName, String email);
 
-    Optional<Kullanici> findByUserName(String userName);
+	Optional<Kullanici> findByUserName(String userName);
 
-    Optional<Kullanici> findById(String id);
+	Optional<Kullanici> findById(String id);
 
-    Optional<List<Kullanici>> findByIdIn(List<String> ids);
+	Optional<List<Kullanici>> findByIdIn(List<String> ids);
 }

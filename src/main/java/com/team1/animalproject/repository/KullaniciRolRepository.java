@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("kullaniciRolRepository")
+@Repository ("kullaniciRolRepository")
 public interface KullaniciRolRepository extends JpaRepository<KullaniciRol, String> {
 
-    List<KullaniciRol> findByKullaniciId(String kullaniciId);
+	List<KullaniciRol> findByKullaniciId(String kullaniciId);
 
-    List<KullaniciRol> findByRolId(String rolId);
+	List<KullaniciRol> findByRolId(String rolId);
 
-    void deleteByKullaniciId(String kullaniciId);
+	void deleteByKullaniciId(String kullaniciId);
 
-    void deleteByRolId(String rolId);
+	void deleteByRolId(String rolId);
 
 	Optional<KullaniciRol> findById(String id);
 }

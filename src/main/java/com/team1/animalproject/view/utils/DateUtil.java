@@ -30,12 +30,12 @@ public class DateUtil {
 	public static final DateTimeFormatter formatterForDownload = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
 	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	public static final DateTimeFormatter formatterCalendar = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	public static DateTimeFormatter formatterCalendarForPfCalendar = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH,mm");
-	public static DateTimeFormatter formatterWithoutTime = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 	public static final DateTimeFormatter humanReadableFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	public static SimpleDateFormat formatterAracYolcuExcel = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 	private final static long ONE_MINUTE_IN_MILLISECONDS = 6000;
 	private final static long ONE_SECOND_IN_MILLISECONDS = 1000;
+	public static DateTimeFormatter formatterCalendarForPfCalendar = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH,mm");
+	public static DateTimeFormatter formatterWithoutTime = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+	public static SimpleDateFormat formatterAracYolcuExcel = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 
 	public static LocalDateTime now() {
 		return LocalDateTime.now();

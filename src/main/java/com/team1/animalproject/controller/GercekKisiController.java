@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin (origins = "*")
 @RequestMapping ("api/v1/gercekkisi")
 public class GercekKisiController {
 
-    @Autowired
-    private GercekKisiService service;
+	@Autowired
+	private GercekKisiService service;
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<GercekKisi> save(@RequestBody GercekKisi veri) {
-        service.save(veri);
-        return ResponseEntity.ok().body(veri);
-    }
+	@RequestMapping (value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<GercekKisi> save(@RequestBody GercekKisi veri) {
+		service.save(veri);
+		return ResponseEntity.ok().body(veri);
+	}
 
-    @GetMapping(value = "/getall")
-    public ResponseEntity<List<GercekKisi>> getAll() {
-        return ResponseEntity.ok().body(service.getAll());
-    }
+	@GetMapping (value = "/getall")
+	public ResponseEntity<List<GercekKisi>> getAll() {
+		return ResponseEntity.ok().body(service.getAll());
+	}
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GercekKisi>> delete(@RequestBody List<GercekKisi> veriler) {
-        service.delete(veriler);
-        return ResponseEntity.ok().body(veriler);
-    }
+	@RequestMapping (value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<GercekKisi>> delete(@RequestBody List<GercekKisi> veriler) {
+		service.delete(veriler);
+		return ResponseEntity.ok().body(veriler);
+	}
 }

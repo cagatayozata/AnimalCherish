@@ -24,30 +24,29 @@
 
 package com.team1.animalproject.blockchain.models;
 
-public class StellarAsset
-{
-    private String assetName;
-    private String assetBalance;
+public class StellarAsset {
 
+	private String assetName;
+	private String assetBalance;
 
-    public StellarAsset(String assetName, String assetBalance) {
-        this.assetName = assetName;
-        this.assetBalance = assetBalance;
-    }
+	public StellarAsset(String assetName, String assetBalance) {
+		this.assetName = assetName;
+		this.assetBalance = assetBalance;
+	}
 
-    public String getAssetName() {
-        return assetName;
-    }
+	public String getAssetName() {
+		return assetName;
+	}
 
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
-    }
+	public void setAssetName(String assetName) {
+		this.assetName = assetName;
+	}
 
-    public String getAssetBalance() {
-        return assetBalance;
-    }
+	public String getAssetBalance() {
+		return assetBalance;
+	}
 
-    public void setAssetBalance(String assetBalance) {
-        this.assetBalance = assetBalance;
-    }
+	public void setAssetBalance(String assetBalance) {
+		this.assetBalance = assetBalance;
+	}
 }

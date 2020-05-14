@@ -7,14 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("petShopAnimalRepository")
+@Repository ("petShopAnimalRepository")
 public interface PetShopAnimalRepository extends JpaRepository<PetShopAnimal, String> {
 
-    List<PetShopAnimal> findByPetshopId(String petShopId);
+	List<PetShopAnimal> findByPetshopId(String petShopId);
 
-    List<PetShopAnimal> findByPetshopIdAndAnimalId(String petShopId, String animalId);
+	List<PetShopAnimal> findByPetshopIdAndAnimalId(String petShopId, String animalId);
 
-    void deleteByPetshopId(String shelterId);
+	void deleteByPetshopId(String shelterId);
 
 	Optional<PetShopAnimal> findById(String id);
 }

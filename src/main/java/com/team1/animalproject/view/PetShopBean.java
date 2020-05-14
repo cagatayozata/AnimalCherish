@@ -1,6 +1,11 @@
 package com.team1.animalproject.view;
 
-import com.team1.animalproject.model.*;
+import com.team1.animalproject.model.Animal;
+import com.team1.animalproject.model.AnimalTarihce;
+import com.team1.animalproject.model.Kullanici;
+import com.team1.animalproject.model.PetShop;
+import com.team1.animalproject.model.PetShopAnimal;
+import com.team1.animalproject.model.PetShopWorker;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.PetShopService;
 import com.team1.animalproject.service.UserService;

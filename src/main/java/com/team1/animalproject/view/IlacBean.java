@@ -20,8 +20,8 @@ import java.util.List;
 
 @SuppressWarnings ("OptionalGetWithoutIsPresent")
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Data
 public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 
@@ -60,7 +60,7 @@ public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 	public void kaydet() throws IOException {
 		ilacService.save(ilac);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "İlaç verisi başarıyla işlem görmüştür.") );
+		context.addMessage(null, new FacesMessage("Başarılı", "İlaç verisi başarıyla işlem görmüştür."));
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/ilac/ilac.jsf");
 
@@ -72,20 +72,20 @@ public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 		kaydet();
 	}
 
-	public boolean kullanimdaVarmi(){
+	public boolean kullanimdaVarmi() {
 		return selectedIlacs.stream().anyMatch(Ilac::isDurum);
 	}
 
-	public void prepareNewScreen(){
+	public void prepareNewScreen() {
 		showCreateOrEdit = true;
 	}
 
-	public void prepareUpdateScreen(){
+	public void prepareUpdateScreen() {
 		ilac = selectedIlacs.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
-	public void prepareInfoScreen(){
+	public void prepareInfoScreen() {
 		ilac = selectedIlacs.stream().findFirst().get();
 		showCreateOrEdit = true;
 		showInfo = true;
@@ -95,6 +95,5 @@ public class IlacBean extends BaseViewController<Ilac> implements Serializable {
 		ilacService.delete(selectedIlacs);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/ilac/ilac.jsf");
 	}
-
 
 }

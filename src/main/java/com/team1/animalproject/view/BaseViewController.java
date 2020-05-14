@@ -46,10 +46,9 @@ public abstract class BaseViewController<T> implements Serializable {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if("anonymousUser".equalsIgnoreCase(authentication.getPrincipal().toString())){
 			kullaniciPrincipal = KullaniciPrincipal.builder().build();
-		}else {
+		} else {
 			kullaniciPrincipal = (KullaniciPrincipal) authentication.getPrincipal();
 		}
 	}
-
 
 }

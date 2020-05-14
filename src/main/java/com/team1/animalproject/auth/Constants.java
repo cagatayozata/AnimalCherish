@@ -26,5 +26,4 @@ public class Constants {
 	public static final String AVATAR_PATH_URL = "/staticFiles/avatars/**";
 	public static final String IMAGES_URL = "/image/**";
 
-
 }

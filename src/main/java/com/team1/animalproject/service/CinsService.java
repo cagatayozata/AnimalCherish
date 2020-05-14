@@ -44,9 +44,9 @@ public class CinsService implements IBaseService<Cins> {
 	@Override
 	public void save(Cins cins) {
 		if(cins.getId() == null) cins.setId(UUID.randomUUID().toString());
-        if(!cins.isDurum()){
-            cins.setDurum(false);
-        }
+		if(!cins.isDurum()){
+			cins.setDurum(false);
+		}
 		cinsRepository.save(cins);
 	}
 

@@ -10,21 +10,21 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class KayipCalinti implements Serializable {
 
-    private static final long serialVersionUID = 4437191058217505096L;
+	private static final long serialVersionUID = 4437191058217505096L;
 
-    private String kimlikNo;
-    private String kaybolmaTarihi;
-    private String gorevliVeteriner;
-    private String hayvanSahibi;
+	private String kimlikNo;
+	private String kaybolmaTarihi;
+	private String gorevliVeteriner;
+	private String hayvanSahibi;
 }
 
 

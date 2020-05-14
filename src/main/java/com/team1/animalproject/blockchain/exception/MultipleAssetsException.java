@@ -24,9 +24,9 @@
 
 package com.team1.animalproject.blockchain.exception;
 
-public class MultipleAssetsException extends Exception
-{
-    public MultipleAssetsException ( String message ) {
-        super ( message );
-    }
+public class MultipleAssetsException extends Exception {
+
+	public MultipleAssetsException(String message) {
+		super(message);
+	}
 }

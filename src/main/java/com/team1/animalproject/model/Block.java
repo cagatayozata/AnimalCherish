@@ -9,13 +9,13 @@ import java.util.Date;
 @Builder
 public class Block {
 
-    public String id;
-    public String name;
-    public String address;
-    public Date birthdate;
-    public String turId;
-    public String cinsId;
-    public String turAd;
-    public String cinsAd;
+	public String id;
+	public String name;
+	public String address;
+	public Date birthdate;
+	public String turId;
+	public String cinsId;
+	public String turAd;
+	public String cinsAd;
 
 }

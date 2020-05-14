@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("animalRepository")
+@Repository ("animalRepository")
 public interface AnimalRepository extends JpaRepository<Animal, String>, CustomAnimalRepository {
 
-    Optional<List<Animal>> findByIdIn(List<String> ids);
+	Optional<List<Animal>> findByIdIn(List<String> ids);
 
 }

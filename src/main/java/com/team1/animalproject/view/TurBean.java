@@ -20,8 +20,8 @@ import java.util.List;
 
 @SuppressWarnings ("ALL")
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Data
 public class TurBean extends BaseViewController<Tur> implements Serializable {
 
@@ -60,7 +60,7 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 	public void kaydet() throws IOException {
 		turService.save(tur);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Tür verisi başarıyla işlem görmüştür.") );
+		context.addMessage(null, new FacesMessage("Başarılı", "Tür verisi başarıyla işlem görmüştür."));
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/tur/tur.jsf");
 
@@ -72,20 +72,20 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 		kaydet();
 	}
 
-	public boolean kullanimdaVarmi(){
+	public boolean kullanimdaVarmi() {
 		return selectedTurs.stream().anyMatch(Tur::isDurum);
 	}
 
-	public void prepareNewScreen(){
+	public void prepareNewScreen() {
 		showCreateOrEdit = true;
 	}
 
-	public void prepareUpdateScreen(){
+	public void prepareUpdateScreen() {
 		tur = selectedTurs.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
-	public void prepareInfoScreen(){
+	public void prepareInfoScreen() {
 		tur = selectedTurs.stream().findFirst().get();
 		showCreateOrEdit = true;
 		showInfo = true;
@@ -95,6 +95,5 @@ public class TurBean extends BaseViewController<Tur> implements Serializable {
 		turService.delete(selectedTurs);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/tur/tur.jsf");
 	}
-
 
 }

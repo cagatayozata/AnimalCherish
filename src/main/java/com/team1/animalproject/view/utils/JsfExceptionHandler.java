@@ -15,7 +15,11 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -102,7 +106,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 						errorMessage = bundle.getString(((ViewException) rootCause).getType().getValidationMessage());
 					}
 
-				}  else if(rootCause instanceof RestException){
+				} else if(rootCause instanceof RestException){
 
 					errorCode = ((RestException) rootCause).getType().getCode();
 					if(rootCause instanceof IExceptionCustomMessageContainer){

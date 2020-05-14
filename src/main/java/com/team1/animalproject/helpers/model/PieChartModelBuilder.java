@@ -10,8 +10,8 @@ import java.util.Random;
 
 public class PieChartModelBuilder {
 
-	private ChartData chartData;
-	private PieChartDataSet dataSet;
+	private final ChartData chartData;
+	private final PieChartDataSet dataSet;
 
 	public PieChartModelBuilder() {
 		dataSet = new PieChartDataSet();
@@ -21,10 +21,6 @@ public class PieChartModelBuilder {
 		chartData = new ChartData();
 		chartData.setLabels(new ArrayList<String>());
 		chartData.getDataSet().add(dataSet);
-	}
-
-	public PieChartModelBuilder add(String label, Number value) {
-		return add(label, value, generateColor());
 	}
 
 	public static String generateColor() {
@@ -37,6 +33,10 @@ public class PieChartModelBuilder {
 			n >>= 4;
 		}
 		return new String(s);
+	}
+
+	public PieChartModelBuilder add(String label, Number value) {
+		return add(label, value, generateColor());
 	}
 
 	public PieChartModelBuilder add(String label, Number value, String color) {

@@ -24,7 +24,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		}
 
 		RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-		redirectStrategy.sendRedirect(request, response,   "/landing.jsf");
+		redirectStrategy.sendRedirect(request, response, "/landing.jsf");
 
 	}
 

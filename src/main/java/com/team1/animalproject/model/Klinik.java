@@ -16,33 +16,33 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class Klinik extends Auditable<String, String> implements Serializable {
 
-    private static final long serialVersionUID = -1805759569824716638L;
+	private static final long serialVersionUID = -1805759569824716638L;
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    public String id;
+	@Id
+	@Column (name = "id", unique = true, nullable = false)
+	public String id;
 
-    @Column(name = "name", nullable = false)
-    public String name;
+	@Column (name = "name", nullable = false)
+	public String name;
 
-    @Column(name = "address", nullable = false)
-    public String address;
+	@Column (name = "address", nullable = false)
+	public String address;
 
-    @Column(name = "email", nullable = false)
-    public String email;
+	@Column (name = "email", nullable = false)
+	public String email;
 
-    @Column(name = "phone")
-    public String phone;
+	@Column (name = "phone")
+	public String phone;
 
-    @Transient
-    private int workerCount;
+	@Transient
+	private int workerCount;
 }

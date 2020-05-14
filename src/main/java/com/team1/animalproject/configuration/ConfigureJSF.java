@@ -1,16 +1,14 @@
 package com.team1.animalproject.configuration;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
+import com.sun.faces.config.FacesInitializer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.sun.faces.config.FacesInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 public class ConfigureJSF {
@@ -20,9 +18,6 @@ public class ConfigureJSF {
 
 		return new JsfServletRegistrationBean();
 	}
-
-	
-
 
 	public static class JsfServletRegistrationBean extends ServletRegistrationBean {
 

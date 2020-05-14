@@ -17,40 +17,40 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class Animal extends Auditable<String, String> implements Serializable {
 
 	private static final long serialVersionUID = 1086930970865820419L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column (name = "id", unique = true, nullable = false)
 	public String id;
 
-	@Column(name = "name", nullable = false)
+	@Column (name = "name", nullable = false)
 	public String name;
 
-	@Column(name = "address", nullable = false)
+	@Column (name = "address", nullable = false)
 	public String address;
 
-	@Column(name = "birthdate")
+	@Column (name = "birthdate")
 	public Date birthdate;
 
-	@Column(name = "tur_id", nullable = false)
+	@Column (name = "tur_id", nullable = false)
 	public String turId;
 
-	@Column(name = "cins_id")
+	@Column (name = "cins_id")
 	public String cinsId;
 
-	@Column(name = "cinsiyet")
+	@Column (name = "cinsiyet")
 	public Boolean cinsiyet;
 
-	@Column(name="sahip_id")
+	@Column (name = "sahip_id")
 	public String sahipId;
 
 	@Transient

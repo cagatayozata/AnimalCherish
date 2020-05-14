@@ -24,10 +24,9 @@
 
 package com.team1.animalproject.blockchain.exception;
 
-public class TextFieldNullException extends Exception
-{
-    public TextFieldNullException ( String message )
-    {
-        super(message);
-    }
+public class TextFieldNullException extends Exception {
+
+	public TextFieldNullException(String message) {
+		super(message);
+	}
 }

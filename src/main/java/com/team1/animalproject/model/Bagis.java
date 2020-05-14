@@ -16,28 +16,28 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class Bagis extends Auditable<String, String> implements Serializable {
 
 	private static final long serialVersionUID = -7628188692162639172L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column (name = "id", unique = true, nullable = false)
 	public String id;
 
-	@Column(name = "name", nullable = false)
+	@Column (name = "name", nullable = false)
 	public String name;
 
-	@Column(name = "description", length = 4000)
+	@Column (name = "description", length = 4000)
 	public String description;
 
-	@Column(length = 4000)
+	@Column (length = 4000)
 	public String iban;
 
 	@Column

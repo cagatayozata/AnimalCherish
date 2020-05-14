@@ -47,21 +47,19 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Service
 public class BlockchainService {
 
-	@Autowired
-	@Qualifier ("ipfsIDRepository")
-	private IpfsIDRepository ipfsIDRepository;
-
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private IlacService ilacService;
-
 	public final Map<String, String> ipfsHashes = new HashMap<>();
 	public final Map<String, IpfsID> ipfsIds = new HashMap<>();
 	public final Map<String, Kullanici> user = new HashMap<>();
 	public final Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
 	public final Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
 	public List<String> helperList = Lists.newArrayList();
+	@Autowired
+	@Qualifier ("ipfsIDRepository")
+	private IpfsIDRepository ipfsIDRepository;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private IlacService ilacService;
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();

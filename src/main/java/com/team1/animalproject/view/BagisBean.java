@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Data
 public class BagisBean extends BaseViewController<Bagis> implements Serializable {
 
@@ -59,23 +59,23 @@ public class BagisBean extends BaseViewController<Bagis> implements Serializable
 	public void kaydet() throws IOException {
 		bagisService.save(bagis);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Bağış verisi başarıyla işlem görmüştür.") );
+		context.addMessage(null, new FacesMessage("Başarılı", "Bağış verisi başarıyla işlem görmüştür."));
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/bagis/bagis.jsf");
 
 	}
 
-	public void prepareNewScreen(){
+	public void prepareNewScreen() {
 		showCreateOrEdit = true;
 	}
 
-	public void prepareUpdateScreen(){
+	public void prepareUpdateScreen() {
 		//noinspection OptionalGetWithoutIsPresent
 		bagis = selectedBagiss.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
-	public void prepareInfoScreen(){
+	public void prepareInfoScreen() {
 		//noinspection OptionalGetWithoutIsPresent
 		bagis = selectedBagiss.stream().findFirst().get();
 		showCreateOrEdit = true;
@@ -86,6 +86,5 @@ public class BagisBean extends BaseViewController<Bagis> implements Serializable
 		bagisService.delete(selectedBagiss);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/bagis/bagis.jsf");
 	}
-
 
 }

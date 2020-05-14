@@ -24,8 +24,7 @@
 
 package com.team1.animalproject.blockchain.models;
 
-public class Assets
-{
+public class Assets {
 
     /*
     Example flow for an account with AUTHORIZATION REQUIRED and AUTHORIZATION REVOCABLE enabled:
@@ -39,78 +38,68 @@ public class Assets
     7.User cannot send or accept this asset
      */
 
+	private final String assetCode;
+	private final String totalSupply;
+	private final String assetType;
+	private final String pagingToken;
+	private final String issuer;
+	private final int numAccounts;
+	/* this parameter means the issuer must give authorization to the
+	   account ( the person who wants to hold it ) which wants to hold the asset.
+	   This allows the issuer to control who its "customers" are
+	 */
+	private final boolean authRequired;
+	/* when set to TRUE, the issuer can freeze the asset on any account
+		which holds it.
+	 */
+	private final boolean authRevocable;
 
-    private final String assetCode;
-    private final String totalSupply;
-    private final String assetType;
-    private final String pagingToken;
-    private final String issuer;
-    private final int     numAccounts;
-    /* this parameter means the issuer must give authorization to the
-       account ( the person who wants to hold it ) which wants to hold the asset.
-       This allows the issuer to control who its "customers" are
-     */
-    private final boolean authRequired;
-    /* when set to TRUE, the issuer can freeze the asset on any account
-        which holds it.
-     */
-    private final boolean authRevocable;
+	public Assets(String assetCode, String totalSupply, String assetType, String pagingToken, String issuer, int numAccounts, boolean authRequired, boolean authRevocable) {
+		this.assetCode = assetCode;
+		this.totalSupply = totalSupply;
+		this.assetType = assetType;
+		this.pagingToken = pagingToken;
+		this.issuer = issuer;
+		this.numAccounts = numAccounts;
+		this.authRequired = authRequired;
+		this.authRevocable = authRevocable;
+	}
 
-    public Assets(String assetCode, String totalSupply, String assetType, String pagingToken,
-                  String issuer, int numAccounts, boolean authRequired, boolean authRevocable) {
-        this.assetCode = assetCode;
-        this.totalSupply = totalSupply;
-        this.assetType = assetType;
-        this.pagingToken = pagingToken;
-        this.issuer = issuer;
-        this.numAccounts = numAccounts;
-        this.authRequired = authRequired;
-        this.authRevocable = authRevocable;
-    }
+	public String getAssetCode() {
+		return assetCode;
+	}
 
+	public String getTotalSupply() {
+		return totalSupply;
+	}
 
-    public String getAssetCode() {
-        return assetCode;
-    }
+	public String getAssetType() {
+		return assetType;
+	}
 
-    public String getTotalSupply() {
-        return totalSupply;
-    }
+	public String getPagingToken() {
+		return pagingToken;
+	}
 
-    public String getAssetType() {
-        return assetType;
-    }
+	public String getIssuer() {
+		return issuer;
+	}
 
-    public String getPagingToken() {
-        return pagingToken;
-    }
+	public int getNumAccounts() {
+		return numAccounts;
+	}
 
-    public String getIssuer() {
-        return issuer;
-    }
+	public boolean isAuthRequired() {
+		return authRequired;
+	}
 
-    public int getNumAccounts() {
-        return numAccounts;
-    }
+	public boolean isAuthRevocable() {
+		return authRevocable;
+	}
 
-    public boolean isAuthRequired() {
-        return authRequired;
-    }
-
-    public boolean isAuthRevocable() {
-        return authRevocable;
-    }
-
-    @Override
-    public String toString() {
-        return
-                "Asset Code= " + assetCode + '\n' +
-                "Total Supply= " + totalSupply + '\n' +
-                "Asset Type= " + assetType + '\n' +
-                "Paging Token= " + pagingToken + '\n' +
-                "Issuer= " + issuer + '\n' +
-                "Number of Accounts= " + numAccounts + "\n" +
-                "Authorization Required= " + authRequired + "\n" +
-                "Authorization Revocable= " + authRevocable + "\n" ;
-    }
+	@Override
+	public String toString() {
+		return "Asset Code= " + assetCode + '\n' + "Total Supply= " + totalSupply + '\n' + "Asset Type= " + assetType + '\n' + "Paging Token= " + pagingToken + '\n' + "Issuer= " + issuer + '\n'
+				+ "Number of Accounts= " + numAccounts + "\n" + "Authorization Required= " + authRequired + "\n" + "Authorization Revocable= " + authRevocable + "\n";
+	}
 }

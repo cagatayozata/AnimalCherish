@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,6 +34,23 @@ public class UserService implements IBaseService<Kullanici> {
 	@Qualifier ("userRepository")
 	@Autowired
 	private UserRepository userRepository;
+
+	public static String md5Java(String message) throws NoSuchAlgorithmException {
+		String digest;
+
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
+
+		//converting byte array to Hexadecimal String
+		StringBuilder sb = new StringBuilder(2 * hash.length);
+		for(byte b : hash){
+			sb.append(String.format("%02x", b & 0xff));
+		}
+
+		digest = sb.toString();
+
+		return digest;
+	}
 
 	@Override
 	public List<Kullanici> getAll() {
@@ -69,23 +85,6 @@ public class UserService implements IBaseService<Kullanici> {
 			}
 			return true;
 		}
-	}
-
-	public static String md5Java(String message) throws NoSuchAlgorithmException {
-		String digest;
-
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
-
-		//converting byte array to Hexadecimal String
-		StringBuilder sb = new StringBuilder(2 * hash.length);
-		for(byte b : hash){
-			sb.append(String.format("%02x", b & 0xff));
-		}
-
-		digest = sb.toString();
-
-		return digest;
 	}
 
 	@Override
@@ -143,10 +142,12 @@ public class UserService implements IBaseService<Kullanici> {
 				.forEach(kullaniciTipiEnum -> chartDTOS.add(ChartDTO.builder()
 						.name(kullaniciTipiEnum.getTextMessageKey())
 						.value(gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()) == null ? 0 : gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()).size())
-						.drillDownList(gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()) == null ? Lists.newArrayList() : gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId())
-								.stream()
-								.map(kullanici -> ChartDTO.builder().name(kullanici.getName() + " " + kullanici.getSurname()).value(1).build())
-								.collect(Collectors.toList()))
+						.drillDownList(gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId()) == null ?
+								Lists.newArrayList() :
+								gorevlerdekiKullanicilar.get(kullaniciTipiEnum.getId())
+										.stream()
+										.map(kullanici -> ChartDTO.builder().name(kullanici.getName() + " " + kullanici.getSurname()).value(1).build())
+										.collect(Collectors.toList()))
 						.build()));
 		return chartDTOS;
 	}

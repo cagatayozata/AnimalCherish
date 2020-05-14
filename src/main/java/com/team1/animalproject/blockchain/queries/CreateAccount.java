@@ -31,34 +31,31 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 
-public class CreateAccount
-{
+public class CreateAccount {
 
-    public CreateAccount() { }
+	public CreateAccount() {
+	}
 
-    /**
-     * Creates private pair of keys
-     * @return KeyPair pair -> the newly created keypair
-     */
-    public KeyPair createKeyPair ( )
-    {
-        return KeyPair.random();
-    }
+	/**
+	 * Creates private pair of keys
+	 *
+	 * @return KeyPair pair -> the newly created keypair
+	 */
+	public KeyPair createKeyPair() {
+		return KeyPair.random();
+	}
 
-    /**
-     * Creates a new test account using the newly created key-pair
-     * @param pair the created keypair
-     * @return body response from the HTTP request
-     */
-    public String createTestAccount ( KeyPair pair ) throws IOException {
-        String friendbotUrl = String.format(
-                "https://friendbot.stellar.org/?addr=%s",
-                pair.getAccountId());
-        InputStream response = new URL(friendbotUrl).openStream();
+	/**
+	 * Creates a new test account using the newly created key-pair
+	 *
+	 * @param pair the created keypair
+	 * @return body response from the HTTP request
+	 */
+	public String createTestAccount(KeyPair pair) throws IOException {
+		String friendbotUrl = String.format("https://friendbot.stellar.org/?addr=%s", pair.getAccountId());
+		InputStream response = new URL(friendbotUrl).openStream();
 
-        return new Scanner(response).useDelimiter("\\A").next();
-    }
-
-
+		return new Scanner(response).useDelimiter("\\A").next();
+	}
 
 }

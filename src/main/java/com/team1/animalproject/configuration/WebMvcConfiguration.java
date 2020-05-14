@@ -36,31 +36,30 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
-	
+
 	@Bean
 	public MessageSource messageSource() {
-	    ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-	    messageSource.setAlwaysUseMessageFormat(true);
-	    messageSource.setUseCodeAsDefaultMessage(true);
-	    messageSource.setDefaultEncoding("UTF-8");
-	    messageSource.setBasenames("classpath:messages");
-	    return messageSource;
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setAlwaysUseMessageFormat(true);
+		messageSource.setUseCodeAsDefaultMessage(true);
+		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setBasenames("classpath:messages");
+		return messageSource;
 	}
-	
+
 	@Override
 	public Validator getValidator() {
-		ReloadableResourceBundleMessageSource messageSource =
-			new ReloadableResourceBundleMessageSource();
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:validation");
 		messageSource.setFallbackToSystemLocale(false);
 		LocalValidatorFactoryBean factory = new LocalValidatorFactoryBean();
 		factory.setValidationMessageSource(messageSource);
 		return factory;
 	}
-	
+
 	@Bean
 	public ServerProperties getServerProperties() {
-	    return new ServerCustomization();
+		return new ServerCustomization();
 	}
 
 }

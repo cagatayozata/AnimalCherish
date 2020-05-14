@@ -2,7 +2,12 @@ package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.team1.animalproject.model.dto.Auditable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,24 +15,24 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class KullaniciRol extends Auditable<String, String> implements Serializable {
 
-    private static final long serialVersionUID = 2759414932277204060L;
+	private static final long serialVersionUID = 2759414932277204060L;
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    public String id;
+	@Id
+	@Column (name = "id", unique = true, nullable = false)
+	public String id;
 
-    @Column(name = "rol_id", nullable = false)
-    public String rolId;
+	@Column (name = "rol_id", nullable = false)
+	public String rolId;
 
-    @Column(name = "kullanici_id", nullable = false)
-    public String kullaniciId;
+	@Column (name = "kullanici_id", nullable = false)
+	public String kullaniciId;
 }

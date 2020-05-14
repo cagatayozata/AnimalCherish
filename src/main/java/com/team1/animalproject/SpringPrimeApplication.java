@@ -22,6 +22,15 @@ public class SpringPrimeApplication {
 	}
 
 	@Bean
+	public static CustomScopeConfigurer customScopeConfigurer() {
+		CustomScopeConfigurer configurer = new CustomScopeConfigurer();
+		Map<String, Object> scopes = new HashMap<>();
+		scopes.put("view", new ViewScope());
+		configurer.setScopes(scopes);
+		return configurer;
+	}
+
+	@Bean
 	public ServletRegistrationBean facesServlet() {
 		FacesServlet servlet = new FacesServlet();
 		ServletRegistrationBean registration = new ServletRegistrationBean(servlet, "*.jsf");
@@ -52,14 +61,5 @@ public class SpringPrimeApplication {
 			servletContext.setInitParameter("primefaces.PUBLIC_CAPTCHA_KEY", "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
 			servletContext.setInitParameter("primefaces.PRIVATE_CAPTCHA_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe");
 		};
-	}
-
-	@Bean
-	public static CustomScopeConfigurer customScopeConfigurer() {
-		CustomScopeConfigurer configurer = new CustomScopeConfigurer();
-		Map<String, Object> scopes = new HashMap<>();
-		scopes.put("view", new ViewScope());
-		configurer.setScopes(scopes);
-		return configurer;
 	}
 }

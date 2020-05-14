@@ -30,6 +30,7 @@ public class BlockchainBean extends BaseViewController<BlockchainExplorer> imple
 
 	private List<BlockchainExplorer> blockchainExplorers;
 	private BlockchainExplorer selected;
+	private String kupeNo;
 
 	@Override
 	@PostConstruct

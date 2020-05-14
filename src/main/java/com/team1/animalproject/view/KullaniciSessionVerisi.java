@@ -32,16 +32,12 @@ import java.util.stream.Collectors;
 public class KullaniciSessionVerisi implements Serializable {
 
 	private static final long serialVersionUID = -3594945290441411747L;
-
+	ObjectMapper objectMapper;
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private BlockchainService blockchainService;
-
 	private Kullanici kullanici;
-
-	ObjectMapper objectMapper;
 
 	@PostConstruct
 	public void init() {
@@ -115,7 +111,7 @@ public class KullaniciSessionVerisi implements Serializable {
 		return KullaniciTipiEnum.NON_USER.getTextMessageKey();
 	}
 
-	public boolean veterinerMi(){
+	public boolean veterinerMi() {
 		return KullaniciTipiEnum.VET.equals(KullaniciTipiEnum.getById(kullanici.getKullaniciTipi()).get());
 	}
 

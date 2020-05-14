@@ -26,7 +26,7 @@ package com.team1.animalproject.blockchain.exception;
 
 public class SubmitTransactionException extends Exception {
 
-    public SubmitTransactionException ( String message ) {
-        super( message );
-    }
+	public SubmitTransactionException(String message) {
+		super(message);
+	}
 }

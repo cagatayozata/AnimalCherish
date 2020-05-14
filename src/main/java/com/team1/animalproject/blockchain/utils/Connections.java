@@ -28,22 +28,21 @@ import org.stellar.sdk.Server;
 
 import java.util.Objects;
 
-import static com.team1.animalproject.blockchain.utils.Props.*;
+import static com.team1.animalproject.blockchain.utils.Props.LUNAR_HELPER_PROPS;
+import static com.team1.animalproject.blockchain.utils.Props.MAIN_NET;
 
-public class Connections
-{
-    public static Server getServer ( boolean isMainNet )
-    {
-        Server server;
-        if ( isMainNet )
-        {
-            /* Connect to the mainnet */
-            server = new Server( Objects.requireNonNull ( Props.getProperty ( LUNAR_HELPER_PROPS, MAIN_NET ) ) );
-        } else {
-            /* Connect to the testnet */
-            server = new Server( "https://horizon-testnet.stellar.org" );
-        }
+public class Connections {
 
-        return server;
-    }
+	public static Server getServer(boolean isMainNet) {
+		Server server;
+		if(isMainNet){
+			/* Connect to the mainnet */
+			server = new Server(Objects.requireNonNull(Props.getProperty(LUNAR_HELPER_PROPS, MAIN_NET)));
+		} else {
+			/* Connect to the testnet */
+			server = new Server("https://horizon-testnet.stellar.org");
+		}
+
+		return server;
+	}
 }

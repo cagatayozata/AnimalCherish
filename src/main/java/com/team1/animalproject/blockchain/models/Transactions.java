@@ -27,46 +27,45 @@ package com.team1.animalproject.blockchain.models;
 import lombok.Data;
 
 @Data
-public class Transactions
-{
-    private String assetName;
-    private String amount;
-    private String date;
-    private String memo;
-    private String toFrom;
-    private Boolean wasSent;
-    private String paging;
+public class Transactions {
 
-    public Transactions(String assetName, String amount, String date, String memo) {
-        this.assetName = assetName;
-        this.amount = amount;
-        this.date = date;
-        this.memo = memo;
-    }
+	private String assetName;
+	private String amount;
+	private String date;
+	private String memo;
+	private String toFrom;
+	private Boolean wasSent;
+	private String paging;
 
-    public Transactions(String assetName, String amount, String date,
-                        String memo, String toFrom, Boolean wasSent, String paging) {
-        this.assetName = assetName;
-        this.amount = amount;
-        this.date = date;
-        this.memo = memo;
-        this.toFrom = toFrom;
-        this.wasSent = wasSent;
-        this.paging = paging;
-    }
+	public Transactions(String assetName, String amount, String date, String memo) {
+		this.assetName = assetName;
+		this.amount = amount;
+		this.date = date;
+		this.memo = memo;
+	}
 
-    public Transactions(String assetName, String amount, String date, Boolean wasSent) {
-        this.assetName = assetName;
-        this.amount = amount;
-        this.date = date;
-        this.wasSent = wasSent;
-    }
+	public Transactions(String assetName, String amount, String date, String memo, String toFrom, Boolean wasSent, String paging) {
+		this.assetName = assetName;
+		this.amount = amount;
+		this.date = date;
+		this.memo = memo;
+		this.toFrom = toFrom;
+		this.wasSent = wasSent;
+		this.paging = paging;
+	}
 
-    public Transactions(String assetName, String amount, String date, String toFrom, Boolean wasSent) {
-        this.assetName = assetName;
-        this.amount = amount;
-        this.date = date;
-        this.toFrom = toFrom;
-        this.wasSent = wasSent;
-    }
+	public Transactions(String assetName, String amount, String date, Boolean wasSent) {
+		this.assetName = assetName;
+		this.amount = amount;
+		this.date = date;
+		this.wasSent = wasSent;
+	}
+
+	public Transactions(String assetName, String amount, String date, String toFrom, Boolean wasSent) {
+		this.assetName = assetName;
+		this.amount = amount;
+		this.date = date;
+		this.toFrom = toFrom;
+		this.wasSent = wasSent;
+	}
 }

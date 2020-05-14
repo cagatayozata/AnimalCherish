@@ -40,7 +40,7 @@ public class GercekKisi extends Auditable<String, String> implements Serializabl
 	@Column (name = "dogum_tarihi")
 	public Date dogumTarihi;
 
-	@Column (name = "kimlik_no",  unique = true)
+	@Column (name = "kimlik_no", unique = true)
 	public String kimlikNo;
 
 	@Column (name = "telefon")

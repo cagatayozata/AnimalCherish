@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("ilacRepository")
+@Repository ("ilacRepository")
 public interface IlacRepository extends JpaRepository<Ilac, String> {
 
-    List<Ilac> findAllByDurum(boolean durum);
+	List<Ilac> findAllByDurum(boolean durum);
 
-    Optional<Ilac> findById(String id);
+	Optional<Ilac> findById(String id);
 
 }

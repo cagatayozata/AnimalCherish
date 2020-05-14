@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,87 +32,85 @@ import java.util.Optional;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    protected final MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+	protected final MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private transient RolService rolService;
+	@Autowired
+	private transient RolService rolService;
 
-    @Autowired
-    private ObjectMapper jacksonObjectMapper;
+	@Autowired
+	private ObjectMapper jacksonObjectMapper;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        if (authentication.getCredentials() == null) {
-            log.debug("Authentication failed: no credentials provided");
+		if(authentication.getCredentials() == null){
+			log.debug("Authentication failed: no credentials provided");
 
-            throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
-        }
+			throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+		}
 
-        String kullaniciAdi = authentication.getName();
-        String sifre = authentication.getCredentials().toString();
+		String kullaniciAdi = authentication.getName();
+		String sifre = authentication.getCredentials().toString();
 
-        UsernamePasswordAuthenticationToken result = null;
+		UsernamePasswordAuthenticationToken result = null;
 
+		// Rolleri yetkileri koy
 
-        // Rolleri yetkileri koy
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(RoleConstants.ROLE_USER));
+		String sifreHashed = "";
+		try{
+			sifreHashed = UserService.md5Java(sifre);
+		} catch (NoSuchAlgorithmException e){
+			e.printStackTrace();
+		}
+		Optional<Kullanici> byUsername = userService.findByUserNameAndPassword(kullaniciAdi.toLowerCase(), sifreHashed);
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(RoleConstants.ROLE_USER));
-        String sifreHashed = "";
-        try {
-            sifreHashed = UserService.md5Java(sifre);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        Optional<Kullanici> byUsername = userService.findByUserNameAndPassword(kullaniciAdi.toLowerCase(), sifreHashed);
+		if(byUsername.isPresent()){
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Başarılı", "Başarıyla giriş yapıldı."));
+			context.getExternalContext().getFlash().setKeepMessages(true);
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız", "Girdiğiniz bilgilerden birisi yalnış!"));
+			context.getExternalContext().getFlash().setKeepMessages(true);
+			try{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		}
+		if(byUsername.isPresent()){
+			KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();
+			List<String> yetkis = new ArrayList<>();
+			List<String> strings = rolService.herkesRoluYetkileriGetir();
+			if(strings != null) yetkis.addAll(strings);
 
-        if (byUsername.isPresent()) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Başarılı", "Başarıyla giriş yapıldı."));
-            context.getExternalContext().getFlash().setKeepMessages(true);
-        } else {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Başarısız", "Girdiğiniz bilgilerden birisi yalnış!"));
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/login.jsf");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (byUsername.isPresent()) {
-            KullaniciPrincipal kullaniciPrincipal = KullaniciPrincipal.builder().id(byUsername.get().id).build();
-            List<String> yetkis = new ArrayList<>();
-            List<String> strings = rolService.herkesRoluYetkileriGetir();
-            if(strings != null)
-                yetkis.addAll(strings);
+			kullaniciPrincipal.setYetkiler(yetkis);
 
-            kullaniciPrincipal.setYetkiler(yetkis);
+			kullaniciPrincipal.getYetkiler().addAll(rolService.findByKullaniciId(kullaniciPrincipal.getId()));
 
-            kullaniciPrincipal.getYetkiler().addAll(rolService.findByKullaniciId(kullaniciPrincipal.getId()));
+			String serializedPrincipal;
+			try{
+				//noinspection UnusedAssignment
+				serializedPrincipal = jacksonObjectMapper.writeValueAsString(kullaniciPrincipal);
+			} catch (JsonProcessingException e){
+				log.error("ERROR : coulndnt convert user principal to json string", e);
+				throw new InternalAuthenticationServiceException("couldnt prepare principal object!");
+			}
+			result = new UsernamePasswordAuthenticationToken(kullaniciPrincipal, authentication.getCredentials(), authorities);
+			result.setDetails(authentication.getDetails());
+		}
 
-            String serializedPrincipal;
-            try {
-                //noinspection UnusedAssignment
-                serializedPrincipal = jacksonObjectMapper.writeValueAsString(kullaniciPrincipal);
-            } catch (JsonProcessingException e) {
-                log.error("ERROR : coulndnt convert user principal to json string", e);
-                throw new InternalAuthenticationServiceException("couldnt prepare principal object!");
-            }
-            result = new UsernamePasswordAuthenticationToken(kullaniciPrincipal, authentication.getCredentials(), authorities);
-            result.setDetails(authentication.getDetails());
-        }
+		return result;
+	}
 
-        return result;
-    }
-
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
-    }
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+	}
 
 }

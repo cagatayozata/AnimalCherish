@@ -31,36 +31,30 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 public class Auditable<I extends Serializable, U> {
 
 	private static final long serialVersionUID = -2066755288726974124L;
-
+	@CreatedDate
+	@Temporal (TIMESTAMP)
+	protected Date olusmaTarihi;
+	@CreatedBy
+	protected String olusturanKullanici;
+	@LastModifiedDate
+	@Temporal (TIMESTAMP)
+	protected Date sonGuncellenmeTarihi;
 	@SuppressWarnings ("SpringJavaAutowiredMembersInspection")
 	@Autowired
 	@Transient
 	@JsonIgnore
 	private KullaniciSessionVerisi kullaniciSessionVerisi;
-
 	@Id
 	@Column (nullable = false, unique = true, updatable = false)
 	private I id;
 
-	@CreatedDate
-	@Temporal (TIMESTAMP)
-	protected Date olusmaTarihi;
-
-	@CreatedBy
-	protected String olusturanKullanici;
-
-	@LastModifiedDate
-	@Temporal (TIMESTAMP)
-	protected Date sonGuncellenmeTarihi;
-
-
 	@PrePersist
 	protected void prePersist() {
-		if (this.olusmaTarihi == null) olusmaTarihi = new Date();
-		if (this.sonGuncellenmeTarihi == null) sonGuncellenmeTarihi = new Date();
-		try {
+		if(this.olusmaTarihi == null) olusmaTarihi = new Date();
+		if(this.sonGuncellenmeTarihi == null) sonGuncellenmeTarihi = new Date();
+		try{
 			if(this.olusturanKullanici == null) olusturanKullanici = ((KullaniciPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-		}catch (ClassCastException e){
+		} catch (ClassCastException e){
 			System.out.println("Mobil Tarafindan Olusturuldu");
 		}
 	}

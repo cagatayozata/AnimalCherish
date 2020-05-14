@@ -14,7 +14,6 @@ public enum BaseExceptionType {
 
 	VIEW_EXCEPTION("300", "validator.generic.view.exception");
 
-
 	@Getter
 	private final String code;
 

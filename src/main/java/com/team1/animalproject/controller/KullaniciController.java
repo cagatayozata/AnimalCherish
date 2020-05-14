@@ -21,29 +21,29 @@ import java.util.List;
 @RequestMapping ("api/v1/kullanici")
 public class KullaniciController {
 
-    @Autowired
-    private UserService service;
+	@Autowired
+	private UserService service;
 
-    @RequestMapping (value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Kullanici> save(@RequestBody Kullanici veri) {
-        service.save(veri);
-        return ResponseEntity.ok().body(veri);
-    }
+	@RequestMapping (value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Kullanici> save(@RequestBody Kullanici veri) {
+		service.save(veri);
+		return ResponseEntity.ok().body(veri);
+	}
 
-    @RequestMapping (value = "/kayitol", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Kullanici> kayitOl(@RequestBody Kullanici veri) throws IOException, NoSuchAlgorithmException {
-        service.kayitOl(veri, false, true);
-        return ResponseEntity.ok().body(veri);
-    }
+	@RequestMapping (value = "/kayitol", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Kullanici> kayitOl(@RequestBody Kullanici veri) throws IOException, NoSuchAlgorithmException {
+		service.kayitOl(veri, false, true);
+		return ResponseEntity.ok().body(veri);
+	}
 
-    @GetMapping (value = "/getall")
-    public ResponseEntity<List<Kullanici>> getAll() {
-        return ResponseEntity.ok().body(service.getAll());
-    }
+	@GetMapping (value = "/getall")
+	public ResponseEntity<List<Kullanici>> getAll() {
+		return ResponseEntity.ok().body(service.getAll());
+	}
 
-    @RequestMapping (value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Kullanici>> delete(@RequestBody List<Kullanici> veriler) {
-        service.delete(veriler);
-        return ResponseEntity.ok().body(veriler);
-    }
+	@RequestMapping (value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Kullanici>> delete(@RequestBody List<Kullanici> veriler) {
+		service.delete(veriler);
+		return ResponseEntity.ok().body(veriler);
+	}
 }

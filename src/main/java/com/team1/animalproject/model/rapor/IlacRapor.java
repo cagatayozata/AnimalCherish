@@ -10,21 +10,21 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class IlacRapor implements Serializable {
 
-    private static final long serialVersionUID = -7901480885830007004L;
+	private static final long serialVersionUID = -7901480885830007004L;
 
-    public String urunAdi = "";
-    public String urunAdet = "";
-    public String sistemNo = "";
-    public String kullanimSekli = "";
+	public String urunAdi = "";
+	public String urunAdet = "";
+	public String sistemNo = "";
+	public String kullanimSekli = "";
 }
 
 

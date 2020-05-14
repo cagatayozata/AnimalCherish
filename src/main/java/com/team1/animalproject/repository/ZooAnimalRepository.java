@@ -10,11 +10,11 @@ import java.util.Optional;
 @Repository ("zooAnimalRepository")
 public interface ZooAnimalRepository extends JpaRepository<ZooAnimal, String> {
 
-    List<ZooAnimal> findByZooId(String zooId);
+	List<ZooAnimal> findByZooId(String zooId);
 
-    List<ZooAnimal> findByZooIdAndAnimalId(String zooId, String animalId);
+	List<ZooAnimal> findByZooIdAndAnimalId(String zooId, String animalId);
 
-    void deleteByZooId(String zooId);
+	void deleteByZooId(String zooId);
 
-    Optional<ZooAnimal> findById(String id);
+	Optional<ZooAnimal> findById(String id);
 }

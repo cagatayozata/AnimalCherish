@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@EqualsAndHashCode()
+@EqualsAndHashCode ()
 public class ViewException extends BaseException {
 
 	private static final long serialVersionUID = -6198437952417001060L;

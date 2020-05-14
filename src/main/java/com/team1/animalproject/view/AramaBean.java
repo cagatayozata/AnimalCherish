@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Slf4j
 @Data
 public class AramaBean extends BaseViewController<Animal> implements Serializable {

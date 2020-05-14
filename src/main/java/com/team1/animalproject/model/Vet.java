@@ -2,7 +2,12 @@ package com.team1.animalproject.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.team1.animalproject.model.dto.Auditable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,61 +17,61 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class Vet extends Auditable<String, String> implements Serializable {
 
 	private static final long serialVersionUID = -2551638311989131114L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column (name = "id", unique = true, nullable = false)
 	public String id;
 
-	@Column(name = "name", nullable = false)
+	@Column (name = "name", nullable = false)
 	public String name;
 
-	@Column(name = "education", nullable = false)
+	@Column (name = "education", nullable = false)
 	public String education;
 
-	@Column(name = "phone", nullable = false)
+	@Column (name = "phone", nullable = false)
 	public String phone;
 
-	@Column(name = "email", nullable = false)
+	@Column (name = "email", nullable = false)
 	public String email;
 
-	@Column(name = "workplace")
+	@Column (name = "workplace")
 	public String workplace;
 
-	@Column(name = "clinic", nullable = false)
+	@Column (name = "clinic", nullable = false)
 	public String clinic;
 
-	@Column(name = "details")
+	@Column (name = "details")
 	public String details;
 
-	@Column(name = "birthdate")
+	@Column (name = "birthdate")
 	public Date birthdate;
 
-	@Column(name="city")
+	@Column (name = "city")
 	private String city;
 
-	@Column(name="ilce")
+	@Column (name = "ilce")
 	private String ilce;
 
-	@Column(name = "diplomaNo")
+	@Column (name = "diplomaNo")
 	private String diplomaNo;
 
-	@Column(name = "userId")
+	@Column (name = "userId")
 	private String userId;
 
-	@Column(name = "sicilNo")
+	@Column (name = "sicilNo")
 	private String sicilNo;
 
-	@Column(name="kullanici_id")
+	@Column (name = "kullanici_id")
 	private String kullaniciId;
 
 	@Transient

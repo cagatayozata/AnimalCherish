@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 
 @Component
-@Scope("application")
+@Scope ("application")
 @Data
 public class ApplicationDisplaySettingsUtil implements Serializable {
 

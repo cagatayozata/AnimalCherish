@@ -15,28 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin (origins = "*")
 @RequestMapping ("api/v1/shelter")
 public class ShelterController {
 
-    @Autowired
-    private ShelterService service;
+	@Autowired
+	private ShelterService service;
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Shelter> save(@RequestBody Shelter veri) {
-        service.save(veri);
-        return ResponseEntity.ok().body(veri);
-    }
+	@RequestMapping (value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Shelter> save(@RequestBody Shelter veri) {
+		service.save(veri);
+		return ResponseEntity.ok().body(veri);
+	}
 
-    @GetMapping(value = "/getall")
-    public ResponseEntity<List<Shelter>> getAll() {
-        return ResponseEntity.ok().body(service.getAll());
-    }
+	@GetMapping (value = "/getall")
+	public ResponseEntity<List<Shelter>> getAll() {
+		return ResponseEntity.ok().body(service.getAll());
+	}
 
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Shelter>> delete(@RequestBody List<Shelter> veriler) {
-        service.delete(veriler);
-        return ResponseEntity.ok().body(veriler);
-    }
+	@RequestMapping (value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Shelter>> delete(@RequestBody List<Shelter> veriler) {
+		service.delete(veriler);
+		return ResponseEntity.ok().body(veriler);
+	}
 }

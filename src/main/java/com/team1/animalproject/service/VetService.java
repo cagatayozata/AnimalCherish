@@ -15,63 +15,61 @@ import java.util.UUID;
 @Service
 public class VetService implements IBaseService<Vet> {
 
-    @Qualifier("vetRepository")
-    @Autowired
-    private VetRepository vetRepository;
+	@Qualifier ("vetRepository")
+	@Autowired
+	private VetRepository vetRepository;
 
-    @Qualifier("vetRandevuRepository")
-    @Autowired
-    private VetRandevuRepository vetRandevuRepository;
+	@Qualifier ("vetRandevuRepository")
+	@Autowired
+	private VetRandevuRepository vetRandevuRepository;
 
-    @Override
-    public List<Vet> getAll() {
-        return vetRepository.findAll();
-    }
+	@Override
+	public List<Vet> getAll() {
+		return vetRepository.findAll();
+	}
 
-    public List<VetRandevu> getAllRandevu(String vetId) {
-        return vetRandevuRepository.findByVetId(vetId);
-    }
+	public List<VetRandevu> getAllRandevu(String vetId) {
+		return vetRandevuRepository.findByVetId(vetId);
+	}
 
-    public List<VetRandevu> getAllRandevuByKullanici(String kullaniciId) {
-        return vetRandevuRepository.findByRandevuAlanKullanici(kullaniciId);
-    }
+	public List<VetRandevu> getAllRandevuByKullanici(String kullaniciId) {
+		return vetRandevuRepository.findByRandevuAlanKullanici(kullaniciId);
+	}
 
-    public void vetRandevuKaydet(VetRandevu vetRandevu){
-        if(vetRandevu.getId() == null)
-            vetRandevu.setId(UUID.randomUUID().toString());
-        vetRandevuRepository.save(vetRandevu);
-    }
+	public void vetRandevuKaydet(VetRandevu vetRandevu) {
+		if(vetRandevu.getId() == null) vetRandevu.setId(UUID.randomUUID().toString());
+		vetRandevuRepository.save(vetRandevu);
+	}
 
-    public void vetRandevuSil(VetRandevu vetRandevu){
-        vetRandevuRepository.delete(vetRandevu);
-    }
+	public void vetRandevuSil(VetRandevu vetRandevu) {
+		vetRandevuRepository.delete(vetRandevu);
+	}
 
-    @Override
-    public void save(Vet vet) {
-        if(vet.getId() == null)
-        vet.setId(UUID.randomUUID().toString());
-        vetRepository.save(vet);
-    }
+	@Override
+	public void save(Vet vet) {
+		if(vet.getId() == null) vet.setId(UUID.randomUUID().toString());
+		vetRepository.save(vet);
+	}
 
-    @Override
-    public void update(Vet vet) {
-        vetRepository.save(vet);
-    }
+	@Override
+	public void update(Vet vet) {
+		vetRepository.save(vet);
+	}
 
-    @Override
-    public void delete(List<Vet> t) {
-        vetRepository.delete(t);
-    }
+	@Override
+	public void delete(List<Vet> t) {
+		vetRepository.delete(t);
+	}
 
-    public Vet findByKullaniciId(String id){
-        return vetRepository.findByKullaniciId(id);
-    }
+	public Vet findByKullaniciId(String id) {
+		return vetRepository.findByKullaniciId(id);
+	}
 
-    public long toplamSayi(){
-        return vetRepository.count();
-    }
+	public long toplamSayi() {
+		return vetRepository.count();
+	}
 
-    public Optional<List<Vet>> findByIdIn(List<String> collect) {
-        return vetRepository.findByIdIn(collect);
-    }
+	public Optional<List<Vet>> findByIdIn(List<String> collect) {
+		return vetRepository.findByIdIn(collect);
+	}
 }

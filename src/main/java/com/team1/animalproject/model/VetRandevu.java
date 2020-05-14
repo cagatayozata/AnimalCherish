@@ -16,19 +16,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class VetRandevu extends Auditable<String, String> implements Serializable {
 
 	private static final long serialVersionUID = -7362638173095294567L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column (name = "id", unique = true, nullable = false)
 	public String id;
 
 	@Column

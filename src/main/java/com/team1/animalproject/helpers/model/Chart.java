@@ -22,8 +22,8 @@ public class Chart implements Serializable {
 
 	public static class Builder {
 
-		private List<ChartData> pieChartModelList;
-		private List<ChartDrilldownData> pieChartDrilldownList;
+		private final List<ChartData> pieChartModelList;
+		private final List<ChartDrilldownData> pieChartDrilldownList;
 
 		public Builder() {
 			pieChartModelList = new ArrayList<>();

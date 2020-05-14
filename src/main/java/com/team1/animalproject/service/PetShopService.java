@@ -75,7 +75,7 @@ public class PetShopService implements IBaseService<PetShop> {
 	@Transactional
 	public void saveWorker(List<PetShopWorker> petshopWorkers) {
 
-	    boolean gorevli = petshopWorkers.stream().anyMatch(shelterWorker -> userService.kullaniciBaskaYerdeGorevliMi(shelterWorker.getWorkerId(), KullaniciTipiEnum.SHELTER));
+		boolean gorevli = petshopWorkers.stream().anyMatch(shelterWorker -> userService.kullaniciBaskaYerdeGorevliMi(shelterWorker.getWorkerId(), KullaniciTipiEnum.SHELTER));
 		if(!gorevli){
 			List<PetShopWorker> all = petShopWorkerRepository.findAll();
 

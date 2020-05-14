@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin (origins = "*")
 @RequestMapping ("api/v1/animal")
 public class AnimalController {
 
-    @Autowired
-    private AnimalService animalService;
+	@Autowired
+	private AnimalService animalService;
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Animal> save(@RequestBody Animal animal) {
-        animalService.save(animal);
-        return ResponseEntity.ok().body(animal);
-    }
+	@RequestMapping (value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Animal> save(@RequestBody Animal animal) {
+		animalService.save(animal);
+		return ResponseEntity.ok().body(animal);
+	}
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Animal>> delete(@RequestBody List<Animal> veriler) {
-        animalService.delete(veriler);
-        return ResponseEntity.ok().body(veriler);
-    }
+	@RequestMapping (value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Animal>> delete(@RequestBody List<Animal> veriler) {
+		animalService.delete(veriler);
+		return ResponseEntity.ok().body(veriler);
+	}
 
-    @GetMapping(value = "/getall")
-    public ResponseEntity<List<Animal>> getAll() {
-        return ResponseEntity.ok().body(animalService.getAll());
-    }
+	@GetMapping (value = "/getall")
+	public ResponseEntity<List<Animal>> getAll() {
+		return ResponseEntity.ok().body(animalService.getAll());
+	}
 
 }

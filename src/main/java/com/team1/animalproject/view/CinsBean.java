@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Scope("view")
-@EqualsAndHashCode()
+@Scope ("view")
+@EqualsAndHashCode ()
 @Data
 public class CinsBean extends BaseViewController<Cins> implements Serializable {
 
@@ -66,7 +66,7 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 	public void kaydet() throws IOException {
 		cinsService.save(cins);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Başarılı",  "Cins verisi başarıyla işlem görmüştür.") );
+		context.addMessage(null, new FacesMessage("Başarılı", "Cins verisi başarıyla işlem görmüştür."));
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/cins/cins.jsf");
 
@@ -79,22 +79,22 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 		kaydet();
 	}
 
-	public boolean kullanimdaVarmi(){
+	public boolean kullanimdaVarmi() {
 		return selectedCinss.stream().anyMatch(Cins::isDurum);
 	}
 
-	public void prepareNewScreen(){
+	public void prepareNewScreen() {
 		showCreateOrEdit = true;
 	}
 
 	@SuppressWarnings ("OptionalGetWithoutIsPresent")
-	public void prepareUpdateScreen(){
+	public void prepareUpdateScreen() {
 		cins = selectedCinss.stream().findFirst().get();
 		showCreateOrEdit = true;
 	}
 
 	@SuppressWarnings ("OptionalGetWithoutIsPresent")
-	public void prepareInfoScreen(){
+	public void prepareInfoScreen() {
 		cins = selectedCinss.stream().findFirst().get();
 		showCreateOrEdit = true;
 		showInfo = true;
@@ -104,6 +104,5 @@ public class CinsBean extends BaseViewController<Cins> implements Serializable {
 		cinsService.delete(selectedCinss);
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/cins/cins.jsf");
 	}
-
 
 }

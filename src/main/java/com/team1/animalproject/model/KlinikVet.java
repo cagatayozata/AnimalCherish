@@ -15,24 +15,24 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-@ToString(callSuper = true)
+@ToString (callSuper = true)
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode (of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(content = JsonInclude.Include.NON_NULL)
+@JsonInclude (content = JsonInclude.Include.NON_NULL)
 public class KlinikVet extends Auditable<String, String> implements Serializable {
 
-    private static final long serialVersionUID = -1805759569824716638L;
+	private static final long serialVersionUID = -1805759569824716638L;
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    public String id;
+	@Id
+	@Column (name = "id", unique = true, nullable = false)
+	public String id;
 
-    @Column
-    public String vetId;
+	@Column
+	public String vetId;
 
-    @Column
-    public String klinikId;
+	@Column
+	public String klinikId;
 }
