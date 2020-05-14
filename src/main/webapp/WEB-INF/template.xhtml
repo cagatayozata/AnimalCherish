@@ -442,7 +442,16 @@
         <h:outputStylesheet name="css/pf_dialog.css" library="california-layout"/>
         <h:outputStylesheet name="css/pf_chat.css" library="california-layout"/>
 
+        <p:dialog id="twitterDialog" modal="true" widgetVar="twitterDialogWidgetVar"
+                  responsive="true" resizable="false" closable="true" header="Tweetlerimiz" closeOnEscape="true">
 
+            <p:panel style="border: none; padding: 0; margin: 0;">
+
+                <a class="twitter-timeline" data-lang="tr" data-width="500" data-height="500" data-theme="dark"
+                         href="https://twitter.com/CherishAnimal?ref_src=twsrc%5Etfw">Tweets by CherishAnimal</a>
+                <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </p:panel>
+        </p:dialog>
 
 
         <p:blockUI block="@(.main-body)" trigger="@(.viewExpandCompressBtn)">

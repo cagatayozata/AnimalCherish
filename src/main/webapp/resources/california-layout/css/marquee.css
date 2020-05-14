@@ -30,7 +30,7 @@
 	text-align: center;
 	float: left;
 	left: 0;
-	z-index: 2000;
+	z-index: 1000 !important;
 }
 
 .simple-marquee-container .marquee, .simple-marquee-container *[class^="marquee"] {

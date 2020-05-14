@@ -94,21 +94,6 @@
 
     <ul class="route-bar-menu">
 
-        <li id="blockchain" style="color: lawngreen; font-weight: bolder; font-size: 16px; margin-right: 20px">
-            <table>
-                <tr>
-                </tr>
-                <tr>
-                    <p:link href="/blockchainexplorer.jsf">
-                        <div data-tooltip="Blockchain Akışı">
-                            <i class="fa fa-bold"/>
-                        </div>
-                    </p:link>
-                </tr>
-            </table>
-
-        </li>
-
         <li class="search-item">
             <h:form>
                 <p:inputText value="#{aramaBean.arama}" placeholder="Hayvan Ara..."/>
@@ -117,6 +102,11 @@
                 </p:commandButton></h:form>
 
         </li>
+
+        <li class="search-item">
+            <p:commandButton oncomplete="PF('twitterDialogWidgetVar').show()" icon="fa fa-twitter"/>
+        </li>
+
         <li id="notificationContainer">
             <div id="notificationCounter"></div>
             <div id="notificationButton" data-tooltip="#{msg['general.logout']}">
