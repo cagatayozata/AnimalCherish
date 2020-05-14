@@ -212,7 +212,7 @@ public class VetBean extends BaseViewController<Vet> implements Serializable {
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.getExternalContext().getFlash().setKeepMessages(true);
-			context.addMessage(null, new FacesMessage("Başarısız", "Girilen kullanıcı adı bulunamadı veya başka bir yerde görevldiri."));
+			context.addMessage(null, new FacesMessage("Başarısız", "Girilen kullanıcı adı bulunamadı veya başka bir yerde görevlidir."));
 		}
 	}
 

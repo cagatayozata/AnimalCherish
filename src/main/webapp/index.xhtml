@@ -57,8 +57,30 @@
         </p:panel>
 
         <p:fieldset style="background: none; border: 0; padding: 0">
+
+            <div style="margin-bottom: 10px">
+                <p:staticMessage severity="info" summary="Bilgilendirme!" detail="Ekleme işlemi yapmadan önce lütfen aşağıdaki servis durumlarının aktif olduğundan emin olunuz!"/>
+            </div>
+
             <div class="dashboard">
                 <div class="ui-g">
+                    <div class="overview-box monthly-sales">
+                        <div class="overview-title">BLOCKCHAIN SERVİS DURUMU</div>
+                        <i class="fa fa-arrow-circle-up"></i>
+                        <div class="overview-numbers" style="color: #4caf50 !important;"><strong>#{chartBean.blockchainCheck() ? 'AKTİF' : 'BAŞARISIZ'} </strong></div>
+                        <div class="overview-ratios">Sistem cüzdanında bulunan veri sayısı: #{chartBean.blockchainDurumu()}</div>
+                    </div>
+
+                    <hr style="clear: both"/>
+
+                    <div class="overview-box monthly-views">
+                        <div class="overview-title">IPFS SERVİS DURUMU</div>
+                        <i class="fa fa-arrow-circle-up"></i>
+                        <div class="overview-numbers" style="color: #4caf50 !important;"><strong>#{chartBean.ipfsCheck() ? 'AKTİF' : 'BAŞARISIZ'} </strong></div>
+                        <div class="overview-ratios">Toplam IPFS URL Sayısı: #{chartBean.ipfsDurumu()}</div>
+                    </div>
+
+
                     <div class="ui-g-12 ui-md-6 ui-lg-3">
                         <div class="stats">
                             <div class="stats-icon">

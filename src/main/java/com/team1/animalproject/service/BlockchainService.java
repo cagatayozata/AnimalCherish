@@ -56,12 +56,12 @@ public class BlockchainService {
 	@Autowired
 	private IlacService ilacService;
 
-	private final Map<String, String> ipfsHashes = new HashMap<>();
-	private final Map<String, IpfsID> ipfsIds = new HashMap<>();
-	private final Map<String, Kullanici> user = new HashMap<>();
-	private final Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
-	private final Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
-	private List<String> helperList = Lists.newArrayList();
+	public final Map<String, String> ipfsHashes = new HashMap<>();
+	public final Map<String, IpfsID> ipfsIds = new HashMap<>();
+	public final Map<String, Kullanici> user = new HashMap<>();
+	public final Map<String, List<MedicalReportMedicine>> medicalReportMedicineByReport = new HashMap<>();
+	public final Map<String, List<MedicalReport>> medicalReportByAnimal = new HashMap<>();
+	public List<String> helperList = Lists.newArrayList();
 
 	public List<BlockchainExplorer> explorer() throws IOException {
 		Network.useTestNetwork();
@@ -79,8 +79,7 @@ public class BlockchainService {
 					.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
 					.build();
 
-			if(transactionResponse.getMemo() instanceof MemoText)
-			ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
+			if(transactionResponse.getMemo() instanceof MemoText) ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
 				blockchainExplorer.setMemo(ipfsID.getIpfsHash());
 				blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
 			});
@@ -99,8 +98,7 @@ public class BlockchainService {
 						.zaman(transactionResponse.getCreatedAt().replaceAll("T", " ").replaceAll("Z", ""))
 						.build();
 
-				if(transactionResponse.getMemo() instanceof MemoText)
-					ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
+				if(transactionResponse.getMemo() instanceof MemoText) ipfsIDRepository.findById(((MemoText) transactionResponse.getMemo()).getText()).ifPresent(ipfsID -> {
 					blockchainExplorer.setMemo(ipfsID.getIpfsHash());
 					blockchainExplorer.setZaman(DateUtil.dateAsString(ipfsID.getOlusmaTarihi()));
 				});
@@ -112,6 +110,17 @@ public class BlockchainService {
 		return blockchainExplorers;
 	}
 
+	public boolean servisAktifMi() {
+		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU"));
+		try{
+			List<Transactions> transactionsFull = accountDetails.getTransactionsFull(false, null);
+			if(CollectionUtils.isEmpty(transactionsFull)) return false;
+			return true;
+		} catch (IOException e){
+			return false;
+		}
+	}
+
 	public List<String> readFile() throws IOException {
 
 		AccountDetails accountDetails = new AccountDetails(KeyPair.fromAccountId("GBOOWLO3IC7TOQFPIAA3ERSYGLG4EK2JYLMWMTCOUGJ7IQMC6EY6HFNU"));
@@ -120,7 +129,7 @@ public class BlockchainService {
 
 		while(!CollectionUtils.isEmpty(toAdd)){
 			transactions.addAll(toAdd);
-			toAdd = accountDetails.getTransactionsFull(false, toAdd.get(toAdd.size()-1).getPaging());
+			toAdd = accountDetails.getTransactionsFull(false, toAdd.get(toAdd.size() - 1).getPaging());
 		}
 
 		List<String> datas = Lists.newArrayList();
@@ -393,7 +402,7 @@ public class BlockchainService {
 				try{
 					if(medicalReportMedicineByReport.containsKey(medicalReport.getId())){
 						medicalReportMedicines1 = medicalReportMedicineByReport.get(medicalReport.getId());
-					}else {
+					} else {
 						medicalReportMedicines1 = ilaclariGetir(medicalReport.getId());
 						medicalReportMedicineByReport.put(medicalReport.getId(), medicalReportMedicines1);
 					}
@@ -428,7 +437,7 @@ public class BlockchainService {
 					try{
 						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
 							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
-						}else {
+						} else {
 							raporlar = getAllByReportId(medicalReportMedicine.getMedicalReportId());
 							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
 						}
@@ -451,7 +460,7 @@ public class BlockchainService {
 					try{
 						if(medicalReportByAnimal.containsKey(medicalReportMedicine.getMedicalReportId())){
 							raporlar = medicalReportByAnimal.get(medicalReportMedicine.getMedicalReportId());
-						}else {
+						} else {
 							raporlar = getAllByReportId(medicalReportMedicine.getMedicalReportId());
 							medicalReportByAnimal.put(medicalReportMedicine.getMedicalReportId(), raporlar);
 						}
@@ -459,11 +468,15 @@ public class BlockchainService {
 						e.printStackTrace();
 					}
 
-					ilacRapor.put(medicalReportMedicine.getIlacAd(), Objects.requireNonNull(raporlar).stream()
-							.map(medicalReport -> "Veteriner: " + (user.containsKey(medicalReport.getOlusturan()) ? Optional.of(user.get(medicalReport.getOlusturan())) : userService.findById(medicalReport.getOlusturan()))
-									.get()
+					ilacRapor.put(medicalReportMedicine.getIlacAd(), Objects.requireNonNull(raporlar)
+							.stream()
+							.map(medicalReport -> "Veteriner: " + (user.containsKey(medicalReport.getOlusturan()) ?
+									Optional.of(user.get(medicalReport.getOlusturan())) :
+									userService.findById(medicalReport.getOlusturan())).get()
 									.getName()
-									.concat(" ".concat((user.containsKey(medicalReport.getOlusturan()) ? Optional.of(user.get(medicalReport.getOlusturan())) : userService.findById(medicalReport.getOlusturan())).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate())
+									.concat(" ".concat((user.containsKey(medicalReport.getOlusturan()) ?
+											Optional.of(user.get(medicalReport.getOlusturan())) :
+											userService.findById(medicalReport.getOlusturan())).get().getSurname())) + "- Rapor Tarihi: " + medicalReport.getDate())
 							.collect(Collectors.toList()));
 				}
 			});

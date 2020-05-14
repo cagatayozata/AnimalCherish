@@ -1,5 +1,6 @@
 package com.team1.animalproject.view;
 
+import com.team1.animalproject.blockchain.ipfs.IpfsService;
 import com.team1.animalproject.helpers.model.Chart;
 import com.team1.animalproject.service.AnimalService;
 import com.team1.animalproject.service.BlockchainService;
@@ -168,5 +169,21 @@ public class ChartBean extends BaseViewController<Chart> implements Serializable
 		enCokYazilanlarChart = new Chart.Builder().add(blockchainService.enCokYazilanIlaclar(kullaniciPrincipal.getId())).build();
 		kullanicilarChart = new Chart.Builder().add(userService.kullanicilarNerede()).build();
 		return "#";
+	}
+
+	public int blockchainDurumu() {
+		return blockchainService.ipfsIds.size();
+	}
+
+	public int ipfsDurumu() {
+		return blockchainService.ipfsIds.size();
+	}
+
+	public boolean blockchainCheck() {
+		return blockchainService.servisAktifMi();
+	}
+
+	public boolean ipfsCheck() throws IOException {
+		return IpfsService.aktifMi();
 	}
 }

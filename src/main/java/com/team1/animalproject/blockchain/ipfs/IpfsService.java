@@ -4,6 +4,8 @@ import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,5 +25,12 @@ public class IpfsService {
 		byte[] bytes = ipfs.get(Multihash.fromBase58(hash));
 		System.out.println("IPFS Toplam Gecen Sure: " + ((System.currentTimeMillis() - start) / 1000F));
 		return new String(bytes);
+	}
+
+	public static boolean aktifMi() throws IOException {
+		long start = System.currentTimeMillis();
+		IPFS ipfs = new IPFS("/dnsaddr/ipfs.infura.io/tcp/5001/https");
+		byte[] bytes = ipfs.get(Multihash.fromBase58("QmVC5nfAoR6DX51nyEp4B1DJVgUKfFJFz3SqQRkCkzvA16"));
+		return !ObjectUtils.isEmpty(bytes);
 	}
 }
