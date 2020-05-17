@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="WEB-INF/template.xhtml">
 
-    <ui:define name="viewname"> Veteriner Hekim Listesi
+    <ui:define name="viewname">   Giriş Yapmış Kullanıcı Listesi
     </ui:define>
 
     <ui:define name="content">
@@ -54,6 +54,11 @@
                     <p:column headerText="Kullanıcı Adı" sortBy="#{vet.userName}"
                               filterBy="#{vet.userName}" filterMatchMode="contains">
                         <h:outputText value="#{vet.userName}"/>
+                    </p:column>
+
+                    <p:column headerText="Son Giriş Tarihi" sortBy="#{vet.email}"
+                              filterBy="#{vet.email}" filterMatchMode="contains">
+                        <h:outputText value="#{vet.email}"/>
                     </p:column>
 
                     <p:column headerText="Expired" sortBy="#{vet.expired}"

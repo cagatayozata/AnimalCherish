@@ -3,6 +3,7 @@ package com.team1.animalproject.view;
 import com.team1.animalproject.model.Kullanici;
 import com.team1.animalproject.model.dto.KullaniciPrincipal;
 import com.team1.animalproject.service.UserService;
+import com.team1.animalproject.view.utils.DateUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.compress.utils.Lists;
@@ -65,6 +66,7 @@ public class UserSessionBean extends BaseViewController implements Serializable 
 		kullanici.forEach(kullanici1 -> {
 			List<SessionInformation> allSessions = sessionRegistry.getAllSessions(principals.stream().filter(o -> o.getId().equals(kullanici1.getId())).findFirst().get(), true);
 			kullanici1.setExpired(allSessions.stream().allMatch(SessionInformation::isExpired));
+			kullanici1.setEmail(DateUtil.dateAsString(allSessions.get(allSessions.size()-1).getLastRequest()));
 		});
 	}
 
