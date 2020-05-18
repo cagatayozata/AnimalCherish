@@ -35,15 +35,14 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 	}
 
 	@Override
-	public void configure(WebSecurity web) {
-		web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
-	}
-
-	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		//@formatter:off
-		http.regexMatcher("(?!.*?actuator).*") // anything else that does not contain actuator
+		http
+				.headers()
+				.frameOptions().disable()
+				.and()
+				.regexMatcher("(?!.*?actuator).*") // anything else that does not contain actuator
 			.formLogin()
 					.loginPage(Constants.LOGIN_PAGE_URL)
 					.loginProcessingUrl(Constants.LOGIN_PROCESSING_URL)
@@ -85,9 +84,6 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 			.and()
 			.httpBasic()
 			.and()
-			.headers()
-			.frameOptions().deny()
-			.and()
 			.logout()
 				.invalidateHttpSession(true)
 				.logoutUrl(Constants.LOGOUT_PARAMETER)
@@ -104,16 +100,6 @@ public class Oauth2SingleSignOnConfiguration extends WebSecurityConfigurerAdapte
 
 	}
 
-	// added for the exception below
-	// The request was rejected because the URL contained a potentially malicious String ";"
-	// couldnt search the request but can be removed after investigation -<< talip
-	@Bean
-	public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-		StrictHttpFirewall firewall = new StrictHttpFirewall();
-		firewall.setAllowUrlEncodedSlash(true);
-		firewall.setAllowSemicolon(true);
-		return firewall;
-	}
 
 	@Bean
 	public SessionRegistry sessionRegistry() {
